@@ -1,5 +1,8 @@
 cmake_minimum_required (VERSION 2.4)
-project (latero-graphics) 
+project (latero-graphics)
+
+# add /usr/loca/lib/pkgconfig (necessary on macOS)
+set( ENV{PKG_CONFIG_PATH} "$ENV{PKG_CONFIG_PATH}:/usr/local/lib/pkgconfig" )
 
 # check for dependencies using pkg-config
 include(FindPkgConfig)
