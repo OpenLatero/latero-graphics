@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="LinearGrating">
+    <angle units="degree">0</angle>
+    <seed units="mm">0,0</seed>
+    <Grating>
+      <enable>yes</enable>
+      <ridge_size units="mm">8</ridge_size>
+      <gap_size units="mm">0</gap_size>
+    </Grating>
+    <icon>grating-horizontal.png</icon>
+    <amplitude>1</amplitude>
+  </Pattern>
+</laterographics_xml>

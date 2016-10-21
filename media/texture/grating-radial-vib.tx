@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="RadialGrating">
+    <seed units="mm">113.5,84</seed>
+    <Grating>
+      <enable>yes</enable>
+      <ridge_size units="mm">4</ridge_size>
+      <gap_size units="mm">8</gap_size>
+      <velocity units="mm/s">30</velocity>
+    </Grating>
+    <icon>grating-radial-vib.png</icon>
+    <amplitude>1</amplitude>
+    <vibration>
+      <enable>yes</enable>
+      <frequency units="Hz">50</frequency>
+      <amplitude>1</amplitude>
+      <blend_mode>high</blend_mode>
+    </vibration>
+  </Pattern>
+</laterographics_xml>

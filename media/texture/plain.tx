@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="Plain">
+    <amplitude>1</amplitude>
+  </Pattern>
+</laterographics_xml>

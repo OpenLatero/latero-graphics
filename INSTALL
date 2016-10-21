@@ -1,0 +1,26 @@
+The software for the Latero device is divided into libraries and programs. The latero-graphics library (this project) is used to create tactile renders for the Latero device. The latero-graphics library links to the latero library, and therefore, the latero library must have been installed first.
+
+This release of the sofware has been tested on  Mac OS X Maverick and Yosemite. Please follow these instructions. If you've successfully built and run this software on another platform, please list the steps you followed below.
+
+MAC OS X
+*********
+
+Step 0: Make sure the latero library is installed
+--------------------------------------------------
+See instructions in INSTALL file for latero project.
+
+Step 1: Install the latero-graphics library
+--------------------------------------------
+-- Correct search path so .pkg files are found (By default, pkg files installed by users are not part of the search path).
+>> export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig/
+This needs to be done for each terminal that you start (as an alternative, you can add that line to the .profile file)
+
+-- Build and install the library
+You can use cmake to generate Xcode projects.
+>> cmake . -G Xcode
+>> xcodebuild -target laterographics
+>> sudo xcodebuild -target install
+
+If the installation is successful, the library liblaterographics.a will now be in /usr/local/lib/ and the include files in /usr/local/include/latero-graphics/
+
+You can run the program latero-demo (another project) to test the latero graphics library.

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="LinearGrating">
+    <angle units="degree">0</angle>
+    <seed units="mm">0,0</seed>
+    <Grating>
+      <enable>yes</enable>
+      <ridge_size units="mm">16</ridge_size>
+      <gap_size units="mm">0</gap_size>
+      <PitchModulator type="peak">
+        <enable>yes</enable>
+        <factor>4</factor>
+        <length>40</length>
+        <position>113</position>
+      </PitchModulator>
+    </Grating>
+    <icon>linear-peak.png</icon>
+    <amplitude>1</amplitude>
+  </Pattern>
+</laterographics_xml>

@@ -1,0 +1,41 @@
+Medium Priority Features
+------------------------
+
+* Fix drawing of ComboTextures in op_max mode. This will require hacking some sort of PatternOps method that emulates this behavior through Pixbuf operations.
+
+* Add support for the compositing operations found in Textures to other parts of the software, such as ComboGen and VectorGen.
+
+Low Priority Features
+---------------------
+
+* Categorize stock textures. The number of predefined textures is increasing out of control and it is difficult to find what we want from the list. The TextureCombo should have multiple levels (like a menu) so that we can first pick a category (e.g. pitch-modulated gratings) and then see the available selection. It's not clear how much support GTK has for this.
+
+* Textures are now able to generate a thumbnail so there should be no reason to always have to have a default icon. Instead the icons should be automatically generated in most cases. This will require some changes to TextureCombo since it currently uses the image filename to match selected textures to its list. A solution could be to show the list of textures only on the push of a button, possibly as a dialog.
+
+* Fix handling of non-existing files (e.g. icon file, xml files, etc.)
+
+* Allow viewing and editing of XML within GUI.
+
+* Modify XML serialization such that units are included with the values, e.g. <value>10 mm</value> instead of <value units="mm">10</value>. This change will improve readability and possibly allow a move to values as attributes of a larger object.
+
+* Zoom and pan
+
+* Add features such that the different "State" structure cannot be left in an undefined state. Bugs can easilly be introducted when a new member is added to these structures.
+
+* Most objects relying on latero::graphics::Grating force interaction directly with the Grating both in all interfaces. This is economical but somewhat annoying, partilarly when some operations should not be permitted. It would be better to eventually hide away the grating object and implement a new interface to it to the objects using it.
+
+* GetIllustration(...) and GetDeflectionMap(...) should be merged into a single operation with ILL_REAL and ILL_ABSTRACT flags. This would allow more flags to be added later if necessary. Then Visualization can be available for all generator, perhaps when right-clicking an image.
+
+
+Bug Fixes
+---------
+
+* XMLInputNode::GetChildren does not seem to handle empty elements correctly. (e.g. <tag/>)
+
+* Opening a file chooser dialog often causes a segfault.
+
+* I'm getting some very strange errors when trying to write a program that uses
+  only a WaveGen. It seems that those have been created only by the GUI thread
+  so far. When created by the control thread, there seems to be some weird problems.
+  This could be a serious issue due to the fact that GTK is not thread-safe but is 
+  used within those generators.

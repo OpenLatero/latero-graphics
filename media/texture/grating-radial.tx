@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="RadialGrating">
+    <seed units="mm">113.5,84</seed>
+    <Grating>
+      <enable>yes</enable>
+      <ridge_size units="mm">8</ridge_size>
+      <gap_size units="mm">0</gap_size>
+    </Grating>
+    <icon>grating-radial.png</icon>
+    <amplitude>1</amplitude>
+  </Pattern>
+</laterographics_xml>

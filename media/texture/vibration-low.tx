@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="Vibration">
+    <freq units="Hz">50</freq>
+    <icon>vibration-low.png</icon>
+    <amplitude>0.3</amplitude>
+  </Pattern>
+</laterographics_xml>

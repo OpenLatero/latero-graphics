@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="RadialGrating">
+    <seed units="mm">113.5,84</seed>
+    <Grating>
+      <enable>yes</enable>
+      <ridge_size units="mm">4</ridge_size>
+      <gap_size units="mm">0</gap_size>
+      <PitchModulator type="slope">
+        <enable>yes</enable>
+        <factor>0.1</factor>
+        <length>113</length>
+        <position>0</position>
+      </PitchModulator>
+    </Grating>
+    <icon>radial-slope.png</icon>
+    <amplitude>1</amplitude>
+  </Pattern>
+</laterographics_xml>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="Combo">
+    <operation>max</operation>
+    <icon>grating-combo.png</icon>
+    <amplitude>1</amplitude>
+    <Pattern type="Texture" subtype="LinearGrating">
+      <angle units="degree">90</angle>
+      <seed units="mm">0,0</seed>
+      <Grating>
+        <enable>yes</enable>
+        <ridge_size units="mm">2</ridge_size>
+        <gap_size units="mm">1</gap_size>
+      </Grating>
+      <amplitude>0.6</amplitude>
+    </Pattern>
+    <Pattern type="Texture" subtype="LinearGrating">
+      <angle units="degree">45</angle>
+      <seed units="mm">0,0</seed>
+      <Grating>
+        <enable>yes</enable>
+        <ridge_size units="mm">4</ridge_size>
+        <gap_size units="mm">12</gap_size>
+      </Grating>
+      <amplitude>1</amplitude>
+    </Pattern>
+    <Pattern type="Texture" subtype="LinearGrating">
+      <angle units="degree">135</angle>
+      <seed units="mm">0,0</seed>
+      <Grating>
+        <enable>yes</enable>
+        <ridge_size units="mm">4</ridge_size>
+        <gap_size units="mm">12</gap_size>
+      </Grating>
+      <amplitude>1</amplitude>
+    </Pattern>
+  </Pattern>
+</laterographics_xml>

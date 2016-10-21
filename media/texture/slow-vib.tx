@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="Blend">
+    <icon>/usr/local/share/laterographics/texture/slow-vib.png</icon>
+    <amplitude>1</amplitude>
+    <Modulator type="Velocity">
+      <limit units="mm/s">3</limit>
+      <transition units="mm/s">5</transition>
+      <delay units="ms">500</delay>
+    </Modulator>
+    <Pattern type="Texture" subtype="LinearGrating">
+      <angle units="degree">0</angle>
+      <seed units="mm">0,0</seed>
+      <Grating>
+        <enable>yes</enable>
+        <ridge_size units="mm">8</ridge_size>
+        <gap_size units="mm">8</gap_size>
+      </Grating>
+      <amplitude>1</amplitude>
+      <vibration>
+        <enable>yes</enable>
+        <frequency units="Hz">50</frequency>
+        <amplitude>1</amplitude>
+        <blend_mode>high</blend_mode>
+      </vibration>
+    </Pattern>
+    <Pattern type="Texture" subtype="LinearGrating">
+      <angle units="degree">0</angle>
+      <seed units="mm">0,0</seed>
+      <Grating>
+        <enable>yes</enable>
+        <ridge_size units="mm">8</ridge_size>
+        <gap_size units="mm">8</gap_size>
+      </Grating>
+      <icon>/usr/local/share/laterographics/texture/grating-horizontal.png</icon>
+      <amplitude>1</amplitude>
+    </Pattern>
+  </Pattern>
+</laterographics_xml>

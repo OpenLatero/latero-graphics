@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="Pattern">
+    <grid_width units="mm">23</grid_width>
+    <grid_height units="mm">21</grid_height>
+    <Pattern type="Polygon">
+      <vertices>
+        <vertex units="mm">5,5</vertex>
+        <vertex units="mm">5,15</vertex>
+        <vertex units="mm">15,15</vertex>
+      </vertices>
+      <join>
+        <type>round</type>
+        <rounding_offset units="mm">0</rounding_offset>
+      </join>
+      <corner>
+        <enable>no</enable>
+        <span>circle intercept</span>
+        <blend>out</blend>
+        <type>texture</type>
+        <user_angle units="degree">0.00913853</user_angle>
+        <motion>yes</motion>
+        <vibration>
+          <enable>yes</enable>
+          <frequency units="Hz">50</frequency>
+          <amplitude>1</amplitude>
+          <blend_mode>high</blend_mode>
+        </vibration>
+      </corner>
+      <stroke>
+        <width units="mm">2</width>
+        <intensity units="%">1</intensity>
+        <ridge>
+          <width units="mm">2</width>
+          <edge_width units="mm">1</edge_width>
+          <texture>
+            <enable>no</enable>
+            <amplitude units="%">0</amplitude>
+            <nb_cycles>3</nb_cycles>
+          </texture>
+        </ridge>
+        <fill>
+          <Grating>
+            <enable>no</enable>
+            <ridge_size units="mm">2</ridge_size>
+            <gap_size units="mm">0</gap_size>
+          </Grating>
+          <vibration>
+            <enable>no</enable>
+            <frequency units="Hz">50</frequency>
+            <amplitude>1</amplitude>
+            <blend_mode>high</blend_mode>
+          </vibration>
+          <gutter>no</gutter>
+        </fill>
+        <motion>
+          <cue>none</cue>
+          <velocity units="mm/s">50</velocity>
+          <superposed_ratio units="%">0.2</superposed_ratio>
+          <min_width units="mm">10</min_width>
+          <Grating>
+            <enable>yes</enable>
+            <ridge_size units="mm">2</ridge_size>
+            <gap_size units="mm">30</gap_size>
+          </Grating>
+          <vibration>
+            <enable>no</enable>
+            <frequency units="Hz">50</frequency>
+            <amplitude>1</amplitude>
+            <blend_mode>high</blend_mode>
+          </vibration>
+        </motion>
+        <dots>
+          <enable>no</enable>
+          <height units="%">1</height>
+          <vibration>
+            <enable>no</enable>
+            <frequency units="Hz">50</frequency>
+            <amplitude>1</amplitude>
+            <blend_mode>high</blend_mode>
+          </vibration>
+          <ridge>
+            <width units="mm">2</width>
+            <edge_width units="mm">0.2</edge_width>
+            <texture>
+              <enable>no</enable>
+              <amplitude units="%">0</amplitude>
+              <nb_cycles>3</nb_cycles>
+            </texture>
+          </ridge>
+          <min_spacing units="mm">1</min_spacing>
+        </dots>
+      </stroke>
+      <fill_texture>
+        <enable>no</enable>
+        <gap units="mm">0</gap>
+        <edge_size units="mm">1</edge_size>
+        <Pattern type="Texture" subtype="LinearGrating">
+          <angle units="degree">0</angle>
+          <seed units="mm">0,0</seed>
+          <Grating>
+            <enable>yes</enable>
+            <ridge_size units="mm">8</ridge_size>
+            <gap_size units="mm">0</gap_size>
+          </Grating>
+          <icon>pattern-grid.png</icon>
+          <amplitude>1</amplitude>
+        </Pattern>
+      </fill_texture>
+    </Pattern>
+    <amplitude>1</amplitude>
+  </Pattern>
+</laterographics_xml>

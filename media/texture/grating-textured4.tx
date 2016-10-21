@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="DoubleLinearGrating">
+    <seed units="mm">0,0</seed>
+    <angle units="degree">0</angle>
+    <primary_ridge_size units="mm">10</primary_ridge_size>
+    <primary_gap_size units="mm">0</primary_gap_size>
+    <secondary_scale>0.1</secondary_scale>
+    <constraint>orthogonal</constraint>
+    <primary_amplitude>0.7</primary_amplitude>
+    <secondary_amplitude>0.3</secondary_amplitude>
+    <operation>add</operation>
+    <icon>grating-textured4.png</icon>
+  </Pattern>
+</laterographics_xml>

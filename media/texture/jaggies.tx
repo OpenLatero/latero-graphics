@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="Combo">
+    <operation>blend</operation>
+    <icon>jaggies.png</icon>
+    <amplitude>1</amplitude>
+    <Pattern type="Texture" subtype="LinearGrating">
+      <angle units="degree">45</angle>
+      <seed units="mm">0,0</seed>
+      <Grating>
+        <enable>yes</enable>
+        <ridge_size units="mm">10</ridge_size>
+        <gap_size units="mm">0</gap_size>
+      </Grating>
+      <amplitude>1</amplitude>
+    </Pattern>
+    <Pattern type="Texture" subtype="LinearGrating">
+      <angle units="degree">135</angle>
+      <seed units="mm">0,0</seed>
+      <Grating>
+        <enable>yes</enable>
+        <ridge_size units="mm">10</ridge_size>
+        <gap_size units="mm">0</gap_size>
+      </Grating>
+      <amplitude>1</amplitude>
+      <invert>yes</invert>
+    </Pattern>
+    <Pattern type="Texture" subtype="LinearGrating">
+      <angle units="degree">90</angle>
+      <seed units="mm">0,0</seed>
+      <Grating>
+        <enable>yes</enable>
+        <ridge_size units="mm">14.1</ridge_size>
+        <gap_size units="mm">0</gap_size>
+      </Grating>
+      <amplitude>1</amplitude>
+    </Pattern>
+  </Pattern>
+</laterographics_xml>

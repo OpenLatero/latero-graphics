@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<laterographics_xml type="Texture">
+  <Pattern type="Texture" subtype="Motion">
+    <direction units="degree">0</direction>
+    <velocity units="mm/s">50</velocity>
+    <cue_type>none</cue_type>
+    <Pattern type="Texture" subtype="LinearGrating">
+      <angle units="degree">0</angle>
+      <seed units="mm">0,0</seed>
+      <Grating>
+        <enable>yes</enable>
+        <ridge_size units="mm">8</ridge_size>
+        <gap_size units="mm">0</gap_size>
+      </Grating>
+      <amplitude>1</amplitude>
+    </Pattern>
+  </Pattern>
+</laterographics_xml>
