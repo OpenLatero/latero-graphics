@@ -74,7 +74,7 @@ GroupTreeView::GroupTreeView(GroupPtr peer) :
 void GroupTreeView::RebuildMenu(PatternPtr pattern)
 {
 	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
-	bool has_parent = GetParentGroup(pattern);
+	bool has_parent = (bool)etParentGroup(pattern);
 	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(pattern);
 	
 	menu_.items().erase(menu_.items().begin(),menu_.items().end());
@@ -648,7 +648,7 @@ void GroupWidget::OnSelectionChanged()
 		TexturePtr tx = boost::dynamic_pointer_cast<Texture>(pattern);
 		ComboTexturePtr combotx = boost::dynamic_pointer_cast<ComboTexture>(pattern);
 		DotsPtr dots = boost::dynamic_pointer_cast<Dots>(pattern);
-		bool hasParent = (treeView_.GetParentGroup(pattern));
+		bool hasParent = (bool)(treeView_.GetParentGroup(pattern));
 
 		if (group)
 		{
