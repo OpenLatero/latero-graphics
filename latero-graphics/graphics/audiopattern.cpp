@@ -46,16 +46,19 @@ std::string Sound::GetFile()
 
 void Sound::UpdateStream()
 {
+#ifdef ENABLE_AUDIERE
 	if ((dev_) && (file_!=""))
 	{
 		printf("Sound: opening stream %s... ", file_.c_str());
 		stream_ = audiere::OpenSound(dev_, file_.c_str(), false);
 		printf("%s\n", (stream_)?"success":"failure");
 	}
+#endif
 }
 
-void Sound::Play(audiere::AudioDevicePtr dev)
+void Sound::Play(AudioDevicePtr dev)
 {
+#ifdef ENABLE_AUDIERE
 	if (!stream_)
 	{
 		printf("Sound: stream does not exist\n");
@@ -71,8 +74,8 @@ void Sound::Play(audiere::AudioDevicePtr dev)
 			stream_->play();
 		}
 	}
+#endif
 }
-
 
 
 
@@ -148,7 +151,7 @@ void AudioPattern::Render_(const State *state, latero::BiasedImg &frame)
 	frame.Set(0);
 }
 
-void AudioPattern::PlayAudio(audiere::AudioDevicePtr dev, Point pos)
+void AudioPattern::PlayAudio(AudioDevicePtr dev, Point pos)
 {
 	for (unsigned int i=0; i<sounds_.size(); ++i)
 	{
@@ -166,7 +169,7 @@ void AudioPattern::PlayAudio(audiere::AudioDevicePtr dev, Point pos)
 	}
 	prevSound_ = -1; // no sound was played
 }
-
+    
 Cairo::RefPtr<Cairo::Pattern> AudioPattern::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, boost::posix_time::time_duration t)
 {
 	cr->push_group();

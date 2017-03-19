@@ -56,8 +56,8 @@ public:
 	virtual std::string GetName();
 	Gtk::Widget *CreateWidget(PatternPtr ptr);
 
-	virtual void PlayAudio(audiere::AudioDevicePtr dev, Point pos);
-
+	virtual void PlayAudio(AudioDevicePtr dev, Point pos);
+    
 	PatternPtr GetCurrentPattern() { LATERO_GRAPHICS_GUARD; return curPattern_; }
 
 	void DoToggle();

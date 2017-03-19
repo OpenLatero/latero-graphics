@@ -25,7 +25,7 @@
 #include "pattern.h"
 #include "../maskfwd.h"
 #include "audiopatternfwd.h"
-#include <audiere.h>
+#include "../audiodevice.h"
 
 namespace latero {
 namespace graphics { 
@@ -36,16 +36,18 @@ public:
 	Sound(const Point &surfaceSize);
 	void SetFile(std::string file);
 	std::string GetFile();
-	void Play(audiere::AudioDevicePtr dev);
-
+	void Play(AudioDevicePtr dev);
 	MaskPtr mask_;
 
 protected:
 	void UpdateStream();
 
-	audiere::AudioDevicePtr dev_;
+	AudioDevicePtr dev_;
+#ifdef ENABLE_AUDIERE
 	audiere::OutputStreamPtr stream_;
-	std::string file_;
+#endif
+    
+    std::string file_;
 };
 
 class AudioPattern : public Pattern
@@ -70,8 +72,7 @@ public:
 	virtual void Render_(const State *state, latero::BiasedImg &frame);
 	virtual void AppendXML(XMLOutputNode &root) const;
 
-	virtual void PlayAudio(audiere::AudioDevicePtr dev, Point pos);
-
+	virtual void PlayAudio(AudioDevicePtr dev, Point pos);
 
 	virtual std::string GetName() { return "AudioPattern"; }
 	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, boost::posix_time::time_duration t);

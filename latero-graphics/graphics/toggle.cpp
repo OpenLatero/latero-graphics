@@ -71,12 +71,11 @@ void Toggle::OnButtonEvent_(const ButtonEvent &event)
     }        
 }
 
-void Toggle::PlayAudio(audiere::AudioDevicePtr dev, Point pos)
+void Toggle::PlayAudio(AudioDevicePtr dev, Point pos)
 {
 	PatternPtr pattern = GetCurrentPattern();
 	if (pattern) pattern->PlayAudio(dev,pos);
 }
-
 
 double Toggle::DoRender_(const ActuatorState &state)
 {    
