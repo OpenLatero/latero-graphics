@@ -37,3 +37,22 @@ You can use cmake to generate Xcode projects.
 If the installation is successful, the library liblaterographics.a will now be in /usr/local/lib/ and the include files in /usr/local/include/latero-graphics/
 
 You can run the program latero-demo (another project) to test the latero graphics library.
+
+
+
+Cygwin
+*********
+Step 1: Make sure the latero library is installed
+--------------------------------------------------
+See instructions in INSTALL file for latero project.
+
+Step 2: Install the latero-graphics library
+--------------------------------------------
+-- Build and install the library
+>> cmake . 
+>> make
+>> make install
+
+If the installation is successful, the library liblaterographics.a will now be in /usr/local/lib/ and the include files in /usr/local/include/latero-graphics/
+
+You can run the program latero-demo (another project) to test the latero graphics library.
