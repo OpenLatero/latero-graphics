@@ -74,7 +74,7 @@ GroupTreeView::GroupTreeView(GroupPtr peer) :
 void GroupTreeView::RebuildMenu(PatternPtr pattern)
 {
 	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
-	bool has_parent = (bool)etParentGroup(pattern);
+	bool has_parent = (bool)GetParentGroup(pattern);
 	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(pattern);
 	
 	menu_.items().erase(menu_.items().begin(),menu_.items().end());
