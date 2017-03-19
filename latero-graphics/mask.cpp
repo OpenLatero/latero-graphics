@@ -24,6 +24,8 @@
 #include <iostream>
 #include <Magick++.h>
 #include <boost/filesystem/convenience.hpp>
+#include <glibmm/miscutils.h>
+#include <glibmm/fileutils.h>
 
 #include "mask.h"
 #include "gtk/pixbufops.h"

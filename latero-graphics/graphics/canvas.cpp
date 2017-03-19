@@ -109,11 +109,11 @@ Gtk::Widget *Canvas::CreateWidget(GeneratorPtr ptr)
 	return new CanvasWidget(gen);
 }
 
-void Canvas::PlayAudio(audiere::AudioDevicePtr dev)
+void Canvas::PlayAudio(AudioDevicePtr dev)
 {
 	return GetGroup()->PlayAudio(dev,GetDisplayCenter());
 }
-
+    
 bool Canvas::OnKeyPress(GdkEventKey* event)
 {
 	return GetGroup()->OnKeyPress(event);

@@ -23,7 +23,6 @@
 #define LATERO_GRAPHICS_GENERATOR_H
 
 #include <latero/tactograph.h>
-#include <audiere.h>
 #include <gtkmm/widget.h>
 #include "generatorfwd.h"
 #include "modifiable.h"
@@ -31,6 +30,7 @@
 #include "xml.h"
 #include "state.h"
 #include "buttonevent.h"
+#include "audiodevice.h"
 
 namespace latero {
 namespace graphics { 
@@ -126,8 +126,8 @@ public:
     inline double GetDisplaySpeed_() const { return latestState_.velMag; }
     
 	/** Play audio associated with this generator. */
-	virtual void PlayAudio(audiere::AudioDevicePtr dev);
-	
+	virtual void PlayAudio(AudioDevicePtr dev);
+    
 	/**
 	 * called when a key is pressed on the keyboard
 	 * @return true when key is used by the Generator

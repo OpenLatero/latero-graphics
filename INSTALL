@@ -5,16 +5,29 @@ This release of the sofware has been tested on  Mac OS X Maverick and Yosemite. 
 MAC OS X
 *********
 
-Step 0: Make sure the latero library is installed
+Step 1: Make sure the latero library is installed
 --------------------------------------------------
 See instructions in INSTALL file for latero project.
 
-Step 1: Install the latero-graphics library
---------------------------------------------
--- Correct search path so .pkg files are found (By default, pkg files installed by users are not part of the search path).
->> export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:/usr/local/lib/pkgconfig/
-This needs to be done for each terminal that you start (as an alternative, you can add that line to the .profile file)
+Step 2: Install dependencies
+-----------------------------
+Most of the necessary dependencies can be installed using MacPorts. In order to enable SVG support in Gdk::Pixbuf, the "librsvg" package must installed.
+>> port install ImageMagick gtkmm libxmlxx2 librsvg
 
+Step 3: Download, build and install the audiere library (optional)
+------------------------------------------------------------------
+The audiere library is used to support audio and is not required for most users of the latero-graphics library. Since this library is rather old and difficult to install, it is recommended to skip this step.
+
+There is no port for the audiere library.
+-- Download audiere (Unix Source Release 1.9.4): http://audiere.sourceforge.net/download.php
+-- Add the following line in the file audiere-1.9.4/src/utility.h:   #include <stdlib.h>
+   Without it, you won't be able to build audiere.
+>> ./configure
+>> make
+>> sudo make install
+
+Step 4: Install the latero-graphics library
+--------------------------------------------
 -- Build and install the library
 You can use cmake to generate Xcode projects.
 >> cmake . -G Xcode

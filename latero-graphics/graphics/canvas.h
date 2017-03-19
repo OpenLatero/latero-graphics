@@ -70,8 +70,8 @@ public:
 	virtual Gtk::Widget *CreateWidget(GeneratorPtr ptr);
 
 	// see Generator
-	virtual void PlayAudio(audiere::AudioDevicePtr dev);
-
+	virtual void PlayAudio(AudioDevicePtr dev);
+    
 	// see Generator
 	virtual bool OnKeyPress(GdkEventKey* event);
 

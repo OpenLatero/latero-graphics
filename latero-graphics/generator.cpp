@@ -116,8 +116,7 @@ latero::BiasedImg Generator::GetLatestFrame() const
 	LATERO_GRAPHICS_GUARD; return latestFrame_; 
 }
 
-
-void Generator::PlayAudio(audiere::AudioDevicePtr dev)
+void Generator::PlayAudio(AudioDevicePtr dev)
 {
 	// do nothing by default
 };

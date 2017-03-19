@@ -193,8 +193,7 @@ Cairo::RefPtr<Cairo::Pattern> Group::GetDrawingPattern(Cairo::RefPtr<Cairo::Cont
 	return mmContext->pop_group();
 }
 
-
-void Group::PlayAudio(audiere::AudioDevicePtr dev, Point pos)
+void Group::PlayAudio(AudioDevicePtr dev, Point pos)
 {
 	// TODO: unsafe... should be locked!
 	for (unsigned int i=0; i<objects_.size(); ++i)

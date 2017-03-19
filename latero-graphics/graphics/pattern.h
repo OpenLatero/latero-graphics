@@ -24,12 +24,12 @@
 
 #include <latero/tactograph.h>
 #include <gtkmm/widget.h>
-#include <audiere.h>
 #include "patternfwd.h"
 #include "../modifiable.h"
 #include "../state.h"
 #include "../xml.h"
 #include "../buttonevent.h"
+#include "../audiodevice.h"
 
 namespace latero {
 namespace graphics { 
@@ -131,8 +131,8 @@ public:
 	/** 
 	 * Play sound based on current tactograph location.
 	 */
-	virtual void PlayAudio(audiere::AudioDevicePtr dev, Point pos) {};
-
+	virtual void PlayAudio(AudioDevicePtr dev, Point pos) {};
+    
 	/** 
 	 * Handle key press or return false if key is unused.
 	 */

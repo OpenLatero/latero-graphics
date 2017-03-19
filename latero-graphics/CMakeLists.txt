@@ -1,15 +1,16 @@
-# set file lists and install rules for subdirectories 
+# set file lists and install rules for subdirectories
 add_subdirectory(gtk)
 add_subdirectory(graphics)
 
 # local sources
 set(SRC_ROOT_CPP
+	audiodevice.cpp
 	audioengine.cpp
 	averagefilter.cpp
 	engine.cpp
 	generator.cpp
 	graph.cpp
-	grating.cpp gratingwidget.cpp 
+	grating.cpp gratingwidget.cpp
 	gratinggraph.cpp
 	gratingmodulator.cpp gratingmodulatorwidget.cpp
 	logger.cpp
@@ -31,7 +32,9 @@ set(SRC_ROOT_CPP
 )
 
 set(SRC_ROOT_H
-	audioengine.h 
+	audiodevice.h
+	audiodevicefwd.h
+	audioengine.h
 	audioenginefwd.h
 	averagefilter.h
 	buttonevent.h

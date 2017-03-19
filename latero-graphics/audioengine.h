@@ -24,7 +24,7 @@
 
 #include "engine.h"
 #include "generatorfwd.h"
-#include <audiere.h>
+#include "audiodevicefwd.h"
 #include <latero/tactograph.h>
 
 namespace latero {
@@ -43,7 +43,7 @@ private:
 	latero::Tactograph *dev_;
 	GeneratorPtr gen_;
 	boost::posix_time::time_duration period_;
-	audiere::AudioDevicePtr audioDev_;
+    AudioDevicePtr audioDevPtr_;
 };
 
 } // namespace graphics
