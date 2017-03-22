@@ -38,6 +38,11 @@ namespace latero {
             virtual ~AudioDevice() {};
             void Open();
             bool IsOpen();
+
+#ifdef ENABLE_AUDIERE
+            audiere::AudioDevicePtr Dev() { return audioDev_; }
+#endif
+
             
         protected:
             /** constructor */

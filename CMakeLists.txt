@@ -10,6 +10,7 @@ pkg_check_modules(DEPS REQUIRED latero ImageMagick++ gtkmm-2.4 libxml++-2.6)
 
 FIND_PROGRAM(AUDIERE_CONFIG audiere-config)
 IF(AUDIERE_CONFIG)
+  add_definitions(-DENABLE_AUDIERE)
   EXEC_PROGRAM(${AUDIERE_CONFIG}
      ARGS --cxxflags
      OUTPUT_VARIABLE AUDIERE_CFLAGS)

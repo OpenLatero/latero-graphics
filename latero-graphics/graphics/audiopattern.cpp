@@ -23,6 +23,9 @@
 #include <iostream>
 #include "../xml.h"
 #include "../mask.h"
+#ifdef ENABLE_AUDIERE
+#include <audiere.h>
+#endif
 
 namespace latero {
 namespace graphics { 
@@ -50,7 +53,7 @@ void Sound::UpdateStream()
 	if ((dev_) && (file_!=""))
 	{
 		printf("Sound: opening stream %s... ", file_.c_str());
-		stream_ = audiere::OpenSound(dev_, file_.c_str(), false);
+		stream_ = audiere::OpenSound(dev_->Dev(), file_.c_str(), false);
 		printf("%s\n", (stream_)?"success":"failure");
 	}
 #endif
