@@ -32,9 +32,9 @@ namespace graphics {
 class VelModulator : public Modulator
 {
 public:
-	static const double limit_default = 5;
-	static const double transition_default = 5;
-	static const double delay_default = 500;
+    constexpr static const double limit_default = 5;
+    constexpr static const double transition_default = 5;
+    constexpr static const double delay_default = 500;
 
 	static VelModulatorPtr Create(const latero::Tactograph *dev)
 		{ return VelModulatorPtr(new VelModulator(dev)); }

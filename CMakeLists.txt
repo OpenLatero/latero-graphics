@@ -1,7 +1,6 @@
 cmake_minimum_required (VERSION 2.4)
 project (latero-graphics)
 
-#without this setting, This program cannot bulid on Linux and Cygwin
 set (CMAKE_CXX_STANDARD 11)
 set (CMAKE_CXX_FLAGS "--std=gnu++11 -fpermissive ${CMAKE_CXX_FLAGS}")
 
@@ -10,7 +9,7 @@ set( ENV{PKG_CONFIG_PATH} "$ENV{PKG_CONFIG_PATH}:/usr/local/lib/pkgconfig" )
 
 # check for dependencies using pkg-config
 include(FindPkgConfig)
-pkg_check_modules(DEPS REQUIRED latero ImageMagick++ gtkmm-2.4 libxml++-2.6)
+pkg_check_modules(DEPS REQUIRED latero ImageMagick++ gtkmm-2.4 libxml++-3.0)
 
 FIND_PROGRAM(AUDIERE_CONFIG audiere-config)
 IF(AUDIERE_CONFIG)

@@ -38,9 +38,9 @@ namespace graphics {
 class Texture : virtual public Pattern
 {
 public:
-	static const double amplitude_default = 1.0;
+    constexpr static const double amplitude_default = 1.0;
 	static const bool invert_default = false;
-	static const double vibEnable_default = false;
+    constexpr static const double vibEnable_default = false;
 	static const bool tdCentric_default = false;
 	static const Point tdCentricPos_default;
 	static const bool motionEnable_default = false;

@@ -31,15 +31,15 @@ namespace graphics {
 class AxialGratingTexture : public GratingTexture
 {
 public:
-	static const double default_ridgeSize = 36;
-	static const double default_vel = 0;
-	static const double default_seedAngle = 0;
+    constexpr static const double default_ridgeSize = 36;
+    constexpr static const double default_vel = 0;
+    constexpr static const double default_seedAngle = 0;
 
 	// The grating will gradually be saturated between the following
 	// arc lenghts to prevent the spatial frequency to increase too
 	// high near the center. 
-	static const double min_arc_length2 = 1.0;
-	static const double min_arc_length1 = 0.5;
+    constexpr static const double min_arc_length2 = 1.0;
+    constexpr static const double min_arc_length1 = 0.5;
 
 	static AxialGratingTexturePtr Create(const latero::Tactograph *dev, Point seed = Point(0,0), uint axialNb=360/default_ridgeSize)
 	{

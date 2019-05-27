@@ -31,8 +31,8 @@ namespace graphics {
 class RadialGratingTexture : public GratingTexture
 {
 public:
-	static const double default_pitch = 8;
-	static const double default_vel = 0;
+    constexpr static const double default_pitch = 8;
+    constexpr static const double default_vel = 0;
 
 	static RadialGratingTexturePtr Create(const latero::Tactograph *dev, Point seed = Point(0,0), float pitch=default_pitch)
 	{

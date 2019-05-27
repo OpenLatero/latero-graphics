@@ -38,11 +38,11 @@ class DirModulator : public Modulator
 public:
 	enum { low_vel_mode_high, low_vel_mode_low, low_vel_mode_toggle };
 
-	static const double dir_default = 0;
-	static const double dirTolerance_default = 30;
-	static const double dirTransition_default = 20;
-	static const double velTolerance_default = 0;
-	static const double velTransition_default = 5;
+    constexpr static const double dir_default = 0;
+    constexpr static const double dirTolerance_default = 30;
+    constexpr static const double dirTransition_default = 20;
+    constexpr static const double velTolerance_default = 0;
+    constexpr static const double velTransition_default = 5;
 	static const bool symmetric_default = false;
 	static const int lowVelMode_default = low_vel_mode_toggle;
 

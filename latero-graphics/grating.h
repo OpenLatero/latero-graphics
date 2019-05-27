@@ -37,12 +37,12 @@ public:
 	typedef enum { interp_linear=0, interp_arc=1 } InterpMode;
 
 	static const bool invert_default = false;
-	static const double center_default = 0.5;
-	static const double center_min = 0.15;
-	static const double center_max = 0.85;
-	static const double gap_default = 0.0;
-	static const double gap_min = 0.0;
-	static const double gap_max = 0.9;
+    constexpr static const double center_default = 0.5;
+    constexpr static const double center_min = 0.15;
+    constexpr static const double center_max = 0.85;
+    constexpr static const double gap_default = 0.0;
+    constexpr static const double gap_min = 0.0;
+    constexpr static const double gap_max = 0.9;
 	static const InterpMode interp_default = interp_linear;
 
 	static GratingPtr Create(std::string units="")

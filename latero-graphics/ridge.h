@@ -36,10 +36,10 @@ class Ridge : public Modifiable
 {
 public:
 	/** defaults */
-	static const double width_default = 0.5;
-	static const double edgeWidth_min = 0.1;
-	static const double edgeWidth_default = 0.2;
-	static const double txAmp_default = 0;
+    constexpr static const double width_default = 0.5;
+    constexpr static const double edgeWidth_min = 0.1;
+    constexpr static const double edgeWidth_default = 0.2;
+    constexpr static const double txAmp_default = 0;
 	static const unsigned int txNbCycles_default = 3;
 	static const bool txEnable_default = false;
 

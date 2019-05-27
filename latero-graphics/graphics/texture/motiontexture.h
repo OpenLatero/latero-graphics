@@ -44,8 +44,8 @@ public:
 				cue_type_disabling_bands,
 				cue_type_blend_bands;
 
-	static const double direction_default = 0;
-	static const double velocity_default = 50;
+    constexpr static const double direction_default = 0;
+    constexpr static const double velocity_default = 50;
 
 	static MotionTexturePtr Create(const latero::Tactograph *dev)
 	{

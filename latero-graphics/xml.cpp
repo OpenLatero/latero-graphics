@@ -37,7 +37,7 @@ XMLOutputNode::XMLOutputNode(xmlpp::Element *root) : element_(root)
 
 XMLOutputNode XMLOutputNode::AddChild(std::string name)
 {
-	XMLOutputNode rv = element_->add_child(name);
+	XMLOutputNode rv = element_->add_child_element(name);
 	rv.SetPath(path_);
 	return rv;
 }
@@ -112,14 +112,14 @@ void XMLOutputNode::SetUnitsAttribute(std::string units)
 
 void XMLOutputNode::SetText(bool v)
 {
-	element_->set_child_text(v?"yes":"no");
+	element_->set_first_child_text(v?"yes":"no");
 }
 
 void XMLOutputNode::SetText(double value, std::string units)
 {
 	char buf[255];
 	sprintf(buf, "%g", value);
-	element_->set_child_text(buf);
+	element_->set_first_child_text(buf);
 	SetUnitsAttribute(units);
 }
 
@@ -127,7 +127,7 @@ void XMLOutputNode::SetText(int value, std::string units)
 {
 	char buf[255];
 	sprintf(buf, "%d", value);
-	element_->set_child_text(buf);
+	element_->set_first_child_text(buf);
 	SetUnitsAttribute(units);
 }
 
@@ -135,20 +135,20 @@ void XMLOutputNode::SetText(unsigned int value, std::string units)
 {
 	char buf[255];
 	sprintf(buf, "%d", value);
-	element_->set_child_text(buf);
+	element_->set_first_child_text(buf);
 	SetUnitsAttribute(units);
 }
 
 void XMLOutputNode::SetText(std::string str)
 {
-	element_->set_child_text(str.c_str());
+	element_->set_first_child_text(str.c_str());
 }
 
 void XMLOutputNode::SetText(const Point &p, std::string units)
 {
 	char buf[255];
 	sprintf(buf, "%g,%g", p.x, p.y);
-	element_->set_child_text(buf);
+	element_->set_first_child_text(buf);
 	SetUnitsAttribute(units);
 }
 
@@ -163,7 +163,7 @@ void XMLOutputNode::SetTextFilename(std::string file)
 
 void XMLOutputNode::SetText(const char *str)
 {
-	element_->set_child_text(str);
+	element_->set_first_child_text(str);
 }
 
 void XMLOutputNode::SetAttribute(std::string label, std::string content)
@@ -191,10 +191,10 @@ std::vector<XMLInputNode> XMLInputNode::GetChildren(std::string name) const
 	std::vector<XMLInputNode> rv;
 	if (!node_) return rv;
 
-	xmlpp::Node::NodeList list = node_->get_children();
-	for(xmlpp::Node::NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
+	xmlpp::Node::const_NodeList list = node_->get_children();
+	for(xmlpp::Node::const_NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
 	{
-		xmlpp::Node* node = *iter;
+		const xmlpp::Node* node = *iter;
 		if (node->get_children().size())
 		{
 			if (node->get_name() == name)
@@ -217,10 +217,10 @@ XMLInputNode XMLInputNode::GetChild(std::string name) const
 		return n;
 	}
 
-	xmlpp::Node::NodeList list = node_->get_children();
-	for(xmlpp::Node::NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
+	xmlpp::Node::const_NodeList list = node_->get_children();
+	for(xmlpp::Node::const_NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
 	{
-		xmlpp::Node* node = *iter;
+		const xmlpp::Node* node = *iter;
 		if (node->get_children().size())
 		{
 			if (node->get_name() == name)
@@ -242,7 +242,7 @@ std::string XMLInputNode::GetString() const
 	const xmlpp::Element *el = dynamic_cast<const xmlpp::Element *>(node_);
 	if (el)
 	{
-		const xmlpp::TextNode* text = el->get_child_text();
+		const xmlpp::TextNode* text = el->get_first_child_text();
 		if (text)
 			return text->get_content();
 	}
@@ -296,7 +296,7 @@ std::string XMLInputNode::GetSubType() const
 std::string XMLInputNode::GetAttribute(std::string label) const
 {
 	const xmlpp::Element* element = dynamic_cast<const xmlpp::Element*>(node_);
-	xmlpp::Attribute *att = element->get_attribute(label);
+	const xmlpp::Attribute *att = element->get_attribute(label);
 	return att ? att->get_value() : "";
 }
 

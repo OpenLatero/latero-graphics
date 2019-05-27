@@ -44,10 +44,10 @@ public:
 	typedef NamedIDSet BlendModeSet;
 	static const BlendMode blend_mode_high, blend_mode_low;
 
-	static const double freq_default = 50.0;
-	static const double freq_min = 0.1;
-	static const double freq_max = 50.0;
-	static const double amplitude_default = 1.0;
+    constexpr static const double freq_default = 50.0;
+    constexpr static const double freq_min = 0.1;
+    constexpr static const double freq_max = 50.0;
+    constexpr static const double amplitude_default = 1.0;
 
 	static OscillatorPtr Create(double freq, double amplitude, bool enable)
 	{
