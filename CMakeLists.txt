@@ -10,6 +10,7 @@ set( ENV{PKG_CONFIG_PATH} "$ENV{PKG_CONFIG_PATH}:/usr/local/lib/pkgconfig" )
 # check for dependencies using pkg-config
 include(FindPkgConfig)
 pkg_check_modules(DEPS REQUIRED ImageMagick++ gtkmm-2.4 libxml++-3.0)
+pkg_check_modules(GTK REQUIRED IMPORTED_TARGET ImageMagick++ gtkmm-2.4 libxml++-3.0)
 
 find_package(latero REQUIRED)
 
@@ -47,11 +48,27 @@ add_subdirectory (latero-graphics)
 add_subdirectory (media)
 
 # generate latero.pc file and install it for pkg-config
-configure_file(latero-graphics.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/latero-graphics.pc @ONLY)
-INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/latero-graphics.pc DESTINATION lib/pkgconfig)
+#configure_file(latero-graphics.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/latero-graphics.pc @ONLY)
+#INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/latero-graphics.pc DESTINATION lib/pkgconfig)
 
 # generate doc if Doxygen is found
 FIND_PACKAGE(Doxygen)
 IF (DOXYGEN_FOUND)
   ADD_CUSTOM_TARGET(doc ${DOXYGEN_EXECUTABLE} doxygen.cfg)
 ENDIF(DOXYGEN_FOUND)
+
+# Create and install cmake config file
+
+include(CMakePackageConfigHelpers)
+
+configure_package_config_file(
+    cmake/laterographicsConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/laterographicsConfig.cmake
+    INSTALL_DESTINATION lib/cmake/laterographics
+)
+
+install(FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/laterographicsConfig.cmake
+    DESTINATION lib/cmake/laterographics
+)
+

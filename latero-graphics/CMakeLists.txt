@@ -96,11 +96,21 @@ SOURCE_GROUP(xeno FILES ${SRC_XENO})
 
 # build
 add_library (laterographics ${SRC})
-target_link_libraries(laterographics PUBLIC latero::latero Boost::system Boost::filesystem Boost::thread)
+add_library(laterographics::laterographics ALIAS laterographics)
+target_link_libraries(laterographics PUBLIC latero::latero Boost::system Boost::filesystem Boost::thread PkgConfig::GTK)
 
 #install library files to /usr/local/lib/
 INSTALL(TARGETS laterographics
+ EXPORT laterographicsTargets
  RUNTIME DESTINATION bin
  LIBRARY DESTINATION lib
  ARCHIVE DESTINATION lib
+ INCLUDES DESTINATION include
 )
+
+install(EXPORT laterographicsTargets
+    FILE laterographicsTargets.cmake
+    NAMESPACE laterographics::
+    DESTINATION lib/cmake/laterographics
+)
+
