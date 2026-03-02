@@ -9,7 +9,9 @@ set( ENV{PKG_CONFIG_PATH} "$ENV{PKG_CONFIG_PATH}:/usr/local/lib/pkgconfig" )
 
 # check for dependencies using pkg-config
 include(FindPkgConfig)
-pkg_check_modules(DEPS REQUIRED latero ImageMagick++ gtkmm-2.4 libxml++-3.0)
+pkg_check_modules(DEPS REQUIRED ImageMagick++ gtkmm-2.4 libxml++-3.0)
+
+find_package(latero REQUIRED)
 
 FIND_PROGRAM(AUDIERE_CONFIG audiere-config)
 IF(AUDIERE_CONFIG)
