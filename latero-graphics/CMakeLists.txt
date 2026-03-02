@@ -96,6 +96,7 @@ SOURCE_GROUP(xeno FILES ${SRC_XENO})
 
 # build
 add_library (laterographics ${SRC})
+target_link_libraries(laterographics PUBLIC Boost::system Boost::filesystem Boost::thread)
 
 #install library files to /usr/local/lib/
 INSTALL(TARGETS laterographics
