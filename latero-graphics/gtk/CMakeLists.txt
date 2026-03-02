@@ -24,7 +24,7 @@ SOURCE_GROUP(gtk FILES ${SRC})
 
 INSTALL(FILES ${SRC_H} DESTINATION include/laterographics/gtk)
 
-SET(SRC_GTK "")
+SET(SRC_GTK "" CACHE INTERNAL "")
 FOREACH(file ${SRC})
-     SET(SRC_GTK ${SRC_GTK} gtk/${file}  CACHE INTERNAL "")
+     SET(SRC_GTK ${SRC_GTK} gtk/${file} CACHE INTERNAL "")
 ENDFOREACH(file)

@@ -26,7 +26,7 @@ SOURCE_GROUP(modulator FILES ${SRC})
 
 INSTALL(FILES ${SRC_H} DESTINATION include/laterographics/graphics/modulator)
 
-SET(SRC_GRAPHICS_MOD "")
+SET(SRC_GRAPHICS_MOD "" CACHE INTERNAL "")
 FOREACH(file ${SRC})
      SET(SRC_GRAPHICS_MOD "${SRC_GRAPHICS_MOD};modulator/${file}" CACHE INTERNAL "")
 ENDFOREACH(file)

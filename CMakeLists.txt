@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.4)
+cmake_minimum_required (VERSION 3.10...3.31)
 project (latero-graphics)
 
 set (CMAKE_CXX_STANDARD 11)
@@ -26,7 +26,7 @@ ENDIF(AUDIERE_CONFIG)
 
 set(Boost_USE_STATIC_LIBS   ON)
 set(Boost_USE_MULTITHREADED ON)
-find_package(Boost COMPONENTS system filesystem thread REQUIRED)
+find_package(Boost CONFIG COMPONENTS system filesystem thread REQUIRED)
 
 #SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "./")
 #include(FindXenomai)

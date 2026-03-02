@@ -121,7 +121,7 @@ public:
 	inline void SetFreq(double v) { LATERO_GRAPHICS_GUARD; SetFreq_(v); }
 
 	/** set frequency in Hz (non-locking) */
-	inline void SetFreq_(double v) { SetLastModified_(); v = fmin(freq_max,fmax(freq_min,v)); period_ = boost::posix_time::microseconds(1E6/v); mod_=true; }
+	inline void SetFreq_(double v) { SetLastModified_(); v = fmin(freq_max,fmax(freq_min,v)); period_ = boost::posix_time::microseconds((long)(1E6/v)); mod_=true; }
 
 	// Amplitude
 

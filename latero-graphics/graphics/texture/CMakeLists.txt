@@ -77,7 +77,7 @@ SOURCE_GROUP(texture FILES ${SRC})
 
 INSTALL(FILES ${SRC_H} DESTINATION include/laterographics/graphics/texture)
 
-SET(SRC_GRAPHICS_TX "")
+SET(SRC_GRAPHICS_TX "" CACHE INTERNAL "")
 FOREACH(file ${SRC})
      SET(SRC_GRAPHICS_TX "${SRC_GRAPHICS_TX};texture/${file}" CACHE INTERNAL "")
 ENDFOREACH(file)
