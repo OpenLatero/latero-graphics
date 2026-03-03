@@ -104,7 +104,7 @@ public:
 	inline int GetHeight() const { return GetNbFrames()?imgs_[0]->get_height():0; }
 
 	/** @return number of frames */
-	inline uint GetNbFrames() const { return imgs_.size(); }
+	inline uint GetNbFrames() const { return static_cast<uint>(imgs_.size()); }
 
 	/** manually skip to the next frame */
 	void IncrementFrame();

@@ -57,7 +57,7 @@ public:
 	void AddChannel(const char *fgColor);
 	void ClearChannel(unsigned int channel);
 	void InsertPoint(unsigned int channel, float x, float y);
-	unsigned int GetNbChannels() { return channels_.size(); }
+	unsigned int GetNbChannels() { return (unsigned int)channels_.size(); }
 
 	void SetRangeX(float min, float max);
 	void SetRangeY(float min, float max);

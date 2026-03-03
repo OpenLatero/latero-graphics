@@ -192,7 +192,7 @@ void DottedPolygon::UpdateDots()
 	double vel = GetVel();
 
 	const double minDotDist = dotRadius_*2 + GetMinSpacing();
-	int nVertex = vertices.size();
+    std::size_t nVertex = vertices.size();
 	for (int i=0; i<nVertex; ++i)
 	{
 		double min_dot_dist = minDotDist;

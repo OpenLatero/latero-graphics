@@ -118,7 +118,7 @@ void XMLOutputNode::SetText(bool v)
 void XMLOutputNode::SetText(double value, std::string units)
 {
 	char buf[255];
-	sprintf(buf, "%g", value);
+	snprintf(buf, sizeof(buf), "%g", value);
 	element_->set_first_child_text(buf);
 	SetUnitsAttribute(units);
 }
@@ -126,7 +126,7 @@ void XMLOutputNode::SetText(double value, std::string units)
 void XMLOutputNode::SetText(int value, std::string units)
 {
 	char buf[255];
-	sprintf(buf, "%d", value);
+	snprintf(buf, sizeof(buf), "%d", value);
 	element_->set_first_child_text(buf);
 	SetUnitsAttribute(units);
 }
@@ -134,7 +134,7 @@ void XMLOutputNode::SetText(int value, std::string units)
 void XMLOutputNode::SetText(unsigned int value, std::string units)
 {
 	char buf[255];
-	sprintf(buf, "%d", value);
+	snprintf(buf, sizeof(buf), "%d", value);
 	element_->set_first_child_text(buf);
 	SetUnitsAttribute(units);
 }
@@ -147,7 +147,7 @@ void XMLOutputNode::SetText(std::string str)
 void XMLOutputNode::SetText(const Point &p, std::string units)
 {
 	char buf[255];
-	sprintf(buf, "%g,%g", p.x, p.y);
+	snprintf(buf, sizeof(buf), "%g,%g", p.x, p.y);
 	element_->set_first_child_text(buf);
 	SetUnitsAttribute(units);
 }

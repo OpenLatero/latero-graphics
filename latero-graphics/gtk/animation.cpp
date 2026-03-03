@@ -193,7 +193,7 @@ void Animation::SaveToFile(std::string file, bool trim)
 			for (uint i=0; i<GetNbFrames(); ++i)
 			{
 				char pngfile[255];
-				sprintf(pngfile, "%s-%05d.png", base.c_str(), i);
+				snprintf(pngfile, sizeof(pngfile), "%s-%05d.png", base.c_str(), i);
 				frames.push_back(pngfile);
 				imgs_[i]->save(pngfile,"png");
 				chmod(pngfile, 0666); // make accessible to others than root

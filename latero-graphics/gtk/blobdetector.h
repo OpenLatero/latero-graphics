@@ -93,7 +93,7 @@ protected:
 	inline int GetNewBlobID()
 	{
 		equiv_.push_back(-1);
-		return equiv_.size()-1;
+		return static_cast<int>(equiv_.size())-1;
 	}
 
 	/** @returns blob id at a given position (or -1 if unset or out of bounds) */

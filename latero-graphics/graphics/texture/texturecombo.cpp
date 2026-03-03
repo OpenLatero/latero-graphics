@@ -86,7 +86,7 @@ void TextureCombo::SetActive(TexturePtr tx)
 	{
  		// this texture was not loaded from a file, let's create a temporary file
 		char file[255];
-		sprintf(file,".tmp-%d.tx", rand()%1024);
+		snprintf(file, sizeof(file), ".tmp-%d.tx", rand()%1024);
 		tx->Save(file); // TODO: make sure we don't overwrite an existing file
 	}
 	Append(tx->GetXMLFile());

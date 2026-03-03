@@ -68,7 +68,7 @@ void PointListWidget::InsertPoint(const Point &p)
 
 	xAdj_.push_back(xAdj);
 	yAdj_.push_back(yAdj);
-	int i = xAdj_.size()-1;
+	int i = static_cast<int>(xAdj_.size())-1;
 
 	xAdj->signal_value_changed().connect(signalChanged_);
 	yAdj->signal_value_changed().connect(signalChanged_);
@@ -78,7 +78,7 @@ void PointListWidget::InsertPoint(const Point &p)
 	rowBox_[i]->pack_start(*manage(new Gtk::SpinButton(*xAdj)));
 	rowBox_[i]->pack_start(*manage(new Gtk::SpinButton(*yAdj)));
 
-	NumButton *delButton = manage(new NumButton("-", xAdj_.size()-1));
+	NumButton *delButton = manage(new NumButton("-", static_cast<int>(xAdj_.size())-1));
 	rowBox_[i]->pack_start(*delButton, Gtk::PACK_SHRINK);
 	delButton->SignalClicked().connect(sigc::mem_fun(*this, &PointListWidget::OnDelete));
 }

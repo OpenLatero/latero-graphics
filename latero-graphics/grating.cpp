@@ -146,7 +146,7 @@ double Grating::RenderCycle_(double pos)
 double Grating::GetRhythmEffect_(int cycle)
 {
 	double rv = 1.0;
-	int n = rhythm_.size();
+    std::size_t n = rhythm_.size();
 	if (n)
 	{
 		cycle = cycle % n;

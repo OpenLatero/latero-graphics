@@ -334,7 +334,7 @@ double Polygon::RenderCorner_(const StrokeState &state, const Point &pos, Edge &
 
 double Polygon::GetLatitudinalDistance_(const Point &pos)
 {
-	int n = largeVertex_.size();
+    std::size_t n = largeVertex_.size();
 	if (n < 3) return 0;
 
 	double dWidth = 10000000;
@@ -435,7 +435,7 @@ Edge Polygon::GetClosestEdge_(const Point &pos, double &dLength, double &dWidth)
 
 Edge Polygon::GetDistances_(const Point &pos, double &dLength, double &dWidth)
 {
-	int n = largeVertex_.size();
+    std::size_t n = largeVertex_.size();
 	if (n < 3)
 	{
 		dLength = dWidth = 0;
@@ -545,7 +545,7 @@ double Polygon::PrecomputeLength(const std::vector<Edge> &edges) const
 
 std::vector<Vertex> Polygon::PrecomputeVertices(std::vector<Point> &points, double strokeRadius) const
 {
-	int n = points.size();
+    std::size_t n = points.size();
 	std::vector<Vertex> vertices;
 	if (n<3) return vertices;
 
@@ -632,7 +632,7 @@ std::vector<Vertex> Polygon::PrecomputeVertices(std::vector<Point> &points, doub
 std::vector<Edge> Polygon::PrecomputeEdges(std::vector<Vertex> &vertices) const
 {
 	std::vector<Edge> edges;
-	int n = vertices.size();
+    std::size_t n = vertices.size();
 	for (int i=0; i<n; ++i)
 		edges.push_back(Edge(i, vertices[i], vertices[(i+1)%n]));
 	return edges;
@@ -641,7 +641,7 @@ std::vector<Edge> Polygon::PrecomputeEdges(std::vector<Vertex> &vertices) const
 std::vector<Corner> Polygon::PrecomputeCorners(const std::vector<Vertex> &vertices) const
 {
 	std::vector<Corner> corners;
-	int n = vertices.size();
+    std::size_t n = vertices.size();
 
 	double cornerUserAngle = GetCornerUserAngle();
 	CornerSpan cornerSpan = GetCornerSpan();

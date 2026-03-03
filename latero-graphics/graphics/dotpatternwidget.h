@@ -20,7 +20,7 @@
 // -----------------------------------------------------------
 
 #ifndef LATERO_GRAPHICS_PLANAR_DOT_PATTERN_WIDGET
-#define LATERO_GRAPHICS_PLANAR_DOT_PATTERNWIDGET
+#define LATERO_GRAPHICS_PLANAR_DOT_PATTERN_WIDGET
 
 #include <gtkmm.h>
 #include "dotpatternfwd.h"
