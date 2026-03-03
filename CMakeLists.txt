@@ -4,15 +4,13 @@ project (latero-graphics)
 set (CMAKE_CXX_STANDARD 11)
 set (CMAKE_CXX_FLAGS "--std=gnu++11 -fpermissive ${CMAKE_CXX_FLAGS}")
 
-# add /usr/loca/lib/pkgconfig (necessary on macOS)
-set( ENV{PKG_CONFIG_PATH} "$ENV{PKG_CONFIG_PATH}:/usr/local/lib/pkgconfig" )
-
 # check for dependencies using pkg-config
 include(FindPkgConfig)
-pkg_check_modules(DEPS REQUIRED ImageMagick++ gtkmm-2.4 libxml++-3.0)
-pkg_check_modules(GTK REQUIRED IMPORTED_TARGET ImageMagick++ gtkmm-2.4 libxml++-3.0)
+pkg_check_modules(DEPS REQUIRED gtkmm-2.4 libxml++-3.0)
+pkg_check_modules(GTK REQUIRED IMPORTED_TARGET gtkmm-2.4 libxml++-3.0)
 
 find_package(latero REQUIRED)
+find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
 
 FIND_PROGRAM(AUDIERE_CONFIG audiere-config)
 IF(AUDIERE_CONFIG)
@@ -31,25 +29,15 @@ set(Boost_USE_STATIC_LIBS   ON)
 set(Boost_USE_MULTITHREADED ON)
 find_package(Boost CONFIG COMPONENTS system filesystem thread REQUIRED)
 
-set(DEPS_LDFLAGS ${DEPS_LDFLAGS} ${AUDIERE_LDFLAGS} -l${Boost_SYSTEM_LIBRARY} -l${Boost_FILESYSTEM_LIBRARY} -l${Boost_THREAD_LIBRARY})
+set(DEPS_LDFLAGS ${DEPS_LDFLAGS} ${AUDIERE_LDFLAGS})
 set(DEPS_CFLAGS ${DEPS_CFLAGS} ${AUDIERE_CFLAGS})
 
 link_directories(${DEPS_LIBRARY_DIRS})
 include_directories(${DEPS_INCLUDE_DIRS})
 
-
-# todo: The DEPS_LDFLAGS and DEPS_CFLAGS strings separate the arguments with semicolons, which break
-# when passed to latero.pc. This replaces them with spaces. There must be a better way of doing this.
-STRING(REPLACE ";" " " DEPS_LDFLAGS_WSPACE "${DEPS_LDFLAGS}" )
-STRING(REPLACE ";" " " DEPS_CFLAGS_WSPACE "${DEPS_CFLAGS}" )
-
 # process subdirectories
 add_subdirectory (latero-graphics)
 add_subdirectory (media)
-
-# generate latero.pc file and install it for pkg-config
-#configure_file(latero-graphics.pc.cmake ${CMAKE_CURRENT_BINARY_DIR}/latero-graphics.pc @ONLY)
-#INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/latero-graphics.pc DESTINATION lib/pkgconfig)
 
 # generate doc if Doxygen is found
 FIND_PACKAGE(Doxygen)
@@ -58,15 +46,12 @@ IF (DOXYGEN_FOUND)
 ENDIF(DOXYGEN_FOUND)
 
 # Create and install cmake config file
-
 include(CMakePackageConfigHelpers)
-
 configure_package_config_file(
     cmake/laterographicsConfig.cmake.in
     ${CMAKE_CURRENT_BINARY_DIR}/laterographicsConfig.cmake
     INSTALL_DESTINATION lib/cmake/laterographics
 )
-
 install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/laterographicsConfig.cmake
     DESTINATION lib/cmake/laterographics
