@@ -6,9 +6,12 @@ set (CMAKE_CXX_FLAGS "--std=gnu++11 -fpermissive ${CMAKE_CXX_FLAGS}")
 
 # check for dependencies using pkg-config
 include(FindPkgConfig)
-pkg_check_modules(DEPS REQUIRED gtkmm-2.4 libxml++-3.0)
-pkg_check_modules(GTK REQUIRED IMPORTED_TARGET gtkmm-2.4 libxml++-3.0)
+pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-2.4)
+pkg_check_modules(LIBXML REQUIRED IMPORTED_TARGET libxml++-3.0)
 
+set(Boost_USE_STATIC_LIBS   ON)
+set(Boost_USE_MULTITHREADED ON)
+find_package(Boost CONFIG COMPONENTS system filesystem thread REQUIRED)
 find_package(latero REQUIRED)
 find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
 
@@ -24,10 +27,6 @@ IF(AUDIERE_CONFIG)
 ELSE(AUDIERE_CONFIG)
   MESSAGE(STATUS "Cannot find audiere-config anywhere on the system.")
 ENDIF(AUDIERE_CONFIG)
-
-set(Boost_USE_STATIC_LIBS   ON)
-set(Boost_USE_MULTITHREADED ON)
-find_package(Boost CONFIG COMPONENTS system filesystem thread REQUIRED)
 
 set(DEPS_LDFLAGS ${DEPS_LDFLAGS} ${AUDIERE_LDFLAGS})
 set(DEPS_CFLAGS ${DEPS_CFLAGS} ${AUDIERE_CFLAGS})

@@ -92,12 +92,16 @@ set(SRC ${SRC_ROOT_H} ${SRC_ROOT_CPP} ${SRC_GTK} ${SRC_GRAPHICS})
 SOURCE_GROUP(main FILES ${SRC_ROOT})
 SOURCE_GROUP(gtk FILES ${SRC_GTK})
 SOURCE_GROUP(graphics FILES ${SRC_GRAPHICS})
-SOURCE_GROUP(xeno FILES ${SRC_XENO})
 
 # build
 add_library (laterographics ${SRC})
 add_library(laterographics::laterographics ALIAS laterographics)
-target_link_libraries(laterographics PUBLIC latero::latero Boost::system Boost::filesystem ImageMagick::Magick++ Boost::thread PkgConfig::GTK)
+target_link_libraries(laterographics PUBLIC 
+	latero::latero
+	Boost::system Boost::filesystem Boost::thread
+	ImageMagick::Magick++
+	PkgConfig::GTKMM
+	PkgConfig::LIBXML)
 
 #install library files to /usr/local/lib/
 INSTALL(TARGETS laterographics
