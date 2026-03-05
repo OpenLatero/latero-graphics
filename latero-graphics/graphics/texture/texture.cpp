@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
 #include "texture.h"
 #include "lineargratingtexture.h"
 #include "radialgratingtexture.h"
@@ -82,7 +83,8 @@ TexturePtr Texture::Create(const latero::Tactograph *dev, std::string xmlFile)
 		if (parser)
 		{
 			XMLInputNode root = parser.get_document()->get_root_node();
-			root.SetPath(Glib::path_get_dirname(xmlFile) + "/");
+			std::filesystem::path p(xmlFile);
+			root.SetPath(p.parent_path().string() + "/");
 			XMLInputNode txNode = root.GetChild("Pattern");
 			if (txNode)
 			{
@@ -124,7 +126,8 @@ void Texture::Save(std::string xmlFile)
 	printf("Saving texture to %s...\n", xmlFile.c_str());
 	xmlpp::Document document;
 	XMLOutputNode root = document.create_root_node("laterographics_xml");
-	root.SetPath(Glib::path_get_dirname(xmlFile) + "/");
+	std::filesystem::path p(xmlFile);
+	root.SetPath(p.parent_path().string() + "/");
 	root.SetAttribute("type","Texture");
 	AppendXML(root);
 	document.write_to_file_formatted(xmlFile);

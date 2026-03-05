@@ -21,6 +21,7 @@
 
 #include <sys/stat.h>
 #include <gtkmm/box.h>
+#include <filesystem>
 #include "pattern.h"
 #include "circle.h"
 #include "line.h"
@@ -73,8 +74,9 @@ PatternPtr Pattern::Create(const latero::Tactograph *dev, std::string xmlFile)
 		parser.parse_file(xmlFile);
 		if (parser)
 		{
-			XMLInputNode root = parser.get_document()->get_root_node();
-			root.SetPath(Glib::path_get_dirname(xmlFile) + "/");
+			XMLInputNode root = parser.get_document()->get_root_node();			
+			std::filesystem::path p(xmlFile);
+			root.SetPath(p.parent_path().string() + "/");
 			XMLInputNode txNode = root.GetChild("Pattern");
 			if (txNode)
 			{
@@ -170,7 +172,8 @@ void Pattern::SaveToFile(std::string xmlFile)
 {
 	xmlpp::Document document;
 	XMLOutputNode root = document.create_root_node("laterographics_xml");
-	root.SetPath(Glib::path_get_dirname(xmlFile) + "/");
+	std::filesystem::path p(xmlFile);
+	root.SetPath(p.parent_path().string() + "/");
 	root.SetAttribute("type","Pattern");
 	AppendXML(root);
 	document.write_to_file_formatted(xmlFile);

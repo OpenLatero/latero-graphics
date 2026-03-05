@@ -19,11 +19,13 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
 #include <iostream>
 #include <sys/stat.h>
 #include <gtkmm/frame.h>
 #include "generator.h"
 #include "graphics/canvas.h"
+
 
 namespace latero {
 namespace graphics { 
@@ -33,7 +35,8 @@ void Generator::SaveToFile(std::string filename) const
 	xmlpp::Document document;
 	XMLOutputNode root = document.create_root_node("laterographics_xml");
 	root.SetAttribute("type","Generator");
-	root.SetPath(Glib::path_get_dirname(filename) + "/");
+	std::filesystem::path p(filename);
+	root.SetPath(p.parent_path().string());
 	AppendXML(root);
 	document.write_to_file_formatted(filename);
 	chmod(filename.c_str(), 0666); // make accessible to others than root
@@ -43,7 +46,8 @@ GeneratorPtr Generator::Create(std::string xmlFile, const latero::Tactograph *de
 {
 	try
 	{
-		std::string path = Glib::path_get_dirname(xmlFile) + "/";
+		std::filesystem::path p(xmlFile);
+		std::string path = p.parent_path().string() + "/";
 		//Generator *gen = NULL;
 		xmlpp::DomParser parser;
 		//parser.set_validate();

@@ -26,6 +26,7 @@
 #include <boost/filesystem/convenience.hpp>
 #include <glibmm/miscutils.h>
 #include <glibmm/fileutils.h>
+#include <filesystem>
 
 #include "mask.h"
 #include "gtk/pixbufops.h"
@@ -59,7 +60,8 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetBlurredImage(std::string filename) const
 	namespace fs = boost::filesystem;
 
 	// created cache of blurred images if it doesn't already exist
-	std::string cachePath = Glib::path_get_dirname(filename) + "/.blurred";
+	std::filesystem::path p(filename);
+	std::string cachePath = p.parent_path().string() + "/.blurred";
 	fs::path boost_path(cachePath); //,fs::native);
 	if (!fs::exists(boost_path))
 	{
