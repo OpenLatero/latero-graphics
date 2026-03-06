@@ -388,7 +388,12 @@ GroupPtr GroupTreeView::GetParentGroup(PatternPtr pattern)
 
 void GroupTreeView::SelectFirst()
 {
-	if (get_model()->children()<=0) return;
+    // TODO_GTKMM3: Check that this is working correctly.
+    //if (get_model()->children()<=0) return;
+    auto model = get_model();
+    if (!model || model->children().empty())
+        return;
+
 	Gtk::TreeModel::Row row = get_model()->children()[0];
 	if (row) get_selection()->select(row);
 }
