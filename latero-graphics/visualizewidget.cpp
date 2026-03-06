@@ -79,9 +79,9 @@ Gtk::Widget *VisualizeWidget::GetAnimWidget()
 {
 	Gtk::Table *table = manage(new Gtk::Table(6,3));
 
-	table->attach(*manage(new Gtk::Label("Frames:", Gtk::ALIGN_LEFT)), 	0,1, 0,1, Gtk::FILL);
-	table->attach(*manage(new Gtk::Label("Interval:", Gtk::ALIGN_LEFT)), 	0,1, 1,2, Gtk::FILL);
-	table->attach(*manage(new Gtk::Label("Start:", Gtk::ALIGN_LEFT)), 	0,1, 2,3, Gtk::FILL);
+	table->attach(*manage(new Gtk::Label("Frames:", Gtk::ALIGN_START)), 	0,1, 0,1, Gtk::FILL);
+	table->attach(*manage(new Gtk::Label("Interval:", Gtk::ALIGN_START)), 	0,1, 1,2, Gtk::FILL);
+	table->attach(*manage(new Gtk::Label("Start:", Gtk::ALIGN_START)), 	0,1, 2,3, Gtk::FILL);
 	table->set_col_spacing(0,12);
 
 	table->attach(*manage(new Gtk::SpinButton(nbFramesAdj_)),		1,2, 0,1);
@@ -89,9 +89,9 @@ Gtk::Widget *VisualizeWidget::GetAnimWidget()
 	table->attach(startTimeCtrl_,						1,2, 2,3);
 	table->set_col_spacing(1,30);
 
-	table->attach(*manage(new Gtk::Label("Mode:", Gtk::ALIGN_LEFT)), 	2,3, 0,1, Gtk::FILL);
-	table->attach(*manage(new Gtk::Label("Width:", Gtk::ALIGN_LEFT)), 	2,3, 1,2, Gtk::FILL);
-	table->attach(*manage(new Gtk::Label("Velocity:", Gtk::ALIGN_LEFT)), 	2,3, 2,3, Gtk::FILL);
+	table->attach(*manage(new Gtk::Label("Mode:", Gtk::ALIGN_START)), 	2,3, 0,1, Gtk::FILL);
+	table->attach(*manage(new Gtk::Label("Width:", Gtk::ALIGN_START)), 	2,3, 1,2, Gtk::FILL);
+	table->attach(*manage(new Gtk::Label("Velocity:", Gtk::ALIGN_START)), 	2,3, 2,3, Gtk::FILL);
 	table->set_col_spacing(2,12);
 
 	table->attach(modeCombo_,				 		3,7, 0,1);
@@ -100,15 +100,15 @@ Gtk::Widget *VisualizeWidget::GetAnimWidget()
 	table->set_col_spacing(3,6);
 
 	table->attach(*manage(new Gtk::Label("x")), 				4,5, 1,2, Gtk::FILL);
-	table->attach(*manage(new Gtk::Label("mm/s", Gtk::ALIGN_LEFT)), 	4,5, 2,3, Gtk::FILL);
+	table->attach(*manage(new Gtk::Label("mm/s", Gtk::ALIGN_START)), 	4,5, 2,3, Gtk::FILL);
 	table->set_col_spacing(4,12);
 
 	table->attach(*manage(new Gtk::SpinButton(heightAdj_)),			5,6, 1,2);
 	table->attach(*manage(new Gtk::SpinButton(velDirAdj_)), 		5,6, 2,3);
 	table->set_col_spacing(5,6);
 
-	table->attach(*manage(new Gtk::Label("pixels", Gtk::ALIGN_LEFT)), 	6,7, 1,2, Gtk::FILL);
-	table->attach(*manage(new Gtk::Label("degrees", Gtk::ALIGN_LEFT)), 	6,7, 2,3, Gtk::FILL);
+	table->attach(*manage(new Gtk::Label("pixels", Gtk::ALIGN_START)), 	6,7, 1,2, Gtk::FILL);
+	table->attach(*manage(new Gtk::Label("degrees", Gtk::ALIGN_START)), 	6,7, 2,3, Gtk::FILL);
 
 	widthAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &VisualizeWidget::OnWidthChanged));
 	heightAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &VisualizeWidget::OnHeightChanged));
