@@ -149,8 +149,8 @@ void NumWidget::SetDigits(uint n)
 
 void NumWidget::SetAdjustment(Glib::RefPtr<Gtk::Adjustment> adj)
 {
-	spin_.set_adjustment(*adj);
-	scale_->set_adjustment(*adj);
+	spin_.set_adjustment(adj);
+	scale_->set_adjustment(adj);
 }
 
 void NumWidget::OnUnitsChanged()
