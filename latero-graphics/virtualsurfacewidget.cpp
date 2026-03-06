@@ -69,6 +69,9 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 		signal_button_release_event().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnButtonRelease));
 		signal_motion_notify_event().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnMotionNotify));
 	}
+    
+    // TODO_GTKMM3
+    signal_draw().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
 }
 
 bool VirtualSurfaceArea::OnClick(GdkEventButton* event)
@@ -121,6 +124,8 @@ VirtualSurfaceArea::~VirtualSurfaceArea()
 	anim_.Deactivate();
 }
 
+// TODO_GTKMM3: Removed this since Gdk::Bitmap doesn't exist anymore and this function doesn't seem to be called.
+/*
 Glib::RefPtr<Gdk::Bitmap> VirtualSurfaceArea::GetShapeCombineMask()
 {
 	Glib::RefPtr<Gdk::Bitmap> bitmap =
@@ -133,6 +138,7 @@ Glib::RefPtr<Gdk::Bitmap> VirtualSurfaceArea::GetShapeCombineMask()
 	cr->fill();
 	return bitmap;
 }
+*/
 
 void VirtualSurfaceArea::on_size_allocate(Gtk::Allocation& allocation)
 {
@@ -140,12 +146,61 @@ void VirtualSurfaceArea::on_size_allocate(Gtk::Allocation& allocation)
 
 	// this makes the corners transparent
 	if (rounded_)
-		shape_combine_mask(GetShapeCombineMask(),0,0);
-
+    {
+        assert(0);
+        // TODO_GTKMM3: This doesn't seem to happen in the library but it may be called by some apps. May need to fix this later.
+        //shape_combine_mask(GetShapeCombineMask(),0,0);
+    }
+    
 	// We can't resize the animation here: quality degrades too quickly.
 	// We could keep a second resized copy, but that would require a lot of memory.
 }
 
+// TODO_GTKMM3: this replaced on_expose_event
+bool VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr)
+{
+    if (!anim_.GetNbFrames())
+    {
+        //get_window()->clear(); // TODO_GTKMM3 Not sure how to fix this.
+        return true;
+    }
+
+    //Cairo::RefPtr<Cairo::Context> cr = get_window()->create_cairo_context();
+    //if (event) // TODO_GTKMM3: not sure what to do with this
+    //{
+    //    cr->rectangle(event->area.x, event->area.y, event->area.width, event->area.height);
+    //        cr->clip();
+    //}
+
+    //cr->save();
+    //cr->set_source_rgb(1.0, 0.0, 0.0);
+    //cr->paint();
+    //cr->restore();
+    //return true;
+
+    Glib::RefPtr<Gdk::Pixbuf> buf = anim_.GetCurrentFrame();
+    if (buf)
+    {
+        // this would allow Cairo to clip the image but it is much slower than render_to_drawable
+        //Gdk::Cairo::set_source_pixbuf (cr, buf, PhysicalToCanvasX(0), PhysicalToCanvasY(0));
+        //cr->paint();
+
+        // the animation might not have the right size
+        buf = buf->scale_simple(GetWidth(),GetHeight(),Gdk::INTERP_NEAREST);
+        //buf->render_to_drawable(get_window(), get_style()->get_black_gc(),
+         //      0, 0, 0, 0, GetWidth(), GetHeight(), Gdk::RGB_DITHER_NONE, 0, 0);
+        Gdk::Cairo::set_source_pixbuf(cr, buf, 0, 0); // TODO_GTKMM3 not sure if this is quite equivalent
+        cr->paint();
+    }
+
+    if (showCursor_)    DrawCursor(cr);
+    if (showBorder_)    DrawBorder(cr);
+
+    return true;
+
+}
+
+/*
 bool VirtualSurfaceArea::on_expose_event(GdkEventExpose* event)
 {
 	if (!anim_.GetNbFrames())
@@ -161,22 +216,18 @@ bool VirtualSurfaceArea::on_expose_event(GdkEventExpose* event)
     		cr->clip();
 	}
 
-	/*
-	cr->save();
-	cr->set_source_rgb(1.0, 0.0, 0.0);
-	cr->paint();
-	cr->restore();
-	return true;
-	*/
+	//cr->save();
+	//cr->set_source_rgb(1.0, 0.0, 0.0);
+	//cr->paint();
+	//cr->restore();
+	//return true;
 
 	Glib::RefPtr<Gdk::Pixbuf> buf = anim_.GetCurrentFrame();
 	if (buf)
 	{
-		/* 
 		// this would allow Cairo to clip the image but it is much slower than render_to_drawable
-		Gdk::Cairo::set_source_pixbuf (cr, buf, PhysicalToCanvasX(0), PhysicalToCanvasY(0));
-		cr->paint();
-		*/
+		//Gdk::Cairo::set_source_pixbuf (cr, buf, PhysicalToCanvasX(0), PhysicalToCanvasY(0));
+		//cr->paint();
 
 		// the animation might not have the right size
 		buf = buf->scale_simple(GetWidth(),GetHeight(),Gdk::INTERP_NEAREST);
@@ -189,8 +240,9 @@ bool VirtualSurfaceArea::on_expose_event(GdkEventExpose* event)
 
 	return true;
 }
+*/
 
-Cairo::RefPtr<Cairo::Pattern> VirtualSurfaceArea::GetCursorDrawing(Cairo::RefPtr<Cairo::Context> &cr)
+Cairo::RefPtr<Cairo::Pattern> VirtualSurfaceArea::GetCursorDrawing(const Cairo::RefPtr<Cairo::Context> &cr)
 {
 	cr->push_group();
 
@@ -227,7 +279,7 @@ Cairo::RefPtr<Cairo::Pattern> VirtualSurfaceArea::GetCursorDrawing(Cairo::RefPtr
 }
 
 Cairo::RefPtr<Cairo::Pattern>
-VirtualSurfaceArea::GetDisplayDrawing(Cairo::RefPtr<Cairo::Context> &mmContext)
+VirtualSurfaceArea::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext)
 {
 	mmContext->push_group();
 
@@ -290,13 +342,13 @@ VirtualSurfaceArea::GetDisplayDrawing(Cairo::RefPtr<Cairo::Context> &mmContext)
 }
 
 
-void VirtualSurfaceArea::DrawCursor(Cairo::RefPtr<Cairo::Context> &cr)
+void VirtualSurfaceArea::DrawCursor(const Cairo::RefPtr<Cairo::Context> &cr)
 {
 	cr->set_source(GetCursorDrawing(cr));
 	cr->paint();
 }
 
-void VirtualSurfaceArea::DrawBorderPath(Cairo::RefPtr<Cairo::Context> &cr)
+void VirtualSurfaceArea::DrawBorderPath(const Cairo::RefPtr<Cairo::Context> &cr)
 {
 	int radius = 0.1 * GetWidth();
 
@@ -315,7 +367,7 @@ void VirtualSurfaceArea::DrawBorderPath(Cairo::RefPtr<Cairo::Context> &cr)
 }
 
 
-void VirtualSurfaceArea::DrawBorder(Cairo::RefPtr<Cairo::Context> &cr)
+void VirtualSurfaceArea::DrawBorder(const Cairo::RefPtr<Cairo::Context> &cr)
 {
 	cr->save();
 	cr->set_source_rgba(0.0, 0.0, 1.0, 1.0);
