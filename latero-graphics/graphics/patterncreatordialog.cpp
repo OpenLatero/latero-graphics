@@ -83,9 +83,9 @@ PatternPtr PatternCreatorDialog::CreatePattern()
 		
 		std::string dir = std::filesystem::current_path().string();
 
-		Gtk::FileFilter filter;
-		filter.add_pattern("*.pattern");
-		filter.add_pattern("*.tx");
+        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+		filter->add_pattern("*.pattern");
+		filter->add_pattern("*.tx");
 		dialog.set_current_folder(dir);
 		dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 		dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);

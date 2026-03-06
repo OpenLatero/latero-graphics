@@ -58,8 +58,8 @@ void TextureSelectorCtrl::OnSave()
 
 	std::string dir = std::filesystem::current_path().string();
  
-	Gtk::FileFilter filter;
-	filter.add_pattern("*.tx");
+    Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+	filter->add_pattern("*.tx");
 
 	dialog.set_current_folder(dir);
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
@@ -80,8 +80,8 @@ void TextureSelectorCtrl::OnLoad()
 
 	std::string dir = std::filesystem::current_path().string();
  
-	Gtk::FileFilter filter;
-	filter.add_pattern("*.tx");
+    Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+	filter->add_pattern("*.tx");
 
 	dialog.set_current_folder(dir);
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);

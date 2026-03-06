@@ -170,9 +170,9 @@ protected:
 			dir = currentFile.substr(0, currentFile.find_last_of('/'));
 		}
 
-		Gtk::FileFilter filter;
-		filter.set_name("supported image formats");
-		filter.add_pixbuf_formats();
+        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+		filter->set_name("supported image formats");
+		filter->add_pixbuf_formats();
  
 		dialog.set_current_folder(dir);
 		dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
