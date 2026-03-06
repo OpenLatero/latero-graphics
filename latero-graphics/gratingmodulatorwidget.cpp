@@ -34,7 +34,7 @@ public:
 	{
 		GratingModulator::ModeSet ops = peer->GetModes();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			append_text(ops[i].label);
+			append(ops[i].label);
 		set_active_text(peer->GetMode().label);
 		signal_changed().connect(sigc::mem_fun(*this, &GratingModulatorModeCombo::OnChange));
 	}

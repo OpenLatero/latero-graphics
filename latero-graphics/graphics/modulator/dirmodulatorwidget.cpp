@@ -49,7 +49,7 @@ public:
 		frame->add(combo_);
 		std::vector<std::string> labels = peer->GetLowVelModeLabels();
 		for (unsigned int i=0; i<labels.size(); ++i)
-			combo_.append_text(labels[i]);
+			combo_.append(labels[i]);
 		combo_.set_active_text(peer->GetLowVelModeLabel());
 		combo_.signal_changed().connect(sigc::mem_fun(*this, &LowVelModeCombo::OnChange));
 	}

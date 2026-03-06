@@ -125,8 +125,8 @@ public:
 		peer_(peer)
 	{
 		add(combo_);
-		combo_.append_text("orthogonal");
-		combo_.append_text("parallel");
+		combo_.append("orthogonal");
+		combo_.append("parallel");
 		if (peer->GetConstraint() == DoubleLinearGratingTexture::constraint_ortho)
 			combo_.set_active_text("orthogonal");
 		else

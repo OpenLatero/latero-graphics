@@ -43,7 +43,7 @@ public:
 	{
 		Polygon::JoinTypeSet ops = peer->GetJoinTypes();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			append_text(ops[i].label);
+			append(ops[i].label);
 		set_active_text(peer->GetJoinType().label);
 		signal_changed().connect(sigc::mem_fun(*this, &PolygonJoinTypeCombo::OnChange));
 	};
@@ -123,7 +123,7 @@ public:
 	{
 		Polygon::CornerSpanSet ops = peer->GetCornerSpans();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			append_text(ops[i].label);
+			append(ops[i].label);
 		set_active_text(peer->GetCornerSpan().label);
 		signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerSpanCombo::OnChange));
 	};
@@ -141,7 +141,7 @@ public:
 		add(combo_);
 		Polygon::CornerBlendSet ops = peer->GetCornerBlends();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			combo_.append_text(ops[i].label);
+			combo_.append(ops[i].label);
 		combo_.set_active_text(peer->GetCornerBlend().label);
 		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendCombo::OnChange));
 	};
@@ -160,7 +160,7 @@ public:
 		add(combo_);
 		Polygon::CornerTypeSet ops = peer->GetCornerTypes();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			combo_.append_text(ops[i].label);
+			combo_.append(ops[i].label);
 		combo_.set_active_text(peer->GetCornerType().label);
 		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerTypeCombo::OnChange));
 	};

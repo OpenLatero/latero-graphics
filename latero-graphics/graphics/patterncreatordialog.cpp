@@ -37,15 +37,15 @@ namespace graphics {
 PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) : 
 	Gtk::Dialog("Create Pattern"), txCombo_(dev), dev_(dev)
 {
-	combo_.append_text("load from file");
-	combo_.append_text("dot");
-	combo_.append_text("dot set");
-	combo_.append_text("line");
-	combo_.append_text("circle");
-	combo_.append_text("polygon");
-	combo_.append_text("image");
-	combo_.append_text("texture");
-	combo_.append_text("group");
+	combo_.append("load from file");
+	combo_.append("dot");
+	combo_.append("dot set");
+	combo_.append("line");
+	combo_.append("circle");
+	combo_.append("polygon");
+	combo_.append("image");
+	combo_.append("texture");
+	combo_.append("group");
 
 	combo_.set_active_text("line");
 	txCombo_.set_sensitive(false);

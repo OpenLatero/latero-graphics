@@ -52,7 +52,7 @@ GroupOpCombo::GroupOpCombo(GroupPtr peer) :
 {
 	Group::OperationSet ops = peer->GetOperations();
 	for (unsigned int i=0; i<ops.size(); ++i)
-		append_text(ops[i].label);
+		append(ops[i].label);
 	set_active_text(peer->GetOperation().label);
 	signal_changed().connect(sigc::mem_fun(*this, &GroupOpCombo::OnChange));
 }

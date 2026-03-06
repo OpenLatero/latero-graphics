@@ -34,8 +34,8 @@ namespace graphics {
 CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) : 
 	Gtk::Dialog("Create Texture"), txCombo_(dev), dev_(dev)
 {
-	combo_.append_text("load from file");
-	combo_.append_text("texture");
+	combo_.append("load from file");
+	combo_.append("texture");
 	combo_.set_active_text("texture");
 	txCombo_.set_sensitive(false);
 

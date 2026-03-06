@@ -48,9 +48,9 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	heightAdj_(DEFAULT_WIDTH*gen->Dev()->GetSurfaceHeight()/gen->Dev()->GetSurfaceWidth(),50,4000),
     gen_(gen)
 {
-	modeCombo_.append_text(mode_abstract);
-	modeCombo_.append_text(mode_vib_as_deflection);
-	modeCombo_.append_text(mode_vib_as_noise);
+	modeCombo_.append(mode_abstract);
+	modeCombo_.append(mode_vib_as_deflection);
+	modeCombo_.append(mode_vib_as_noise);
 	modeCombo_.set_active_text(mode_vib_as_noise);
 
 	Gtk::ScrolledWindow *scrolledWindow = manage(new Gtk::ScrolledWindow);

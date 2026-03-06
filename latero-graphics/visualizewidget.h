@@ -46,13 +46,13 @@ public:
 	TimeWidget(int init=0, std::string units=units::nsec) :
 		adj_(init, 0, 1000000), spin_(adj_)
 	{
-		combo_.append_text(units::day);
-		combo_.append_text(units::hour);
-		combo_.append_text(units::min);
-		combo_.append_text(units::sec);
-		combo_.append_text(units::msec);
-		combo_.append_text(units::usec);
-		combo_.append_text(units::nsec);
+		combo_.append(units::day);
+		combo_.append(units::hour);
+		combo_.append(units::min);
+		combo_.append(units::sec);
+		combo_.append(units::msec);
+		combo_.append(units::usec);
+		combo_.append(units::nsec);
 		combo_.set_active_text(units);
 
 		pack_start(spin_);
