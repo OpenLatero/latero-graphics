@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
 #include "textureselectorwidget.h"
 #include <gtkmm/stock.h>
 #include "texture.h"
@@ -55,7 +56,7 @@ void TextureSelectorCtrl::OnSave()
 	
 	Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
 
-	std::string dir = Glib::get_current_dir();
+	std::string dir = std::filesystem::current_path().string();
  
 	Gtk::FileFilter filter;
 	filter.add_pattern("*.tx");
@@ -77,7 +78,7 @@ void TextureSelectorCtrl::OnLoad()
 {
 	Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_OPEN);
 
-	std::string dir = Glib::get_current_dir();
+	std::string dir = std::filesystem::current_path().string();
  
 	Gtk::FileFilter filter;
 	filter.add_pattern("*.tx");

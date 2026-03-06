@@ -19,6 +19,8 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
+
 #include "groupwidget.h"
 #include "group.h"
 #include "pattern.h"
@@ -389,7 +391,7 @@ void GroupTreeView::OnPatternSave()
 	{
 		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
 
-		std::string dir = Glib::get_current_dir();
+		std::string dir = std::filesystem::current_path().string();
  
 		Gtk::FileFilter filter;
 		filter.add_pattern("*.pattern");
@@ -416,7 +418,7 @@ void GroupTreeView::OnTextureSave()
 	{
 		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
 
-		std::string dir = Glib::get_current_dir();
+		std::string dir = std::filesystem::current_path().string();
  
 		Gtk::FileFilter filter;
 		filter.add_pattern("*.tx");
@@ -444,7 +446,7 @@ void GroupTreeView::OnPatternLoad()
 	{
 		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
 
-		std::string dir = Glib::get_current_dir();
+		std::string dir = std::filesystem::current_path().string();
  
 		Gtk::FileFilter filter;
 		filter.add_pattern("*.pattern");

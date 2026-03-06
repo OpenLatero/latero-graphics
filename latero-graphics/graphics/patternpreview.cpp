@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
 #include <sys/stat.h>
 #include "patternpreview.h"
 #include <gtkmm.h>
@@ -46,7 +47,7 @@ public:
 PatternIllustrationSaveDialog::PatternIllustrationSaveDialog() :
 	Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE)
 {
-	std::string dir = Glib::get_current_dir();
+	std::string dir = std::filesystem::current_path().string();
 	set_current_folder(dir);
 	add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 	add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
@@ -57,7 +58,7 @@ PatternIllustrationSaveDialog::PatternIllustrationSaveDialog() :
 PatternThumbnailSaveDialog::PatternThumbnailSaveDialog() :
 	Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE)
 {
-	std::string dir = Glib::get_current_dir();
+	std::string dir = std::filesystem::current_path().string();
 	set_current_folder(dir);
 	add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 	add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);

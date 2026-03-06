@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
 #include "maskwidget.h"
 #include "mask.h"
 #include "generator.h"
@@ -161,7 +162,7 @@ protected:
 		std::string currentFile = peer_->GetImgFile();
 		if (currentFile == "")
 		{
-			dir = Glib::get_current_dir();
+			dir = std::filesystem::current_path().string();
 			dir += "/cards/masks"; // TODO
 		}
 		else

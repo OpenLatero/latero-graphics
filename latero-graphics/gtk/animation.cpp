@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
 #include "animation.h"
 #include "pixbufops.h"
 #include <sstream>
@@ -252,7 +253,7 @@ void Animation::SaveToFile(std::string file, bool trim)
 void Animation::SaveToFile()
 {
 	Gtk::FileChooserDialog dialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE);
-	std::string dir = Glib::get_current_dir();
+	std::string dir = std::filesystem::current_path().string();
 	dialog.set_current_folder(dir);
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);

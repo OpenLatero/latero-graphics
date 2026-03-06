@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
 #include "modulatorpreview.h"
 #include "modulator.h"
 #include <gtkmm/filechooserdialog.h>
@@ -66,7 +67,7 @@ void ModulatorPreview::CreatePopupMenu()
 void ModulatorPreview::OnSaveAs()
 {
 	Gtk::FileChooserDialog dialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE);
-	std::string dir = Glib::get_current_dir();
+	std::string dir = std::filesystem::current_path().string();
 	dialog.set_current_folder(dir);
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);

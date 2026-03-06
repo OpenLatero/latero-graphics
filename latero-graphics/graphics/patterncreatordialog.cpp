@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
 #include "patterncreatordialog.h"
 #include "line.h"
 #include "dot.h"
@@ -80,7 +81,7 @@ PatternPtr PatternCreatorDialog::CreatePattern()
 	{
 		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
 		
-		std::string dir = Glib::get_current_dir();
+		std::string dir = std::filesystem::current_path().string();
 
 		Gtk::FileFilter filter;
 		filter.add_pattern("*.pattern");

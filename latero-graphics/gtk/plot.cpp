@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
 #include "plot.h"
 #include <assert.h>
 #include <gtkmm.h>
@@ -36,7 +37,7 @@ public:
 		Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE),
 		wAdj_(1000, 0, 1000), hAdj_(500, 0, 1000)
 	{
-		std::string dir = Glib::get_current_dir();
+		std::string dir = std::filesystem::current_path().string();
 		set_current_folder(dir);
 		add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 		add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);

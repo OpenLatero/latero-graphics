@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <filesystem>
 #include "texturewidget.h"
 #include <gtkmm/filechooserdialog.h>
 #include <gtkmm/stock.h>
@@ -62,7 +63,7 @@ TexturePtr CreateTextureDlg::CreateTexture()
 	{
 		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
 			
-		std::string dir = Glib::get_current_dir();
+		std::string dir = std::filesystem::current_path().string();
  
 		Gtk::FileFilter filter;
 		filter.add_pattern("*.tx");
