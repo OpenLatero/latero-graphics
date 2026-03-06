@@ -165,21 +165,21 @@ class AmplitudeCtrl : public Gtk::Frame
 public:
 	AmplitudeCtrl(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Frame("amplitude"),
-		adj0_(peer->GetPrimaryAmplitude()*100,0,100),
-		adj1_(peer->GetSecondaryAmplitude()*100,0,100),
+		adj0_(Gtk::Adjustment::create(peer->GetPrimaryAmplitude()*100,0,100)),
+		adj1_(Gtk::Adjustment::create(peer->GetSecondaryAmplitude()*100,0,100)),
         peer_(peer)
 	{
 		Gtk::HBox *box = manage(new Gtk::HBox);
 		add(*box);
 		box->pack_start(*manage(new gtk::VNumWidget(adj0_,0, units::percent)), Gtk::PACK_SHRINK);
 		box->pack_start(*manage(new gtk::VNumWidget(adj1_,0, units::percent)), Gtk::PACK_SHRINK);
-		adj0_.signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged0));
-		adj1_.signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged1));
+		adj0_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged0));
+		adj1_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged1));
 	}
 	virtual ~AmplitudeCtrl() {};
 protected:
-	void OnChanged0() { peer_->SetPrimaryAmplitude(adj0_.get_value()/100); }
-	void OnChanged1() { peer_->SetSecondaryAmplitude(adj1_.get_value()/100); }
+	void OnChanged0() { peer_->SetPrimaryAmplitude(adj0_->get_value()/100); }
+	void OnChanged1() { peer_->SetSecondaryAmplitude(adj1_->get_value()/100); }
     Glib::RefPtr<Gtk::Adjustment> adj0_, adj1_;
 	DoubleLinearGratingTexturePtr peer_;
 };
