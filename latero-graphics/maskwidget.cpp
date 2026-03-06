@@ -213,7 +213,7 @@ public:
 		hAbsAdj_(Gtk::Adjustment::create(peer->GetHeight(units::mm),1,2000))
 	{
 		gtk::HNumWidget *wWidget = manage(new gtk::HNumWidget("width",wRelAdj_,0, units::percent));
-		wWidget->AddUnits(units::mm, &wAbsAdj_, 0);
+		wWidget->AddUnits(units::mm, wAbsAdj_, 0);
 		wWidget->SelectUnits(peer->GetWidthUnits());
 		add(*wWidget);
 		wRelAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnRelWidthChanged));
@@ -221,7 +221,7 @@ public:
 		wWidget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnWidthUnitsChanged));
 
 		gtk::HNumWidget *hWidget = manage(new gtk::HNumWidget("height",hRelAdj_,0, units::percent));
-		hWidget->AddUnits(units::mm, &hAbsAdj_, 0);
+		hWidget->AddUnits(units::mm, hAbsAdj_, 0);
 		hWidget->SelectUnits(peer->GetHeightUnits());
 		add(*hWidget);
 		hRelAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnRelHeightChanged));
