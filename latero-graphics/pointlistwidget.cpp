@@ -91,10 +91,10 @@ void PointListWidget::OnDelete(int i)
 		delete rowBox_[i];
 		rowBox_.erase(rowBox_.begin()+i);
 
-		delete xAdj_[i];
+		//delete xAdj_[i]; // TODO_GTKMM3: No longer necessary?
 		xAdj_.erase(xAdj_.begin()+i);
 
-		delete yAdj_[i];
+		//delete yAdj_[i]; // TODO_GTKMM3: No longer necessary?
 		yAdj_.erase(yAdj_.begin()+i);
 
 		show_all_children();
@@ -111,12 +111,12 @@ void PointListWidget::OnInsert()
 
 void PointListWidget::DeleteAdj()
 {
-	for (unsigned int i=0; i<xAdj_.size(); ++i)
-		delete xAdj_[i];
+	//for (unsigned int i=0; i<xAdj_.size(); ++i)
+	//	delete xAdj_[i]; // TODO_GTKMM3: No longer necessary?
 	xAdj_.erase(xAdj_.begin(), xAdj_.end());
 
-	for (unsigned int i=0; i<yAdj_.size(); ++i)
-		delete yAdj_[i];
+	//for (unsigned int i=0; i<yAdj_.size(); ++i)
+	//	delete yAdj_[i]; // TODO_GTKMM3: No longer necessary?
 	yAdj_.erase(yAdj_.begin(), yAdj_.end());
 
 	for (unsigned int i=0; i<rowBox_.size(); ++i)

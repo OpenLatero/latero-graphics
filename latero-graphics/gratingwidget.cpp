@@ -114,7 +114,7 @@ void GratingRhythmWidget::RemoveCycle()
 
     Glib::RefPtr<Gtk::Adjustment> adj = adj_[adj_.size()-1];
 	adj_.pop_back();
-	delete adj;
+	//delete adj; // TODO_GTKMM3: No longer necessary?
 }
 
 void GratingRhythmWidget::AppendCycle(double value)

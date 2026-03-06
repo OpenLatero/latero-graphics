@@ -130,7 +130,7 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	scale_->signal_format_value().connect(
 		sigc::mem_fun(*this, &NumWidget::OnFormat));
 
-	unitsCombo_.Append(units,&adj,digits);
+	unitsCombo_.Append(units,adj,digits);
 	unitsCombo_.SetActive(units);
 	unitsCombo_.signal_changed().connect( sigc::mem_fun(*this, &NumWidget::OnUnitsChanged) );
 };
