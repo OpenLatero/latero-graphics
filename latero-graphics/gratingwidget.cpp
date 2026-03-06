@@ -112,14 +112,14 @@ void GratingRhythmWidget::RemoveCycle()
 	sliderBox_.remove(*widget);
 	delete widget;
 
-	Gtk::Adjustment *adj = adj_[adj_.size()-1];
+    Glib::RefPtr<Gtk::Adjustment> adj = adj_[adj_.size()-1];
 	adj_.pop_back();
 	delete adj;
 }
 
 void GratingRhythmWidget::AppendCycle(double value)
 {
-	Gtk::Adjustment* adj = new Gtk::Adjustment(value, 0, 100, 10);
+    Glib::RefPtr<Gtk::Adjustment> adj = new Gtk::Adjustment(value, 0, 100, 10);
 	adj_.push_back(adj);
 	adj->signal_value_changed().connect(sigc::mem_fun(*this, &GratingRhythmWidget::OnChanged));
 

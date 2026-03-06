@@ -33,7 +33,7 @@ NumWidgetCombo::NumWidgetCombo()
 	pack_start(columns_.units);
 }
 
-void NumWidgetCombo::Append(std::string units, Gtk::Adjustment* adj, uint digits)
+void NumWidgetCombo::Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
 {
 	Gtk::TreeModel::Row row = *(model_->append());
 	row[columns_.units] = units;
@@ -64,7 +64,7 @@ std::string NumWidgetCombo::GetUnits()
 	return (*get_active())[columns_.units];
 }
 
-Gtk::Adjustment* NumWidgetCombo::GetAdj()
+Glib::RefPtr<Gtk::Adjustment> NumWidgetCombo::GetAdj()
 {
 	return (*get_active())[columns_.adj];
 }
@@ -78,7 +78,7 @@ uint NumWidgetCombo::GetDigits()
 
 
 
-NumWidget::NumWidget(orient_T orient, Gtk::Adjustment &adj, uint digits, std::string name, std::string units) :
+NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
 	units_(units),
 	spin_(adj)
 {
@@ -134,7 +134,7 @@ NumWidget::NumWidget(orient_T orient, Gtk::Adjustment &adj, uint digits, std::st
 	unitsCombo_.signal_changed().connect( sigc::mem_fun(*this, &NumWidget::OnUnitsChanged) );
 };
 
-void NumWidget::AddUnits(std::string units, Gtk::Adjustment* adj, uint digits)
+void NumWidget::AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
 {
 	unitsCombo_.Append(units,adj,digits);
 	if (unitsCombo_.GetSize())
@@ -147,7 +147,7 @@ void NumWidget::SetDigits(uint n)
 	spin_.set_digits(n);
 }
 
-void NumWidget::SetAdjustment(Gtk::Adjustment* adj)
+void NumWidget::SetAdjustment(Glib::RefPtr<Gtk::Adjustment> adj)
 {
 	spin_.set_adjustment(*adj);
 	scale_->set_adjustment(*adj);
@@ -183,16 +183,16 @@ Glib::ustring NumWidget::OnFormat(double v)
 }
 
 
-HNumWidget::HNumWidget(Gtk::Adjustment &adj, uint digits, std::string units) :
+HNumWidget::HNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
 	NumWidget(ORIENT_H,adj,digits,"",units) {}
 
-VNumWidget::VNumWidget(Gtk::Adjustment &adj, uint digits, std::string units) :
+VNumWidget::VNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
 	NumWidget(ORIENT_V,adj,digits,"",units) {}
 
-HNumWidget::HNumWidget(const char *name, Gtk::Adjustment &adj, uint digits, std::string units) :
+HNumWidget::HNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
 	NumWidget(ORIENT_H,adj,digits,name,units) {}
 
-VNumWidget::VNumWidget(const char *name, Gtk::Adjustment &adj, uint digits, std::string units) :
+VNumWidget::VNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
 	NumWidget(ORIENT_V,adj,digits,name,units) {}
 
 } // namespace gtk

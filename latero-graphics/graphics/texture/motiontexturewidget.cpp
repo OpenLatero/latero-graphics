@@ -70,7 +70,7 @@ public:
 	virtual ~DirectionCtrl() {};
 protected:
 	void OnChanged() { peer_->SetDirection(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class VelocityCtrl : public Gtk::HBox, MotionTextureCtrl
@@ -85,7 +85,7 @@ public:
 	virtual ~VelocityCtrl() {};
 protected:
 	void OnChanged() { peer_->SetVelocity(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 }; // namespace MotionTextureCtrls

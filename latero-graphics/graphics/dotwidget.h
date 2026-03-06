@@ -38,7 +38,7 @@ public:
 protected:
 	void OnChanged();
 	DotPtr peer_;
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 
@@ -50,7 +50,7 @@ public:
 protected:
 	void OnChanged();
 	DotPtr peer_;
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 

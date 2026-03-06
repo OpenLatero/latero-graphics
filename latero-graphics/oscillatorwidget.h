@@ -47,7 +47,7 @@ public:
 	virtual ~OscillatorAmplitudeCtrl() {};
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	OscillatorPtr peer_;
 };
 
@@ -59,7 +59,7 @@ public:
 	virtual ~OscillatorFreqCtrl() {};
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	OscillatorPtr peer_;
 };
 

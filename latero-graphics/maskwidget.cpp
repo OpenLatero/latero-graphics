@@ -276,7 +276,7 @@ protected:
 		SynchFromPeer();
 	}
 
-	Gtk::Adjustment wRelAdj_, hRelAdj_, wAbsAdj_, hAbsAdj_;
+    Glib::RefPtr<Gtk::Adjustment> wRelAdj_, hRelAdj_, wAbsAdj_, hAbsAdj_;
 };
 
 
@@ -353,7 +353,7 @@ public:
 	virtual ~MaskDefaultCtrl() {}
 protected:
 	void OnChanged() { peer_->SetDefaultAlpha(adj_.get_value()/100); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev)

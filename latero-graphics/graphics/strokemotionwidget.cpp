@@ -62,7 +62,7 @@ public:
 	virtual ~StrokeMinMotionWidthCtrl() {};
 protected:
 	void OnChanged() { peer_->SetMinMotionWidth(adj_.get_value()); };
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	StrokePtr peer_;
 };
 
@@ -78,7 +78,7 @@ public:
 	virtual ~StrokeMotionVelCtrl() {};
 protected:
 	void OnChanged() { peer_->SetMotionVelocity(adj_.get_value()); };
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	StrokePtr peer_;
 };
 
@@ -94,7 +94,7 @@ public:
 	virtual ~StrokeSuperposedMotionRatioCtrl() {};
 protected:
 	void OnChanged() { peer_->SetSuperposedMotionRatio(adj_.get_value()/100); };
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	StrokePtr peer_;
 };
 
@@ -111,7 +111,7 @@ public:
 	virtual ~StrokeBlendMotionValueCtrl() {};
 protected:
 	void OnChanged() { peer_->SetBlendMotionValue(adj_.get_value()/100); };
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	StrokePtr peer_;
 };
 

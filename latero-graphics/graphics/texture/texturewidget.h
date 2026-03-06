@@ -78,7 +78,7 @@ public:
 	virtual ~TextureAmplitudeCtrl() {};
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	TexturePtr peer_;
 };
 

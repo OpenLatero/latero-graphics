@@ -47,7 +47,7 @@ public:
 	virtual ~AngleWidget() {};
 protected:
 	void OnChanged()  { peer_->SetAngle(adj_.get_value()); };
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	LinearGratingTexturePtr peer_;
 };
 

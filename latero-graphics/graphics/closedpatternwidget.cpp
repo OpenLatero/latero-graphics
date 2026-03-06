@@ -38,7 +38,7 @@ public:
 	virtual ~ClosedPatternFillTextureGapCtrl() {};
 protected:
 	void OnChanged() { peer_->SetFillTextureGap(adj_.get_value()); }
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	ClosedPatternPtr peer_;
 };
 
@@ -54,7 +54,7 @@ public:
 	virtual ~ClosedPatternFillTextureEdgeSizeCtrl() {};
 protected:
 	void OnChanged() { peer_->SetFillTextureEdgeSize(adj_.get_value()); }
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	ClosedPatternPtr peer_;
 };
 

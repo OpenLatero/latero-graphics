@@ -66,7 +66,7 @@ public:
 	virtual ~PolygonRoundingOffsetCtrl() {};
 protected:
 	void OnChanged() { peer_->SetRoundingOffset(adj_.get_value()); }
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	PolygonPtr peer_;
 };
 
@@ -82,7 +82,7 @@ public:
 	virtual ~PolygonCornerBlendSizeCtrl() {};
 protected:
 	void OnChanged() { peer_->SetCornerBlendSize(adj_.get_value()); }
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	PolygonPtr peer_;
 };
 
@@ -196,7 +196,7 @@ protected:
 	void OnChanged() { peer_->SetCornerUserAngle(adj_.get_value()); }
 	void OnComboChanged() { angleCtrl_.set_sensitive(peer_->GetCornerSpan()==Polygon::corner_span_user); }
 
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	Gtk::SpinButton angleCtrl_;
 	PolygonCornerSpanCombo combo_;
 	PolygonPtr peer_;

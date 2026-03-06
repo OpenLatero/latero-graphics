@@ -97,7 +97,7 @@ protected:
 
 	Gtk::VBox buttonBox_;
 	Gtk::HBox sliderBox_;
-	std::vector<Gtk::Adjustment*> adj_;
+	std::vector<Glib::RefPtr<Gtk::Adjustment>> adj_;
 	std::vector<Gtk::Widget*> widget_;
 	void OnChanged();
 	GratingPtr peer_;
@@ -115,7 +115,7 @@ public:
 	virtual ~GratingGapSizeWidget() {}
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	GratingPtr peer_;
 };
 
@@ -129,7 +129,7 @@ public:
 	virtual ~GratingRidgeSizeWidget() {}
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	GratingPtr peer_;
 };
 
@@ -146,7 +146,7 @@ protected:
 	void OnChangedUnits(std::string units);
 	void OnChangedDist();
 	void OnChangedHz();
-	Gtk::Adjustment distAdj_, hzAdj_;
+    Glib::RefPtr<Gtk::Adjustment> distAdj_, hzAdj_;
 	GratingPtr peer_;
 };
 
@@ -161,7 +161,7 @@ public:
 	virtual ~GratingCenterWidget() {}
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	GratingPtr peer_;
 };
 
@@ -204,7 +204,7 @@ public:
 	virtual ~GratingAmplitudeWidget() {}
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	GratingPtr peer_;
 };
 

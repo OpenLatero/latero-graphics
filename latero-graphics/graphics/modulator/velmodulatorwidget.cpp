@@ -49,7 +49,7 @@ public:
 	}
 protected:
 	void OnChanged() { peer_->SetLimit(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class TransitionCtrl : public Ctrl
@@ -62,7 +62,7 @@ public:
 	}
 protected:
 	void OnChanged() { peer_->SetTransition(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class DelayCtrl : public Ctrl
@@ -75,7 +75,7 @@ public:
 	}
 protected:
 	void OnChanged() { peer_->SetDelay(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 

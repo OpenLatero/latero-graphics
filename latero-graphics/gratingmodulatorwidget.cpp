@@ -60,7 +60,7 @@ public:
 	virtual ~GratingModulatorFactorWidget() {}
 protected:
 	void OnChanged() { peer_->SetFactor(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	GratingModulatorPtr peer_;
 };
 
@@ -77,7 +77,7 @@ public:
 	virtual ~GratingModulatorLengthWidget() {}
 protected:
 	void OnChanged() { peer_->SetLength(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	GratingModulatorPtr peer_;
 };
 
@@ -94,7 +94,7 @@ public:
 	virtual ~GratingModulatorPosWidget() {}
 protected:
 	void OnChanged() { peer_->SetPosition(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	GratingModulatorPtr peer_;
 };
 

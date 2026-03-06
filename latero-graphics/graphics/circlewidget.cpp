@@ -65,7 +65,7 @@ public:
 	virtual ~CircleRadiusCtrl() {};
 protected:
 	void OnChanged() { peer_->SetRadius(adj_.get_value()); }
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	CirclePtr peer_;
 };
 

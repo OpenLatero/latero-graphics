@@ -53,7 +53,7 @@ public:
 private:
 	void OnChange() { peer_->SetTxAmp(adj_.get_value()/100); };
 	RidgePtr peer_;
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class RidgeTxNbCyclesScale : public Gtk::VBox
@@ -69,7 +69,7 @@ public:
 private:
 	void OnChange() { peer_->SetTxNbCycles((uint)adj_.get_value()); };
 	RidgePtr peer_;
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 

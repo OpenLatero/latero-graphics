@@ -147,7 +147,7 @@ public:
 
 protected:
 	void OnChanged() { peer_->SetMotionDirection(adj_.get_value()); };
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	TexturePtr peer_;
 };
 
@@ -165,7 +165,7 @@ public:
 
 protected:
 	void OnChanged() { peer_->SetMotionVelocity(adj_.get_value()); };
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	TexturePtr peer_;
 };
 

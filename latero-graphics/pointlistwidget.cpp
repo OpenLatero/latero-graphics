@@ -63,8 +63,8 @@ PointListWidget::~PointListWidget()
 
 void PointListWidget::InsertPoint(const Point &p)
 {
-	Gtk::Adjustment *xAdj = new Gtk::Adjustment(p.x,0,100000);
-	Gtk::Adjustment *yAdj = new Gtk::Adjustment(p.y,0,100000);
+    Glib::RefPtr<Gtk::Adjustment> xAdj = new Gtk::Adjustment(p.x,0,100000);
+    Glib::RefPtr<Gtk::Adjustment> yAdj = new Gtk::Adjustment(p.y,0,100000);
 
 	xAdj_.push_back(xAdj);
 	yAdj_.push_back(yAdj);

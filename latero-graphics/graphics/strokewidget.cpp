@@ -45,7 +45,7 @@ public:
 	virtual ~StrokeIntensityCtrl() {};
 protected:
 	void OnChanged() { peer_->SetIntensity(adj_.get_value()/100); };
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	StrokePtr peer_;
 };
 
@@ -62,7 +62,7 @@ public:
 	virtual ~StrokeWidthCtrl() {};
 protected:
 	void OnChanged() { peer_->SetWidth(adj_.get_value()); };
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	StrokePtr peer_;
 };
 

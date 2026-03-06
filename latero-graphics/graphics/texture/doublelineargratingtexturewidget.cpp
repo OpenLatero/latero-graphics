@@ -65,7 +65,7 @@ public:
 	virtual ~AngleWidget() {};
 protected:
 	void OnChanged() { peer_->SetAngle(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 
@@ -81,7 +81,7 @@ public:
 	virtual ~PrimRidgeSizeWidget() {};
 protected:
 	void OnChanged() { peer_->SetPrimaryRidgeSize(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 
@@ -97,7 +97,7 @@ public:
 	virtual ~SecondaryScaleWidget() {};
 protected:
 	void OnChanged() { peer_->SetSecondaryScale(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 
@@ -113,7 +113,7 @@ public:
 	virtual ~PrimGapSizeWidget() {};
 protected:
 	void OnChanged() { peer_->SetPrimaryGapSize(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 
@@ -180,7 +180,7 @@ public:
 protected:
 	void OnChanged0() { peer_->SetPrimaryAmplitude(adj0_.get_value()/100); }
 	void OnChanged1() { peer_->SetSecondaryAmplitude(adj1_.get_value()/100); }
-	Gtk::Adjustment adj0_, adj1_;
+    Glib::RefPtr<Gtk::Adjustment> adj0_, adj1_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 

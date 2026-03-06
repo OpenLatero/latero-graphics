@@ -36,7 +36,7 @@ public:
 protected:
 	void OnChanged();
 	DotsPtr peer_;
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 
@@ -48,7 +48,7 @@ public:
 protected:
 	void OnChanged();
 	DotsPtr peer_;
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class DotsWidget : public Gtk::HBox

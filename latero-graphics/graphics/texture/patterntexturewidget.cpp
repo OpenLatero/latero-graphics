@@ -46,7 +46,7 @@ public:
 	virtual ~PatternTextureGridWidthCtrl() {};
 protected:
 	void OnChanged()  { peer_->SetGridWidth(adj_.get_value()); };
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	PatternTexturePtr peer_;
 };
 
@@ -62,7 +62,7 @@ public:
 	virtual ~PatternTextureGridHeightCtrl() {};
 protected:
 	void OnChanged()  { peer_->SetGridHeight(adj_.get_value()); };
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	PatternTexturePtr peer_;
 };
 

@@ -35,7 +35,7 @@ public:
 	virtual ~DotPatternMinSpacingCtrl() {}
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	DotPatternPtr peer_;
 };
 

@@ -69,7 +69,7 @@ public:
 
 protected:
 
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	Gtk::SpinButton spin_;
 	Gtk::ComboBoxText combo_;
 };
@@ -145,12 +145,12 @@ protected:
 	void OnWidthChanged();
 	void OnHeightChanged();
 	
-	Gtk::Adjustment velMagAdj_;
-	Gtk::Adjustment velDirAdj_;
+    Glib::RefPtr<Gtk::Adjustment> velMagAdj_;
+    Glib::RefPtr<Gtk::Adjustment> velDirAdj_;
 	TimeWidget intervalCtrl_;
-	Gtk::Adjustment frameAdj_;
-	Gtk::Adjustment nbFramesAdj_;
-	Gtk::Adjustment widthAdj_, heightAdj_;
+    Glib::RefPtr<Gtk::Adjustment> frameAdj_;
+    Glib::RefPtr<Gtk::Adjustment> nbFramesAdj_;
+    Glib::RefPtr<Gtk::Adjustment> widthAdj_, heightAdj_;
 	StartTimeWidget startTimeCtrl_;
 	Glib::RefPtr<Gtk::UIManager> uiManager_;
 	Gtk::Image img_;

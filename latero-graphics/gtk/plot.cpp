@@ -52,7 +52,7 @@ public:
 	uint GetWidth() { return wAdj_.get_value(); }
 	uint GetHeight() { return hAdj_.get_value(); }
 protected:
-	Gtk::Adjustment wAdj_, hAdj_;
+    Glib::RefPtr<Gtk::Adjustment> wAdj_, hAdj_;
 };
 
 

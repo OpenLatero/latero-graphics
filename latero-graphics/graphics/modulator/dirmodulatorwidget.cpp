@@ -72,7 +72,7 @@ public:
 	}
 protected:
 	void OnChanged() { peer_->SetDirection(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class DirToleranceCtrl : public Ctrl
@@ -85,7 +85,7 @@ public:
 	}
 protected:
 	void OnChanged() { peer_->SetDirTolerance(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class DirTransitionCtrl : public Ctrl
@@ -98,7 +98,7 @@ public:
 	}
 protected:
 	void OnChanged() { peer_->SetDirTransition(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class VelToleranceCtrl : public Ctrl
@@ -111,7 +111,7 @@ public:
 	}
 protected:
 	void OnChanged() { peer_->SetVelTolerance(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class VelTransitionCtrl : public Ctrl
@@ -124,7 +124,7 @@ public:
 	}
 protected:
 	void OnChanged() { peer_->SetVelTransition(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class SymmetricCtrl : public Ctrl

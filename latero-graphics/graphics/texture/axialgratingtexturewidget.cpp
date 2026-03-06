@@ -41,7 +41,7 @@ public:
 	virtual ~SeedAngleCtrl() {};
 protected:
 	void OnChanged() { peer_->SetSeedAngle(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	AxialGratingTexturePtr peer_;
 };
 
