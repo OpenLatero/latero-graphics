@@ -27,6 +27,7 @@
 #include "../../graphics/patternpreview.h"
 #include "../../gtk/numwidget.h"
 #include "texture.h"
+#include <gtkmm/checkbutton.h>
 
 namespace latero {
 namespace graphics { 

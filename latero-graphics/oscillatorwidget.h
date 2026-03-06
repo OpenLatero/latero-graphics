@@ -25,6 +25,7 @@
 #include <gtkmm.h>
 #include "gtk/checkframe.h"
 #include "oscillatorfwd.h"
+#include <gtkmm/checkbutton.h>
 
 namespace latero {
 namespace graphics { 

@@ -27,6 +27,7 @@
 #include <gtkmm/stock.h>
 #include <gtkmm/table.h>
 #include <gtkmm/spinbutton.h>
+#include <gtkmm/checkbutton.h>
 #include <gtkmm/frame.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/adjustment.h>
