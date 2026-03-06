@@ -28,6 +28,7 @@
 #include <gtkmm/table.h>
 #include <gtkmm/spinbutton.h>
 #include <gtkmm/checkbutton.h>
+#include <gtkmm/radiobutton.h>
 #include <gtkmm/frame.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/adjustment.h>
