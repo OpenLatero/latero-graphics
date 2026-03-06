@@ -31,6 +31,7 @@
 #include <gtkmm/filechooserdialog.h>
 #include <gtkmm/stock.h>
 #include "../external.h"
+#include <glibmm/main.h>
 
 namespace latero {
 namespace graphics { 
