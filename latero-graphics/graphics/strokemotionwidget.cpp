@@ -54,14 +54,14 @@ class StrokeMinMotionWidthCtrl : public Gtk::VBox
 {
 public:
 	StrokeMinMotionWidthCtrl(StrokePtr peer) : 
-		adj_(peer->GetMinMotionWidth(),0,20), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetMinMotionWidth(),0,20)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("min width", adj_, 1, units::mm)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMinMotionWidthCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMinMotionWidthCtrl::OnChanged));
 	}
 	virtual ~StrokeMinMotionWidthCtrl() {};
 protected:
-	void OnChanged() { peer_->SetMinMotionWidth(adj_.get_value()); };
+	void OnChanged() { peer_->SetMinMotionWidth(adj_->get_value()); };
     Glib::RefPtr<Gtk::Adjustment> adj_;
 	StrokePtr peer_;
 };
@@ -70,15 +70,15 @@ class StrokeMotionVelCtrl : public Gtk::VBox
 {
 public:
 	StrokeMotionVelCtrl(StrokePtr peer) : 
-		adj_(peer->GetMotionVelocity(),-100,100), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),-100,100)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMotionVelCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMotionVelCtrl::OnChanged));
 	}
 	virtual ~StrokeMotionVelCtrl() {};
 protected:
-	void OnChanged() { peer_->SetMotionVelocity(adj_.get_value()); };
-    Glib::RefPtr<Gtk::Adjustment> adj_;	
+	void OnChanged() { peer_->SetMotionVelocity(adj_->get_value()); };
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	StrokePtr peer_;
 };
 
@@ -86,15 +86,15 @@ class StrokeSuperposedMotionRatioCtrl : public Gtk::VBox
 {
 public:
 	StrokeSuperposedMotionRatioCtrl(StrokePtr peer) : 
-		adj_(peer->GetSuperposedMotionRatio()*100,0,100), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetSuperposedMotionRatio()*100,0,100)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("ratio", adj_, 0, units::percent)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &StrokeSuperposedMotionRatioCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeSuperposedMotionRatioCtrl::OnChanged));
 	}
 	virtual ~StrokeSuperposedMotionRatioCtrl() {};
 protected:
-	void OnChanged() { peer_->SetSuperposedMotionRatio(adj_.get_value()/100); };
-    Glib::RefPtr<Gtk::Adjustment> adj_;	
+	void OnChanged() { peer_->SetSuperposedMotionRatio(adj_->get_value()/100); };
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	StrokePtr peer_;
 };
 
@@ -103,14 +103,14 @@ class StrokeBlendMotionValueCtrl : public Gtk::VBox
 {
 public:
 	StrokeBlendMotionValueCtrl(StrokePtr peer) : 
-		adj_(peer->GetBlendMotionValue()*100,0,100), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetBlendMotionValue()*100,0,100)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("blend value", adj_, 0, units::percent)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &StrokeBlendMotionValueCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeBlendMotionValueCtrl::OnChanged));
 	}
 	virtual ~StrokeBlendMotionValueCtrl() {};
 protected:
-	void OnChanged() { peer_->SetBlendMotionValue(adj_.get_value()/100); };
+	void OnChanged() { peer_->SetBlendMotionValue(adj_->get_value()/100); };
     Glib::RefPtr<Gtk::Adjustment> adj_;	
 	StrokePtr peer_;
 };

@@ -44,7 +44,7 @@ class TimeWidget : public Gtk::HBox
 {
 public:
 	TimeWidget(int init=0, std::string units=units::nsec) :
-		adj_(init, 0, 1000000), spin_(adj_)
+		adj_(Gtk::Adjustment::create(init, 0, 1000000)), spin_(adj_)
 	{
 		combo_.append(units::day);
 		combo_.append(units::hour);
@@ -64,7 +64,7 @@ public:
 
 	boost::posix_time::time_duration GetTime()
 	{
-		return units::ConvertTime(adj_.get_value(), combo_.get_active_text());
+		return units::ConvertTime(adj_->get_value(), combo_.get_active_text());
 	}
 
 protected:

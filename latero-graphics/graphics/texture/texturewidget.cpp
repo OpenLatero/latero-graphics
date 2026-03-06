@@ -114,12 +114,12 @@ void TextureTDCentricCtrl::OnClick() { point_.set_sensitive(peer_->GetTDCentric(
 void TextureTDCentricCtrl::OnPosChanged() { peer_->SetTDCentricPos(point_.GetValue()); };
 
 TextureAmplitudeCtrl::TextureAmplitudeCtrl(TexturePtr peer) :
-	adj_(peer->GetAmplitude()*100,0,100), peer_(peer)
+	adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
 	pack_start(*manage(new gtk::VNumWidget(adj_,0, units::percent)));
-	adj_.signal_value_changed().connect(sigc::mem_fun(*this, &TextureAmplitudeCtrl::OnChanged));
+	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureAmplitudeCtrl::OnChanged));
 }
-void TextureAmplitudeCtrl::OnChanged() { peer_->SetAmplitude(adj_.get_value()/100); }
+void TextureAmplitudeCtrl::OnChanged() { peer_->SetAmplitude(adj_->get_value()/100); }
 
 TextureInvertCtrl::TextureInvertCtrl(TexturePtr peer) :
 	check_("invert"),
@@ -137,16 +137,16 @@ class TextureMotionDirectionCtrl : public Gtk::VBox
 {
 public:
 	TextureMotionDirectionCtrl(TexturePtr peer) :
-		adj_(peer->GetMotionDirection(),0,360), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetMotionDirection(),0,360)), peer_(peer)
 	{
 		pack_start(*manage(new gtk::HNumWidget(adj_,0, units::degree)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionDirectionCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionDirectionCtrl::OnChanged));
 	}
 
 	virtual ~TextureMotionDirectionCtrl() {};
 
 protected:
-	void OnChanged() { peer_->SetMotionDirection(adj_.get_value()); };
+	void OnChanged() { peer_->SetMotionDirection(adj_->get_value()); };
     Glib::RefPtr<Gtk::Adjustment> adj_;
 	TexturePtr peer_;
 };
@@ -155,16 +155,16 @@ class TextureMotionVelocityCtrl : public Gtk::VBox
 {
 public:
 	TextureMotionVelocityCtrl(TexturePtr peer) :
-		adj_(peer->GetMotionVelocity(),0,100), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),0,100)), peer_(peer)
 	{
 		pack_start(*manage(new gtk::HNumWidget(adj_,1, units::mm_per_sec)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionVelocityCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionVelocityCtrl::OnChanged));
 	}
 
 	virtual ~TextureMotionVelocityCtrl() {};
 
 protected:
-	void OnChanged() { peer_->SetMotionVelocity(adj_.get_value()); };
+	void OnChanged() { peer_->SetMotionVelocity(adj_->get_value()); };
     Glib::RefPtr<Gtk::Adjustment> adj_;
 	TexturePtr peer_;
 };

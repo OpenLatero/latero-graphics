@@ -65,65 +65,65 @@ private:
 class DirCtrl : public Ctrl
 {
 public:
-	DirCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(peer->GetDirection(), 0, 360)
+	DirCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirection(), 0, 360))
 	{
 		add(*manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &DirCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirCtrl::OnChanged));
 	}
 protected:
-	void OnChanged() { peer_->SetDirection(adj_.get_value()); }
+	void OnChanged() { peer_->SetDirection(adj_->get_value()); }
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class DirToleranceCtrl : public Ctrl
 {
 public:
-	DirToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(peer->GetDirTolerance(), 0, 180)
+	DirToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirTolerance(), 0, 180))
 	{
 		add(*manage(new gtk::HNumWidget("direction tolerance", adj_, 0, units::degree)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &DirToleranceCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirToleranceCtrl::OnChanged));
 	}
 protected:
-	void OnChanged() { peer_->SetDirTolerance(adj_.get_value()); }
+	void OnChanged() { peer_->SetDirTolerance(adj_->get_value()); }
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class DirTransitionCtrl : public Ctrl
 {
 public:
-	DirTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(peer->GetDirTransition(), 1, 180)
+	DirTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirTransition(), 1, 180))
 	{
 		add(*manage(new gtk::HNumWidget("direction transition rate", adj_, 0, units::degree)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &DirTransitionCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirTransitionCtrl::OnChanged));
 	}
 protected:
-	void OnChanged() { peer_->SetDirTransition(adj_.get_value()); }
+	void OnChanged() { peer_->SetDirTransition(adj_->get_value()); }
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class VelToleranceCtrl : public Ctrl
 {
 public:
-	VelToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(peer->GetVelTolerance(), 0, 100)
+	VelToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetVelTolerance(), 0, 100))
 	{
 		add(*manage(new gtk::HNumWidget("velocity tolerance", adj_, 0, units::mm_per_sec)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &VelToleranceCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelToleranceCtrl::OnChanged));
 	}
 protected:
-	void OnChanged() { peer_->SetVelTolerance(adj_.get_value()); }
+	void OnChanged() { peer_->SetVelTolerance(adj_->get_value()); }
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class VelTransitionCtrl : public Ctrl
 {
 public:
-	VelTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(peer->GetVelTransition(), 0, 100)
+	VelTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetVelTransition(), 0, 100))
 	{
 		add(*manage(new gtk::HNumWidget("velocity transition rate", adj_, 0, units::mm_per_sec)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &VelTransitionCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelTransitionCtrl::OnChanged));
 	}
 protected:
-	void OnChanged() { peer_->SetVelTransition(adj_.get_value()); }
+	void OnChanged() { peer_->SetVelTransition(adj_->get_value()); }
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 

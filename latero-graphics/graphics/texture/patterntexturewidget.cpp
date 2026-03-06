@@ -38,14 +38,14 @@ class PatternTextureGridWidthCtrl : public Gtk::HBox
 {
 public:
 	PatternTextureGridWidthCtrl(PatternTexturePtr peer) :
-		adj_(peer->GetGridWidth(),0.1,500), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetGridWidth(),0.1,500)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("grid width", adj_, 3, units::mm)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &PatternTextureGridWidthCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PatternTextureGridWidthCtrl::OnChanged));
 	}
 	virtual ~PatternTextureGridWidthCtrl() {};
 protected:
-	void OnChanged()  { peer_->SetGridWidth(adj_.get_value()); };
+	void OnChanged()  { peer_->SetGridWidth(adj_->get_value()); };
     Glib::RefPtr<Gtk::Adjustment> adj_;
 	PatternTexturePtr peer_;
 };
@@ -54,14 +54,14 @@ class PatternTextureGridHeightCtrl : public Gtk::HBox
 {
 public:
 	PatternTextureGridHeightCtrl(PatternTexturePtr peer) :
-		adj_(peer->GetGridHeight(),0.1,500), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetGridHeight(),0.1,500)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("grid height", adj_, 3, units::mm)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &PatternTextureGridHeightCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PatternTextureGridHeightCtrl::OnChanged));
 	}
 	virtual ~PatternTextureGridHeightCtrl() {};
 protected:
-	void OnChanged()  { peer_->SetGridHeight(adj_.get_value()); };
+	void OnChanged()  { peer_->SetGridHeight(adj_->get_value()); };
     Glib::RefPtr<Gtk::Adjustment> adj_;
 	PatternTexturePtr peer_;
 };

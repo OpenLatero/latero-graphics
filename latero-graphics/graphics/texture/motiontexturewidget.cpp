@@ -62,14 +62,14 @@ class DirectionCtrl : public Gtk::HBox, MotionTextureCtrl
 {
 public:
 	DirectionCtrl(MotionTexturePtr peer) : MotionTextureCtrl(peer),
-		adj_(peer->GetDirection(),0,360)
+		adj_(Gtk::Adjustment::create(peer->GetDirection(),0,360))
 	{
 		add(*manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &DirectionCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirectionCtrl::OnChanged));
 	}
 	virtual ~DirectionCtrl() {};
 protected:
-	void OnChanged() { peer_->SetDirection(adj_.get_value()); }
+	void OnChanged() { peer_->SetDirection(adj_->get_value()); }
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
@@ -77,14 +77,14 @@ class VelocityCtrl : public Gtk::HBox, MotionTextureCtrl
 {
 public:
 	VelocityCtrl(MotionTexturePtr peer) : MotionTextureCtrl(peer),
-		adj_(peer->GetVelocity(),0,100)
+		adj_(Gtk::Adjustment::create(peer->GetVelocity(),0,100))
 	{
 		add(*manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &VelocityCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelocityCtrl::OnChanged));
 	}
 	virtual ~VelocityCtrl() {};
 protected:
-	void OnChanged() { peer_->SetVelocity(adj_.get_value()); }
+	void OnChanged() { peer_->SetVelocity(adj_->get_value()); }
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 

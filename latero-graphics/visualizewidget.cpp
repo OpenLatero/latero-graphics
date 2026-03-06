@@ -39,13 +39,13 @@ namespace graphics {
 
 VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	Gtk::Dialog("Visualization"),
-	velMagAdj_(0,0,10000),
-	velDirAdj_(0,0,360),
+	velMagAdj_(Gtk::Adjustment::create(0,0,10000)),
+	velDirAdj_(Gtk::Adjustment::create(0,0,360)),
 	intervalCtrl_(10, units::msec),
-	frameAdj_(0,0,10000),
-    nbFramesAdj_(1,1,10000),
-	widthAdj_(DEFAULT_WIDTH,50,4000),
-	heightAdj_(DEFAULT_WIDTH*gen->Dev()->GetSurfaceHeight()/gen->Dev()->GetSurfaceWidth(),50,4000),
+	frameAdj_(Gtk::Adjustment::create(0,0,10000)),
+    nbFramesAdj_(Gtk::Adjustment::create(1,1,10000)),
+	widthAdj_(Gtk::Adjustment::create(DEFAULT_WIDTH,50,4000)),
+	heightAdj_(Gtk::Adjustment::create(DEFAULT_WIDTH*gen->Dev()->GetSurfaceHeight()/gen->Dev()->GetSurfaceWidth(),50,4000)),
     gen_(gen)
 {
 	modeCombo_.append(mode_abstract);
@@ -56,7 +56,7 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	Gtk::ScrolledWindow *scrolledWindow = manage(new Gtk::ScrolledWindow);
 	scrolledWindow->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 	scrolledWindow->add(img_);
-	scrolledWindow->set_size_request(5 + widthAdj_.get_value(), 5 + heightAdj_.get_value());
+	scrolledWindow->set_size_request(5 + widthAdj_->get_value(), 5 + heightAdj_->get_value());
 
 	Gtk::HBox *hbox = manage(new Gtk::HBox);
 	get_vbox()->pack_start(*scrolledWindow);
@@ -110,26 +110,26 @@ Gtk::Widget *VisualizeWidget::GetAnimWidget()
 	table->attach(*manage(new Gtk::Label("pixels", Gtk::ALIGN_LEFT)), 	6,7, 1,2, Gtk::FILL);
 	table->attach(*manage(new Gtk::Label("degrees", Gtk::ALIGN_LEFT)), 	6,7, 2,3, Gtk::FILL);
 
-	widthAdj_.signal_value_changed().connect(sigc::mem_fun(*this, &VisualizeWidget::OnWidthChanged));
-	heightAdj_.signal_value_changed().connect(sigc::mem_fun(*this, &VisualizeWidget::OnHeightChanged));
+	widthAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &VisualizeWidget::OnWidthChanged));
+	heightAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &VisualizeWidget::OnHeightChanged));
 
 	return table;
 }
 
 void VisualizeWidget::OnWidthChanged()
 {
-	double w = widthAdj_.get_value();
+	double w = widthAdj_->get_value();
 	double h = w*gen_->Dev()->GetSurfaceHeight()/gen_->Dev()->GetSurfaceWidth();
-	if (h != heightAdj_.get_value())
-		heightAdj_.set_value(h);
+	if (h != heightAdj_->get_value())
+		heightAdj_->set_value(h);
 }
 
 void VisualizeWidget::OnHeightChanged()
 {
-	double h = heightAdj_.get_value();
+	double h = heightAdj_->get_value();
 	double w = h*gen_->Dev()->GetSurfaceWidth()/gen_->Dev()->GetSurfaceHeight();
-	if (w != widthAdj_.get_value())
-		widthAdj_.set_value(w);
+	if (w != widthAdj_->get_value())
+		widthAdj_->set_value(w);
 }
 
 
@@ -265,7 +265,7 @@ void VisualizeWidget::on_realize()
 
 void VisualizeWidget::RefreshImg()
 {
-	frameAdj_.set_value(map_.GetCurrentFrameIndex());
+	frameAdj_->set_value(map_.GetCurrentFrameIndex());
 	Glib::RefPtr<Gdk::Pixbuf> buf = map_.GetCurrentFrame();
 	img_.set(buf);
 	show_all_children();
@@ -273,10 +273,10 @@ void VisualizeWidget::RefreshImg()
 
 void VisualizeWidget::ReloadAnimation()
 {
-	map_ =  GetDeflectionMap(widthAdj_.get_value(),
-		nbFramesAdj_.get_value(),
-		velMagAdj_.get_value(),
-		units::DegreeToRad(velDirAdj_.get_value()));
+	map_ =  GetDeflectionMap(widthAdj_->get_value(),
+		nbFramesAdj_->get_value(),
+		velMagAdj_->get_value(),
+		units::DegreeToRad(velDirAdj_->get_value()));
 	RefreshImg();
 }
 

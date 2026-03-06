@@ -35,7 +35,7 @@ class PlotSaveDlg : public Gtk::FileChooserDialog
 public:
 	PlotSaveDlg() :
 		Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE),
-		wAdj_(1000, 0, 1000), hAdj_(500, 0, 1000)
+		wAdj_(Gtk::Adjustment::create(1000, 0, 1000)), hAdj_(Gtk::Adjustment::create(500, 0, 1000))
 	{
 		std::string dir = std::filesystem::current_path().string();
 		set_current_folder(dir);
@@ -49,8 +49,8 @@ public:
 		get_vbox()->pack_start(*manage(new Gtk::SpinButton(hAdj_)));
 	}
 
-	uint GetWidth() { return wAdj_.get_value(); }
-	uint GetHeight() { return hAdj_.get_value(); }
+	uint GetWidth() { return wAdj_->get_value(); }
+	uint GetHeight() { return hAdj_->get_value(); }
 protected:
     Glib::RefPtr<Gtk::Adjustment> wAdj_, hAdj_;
 };

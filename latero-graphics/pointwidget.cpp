@@ -26,8 +26,8 @@ namespace latero {
 namespace graphics { 
 
 PointWidget::PointWidget(const Point &init, double xlim_min, double xlim_max, double ylim_min, double ylim_max, bool showSliders)  :
-	xAdj_(init.x, xlim_min, xlim_max),
-	yAdj_(init.y, ylim_min, ylim_max)
+	xAdj_(Gtk::Adjustment::create(init.x, xlim_min, xlim_max)),
+	yAdj_(Gtk::Adjustment::create(init.y, ylim_min, ylim_max))
 {
 	if (showSliders)
 	{
@@ -40,19 +40,19 @@ PointWidget::PointWidget(const Point &init, double xlim_min, double xlim_max, do
 		pack_start(*manage(new Gtk::SpinButton(yAdj_,0,3)));
 	}
 
-	xAdj_.signal_value_changed().connect(signalValueChanged_);
-	yAdj_.signal_value_changed().connect(signalValueChanged_);
+	xAdj_->signal_value_changed().connect(signalValueChanged_);
+	yAdj_->signal_value_changed().connect(signalValueChanged_);
 }
 
 Point PointWidget::GetValue()
 {
-	return Point(xAdj_.get_value(),yAdj_.get_value());
+	return Point(xAdj_->get_value(),yAdj_->get_value());
 }
 
 void PointWidget::SetValue(const Point &p)
 {
-	xAdj_.set_value(p.x);
-	yAdj_.set_value(p.y);
+	xAdj_->set_value(p.x);
+	yAdj_->set_value(p.y);
 }
 
 sigc::signal<void> PointWidget::SignalValueChanged()

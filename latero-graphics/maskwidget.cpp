@@ -204,25 +204,25 @@ class MaskSizeCtrl : public Gtk::HBox, public MaskWidgetCtrl
 public:
 	MaskSizeCtrl(MaskPtr peer) : 
 		MaskWidgetCtrl(peer), 
-		wRelAdj_(100*peer->GetWidth(units::percent),1,200),
-		hRelAdj_(100*peer->GetHeight(units::percent),1,200),
-		wAbsAdj_(peer->GetWidth(units::mm),1,2000),
-		hAbsAdj_(peer->GetHeight(units::mm),1,2000)
+		wRelAdj_(Gtk::Adjustment::create(100*peer->GetWidth(units::percent),1,200)),
+		hRelAdj_(Gtk::Adjustment::create(100*peer->GetHeight(units::percent),1,200)),
+		wAbsAdj_(Gtk::Adjustment::create(peer->GetWidth(units::mm),1,2000)),
+		hAbsAdj_(Gtk::Adjustment::create(peer->GetHeight(units::mm),1,2000))
 	{
 		gtk::HNumWidget *wWidget = manage(new gtk::HNumWidget("width",wRelAdj_,0, units::percent));
 		wWidget->AddUnits(units::mm, &wAbsAdj_, 0);
 		wWidget->SelectUnits(peer->GetWidthUnits());
 		add(*wWidget);
-		wRelAdj_.signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnRelWidthChanged));
-		wAbsAdj_.signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnAbsWidthChanged));
+		wRelAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnRelWidthChanged));
+		wAbsAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnAbsWidthChanged));
 		wWidget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnWidthUnitsChanged));
 
 		gtk::HNumWidget *hWidget = manage(new gtk::HNumWidget("height",hRelAdj_,0, units::percent));
 		hWidget->AddUnits(units::mm, &hAbsAdj_, 0);
 		hWidget->SelectUnits(peer->GetHeightUnits());
 		add(*hWidget);
-		hRelAdj_.signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnRelHeightChanged));
-		hAbsAdj_.signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnAbsHeightChanged));
+		hRelAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnRelHeightChanged));
+		hAbsAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnAbsHeightChanged));
 		hWidget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnHeightUnitsChanged));
 	}
 
@@ -230,10 +230,10 @@ public:
 
 	virtual void SynchFromPeer_()
 	{
-		wRelAdj_.set_value(100*peer_->GetWidth(units::percent));
-		hRelAdj_.set_value(100*peer_->GetHeight(units::percent));
-		wAbsAdj_.set_value(peer_->GetWidth(units::mm));
-		hAbsAdj_.set_value(peer_->GetHeight(units::mm));
+		wRelAdj_->set_value(100*peer_->GetWidth(units::percent));
+		hRelAdj_->set_value(100*peer_->GetHeight(units::percent));
+		wAbsAdj_->set_value(peer_->GetWidth(units::mm));
+		hAbsAdj_->set_value(peer_->GetHeight(units::mm));
 	}
 
 	sigc::signal<void> SignalChanged() { return signalChanged_; };
@@ -247,7 +247,7 @@ protected:
 	void OnRelWidthChanged()
 	{
 		if (disableSignals_) return;
-		peer_->SetWidth(wRelAdj_.get_value()/100, units::percent);
+		peer_->SetWidth(wRelAdj_->get_value()/100, units::percent);
 		signalChanged_();
 		SynchFromPeer();
 	}
@@ -255,7 +255,7 @@ protected:
 	void OnAbsWidthChanged()
 	{
 		if (disableSignals_) return;
-		peer_->SetWidth(wAbsAdj_.get_value(), units::mm);
+		peer_->SetWidth(wAbsAdj_->get_value(), units::mm);
 		signalChanged_();
 		SynchFromPeer();
 	}
@@ -263,7 +263,7 @@ protected:
 	void OnRelHeightChanged()
 	{
 		if (disableSignals_) return;
-		peer_->SetHeight(hRelAdj_.get_value()/100, units::percent);
+		peer_->SetHeight(hRelAdj_->get_value()/100, units::percent);
 		signalChanged_();
 		SynchFromPeer();
 	}
@@ -271,7 +271,7 @@ protected:
 	void OnAbsHeightChanged()
 	{
 		if (disableSignals_) return;
-		peer_->SetHeight(hAbsAdj_.get_value(), units::mm);
+		peer_->SetHeight(hAbsAdj_->get_value(), units::mm);
 		signalChanged_();
 		SynchFromPeer();
 	}
@@ -343,16 +343,16 @@ class MaskDefaultCtrl : public Gtk::HBox, public MaskWidgetCtrl
 public:
 	MaskDefaultCtrl(MaskPtr peer) :
 		MaskWidgetCtrl(peer), 
-		adj_(100*peer->GetDefaultAlpha(),0,100)
+		adj_(Gtk::Adjustment::create(100*peer->GetDefaultAlpha(),0,100))
 	{
 		pack_start(*manage(new Gtk::Label("Default ")), Gtk::PACK_SHRINK);
 		pack_start(*manage(new Gtk::SpinButton(adj_)), Gtk::PACK_SHRINK);
 		pack_start(*manage(new Gtk::Label("%")), Gtk::PACK_SHRINK);
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &MaskDefaultCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskDefaultCtrl::OnChanged));
 	}
 	virtual ~MaskDefaultCtrl() {}
 protected:
-	void OnChanged() { peer_->SetDefaultAlpha(adj_.get_value()/100); }
+	void OnChanged() { peer_->SetDefaultAlpha(adj_->get_value()/100); }
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 

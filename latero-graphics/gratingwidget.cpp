@@ -119,11 +119,11 @@ void GratingRhythmWidget::RemoveCycle()
 
 void GratingRhythmWidget::AppendCycle(double value)
 {
-    Glib::RefPtr<Gtk::Adjustment> adj = new Gtk::Adjustment(value, 0, 100, 10);
+    Glib::RefPtr<Gtk::Adjustment> adj = Gtk::Adjustment::create(value, 0, 100, 10);
 	adj_.push_back(adj);
 	adj->signal_value_changed().connect(sigc::mem_fun(*this, &GratingRhythmWidget::OnChanged));
 
-	Gtk::Widget *widget = new latero::graphics::gtk::VNumWidget(*adj,0);
+	Gtk::Widget *widget = new latero::graphics::gtk::VNumWidget(adj,0);
 	widget_.push_back(widget);
 	sliderBox_.pack_start(*widget, Gtk::PACK_SHRINK);
 	show_all_children();
@@ -145,64 +145,64 @@ void GratingRhythmWidget::OnRemoveCycle()
 // GratingGapSizeWidget ////////////////////////////////////////////////////////////////////
 
 GratingGapSizeWidget::GratingGapSizeWidget(GratingPtr peer) : 
-    adj_(peer->GetGapSize(),0,100), peer_(peer)
+    adj_(Gtk::Adjustment::create(peer->GetGapSize(),0,100)), peer_(peer)
 {
 	add(*manage(new gtk::HNumWidget("gap size", adj_, 2, peer->GetUnits())));
-	adj_.signal_value_changed().connect(sigc::mem_fun(*this, &GratingGapSizeWidget::OnChanged));
+	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &GratingGapSizeWidget::OnChanged));
 }
-void GratingGapSizeWidget::OnChanged() { peer_->SetGapSize(adj_.get_value()); }
+void GratingGapSizeWidget::OnChanged() { peer_->SetGapSize(adj_->get_value()); }
 
 
 // GratingRidgeSizeWidget ////////////////////////////////////////////////////////////////////
 
 GratingRidgeSizeWidget::GratingRidgeSizeWidget(GratingPtr peer) : 
-	adj_(peer->GetRidgeSize(),0,100), peer_(peer)
+	adj_(Gtk::Adjustment::create(peer->GetRidgeSize(),0,100)), peer_(peer)
 {
 	add(*manage(new gtk::HNumWidget("ridge size", adj_, 2, peer->GetUnits())));
-	adj_.signal_value_changed().connect(
+	adj_->signal_value_changed().connect(
 		sigc::mem_fun(*this, &GratingRidgeSizeWidget::OnChanged));
 }
-void GratingRidgeSizeWidget::OnChanged() { peer_->SetRidgeSize(adj_.get_value()); }
+void GratingRidgeSizeWidget::OnChanged() { peer_->SetRidgeSize(adj_->get_value()); }
 
 
 // GratingVelocityWidget ////////////////////////////////////////////////////////////////////
 
 GratingVelocityWidget::GratingVelocityWidget(GratingPtr peer) : 
-	distAdj_(peer->GetVel(),-100,100), hzAdj_(peer->GetVel(),-10,10), peer_(peer)
+	distAdj_(Gtk::Adjustment::create(peer->GetVel(),-100,100)), hzAdj_(Gtk::Adjustment::create(peer->GetVel(),-10,10)), peer_(peer)
 {
 	gtk::HNumWidget *widget = new gtk::HNumWidget("velocity", distAdj_, 0, peer->GetUnits() + units::per_sec);
-	widget->AddUnits(units::hz,&hzAdj_,2);
+	widget->AddUnits(units::hz,hzAdj_,2);
 	widget->SelectUnits(peer->GetVelUnits());
 	pack_start(*manage(widget));
-	distAdj_.signal_value_changed().connect(sigc::mem_fun(*this, &GratingVelocityWidget::OnChangedDist));
-	hzAdj_.signal_value_changed().connect(sigc::mem_fun(*this, &GratingVelocityWidget::OnChangedHz));
+	distAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &GratingVelocityWidget::OnChangedDist));
+	hzAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &GratingVelocityWidget::OnChangedHz));
 	widget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &GratingVelocityWidget::OnChangedUnits));
 }
 
-void GratingVelocityWidget::OnChangedDist() 	{ peer_->SetVel(distAdj_.get_value()); }
-void GratingVelocityWidget::OnChangedHz() 	{ peer_->SetVel(hzAdj_.get_value()); }
+void GratingVelocityWidget::OnChangedDist() 	{ peer_->SetVel(distAdj_->get_value()); }
+void GratingVelocityWidget::OnChangedHz() 	{ peer_->SetVel(hzAdj_->get_value()); }
 
 void GratingVelocityWidget::OnChangedUnits(std::string units)
 {
 	// TODO: causes a spurious change to peer when slider is updated
 	peer_->SetVelUnitsHz(units==units::hz);
 	double vel = peer_->GetVel();
-	(units==units::hz) ? hzAdj_.set_value(vel) : distAdj_.set_value(vel);
+	(units==units::hz) ? hzAdj_->set_value(vel) : distAdj_->set_value(vel);
 }
 
 
 // GratingCenterWidget ////////////////////////////////////////////////////////////////////
 
 GratingCenterWidget::GratingCenterWidget(GratingPtr peer) : 
-	adj_(100*peer->GetCenter(),100*Grating::center_min,100*Grating::center_max), peer_(peer)
+	adj_(Gtk::Adjustment::create(100*peer->GetCenter(),100*Grating::center_min,100*Grating::center_max)), peer_(peer)
 {
-	add(*manage(new gtk::HNumWidget("center", adj_, 0, "%")));	adj_.signal_value_changed().connect(
+	add(*manage(new gtk::HNumWidget("center", adj_, 0, "%")));	adj_->signal_value_changed().connect(
 		sigc::mem_fun(*this, &GratingCenterWidget::OnChanged));
 }
 
 void GratingCenterWidget::OnChanged()
 {
-	peer_->SetCenter(adj_.get_value()/100);
+	peer_->SetCenter(adj_->get_value()/100);
 }
 
 
@@ -350,12 +350,12 @@ AdvancedGratingWidget::AdvancedGratingWidget(GratingPtr peer) :
 // GratingAmplitudeWidget ////////////////////////////////////////////////////////////////////
 
 GratingAmplitudeWidget::GratingAmplitudeWidget(GratingPtr peer) : 
-    adj_(peer->GetAmplitude()*100,0,100), peer_(peer)
+    adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
 	add(*manage(new gtk::HNumWidget("amplitude", adj_, 0, units::percent)));
-	adj_.signal_value_changed().connect(sigc::mem_fun(*this, &GratingAmplitudeWidget::OnChanged));
+	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &GratingAmplitudeWidget::OnChanged));
 }
-void GratingAmplitudeWidget::OnChanged() { peer_->SetAmplitude(adj_.get_value()/100); }
+void GratingAmplitudeWidget::OnChanged() { peer_->SetAmplitude(adj_->get_value()/100); }
 
 
 } // namespace graphics
