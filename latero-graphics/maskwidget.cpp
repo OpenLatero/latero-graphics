@@ -34,6 +34,7 @@
 #include "gtk/numwidget.h"
 #include "pointwidget.h"
 #include "virtualsurfacewidget.h"
+#include <glibmm/main.h>
 
 namespace latero {
 namespace graphics { 
