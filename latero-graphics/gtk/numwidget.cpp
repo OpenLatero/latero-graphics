@@ -109,7 +109,8 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	}
 
 	SetDigits(digits);
-	scale_->set_update_policy(Gtk::UPDATE_DISCONTINUOUS);
+    // TODO_GTKMM3: No longer supported in GTKMM3. Reestablish the behavior in another way if necessary.
+    //scale_->set_update_policy(Gtk::UPDATE_DISCONTINUOUS);
 
 	add(*box2);
 	box2->pack_start(*box_, Gtk::PACK_SHRINK);
