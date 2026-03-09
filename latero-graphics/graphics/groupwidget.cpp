@@ -66,8 +66,6 @@ void GroupOpCombo::OnChange() { peer_->SetOperation(get_active_text()); signalCh
 GroupTreeView::GroupTreeView(GroupPtr peer) :
 	peer_(peer)
 {
-	set_size_request(200,200);	
-
 	Refresh();
 	append_column("name", columns_.name_);
 	set_headers_visible (false);
@@ -659,22 +657,27 @@ protected:
 GroupWidget::GroupWidget(GroupPtr peer) :
 	peer_(peer), treeView_(peer), txWidget_(NULL)
 {
-	Gtk::VBox *pSideBar = manage(new Gtk::VBox);
+    // TODO_GTKMM3: suggested by ChatGPT, not sure it helps
+    set_spacing(5);
+    treeView_.set_margin_top(5);
+    treeView_.set_margin_bottom(5);
+
+    // this was in a vbox above the tree view but commented out, not sure why
+    //pSideBar->pack_start(*manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
+    
 	Gtk::ScrolledWindow *scrolledTreeView = manage(new Gtk::ScrolledWindow);
+    scrolledTreeView->set_size_request(200,200);
 	scrolledTreeView->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 	scrolledTreeView->set_placement(Gtk::CORNER_TOP_RIGHT);
 	scrolledTreeView->add(treeView_);
-
-	//pSideBar->pack_start(*manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
-	pSideBar->pack_start(*scrolledTreeView);
-
-	objWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
-	pack_start(*pSideBar, Gtk::PACK_SHRINK);
-	pack_start(objWidgetHolder_);
+    pack_start(*scrolledTreeView, false, false);
+    
+    objWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
+    pack_start(objWidgetHolder_, true, true);
 
 	treeView_.get_selection()->signal_changed().connect(
     		sigc::mem_fun(*this, &GroupWidget::OnSelectionChanged));
-
+    
 	// select the first item
 	Gtk::TreeModel::Row row = treeView_.get_model()->children()[0];
 	if (row) treeView_.get_selection()->select(row);
