@@ -12,7 +12,7 @@ See instructions in INSTALL file for latero project.
 Step 2: Install dependencies
 -----------------------------
 Most of the necessary dependencies can be installed using MacPorts. In order to enable SVG support in Gdk::Pixbuf, the "librsvg" package must installed.
->> sudo port install ImageMagick gtkmm3.0 +quartz libxmlxx3 librsvg
+>> sudo port install ImageMagick gtkmm3 +quartz libxmlxx3 librsvg
 
 Step 3: Download, build and install the audiere library (optional)
 ------------------------------------------------------------------
