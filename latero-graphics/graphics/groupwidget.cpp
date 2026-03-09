@@ -151,27 +151,27 @@ void GroupTreeView::RebuildMenu(PatternPtr pattern)
 
     if (has_parent)
     {
-        auto item = Gtk::make_managed<Gtk::MenuItem>("_Load from file");
+        auto item = Gtk::make_managed<Gtk::MenuItem>("Load from file");
         item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternLoad));
         menu_.append(*item);
 
-        item = Gtk::make_managed<Gtk::MenuItem>("_Remove");
+        item = Gtk::make_managed<Gtk::MenuItem>("Remove");
         item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternRemove));
         menu_.append(*item);
 
-        item = Gtk::make_managed<Gtk::MenuItem>("_Add after");
+        item = Gtk::make_managed<Gtk::MenuItem>("Add after");
         item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternAppend));
         menu_.append(*item);
 
-        item = Gtk::make_managed<Gtk::MenuItem>("_Add before");
+        item = Gtk::make_managed<Gtk::MenuItem>("Add before");
         item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternPrepend));
         menu_.append(*item);
 
-        item = Gtk::make_managed<Gtk::MenuItem>("Move _up");
+        item = Gtk::make_managed<Gtk::MenuItem>("Move up");
         item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveUp));
         menu_.append(*item);
 
-        item = Gtk::make_managed<Gtk::MenuItem>("Move _down");
+        item = Gtk::make_managed<Gtk::MenuItem>("Move down");
         item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveDown));
         menu_.append(*item);
     }
