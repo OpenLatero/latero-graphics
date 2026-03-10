@@ -124,33 +124,9 @@ VirtualSurfaceArea::~VirtualSurfaceArea()
 	anim_.Deactivate();
 }
 
-// TODO_GTKMM3: Removed this since Gdk::Bitmap doesn't exist anymore and this function doesn't seem to be called.
-/*
-Glib::RefPtr<Gdk::Bitmap> VirtualSurfaceArea::GetShapeCombineMask()
-{
-	Glib::RefPtr<Gdk::Bitmap> bitmap =
-		Gdk::Bitmap::create("NULL", GetWidth(), GetHeight());
-	Cairo::RefPtr<Cairo::Context> cr = bitmap->create_cairo_context();
-	cr->set_operator(Cairo::OPERATOR_CLEAR);
-	cr->paint();
-	cr->set_operator(Cairo::OPERATOR_SOURCE);
-	DrawBorderPath(cr);
-	cr->fill();
-	return bitmap;
-}
-*/
-
 void VirtualSurfaceArea::on_size_allocate(Gtk::Allocation& allocation)
 {
 	Gtk::DrawingArea::on_size_allocate(allocation);
-
-	// this makes the corners transparent
-	if (rounded_)
-    {
-        assert(0);
-        // TODO_GTKMM3: This doesn't seem to happen in the library but it may be called by some apps. May need to fix this later.
-        //shape_combine_mask(GetShapeCombineMask(),0,0);
-    }
     
 	// We can't resize the animation here: quality degrades too quickly.
 	// We could keep a second resized copy, but that would require a lot of memory.
@@ -159,6 +135,12 @@ void VirtualSurfaceArea::on_size_allocate(Gtk::Allocation& allocation)
 // TODO_GTKMM3: this replaced on_expose_event
 bool VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
+	if (rounded_)
+	{
+		DrawBorderPath(cr);
+    	cr->clip();	
+    }
+
     if (!anim_.GetNbFrames())
     {
         //get_window()->clear(); // TODO_GTKMM3 Not sure how to fix this.

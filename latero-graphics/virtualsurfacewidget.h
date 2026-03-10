@@ -75,10 +75,6 @@ protected:
     bool OnButtonRelease(GdkEventButton* event);
     Point GetClickPos(double x, double y);
 
-    
-	/** @returns transparency mask for the widget's shape */
-    //Glib::RefPtr<Gdk::Bitmap> GetShapeCombineMask();
-
 	// invalidate the entire window
 	void Invalidate();
 
