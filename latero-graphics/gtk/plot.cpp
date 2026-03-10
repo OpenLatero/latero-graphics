@@ -67,6 +67,9 @@ Plot::Plot(const char *fgColor, const char *bgColor) :
 	// minimum of one channel present
 	AddChannel(fgColor);
 	CreatePopupMenu();
+
+	// TODO_GTKMM3
+    signal_draw().connect(sigc::mem_fun(*this, &Plot::OnDraw));
 }
 
 Plot::~Plot()
@@ -91,6 +94,27 @@ void Plot::Draw()
 }
 
 
+// TODO_GTKMM3: this replaced on_expose_event
+bool Plot::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr)
+{
+	//Glib::RefPtr<Gdk::Window> window = get_window();
+	//if (!window) return true;
+
+	//Cairo::RefPtr<Cairo::Context> cr = window->create_cairo_context();
+	//if (event)
+	//{
+	//	cr->rectangle(event->area.x, event->area.y, event->area.width, event->area.height);
+    //		cr->clip();
+	//}
+	
+	uint w = get_allocation().get_width();
+	uint h = get_allocation().get_height();
+
+	Draw(cr,w,h);
+	return true;
+}
+
+/*
 bool Plot::on_expose_event(GdkEventExpose* event)
 {
 	Glib::RefPtr<Gdk::Window> window = get_window();
@@ -109,6 +133,7 @@ bool Plot::on_expose_event(GdkEventExpose* event)
 	Draw(cr,w,h);
 	return true;
 }
+*/
 
 void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
 {
