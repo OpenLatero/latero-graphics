@@ -109,7 +109,10 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	}
 
 	SetDigits(digits);
-    // TODO_GTKMM3: No longer supported in GTKMM3. Reestablish the behavior in another way if necessary.
+    
+	// This policy caused the update to occur only when then slider was released. It was disabled since it is no 
+	// longer available in GTKMM3. This may cause expensive updates to occur while the slider is being dragged,
+	// in which case the policy should be emulated by not handling all updates the same.
     //scale_->set_update_policy(Gtk::UPDATE_DISCONTINUOUS);
 
 	add(*box2);

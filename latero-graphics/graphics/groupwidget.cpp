@@ -76,55 +76,6 @@ void GroupTreeView::RebuildMenu(PatternPtr pattern)
 	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
 	bool has_parent = (bool)GetParentGroup(pattern);
 	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(pattern);
-	
-    // TODO_GTKMM3: Check that this is working correctly.
-    
-    /*
-	menu_.items().erase(menu_.items().begin(),menu_.items().end());
-	Gtk::Menu::MenuList& list = menu_.items();
-
-	if (group) 
-	{
-		if (group->ChildrenArePublic())
-		{
-			if (tx)
-				list.push_back( Gtk::Menu_Helpers::MenuElem("Add to group",
-					sigc::mem_fun(*this, &GroupTreeView::OnGroupAddTexture) ) );
-			else
-				list.push_back( Gtk::Menu_Helpers::MenuElem("Add to group",
-					sigc::mem_fun(*this, &GroupTreeView::OnGroupAddPattern) ) );
-		}
-	}
-
-	if (!tx)
-		list.push_back( Gtk::Menu_Helpers::MenuElem("Save to file",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternSave) ) );
-	else
-		list.push_back( Gtk::Menu_Helpers::MenuElem("Save to file",
-			sigc::mem_fun(*this, &GroupTreeView::OnTextureSave) ) );
-
-
-	if (has_parent)
-	{
-		list.push_back( Gtk::Menu_Helpers::MenuElem("_Load from file",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternLoad ) ) );
-
-		list.push_back( Gtk::Menu_Helpers::MenuElem("_Remove",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternRemove) ) );
-
-		list.push_back( Gtk::Menu_Helpers::MenuElem("_Add after",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternAppend ) ) );
-
-		list.push_back( Gtk::Menu_Helpers::MenuElem("_Add before",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternPrepend ) ) );
-
-		list.push_back( Gtk::Menu_Helpers::MenuElem("Move _up",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveUp) ) );
-
-		list.push_back( Gtk::Menu_Helpers::MenuElem("Move _down",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveDown) ) );
-	}
-    */
     
     while (!menu_.get_children().empty())
         menu_.remove(*menu_.get_children().front());
@@ -386,8 +337,6 @@ GroupPtr GroupTreeView::GetParentGroup(PatternPtr pattern)
 
 void GroupTreeView::SelectFirst()
 {
-    // TODO_GTKMM3: Check that this is working correctly.
-    //if (get_model()->children()<=0) return;
     auto model = get_model();
     if (!model || model->children().empty())
         return;
@@ -657,11 +606,6 @@ protected:
 GroupWidget::GroupWidget(GroupPtr peer) :
 	peer_(peer), treeView_(peer), txWidget_(NULL)
 {
-    // TODO_GTKMM3: suggested by ChatGPT, not sure it helps
-    set_spacing(5);
-    treeView_.set_margin_top(5);
-    treeView_.set_margin_bottom(5);
-
     // this was in a vbox above the tree view but commented out, not sure why
     //pSideBar->pack_start(*manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
     

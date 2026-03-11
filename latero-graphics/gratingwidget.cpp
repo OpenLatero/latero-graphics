@@ -93,34 +93,34 @@ GratingRhythmWidget::GratingRhythmWidget(GratingPtr peer) :
 
 GratingRhythmWidget::~GratingRhythmWidget()
 {
-	while(adj_.size())
+	while(adjVec_.size())
 		RemoveCycle();
 }
 
 void GratingRhythmWidget::OnChanged()
 {
 	std::vector<double> rhythm;
-	for (unsigned int i=0; i<adj_.size(); ++i)
-		rhythm.push_back(adj_[i]->get_value()/100);
+	for (unsigned int i=0; i<adjVec_.size(); ++i)
+		rhythm.push_back(adjVec_[i]->get_value()/100);
 	peer_->SetRhythm(rhythm);
 }
 
 void GratingRhythmWidget::RemoveCycle()
 {
+	if (adjVec_.size()<=0) return;
+
 	Gtk::Widget *widget = widget_[widget_.size()-1];
 	widget_.pop_back();
 	sliderBox_.remove(*widget);
 	delete widget;
 
-    Glib::RefPtr<Gtk::Adjustment> adj = adj_[adj_.size()-1];
-	adj_.pop_back();
-	//delete adj; // TODO_GTKMM3: No longer necessary?
+	adjVec_.pop_back();
 }
 
 void GratingRhythmWidget::AppendCycle(double value)
 {
     Glib::RefPtr<Gtk::Adjustment> adj = Gtk::Adjustment::create(value, 0, 100, 10);
-	adj_.push_back(adj);
+	adjVec_.push_back(adj);
 	adj->signal_value_changed().connect(sigc::mem_fun(*this, &GratingRhythmWidget::OnChanged));
 
 	Gtk::Widget *widget = new latero::graphics::gtk::VNumWidget(adj,0);

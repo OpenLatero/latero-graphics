@@ -97,7 +97,7 @@ protected:
 
 	Gtk::VBox buttonBox_;
 	Gtk::HBox sliderBox_;
-	std::vector<Glib::RefPtr<Gtk::Adjustment>> adj_;
+	std::vector<Glib::RefPtr<Gtk::Adjustment>> adjVec_;
 	std::vector<Gtk::Widget*> widget_;
 	void OnChanged();
 	GratingPtr peer_;
