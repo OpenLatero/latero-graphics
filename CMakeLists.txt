@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # check for dependencies using pkg-config
 include(FindPkgConfig)
-pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-2.4)
+pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-3.0)
 pkg_check_modules(LIBXML REQUIRED IMPORTED_TARGET libxml++-3.0)
 
 set(Boost_USE_MULTITHREADED ON)

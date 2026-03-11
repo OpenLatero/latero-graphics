@@ -57,15 +57,15 @@ class AngleWidget : public Gtk::HBox
 {
 public:
 	AngleWidget(DoubleLinearGratingTexturePtr peer) :
-		adj_(peer->GetAngle(),0,360), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("orientation", adj_, 0, units::degree)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &AngleWidget::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &AngleWidget::OnChanged));
 	}
 	virtual ~AngleWidget() {};
 protected:
-	void OnChanged() { peer_->SetAngle(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetAngle(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 
@@ -73,15 +73,15 @@ class PrimRidgeSizeWidget : public Gtk::HBox
 {
 public:
 	PrimRidgeSizeWidget(DoubleLinearGratingTexturePtr peer) :
-		adj_(peer->GetPrimaryRidgeSize(),0,100), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetPrimaryRidgeSize(),0,100)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("primary ridge size", adj_, 1, units::mm)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &PrimRidgeSizeWidget::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PrimRidgeSizeWidget::OnChanged));
 	}
 	virtual ~PrimRidgeSizeWidget() {};
 protected:
-	void OnChanged() { peer_->SetPrimaryRidgeSize(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetPrimaryRidgeSize(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 
@@ -89,15 +89,15 @@ class SecondaryScaleWidget : public Gtk::HBox
 {
 public:
 	SecondaryScaleWidget(DoubleLinearGratingTexturePtr peer) :
-		adj_(peer->GetSecondaryScale(),0,10), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetSecondaryScale(),0,10)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("secondary scale", adj_, 1)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &SecondaryScaleWidget::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &SecondaryScaleWidget::OnChanged));
 	}
 	virtual ~SecondaryScaleWidget() {};
 protected:
-	void OnChanged() { peer_->SetSecondaryScale(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetSecondaryScale(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 
@@ -105,15 +105,15 @@ class PrimGapSizeWidget : public Gtk::HBox
 {
 public:
 	PrimGapSizeWidget(DoubleLinearGratingTexturePtr peer) :
-		adj_(peer->GetPrimaryGapSize(),0,100), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetPrimaryGapSize(),0,100)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("primary gap size", adj_, 1, units::mm)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &PrimGapSizeWidget::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PrimGapSizeWidget::OnChanged));
 	}
 	virtual ~PrimGapSizeWidget() {};
 protected:
-	void OnChanged() { peer_->SetPrimaryGapSize(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetPrimaryGapSize(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 
@@ -125,8 +125,8 @@ public:
 		peer_(peer)
 	{
 		add(combo_);
-		combo_.append_text("orthogonal");
-		combo_.append_text("parallel");
+		combo_.append("orthogonal");
+		combo_.append("parallel");
 		if (peer->GetConstraint() == DoubleLinearGratingTexture::constraint_ortho)
 			combo_.set_active_text("orthogonal");
 		else
@@ -165,22 +165,22 @@ class AmplitudeCtrl : public Gtk::Frame
 public:
 	AmplitudeCtrl(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Frame("amplitude"),
-		adj0_(peer->GetPrimaryAmplitude()*100,0,100),
-		adj1_(peer->GetSecondaryAmplitude()*100,0,100),
+		adj0_(Gtk::Adjustment::create(peer->GetPrimaryAmplitude()*100,0,100)),
+		adj1_(Gtk::Adjustment::create(peer->GetSecondaryAmplitude()*100,0,100)),
         peer_(peer)
 	{
 		Gtk::HBox *box = manage(new Gtk::HBox);
 		add(*box);
 		box->pack_start(*manage(new gtk::VNumWidget(adj0_,0, units::percent)), Gtk::PACK_SHRINK);
 		box->pack_start(*manage(new gtk::VNumWidget(adj1_,0, units::percent)), Gtk::PACK_SHRINK);
-		adj0_.signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged0));
-		adj1_.signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged1));
+		adj0_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged0));
+		adj1_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged1));
 	}
 	virtual ~AmplitudeCtrl() {};
 protected:
-	void OnChanged0() { peer_->SetPrimaryAmplitude(adj0_.get_value()/100); }
-	void OnChanged1() { peer_->SetSecondaryAmplitude(adj1_.get_value()/100); }
-	Gtk::Adjustment adj0_, adj1_;
+	void OnChanged0() { peer_->SetPrimaryAmplitude(adj0_->get_value()/100); }
+	void OnChanged1() { peer_->SetSecondaryAmplitude(adj1_->get_value()/100); }
+    Glib::RefPtr<Gtk::Adjustment> adj0_, adj1_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 

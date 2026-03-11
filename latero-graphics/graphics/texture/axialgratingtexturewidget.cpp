@@ -33,15 +33,15 @@ class SeedAngleCtrl : public Gtk::HBox
 {
 public:
 	SeedAngleCtrl(AxialGratingTexturePtr peer) :
-		adj_(peer->GetSeedAngle(),0,360), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetSeedAngle(),0,360)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("seed angle", adj_, 0, units::degree)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &SeedAngleCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &SeedAngleCtrl::OnChanged));
 	}
 	virtual ~SeedAngleCtrl() {};
 protected:
-	void OnChanged() { peer_->SetSeedAngle(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetSeedAngle(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	AxialGratingTexturePtr peer_;
 };
 

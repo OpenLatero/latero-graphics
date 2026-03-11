@@ -34,7 +34,7 @@ public:
 	{
 		GratingModulator::ModeSet ops = peer->GetModes();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			append_text(ops[i].label);
+			append(ops[i].label);
 		set_active_text(peer->GetMode().label);
 		signal_changed().connect(sigc::mem_fun(*this, &GratingModulatorModeCombo::OnChange));
 	}
@@ -51,16 +51,16 @@ class GratingModulatorFactorWidget : public Gtk::HBox
 {
 public:
 	GratingModulatorFactorWidget(GratingModulatorPtr peer) : 
-		adj_(peer->GetFactor(),0.1,10), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetFactor(),0.1,10)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget(adj_, 1)));
-		adj_.signal_value_changed().connect(
+		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorFactorWidget::OnChanged));
 	}
 	virtual ~GratingModulatorFactorWidget() {}
 protected:
-	void OnChanged() { peer_->SetFactor(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetFactor(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	GratingModulatorPtr peer_;
 };
 
@@ -68,16 +68,16 @@ class GratingModulatorLengthWidget : public Gtk::HBox
 {
 public:
 	GratingModulatorLengthWidget(GratingModulatorPtr peer) : 
-		adj_(peer->GetLength(),1,300), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetLength(),1,300)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
-		adj_.signal_value_changed().connect(
+		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorLengthWidget::OnChanged));
 	}
 	virtual ~GratingModulatorLengthWidget() {}
 protected:
-	void OnChanged() { peer_->SetLength(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetLength(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	GratingModulatorPtr peer_;
 };
 
@@ -85,16 +85,16 @@ class GratingModulatorPosWidget : public Gtk::HBox
 {
 public:
 	GratingModulatorPosWidget(GratingModulatorPtr peer) : 
-		adj_(peer->GetPosition(),0,360), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetPosition(),0,360)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
-		adj_.signal_value_changed().connect(
+		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorPosWidget::OnChanged));
 	}
 	virtual ~GratingModulatorPosWidget() {}
 protected:
-	void OnChanged() { peer_->SetPosition(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetPosition(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	GratingModulatorPtr peer_;
 };
 

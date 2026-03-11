@@ -52,7 +52,7 @@ GroupOpCombo::GroupOpCombo(GroupPtr peer) :
 {
 	Group::OperationSet ops = peer->GetOperations();
 	for (unsigned int i=0; i<ops.size(); ++i)
-		append_text(ops[i].label);
+		append(ops[i].label);
 	set_active_text(peer->GetOperation().label);
 	signal_changed().connect(sigc::mem_fun(*this, &GroupOpCombo::OnChange));
 }
@@ -66,8 +66,6 @@ void GroupOpCombo::OnChange() { peer_->SetOperation(get_active_text()); signalCh
 GroupTreeView::GroupTreeView(GroupPtr peer) :
 	peer_(peer)
 {
-	set_size_request(200,200);	
-
 	Refresh();
 	append_column("name", columns_.name_);
 	set_headers_visible (false);
@@ -78,51 +76,60 @@ void GroupTreeView::RebuildMenu(PatternPtr pattern)
 	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
 	bool has_parent = (bool)GetParentGroup(pattern);
 	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(pattern);
-	
-	menu_.items().erase(menu_.items().begin(),menu_.items().end());
-	Gtk::Menu::MenuList& list = menu_.items();
+    
+    while (!menu_.get_children().empty())
+        menu_.remove(*menu_.get_children().front());
+    
+    if (group)
+    {
+        if (group->ChildrenArePublic())
+        {
+            auto item = Gtk::make_managed<Gtk::MenuItem>("Add to group");
+            if (tx)
+                item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnGroupAddTexture));
+            else
+                item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnGroupAddPattern));
+            menu_.append(*item);
+        }
+    }
 
-	if (group) 
-	{
-		if (group->ChildrenArePublic())
-		{
-			if (tx)
-				list.push_back( Gtk::Menu_Helpers::MenuElem("Add to group",
-					sigc::mem_fun(*this, &GroupTreeView::OnGroupAddTexture) ) );
-			else
-				list.push_back( Gtk::Menu_Helpers::MenuElem("Add to group",
-					sigc::mem_fun(*this, &GroupTreeView::OnGroupAddPattern) ) );
-		}
-	}
+    auto item = Gtk::make_managed<Gtk::MenuItem>("Save to file");
+    if (!tx)
+        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternSave));
+    else
+        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnTextureSave));
+    menu_.append(*item);
 
-	if (!tx)
-		list.push_back( Gtk::Menu_Helpers::MenuElem("Save to file",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternSave) ) );
-	else
-		list.push_back( Gtk::Menu_Helpers::MenuElem("Save to file",
-			sigc::mem_fun(*this, &GroupTreeView::OnTextureSave) ) );
+    if (has_parent)
+    {
+        auto item = Gtk::make_managed<Gtk::MenuItem>("Load from file");
+        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternLoad));
+        menu_.append(*item);
 
+        item = Gtk::make_managed<Gtk::MenuItem>("Remove");
+        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternRemove));
+        menu_.append(*item);
 
-	if (has_parent)
-	{
-		list.push_back( Gtk::Menu_Helpers::MenuElem("_Load from file",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternLoad ) ) );
+        item = Gtk::make_managed<Gtk::MenuItem>("Add after");
+        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternAppend));
+        menu_.append(*item);
 
-		list.push_back( Gtk::Menu_Helpers::MenuElem("_Remove",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternRemove) ) );
+        item = Gtk::make_managed<Gtk::MenuItem>("Add before");
+        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternPrepend));
+        menu_.append(*item);
 
-		list.push_back( Gtk::Menu_Helpers::MenuElem("_Add after",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternAppend ) ) );
+        item = Gtk::make_managed<Gtk::MenuItem>("Move up");
+        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveUp));
+        menu_.append(*item);
 
-		list.push_back( Gtk::Menu_Helpers::MenuElem("_Add before",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternPrepend ) ) );
-
-		list.push_back( Gtk::Menu_Helpers::MenuElem("Move _up",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveUp) ) );
-
-		list.push_back( Gtk::Menu_Helpers::MenuElem("Move _down",
-			sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveDown) ) );
-	}
+        item = Gtk::make_managed<Gtk::MenuItem>("Move down");
+        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveDown));
+        menu_.append(*item);
+    }
+    
+    menu_.show_all();
+    
+    
 }
 
 
@@ -330,7 +337,10 @@ GroupPtr GroupTreeView::GetParentGroup(PatternPtr pattern)
 
 void GroupTreeView::SelectFirst()
 {
-	if (get_model()->children()<=0) return;
+    auto model = get_model();
+    if (!model || model->children().empty())
+        return;
+
 	Gtk::TreeModel::Row row = get_model()->children()[0];
 	if (row) get_selection()->select(row);
 }
@@ -393,8 +403,8 @@ void GroupTreeView::OnPatternSave()
 
 		std::string dir = std::filesystem::current_path().string();
  
-		Gtk::FileFilter filter;
-		filter.add_pattern("*.pattern");
+        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+		filter->add_pattern("*.pattern");
 
 		dialog.set_current_folder(dir);
 		dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
@@ -420,8 +430,8 @@ void GroupTreeView::OnTextureSave()
 
 		std::string dir = std::filesystem::current_path().string();
  
-		Gtk::FileFilter filter;
-		filter.add_pattern("*.tx");
+        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+		filter->add_pattern("*.tx");
 
 		dialog.set_current_folder(dir);
 		dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
@@ -448,9 +458,9 @@ void GroupTreeView::OnPatternLoad()
 
 		std::string dir = std::filesystem::current_path().string();
  
-		Gtk::FileFilter filter;
-		filter.add_pattern("*.pattern");
-		filter.add_pattern("*.tx");
+        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+		filter->add_pattern("*.pattern");
+		filter->add_pattern("*.tx");
 
 		dialog.set_current_folder(dir);
 		dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
@@ -596,22 +606,22 @@ protected:
 GroupWidget::GroupWidget(GroupPtr peer) :
 	peer_(peer), treeView_(peer), txWidget_(NULL)
 {
-	Gtk::VBox *pSideBar = manage(new Gtk::VBox);
+    // this was in a vbox above the tree view but commented out, not sure why
+    //pSideBar->pack_start(*manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
+    
 	Gtk::ScrolledWindow *scrolledTreeView = manage(new Gtk::ScrolledWindow);
+    scrolledTreeView->set_size_request(200,200);
 	scrolledTreeView->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 	scrolledTreeView->set_placement(Gtk::CORNER_TOP_RIGHT);
 	scrolledTreeView->add(treeView_);
-
-	//pSideBar->pack_start(*manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
-	pSideBar->pack_start(*scrolledTreeView);
-
-	objWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
-	pack_start(*pSideBar, Gtk::PACK_SHRINK);
-	pack_start(objWidgetHolder_);
+    pack_start(*scrolledTreeView, false, false);
+    
+    objWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
+    pack_start(objWidgetHolder_, true, true);
 
 	treeView_.get_selection()->signal_changed().connect(
     		sigc::mem_fun(*this, &GroupWidget::OnSelectionChanged));
-
+    
 	// select the first item
 	Gtk::TreeModel::Row row = treeView_.get_model()->children()[0];
 	if (row) treeView_.get_selection()->select(row);

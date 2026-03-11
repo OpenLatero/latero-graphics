@@ -52,12 +52,12 @@ public:
 	NumWidgetCombo();
 	virtual ~NumWidgetCombo() {};
 
-	void Append(std::string units, Gtk::Adjustment* adj, uint digits);
+	void Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits);
 	void SetActive(std::string units);
 	int GetSize();
 
 	std::string GetUnits();
-	Gtk::Adjustment* GetAdj();
+    Glib::RefPtr<Gtk::Adjustment> GetAdj();
 	uint GetDigits();
 
 	class ModelColumns : public Gtk::TreeModel::ColumnRecord
@@ -65,7 +65,7 @@ public:
 	public:
 		ModelColumns() { add(units); add(adj); add(digits);}
 		Gtk::TreeModelColumn<std::string> units;
-		Gtk::TreeModelColumn<Gtk::Adjustment*> adj;
+		Gtk::TreeModelColumn<Glib::RefPtr<Gtk::Adjustment>> adj;
 		Gtk::TreeModelColumn<uint> digits;
 	};
 	ModelColumns columns_;
@@ -75,16 +75,16 @@ public:
 class NumWidget : public Gtk::Frame
 {
 public:
-	NumWidget(orient_T orient, Gtk::Adjustment &adj, uint digits, std::string name = name_default, std::string units = units_default);
+	NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name = name_default, std::string units = units_default);
 	virtual ~NumWidget() {}
-	void AddUnits(std::string units, Gtk::Adjustment* adj, uint digits);
+	void AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits);
 	void SelectUnits(std::string units);
 
 	sigc::signal<void,std::string> SignalUnitsChanged() { return signalUnitsChanged_; }
 protected:
 	sigc::signal<void,std::string> signalUnitsChanged_;
 	void SetDigits(uint n);
-	void SetAdjustment(Gtk::Adjustment*adj);
+	void SetAdjustment(Glib::RefPtr<Gtk::Adjustment> adj);
 	Glib::ustring OnFormat(double v);
 	void OnUnitsChanged();
 
@@ -98,16 +98,16 @@ protected:
 class HNumWidget : public NumWidget
 {
 public:
-	HNumWidget(Gtk::Adjustment &adj, uint digits, std::string units = units_default);
-	HNumWidget(const char *name, Gtk::Adjustment &adj, uint digits, std::string units = units_default);
+	HNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
+	HNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
 	virtual ~HNumWidget() {}
 };
 
 class VNumWidget : public NumWidget
 {
 public:
-	VNumWidget(Gtk::Adjustment &adj, uint digits, std::string units = units_default);
-	VNumWidget(const char *name, Gtk::Adjustment &adj, uint digits, std::string units = units_default);
+	VNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
+	VNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
 	virtual ~VNumWidget() {}
 };
 

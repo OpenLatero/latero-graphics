@@ -25,6 +25,7 @@
 #include <gtkmm/filechooserdialog.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/menu.h>
+#include <glibmm/main.h>
 
 namespace latero {
 namespace graphics { 

@@ -42,40 +42,40 @@ protected:
 class LimitCtrl : public Ctrl
 {
 public:
-	LimitCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(peer->GetLimit(), 0, 100)
+	LimitCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetLimit(), 0, 100))
 	{
 		add(*manage(new gtk::HNumWidget("lower limit", adj_, 0, units::mm_per_sec)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &LimitCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &LimitCtrl::OnChanged));
 	}
 protected:
-	void OnChanged() { peer_->SetLimit(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetLimit(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class TransitionCtrl : public Ctrl
 {
 public:
-	TransitionCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(peer->GetTransition(), 0, 100)
+	TransitionCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetTransition(), 0, 100))
 	{
 		add(*manage(new gtk::HNumWidget("transition rate", adj_, 0, units::mm_per_sec)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &TransitionCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TransitionCtrl::OnChanged));
 	}
 protected:
-	void OnChanged() { peer_->SetTransition(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetTransition(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class DelayCtrl : public Ctrl
 {
 public:
-	DelayCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(peer->GetDelay(), 0, 2000)
+	DelayCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDelay(), 0, 2000))
 	{
 		add(*manage(new gtk::HNumWidget("delayed onset", adj_, 0, units::ms)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &DelayCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DelayCtrl::OnChanged));
 	}
 protected:
-	void OnChanged() { peer_->SetDelay(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetDelay(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 

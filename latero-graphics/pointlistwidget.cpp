@@ -63,8 +63,8 @@ PointListWidget::~PointListWidget()
 
 void PointListWidget::InsertPoint(const Point &p)
 {
-	Gtk::Adjustment *xAdj = new Gtk::Adjustment(p.x,0,100000);
-	Gtk::Adjustment *yAdj = new Gtk::Adjustment(p.y,0,100000);
+    Glib::RefPtr<Gtk::Adjustment> xAdj = Gtk::Adjustment::create(p.x,0,100000);
+    Glib::RefPtr<Gtk::Adjustment> yAdj = Gtk::Adjustment::create(p.y,0,100000);
 
 	xAdj_.push_back(xAdj);
 	yAdj_.push_back(yAdj);
@@ -75,8 +75,8 @@ void PointListWidget::InsertPoint(const Point &p)
 
 	rowBox_.push_back(new Gtk::HBox);
 	pointBox_.pack_start(*rowBox_[i], Gtk::PACK_SHRINK);
-	rowBox_[i]->pack_start(*manage(new Gtk::SpinButton(*xAdj)));
-	rowBox_[i]->pack_start(*manage(new Gtk::SpinButton(*yAdj)));
+	rowBox_[i]->pack_start(*manage(new Gtk::SpinButton(xAdj)));
+	rowBox_[i]->pack_start(*manage(new Gtk::SpinButton(yAdj)));
 
 	NumButton *delButton = manage(new NumButton("-", static_cast<int>(xAdj_.size())-1));
 	rowBox_[i]->pack_start(*delButton, Gtk::PACK_SHRINK);
@@ -90,11 +90,7 @@ void PointListWidget::OnDelete(int i)
 		pointBox_.remove(*rowBox_[i]);
 		delete rowBox_[i];
 		rowBox_.erase(rowBox_.begin()+i);
-
-		delete xAdj_[i];
 		xAdj_.erase(xAdj_.begin()+i);
-
-		delete yAdj_[i];
 		yAdj_.erase(yAdj_.begin()+i);
 
 		show_all_children();
@@ -111,12 +107,7 @@ void PointListWidget::OnInsert()
 
 void PointListWidget::DeleteAdj()
 {
-	for (unsigned int i=0; i<xAdj_.size(); ++i)
-		delete xAdj_[i];
 	xAdj_.erase(xAdj_.begin(), xAdj_.end());
-
-	for (unsigned int i=0; i<yAdj_.size(); ++i)
-		delete yAdj_[i];
 	yAdj_.erase(yAdj_.begin(), yAdj_.end());
 
 	for (unsigned int i=0; i<rowBox_.size(); ++i)

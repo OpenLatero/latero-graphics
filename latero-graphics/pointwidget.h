@@ -41,7 +41,7 @@ public:
 	sigc::signal<void> SignalValueChanged();
 protected:
 	sigc::signal<void> signalValueChanged_;
-	Gtk::Adjustment xAdj_, yAdj_;
+    Glib::RefPtr<Gtk::Adjustment> xAdj_, yAdj_;
 };
 
 } // namespace graphics

@@ -34,12 +34,12 @@ namespace latero {
 namespace graphics { 
 
 DotPatternMinSpacingCtrl::DotPatternMinSpacingCtrl(DotPatternPtr peer) :
-    adj_(peer->GetMinSpacing(), 0, 50.0), peer_(peer)
+    adj_(Gtk::Adjustment::create(peer->GetMinSpacing(), 0, 50.0)), peer_(peer)
 {
-	adj_.signal_value_changed().connect(sigc::mem_fun(*this, &DotPatternMinSpacingCtrl::OnChanged));
+	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotPatternMinSpacingCtrl::OnChanged));
 	add(*manage(new gtk::HNumWidget("minimal spacing",adj_,1,"mm")));
 }
-void DotPatternMinSpacingCtrl::OnChanged() { peer_->SetMinSpacing(adj_.get_value()); }
+void DotPatternMinSpacingCtrl::OnChanged() { peer_->SetMinSpacing(adj_->get_value()); }
 
 DotPatternWidget::DotPatternWidget(DotPatternPtr peer)
 {

@@ -61,7 +61,7 @@ public:
 	void DisablePopup() { disablePopup_=true; }
 	void EnablePopup() { disablePopup_=false; }
 
-	Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(Cairo::RefPtr<Cairo::Context> &mmContext);
+	Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext);
 
 	// tmp
 	inline Point GetDisplayPos() const { return tdPos_; }
@@ -75,10 +75,6 @@ protected:
     bool OnButtonRelease(GdkEventButton* event);
     Point GetClickPos(double x, double y);
 
-    
-	/** @returns transparency mask for the widget's shape */
-	Glib::RefPtr<Gdk::Bitmap> GetShapeCombineMask();
-
 	// invalidate the entire window
 	void Invalidate();
 
@@ -91,14 +87,15 @@ protected:
 	inline double dpmm_y() { return GetHeight() / dev_->GetSurfaceHeight(); }
 
 	Gdk::Rectangle GetDisplayFootprint(uint border);
-	void DrawBorder(Cairo::RefPtr<Cairo::Context> &cr);
-	void DrawBorderPath(Cairo::RefPtr<Cairo::Context> &cr);
+	void DrawBorder(const Cairo::RefPtr<Cairo::Context> &cr);
+	void DrawBorderPath(const Cairo::RefPtr<Cairo::Context> &cr);
 
-	Cairo::RefPtr<Cairo::Pattern> GetCursorDrawing(Cairo::RefPtr<Cairo::Context> &cr);
+	Cairo::RefPtr<Cairo::Pattern> GetCursorDrawing(const Cairo::RefPtr<Cairo::Context> &cr);
 
-	void DrawCursor(Cairo::RefPtr<Cairo::Context> &cr);
+	void DrawCursor(const Cairo::RefPtr<Cairo::Context> &cr);
 
-	virtual bool on_expose_event(GdkEventExpose* event);
+	//virtual bool on_expose_event(GdkEventExpose* event);
+    bool OnDraw(const Cairo::RefPtr<Cairo::Context>& cr);
 
 protected:
     
@@ -181,7 +178,7 @@ public:
 		surface_.AnimateCursor(v);
 	}
 
-	inline Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(Cairo::RefPtr<Cairo::Context> &mmContext) {
+	inline Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext) {
 		return surface_.GetDisplayDrawing(mmContext);
 	}
 

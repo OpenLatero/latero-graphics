@@ -37,15 +37,15 @@ namespace graphics {
 PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) : 
 	Gtk::Dialog("Create Pattern"), txCombo_(dev), dev_(dev)
 {
-	combo_.append_text("load from file");
-	combo_.append_text("dot");
-	combo_.append_text("dot set");
-	combo_.append_text("line");
-	combo_.append_text("circle");
-	combo_.append_text("polygon");
-	combo_.append_text("image");
-	combo_.append_text("texture");
-	combo_.append_text("group");
+	combo_.append("load from file");
+	combo_.append("dot");
+	combo_.append("dot set");
+	combo_.append("line");
+	combo_.append("circle");
+	combo_.append("polygon");
+	combo_.append("image");
+	combo_.append("texture");
+	combo_.append("group");
 
 	combo_.set_active_text("line");
 	txCombo_.set_sensitive(false);
@@ -83,9 +83,9 @@ PatternPtr PatternCreatorDialog::CreatePattern()
 		
 		std::string dir = std::filesystem::current_path().string();
 
-		Gtk::FileFilter filter;
-		filter.add_pattern("*.pattern");
-		filter.add_pattern("*.tx");
+        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+		filter->add_pattern("*.pattern");
+		filter->add_pattern("*.tx");
 		dialog.set_current_folder(dir);
 		dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 		dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);

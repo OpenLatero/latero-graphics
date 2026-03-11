@@ -35,7 +35,7 @@ class PlotSaveDlg : public Gtk::FileChooserDialog
 public:
 	PlotSaveDlg() :
 		Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE),
-		wAdj_(1000, 0, 1000), hAdj_(500, 0, 1000)
+		wAdj_(Gtk::Adjustment::create(1000, 0, 1000)), hAdj_(Gtk::Adjustment::create(500, 0, 1000))
 	{
 		std::string dir = std::filesystem::current_path().string();
 		set_current_folder(dir);
@@ -49,10 +49,10 @@ public:
 		get_vbox()->pack_start(*manage(new Gtk::SpinButton(hAdj_)));
 	}
 
-	uint GetWidth() { return wAdj_.get_value(); }
-	uint GetHeight() { return hAdj_.get_value(); }
+	uint GetWidth() { return wAdj_->get_value(); }
+	uint GetHeight() { return hAdj_->get_value(); }
 protected:
-	Gtk::Adjustment wAdj_, hAdj_;
+    Glib::RefPtr<Gtk::Adjustment> wAdj_, hAdj_;
 };
 
 
@@ -67,6 +67,8 @@ Plot::Plot(const char *fgColor, const char *bgColor) :
 	// minimum of one channel present
 	AddChannel(fgColor);
 	CreatePopupMenu();
+
+    signal_draw().connect(sigc::mem_fun(*this, &Plot::OnDraw));
 }
 
 Plot::~Plot()
@@ -83,7 +85,7 @@ void Plot::Clear()
 
 void Plot::Draw()
 {
-	if (is_realized())
+	if (get_realized())
 	{
 		Gdk::Rectangle invRect(0, 0, get_allocation().get_width(), get_allocation().get_height());
 		get_window()->invalidate_rect(invRect, false);
@@ -91,18 +93,8 @@ void Plot::Draw()
 }
 
 
-bool Plot::on_expose_event(GdkEventExpose* event)
+bool Plot::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr)
 {
-	Glib::RefPtr<Gdk::Window> window = get_window();
-	if (!window) return true;
-
-	Cairo::RefPtr<Cairo::Context> cr = window->create_cairo_context();
-	if (event)
-	{
-		cr->rectangle(event->area.x, event->area.y, event->area.width, event->area.height);
-    		cr->clip();
-	}
-	
 	uint w = get_allocation().get_width();
 	uint h = get_allocation().get_height();
 

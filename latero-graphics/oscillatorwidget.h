@@ -25,6 +25,7 @@
 #include <gtkmm.h>
 #include "gtk/checkframe.h"
 #include "oscillatorfwd.h"
+#include <gtkmm/checkbutton.h>
 
 namespace latero {
 namespace graphics { 
@@ -47,7 +48,7 @@ public:
 	virtual ~OscillatorAmplitudeCtrl() {};
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	OscillatorPtr peer_;
 };
 
@@ -59,7 +60,7 @@ public:
 	virtual ~OscillatorFreqCtrl() {};
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	OscillatorPtr peer_;
 };
 

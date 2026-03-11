@@ -38,16 +38,16 @@ class AngleWidget : public Gtk::HBox
 {
 public:
 	AngleWidget(LinearGratingTexturePtr peer) :
-		adj_(peer->GetAngle(),0,360), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("orientation", adj_, 1, units::degree)));
-		adj_.signal_value_changed().connect(
+		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &AngleWidget::OnChanged));
 	}
 	virtual ~AngleWidget() {};
 protected:
-	void OnChanged()  { peer_->SetAngle(adj_.get_value()); };
-	Gtk::Adjustment adj_;
+	void OnChanged()  { peer_->SetAngle(adj_->get_value()); };
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	LinearGratingTexturePtr peer_;
 };
 

@@ -43,7 +43,7 @@ public:
 	{
 		Polygon::JoinTypeSet ops = peer->GetJoinTypes();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			append_text(ops[i].label);
+			append(ops[i].label);
 		set_active_text(peer->GetJoinType().label);
 		signal_changed().connect(sigc::mem_fun(*this, &PolygonJoinTypeCombo::OnChange));
 	};
@@ -58,15 +58,15 @@ class PolygonRoundingOffsetCtrl : public Gtk::VBox
 {
 public:
 	PolygonRoundingOffsetCtrl(PolygonPtr peer) : 
-        adj_(peer->GetRoundingOffset(), 0, 50), peer_(peer)
+        adj_(Gtk::Adjustment::create(peer->GetRoundingOffset(), 0, 50)), peer_(peer)
 	{
 		add(*manage(new latero::graphics::gtk::HNumWidget("rounding offset", adj_, 1, "mm")));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &PolygonRoundingOffsetCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonRoundingOffsetCtrl::OnChanged));
 	}
 	virtual ~PolygonRoundingOffsetCtrl() {};
 protected:
-	void OnChanged() { peer_->SetRoundingOffset(adj_.get_value()); }
-	Gtk::Adjustment adj_;	
+	void OnChanged() { peer_->SetRoundingOffset(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	PolygonPtr peer_;
 };
 
@@ -74,15 +74,15 @@ class PolygonCornerBlendSizeCtrl : public Gtk::VBox
 {
 public:
 	PolygonCornerBlendSizeCtrl(PolygonPtr peer) : 
-		adj_(peer->GetCornerBlendSize(), 0, 10), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetCornerBlendSize(), 0, 10)), peer_(peer)
 	{
 		add(*manage(new latero::graphics::gtk::HNumWidget("blending size", adj_, 1, "mm")));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendSizeCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendSizeCtrl::OnChanged));
 	}
 	virtual ~PolygonCornerBlendSizeCtrl() {};
 protected:
-	void OnChanged() { peer_->SetCornerBlendSize(adj_.get_value()); }
-	Gtk::Adjustment adj_;	
+	void OnChanged() { peer_->SetCornerBlendSize(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	PolygonPtr peer_;
 };
 
@@ -123,7 +123,7 @@ public:
 	{
 		Polygon::CornerSpanSet ops = peer->GetCornerSpans();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			append_text(ops[i].label);
+			append(ops[i].label);
 		set_active_text(peer->GetCornerSpan().label);
 		signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerSpanCombo::OnChange));
 	};
@@ -141,7 +141,7 @@ public:
 		add(combo_);
 		Polygon::CornerBlendSet ops = peer->GetCornerBlends();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			combo_.append_text(ops[i].label);
+			combo_.append(ops[i].label);
 		combo_.set_active_text(peer->GetCornerBlend().label);
 		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendCombo::OnChange));
 	};
@@ -160,7 +160,7 @@ public:
 		add(combo_);
 		Polygon::CornerTypeSet ops = peer->GetCornerTypes();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			combo_.append_text(ops[i].label);
+			combo_.append(ops[i].label);
 		combo_.set_active_text(peer->GetCornerType().label);
 		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerTypeCombo::OnChange));
 	};
@@ -178,8 +178,8 @@ class PolygonCornerAngleCtrl : public Gtk::Frame
 public:
 	PolygonCornerAngleCtrl(PolygonPtr peer) : 
 		Gtk::Frame("angle"), 
-		adj_(peer->GetCornerUserAngle(), 0, 180),
-		angleCtrl_(adj_), 
+		adj_(Gtk::Adjustment::create(peer->GetCornerUserAngle(), 0, 180)),
+		angleCtrl_(adj_),
         combo_(peer), 
         peer_(peer)
 	{
@@ -188,15 +188,15 @@ public:
 		box->pack_start(combo_, Gtk::PACK_SHRINK);
 		box->pack_start(angleCtrl_);
 		add(*box);
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnChanged));
 		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnComboChanged));
 	}
 	virtual ~PolygonCornerAngleCtrl() {};
 protected:
-	void OnChanged() { peer_->SetCornerUserAngle(adj_.get_value()); }
+	void OnChanged() { peer_->SetCornerUserAngle(adj_->get_value()); }
 	void OnComboChanged() { angleCtrl_.set_sensitive(peer_->GetCornerSpan()==Polygon::corner_span_user); }
 
-	Gtk::Adjustment adj_;	
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	Gtk::SpinButton angleCtrl_;
 	PolygonCornerSpanCombo combo_;
 	PolygonPtr peer_;

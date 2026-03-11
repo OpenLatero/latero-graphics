@@ -44,15 +44,15 @@ class TimeWidget : public Gtk::HBox
 {
 public:
 	TimeWidget(int init=0, std::string units=units::nsec) :
-		adj_(init, 0, 1000000), spin_(adj_)
+		adj_(Gtk::Adjustment::create(init, 0, 1000000)), spin_(adj_)
 	{
-		combo_.append_text(units::day);
-		combo_.append_text(units::hour);
-		combo_.append_text(units::min);
-		combo_.append_text(units::sec);
-		combo_.append_text(units::msec);
-		combo_.append_text(units::usec);
-		combo_.append_text(units::nsec);
+		combo_.append(units::day);
+		combo_.append(units::hour);
+		combo_.append(units::min);
+		combo_.append(units::sec);
+		combo_.append(units::msec);
+		combo_.append(units::usec);
+		combo_.append(units::nsec);
 		combo_.set_active_text(units);
 
 		pack_start(spin_);
@@ -64,12 +64,12 @@ public:
 
 	boost::posix_time::time_duration GetTime()
 	{
-		return units::ConvertTime(adj_.get_value(), combo_.get_active_text());
+		return units::ConvertTime(adj_->get_value(), combo_.get_active_text());
 	}
 
 protected:
 
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	Gtk::SpinButton spin_;
 	Gtk::ComboBoxText combo_;
 };
@@ -145,12 +145,12 @@ protected:
 	void OnWidthChanged();
 	void OnHeightChanged();
 	
-	Gtk::Adjustment velMagAdj_;
-	Gtk::Adjustment velDirAdj_;
+    Glib::RefPtr<Gtk::Adjustment> velMagAdj_;
+    Glib::RefPtr<Gtk::Adjustment> velDirAdj_;
 	TimeWidget intervalCtrl_;
-	Gtk::Adjustment frameAdj_;
-	Gtk::Adjustment nbFramesAdj_;
-	Gtk::Adjustment widthAdj_, heightAdj_;
+    Glib::RefPtr<Gtk::Adjustment> frameAdj_;
+    Glib::RefPtr<Gtk::Adjustment> nbFramesAdj_;
+    Glib::RefPtr<Gtk::Adjustment> widthAdj_, heightAdj_;
 	StartTimeWidget startTimeCtrl_;
 	Glib::RefPtr<Gtk::UIManager> uiManager_;
 	Gtk::Image img_;

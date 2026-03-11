@@ -30,12 +30,12 @@ namespace graphics {
 
 RidgeEdgeWidthScale::RidgeEdgeWidthScale(RidgePtr peer) :
 	peer_(peer),
-	adj_(peer->GetEdgeWidth(), Ridge::edgeWidth_min, 10, 10, 50)
+	adj_(Gtk::Adjustment::create(peer->GetEdgeWidth(), Ridge::edgeWidth_min, 10, 10, 50))
 {
 	add(*manage(new gtk::HNumWidget("edge width", adj_, 2, "mm")));
-	adj_.signal_value_changed().connect(sigc::mem_fun(*this, &RidgeEdgeWidthScale::OnChange));
+	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeEdgeWidthScale::OnChange));
 }
-void RidgeEdgeWidthScale::OnChange() { peer_->SetEdgeWidth(adj_.get_value()); }
+void RidgeEdgeWidthScale::OnChange() { peer_->SetEdgeWidth(adj_->get_value()); }
 
 
 
@@ -44,32 +44,32 @@ class RidgeTxAmpScale : public Gtk::VBox
 {
 public:
 	RidgeTxAmpScale(RidgePtr peer) :
-		peer_(peer), adj_(100*peer->GetTxAmp(), 0, 100, 10, 50)
+		peer_(peer), adj_(Gtk::Adjustment::create(100*peer->GetTxAmp(), 0, 100, 10, 50))
 	{
 		add(*manage(new gtk::HNumWidget(adj_, 0, "%")));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxAmpScale::OnChange));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxAmpScale::OnChange));
 	}
 	virtual ~RidgeTxAmpScale() {};
 private:
-	void OnChange() { peer_->SetTxAmp(adj_.get_value()/100); };
+	void OnChange() { peer_->SetTxAmp(adj_->get_value()/100); };
 	RidgePtr peer_;
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 class RidgeTxNbCyclesScale : public Gtk::VBox
 {
 public:
 	RidgeTxNbCyclesScale(RidgePtr peer) :
-		peer_(peer), adj_(peer->GetTxNbCycles(),1,20.0)
+		peer_(peer), adj_(Gtk::Adjustment::create(peer->GetTxNbCycles(),1,20.0))
 	{
 		add(*manage(new gtk::HNumWidget(adj_, 0)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxNbCyclesScale::OnChange));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxNbCyclesScale::OnChange));
 	}
 	virtual ~RidgeTxNbCyclesScale() {};
 private:
-	void OnChange() { peer_->SetTxNbCycles((uint)adj_.get_value()); };
+	void OnChange() { peer_->SetTxNbCycles((uint)adj_->get_value()); };
 	RidgePtr peer_;
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
 

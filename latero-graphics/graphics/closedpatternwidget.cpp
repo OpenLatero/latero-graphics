@@ -30,15 +30,15 @@ class ClosedPatternFillTextureGapCtrl : public Gtk::VBox
 {
 public:
 	ClosedPatternFillTextureGapCtrl(ClosedPatternPtr peer) : 
-		adj_(peer->GetFillTextureGap(), -1, 50), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetFillTextureGap(), -1, 50)), peer_(peer)
 	{
 		add(*manage(new latero::graphics::gtk::HNumWidget("gap", adj_, 1, "mm")));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureGapCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureGapCtrl::OnChanged));
 	}
 	virtual ~ClosedPatternFillTextureGapCtrl() {};
 protected:
-	void OnChanged() { peer_->SetFillTextureGap(adj_.get_value()); }
-	Gtk::Adjustment adj_;	
+	void OnChanged() { peer_->SetFillTextureGap(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	ClosedPatternPtr peer_;
 };
 
@@ -46,15 +46,15 @@ class ClosedPatternFillTextureEdgeSizeCtrl : public Gtk::VBox
 {
 public:
 	ClosedPatternFillTextureEdgeSizeCtrl(ClosedPatternPtr peer) : 
-		adj_(peer->GetFillTextureEdgeSize(), 0, 50), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetFillTextureEdgeSize(), 0, 50)), peer_(peer)
 	{
 		add(*manage(new latero::graphics::gtk::HNumWidget("edge size", adj_, 1, "mm")));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureEdgeSizeCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureEdgeSizeCtrl::OnChanged));
 	}
 	virtual ~ClosedPatternFillTextureEdgeSizeCtrl() {};
 protected:
-	void OnChanged() { peer_->SetFillTextureEdgeSize(adj_.get_value()); }
-	Gtk::Adjustment adj_;	
+	void OnChanged() { peer_->SetFillTextureEdgeSize(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	ClosedPatternPtr peer_;
 };
 

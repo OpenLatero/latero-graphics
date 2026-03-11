@@ -27,6 +27,7 @@
 #include <glibmm/miscutils.h>
 #include <glibmm/fileutils.h>
 #include <filesystem>
+#include <cairomm/context.h>
 
 #include "mask.h"
 #include "gtk/pixbufops.h"

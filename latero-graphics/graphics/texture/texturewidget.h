@@ -31,6 +31,7 @@
 #include "../../pointwidget.h"
 #include "../../gtk/checkframe.h"
 #include "../../oscillatorwidget.h"
+#include <gtkmm/checkbutton.h>
 
 namespace latero {
 namespace graphics { 
@@ -78,7 +79,7 @@ public:
 	virtual ~TextureAmplitudeCtrl() {};
 protected:
 	void OnChanged();
-	Gtk::Adjustment adj_;
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	TexturePtr peer_;
 };
 

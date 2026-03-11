@@ -29,6 +29,7 @@
 #include <gtkmm.h>
 #include "../grating.h"
 #include "dotpatternwidget.h"
+#include <gtkmm/checkbutton.h>
 
 namespace latero {
 namespace graphics { 
@@ -37,15 +38,15 @@ class StrokeIntensityCtrl : public Gtk::VBox
 {
 public:
 	StrokeIntensityCtrl(StrokePtr peer) : 
-		adj_(peer->GetIntensity()*100,0,100), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetIntensity()*100,0,100)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("stroke intensity", adj_, 1, "%")));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &StrokeIntensityCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeIntensityCtrl::OnChanged));
 	}
 	virtual ~StrokeIntensityCtrl() {};
 protected:
-	void OnChanged() { peer_->SetIntensity(adj_.get_value()/100); };
-	Gtk::Adjustment adj_;	
+	void OnChanged() { peer_->SetIntensity(adj_->get_value()/100); };
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	StrokePtr peer_;
 };
 
@@ -54,15 +55,15 @@ class StrokeWidthCtrl : public Gtk::VBox
 {
 public:
 	StrokeWidthCtrl(StrokePtr peer) : 
-		adj_(peer->GetWidth(),0,50.0), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetWidth(),0,50.0)), peer_(peer)
 	{
 		add(*manage(new gtk::HNumWidget("stroke width", adj_, 1, "mm")));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &StrokeWidthCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeWidthCtrl::OnChanged));
 	}
 	virtual ~StrokeWidthCtrl() {};
 protected:
-	void OnChanged() { peer_->SetWidth(adj_.get_value()); };
-	Gtk::Adjustment adj_;	
+	void OnChanged() { peer_->SetWidth(adj_->get_value()); };
+    Glib::RefPtr<Gtk::Adjustment> adj_;	
 	StrokePtr peer_;
 };
 

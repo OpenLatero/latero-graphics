@@ -36,14 +36,14 @@ class VibroTextureFreqCtrl : public Gtk::VBox
 {
 public:
 	VibroTextureFreqCtrl(VibroTexturePtr peer) :
-		adj_(peer->GetFreq(),Oscillator::freq_min,Oscillator::freq_max), peer_(peer)
+		adj_(Gtk::Adjustment::create(peer->GetFreq(),Oscillator::freq_min,Oscillator::freq_max)), peer_(peer)
 	{
 		pack_start(*manage(new gtk::HNumWidget("frequency", adj_,1, units::hz)));
-		adj_.signal_value_changed().connect(sigc::mem_fun(*this, &VibroTextureFreqCtrl::OnChanged));
+		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VibroTextureFreqCtrl::OnChanged));
 	}
 protected:
-	void OnChanged() { peer_->SetFreq(adj_.get_value()); }
-	Gtk::Adjustment adj_;
+	void OnChanged() { peer_->SetFreq(adj_->get_value()); }
+    Glib::RefPtr<Gtk::Adjustment> adj_;
 	VibroTexturePtr peer_;
 };
 

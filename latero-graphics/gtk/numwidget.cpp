@@ -33,7 +33,7 @@ NumWidgetCombo::NumWidgetCombo()
 	pack_start(columns_.units);
 }
 
-void NumWidgetCombo::Append(std::string units, Gtk::Adjustment* adj, uint digits)
+void NumWidgetCombo::Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
 {
 	Gtk::TreeModel::Row row = *(model_->append());
 	row[columns_.units] = units;
@@ -64,7 +64,7 @@ std::string NumWidgetCombo::GetUnits()
 	return (*get_active())[columns_.units];
 }
 
-Gtk::Adjustment* NumWidgetCombo::GetAdj()
+Glib::RefPtr<Gtk::Adjustment> NumWidgetCombo::GetAdj()
 {
 	return (*get_active())[columns_.adj];
 }
@@ -78,7 +78,7 @@ uint NumWidgetCombo::GetDigits()
 
 
 
-NumWidget::NumWidget(orient_T orient, Gtk::Adjustment &adj, uint digits, std::string name, std::string units) :
+NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
 	units_(units),
 	spin_(adj)
 {
@@ -109,7 +109,11 @@ NumWidget::NumWidget(orient_T orient, Gtk::Adjustment &adj, uint digits, std::st
 	}
 
 	SetDigits(digits);
-	scale_->set_update_policy(Gtk::UPDATE_DISCONTINUOUS);
+    
+	// This policy caused the update to occur only when then slider was released. It was disabled since it is no 
+	// longer available in GTKMM3. This may cause expensive updates to occur while the slider is being dragged,
+	// in which case the policy should be emulated by not handling all updates the same.
+    //scale_->set_update_policy(Gtk::UPDATE_DISCONTINUOUS);
 
 	add(*box2);
 	box2->pack_start(*box_, Gtk::PACK_SHRINK);
@@ -129,12 +133,12 @@ NumWidget::NumWidget(orient_T orient, Gtk::Adjustment &adj, uint digits, std::st
 	scale_->signal_format_value().connect(
 		sigc::mem_fun(*this, &NumWidget::OnFormat));
 
-	unitsCombo_.Append(units,&adj,digits);
+	unitsCombo_.Append(units,adj,digits);
 	unitsCombo_.SetActive(units);
 	unitsCombo_.signal_changed().connect( sigc::mem_fun(*this, &NumWidget::OnUnitsChanged) );
 };
 
-void NumWidget::AddUnits(std::string units, Gtk::Adjustment* adj, uint digits)
+void NumWidget::AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
 {
 	unitsCombo_.Append(units,adj,digits);
 	if (unitsCombo_.GetSize())
@@ -147,10 +151,10 @@ void NumWidget::SetDigits(uint n)
 	spin_.set_digits(n);
 }
 
-void NumWidget::SetAdjustment(Gtk::Adjustment* adj)
+void NumWidget::SetAdjustment(Glib::RefPtr<Gtk::Adjustment> adj)
 {
-	spin_.set_adjustment(*adj);
-	scale_->set_adjustment(*adj);
+	spin_.set_adjustment(adj);
+	scale_->set_adjustment(adj);
 }
 
 void NumWidget::OnUnitsChanged()
@@ -183,16 +187,16 @@ Glib::ustring NumWidget::OnFormat(double v)
 }
 
 
-HNumWidget::HNumWidget(Gtk::Adjustment &adj, uint digits, std::string units) :
+HNumWidget::HNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
 	NumWidget(ORIENT_H,adj,digits,"",units) {}
 
-VNumWidget::VNumWidget(Gtk::Adjustment &adj, uint digits, std::string units) :
+VNumWidget::VNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
 	NumWidget(ORIENT_V,adj,digits,"",units) {}
 
-HNumWidget::HNumWidget(const char *name, Gtk::Adjustment &adj, uint digits, std::string units) :
+HNumWidget::HNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
 	NumWidget(ORIENT_H,adj,digits,name,units) {}
 
-VNumWidget::VNumWidget(const char *name, Gtk::Adjustment &adj, uint digits, std::string units) :
+VNumWidget::VNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
 	NumWidget(ORIENT_V,adj,digits,name,units) {}
 
 } // namespace gtk
