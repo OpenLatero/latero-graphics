@@ -28,13 +28,9 @@ There is no port for the audiere library.
 Step 4: Install the latero-graphics library
 --------------------------------------------
 -- Build and install the library
->> mkdir build
->> cd build
->> cmake ..
->> make
->> sudo make install
-
-If the installation is successful, the library liblaterographics.a will now be in /usr/local/lib/ and the include files in /usr/local/include/latero-graphics/
+>> cmake -B build
+>> cmake --build build
+>> sudo cmake --install build 
 
 You can run the program latero-demo (another project) to test the latero graphics library.
 
