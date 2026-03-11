@@ -28,7 +28,7 @@ There is no port for the audiere library.
 Step 4: Install the latero-graphics library
 --------------------------------------------
 -- Build and install the library
->> cmake -B build
+>> cmake --preset default
 >> cmake --build build
 >> sudo cmake --install build 
 

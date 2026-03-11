@@ -54,4 +54,3 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/laterographicsConfig.cmake
     DESTINATION lib/cmake/laterographics
 )
-
