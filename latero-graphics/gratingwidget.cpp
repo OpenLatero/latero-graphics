@@ -320,10 +320,20 @@ void GratingPitchWidget::OnRegularize()
 	show_all_children();
 }
 
-
+// TODO: Doesn't seem to be used anywhere. Delete?
 GratingWidget::GratingWidget(GratingPtr peer) :
 	gtk::CheckFrame(peer->GetEnable(), "grating"), peer_(peer)
 {
+	// Moving from Gtk::Table to Gtk::Grid but can't test since not currently used.
+	Gtk::Grid *grid = manage(new Gtk::Grid());
+	GetBox().add(*grid);
+	grid->attach(*manage(new GratingPitchWidget(peer)), 0, 0, 2, 1);
+	grid->attach(*manage(new GratingVelocityWidget(peer)), 0, 1, 2, 1);
+	grid->attach(*manage(new GratingAdvancedButton(peer)), 0, 2, 1, 1);
+	grid->attach(*manage(new GratingInvertCtrl(peer)), 1, 2, 1, 1);
+	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &GratingWidget::OnEnable));
+
+	/*
 	Gtk::Table *table = manage(new Gtk::Table(2,3));
 	GetBox().add(*table);
 	table->attach(*manage(new GratingPitchWidget(peer)), 	0,2, 0,1);
@@ -331,8 +341,11 @@ GratingWidget::GratingWidget(GratingPtr peer) :
 	table->attach(*manage(new GratingAdvancedButton(peer)), 0,1, 2,3);
 	table->attach(*manage(new GratingInvertCtrl(peer)), 	1,2, 2,3);
 	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &GratingWidget::OnEnable));
+	*/
 };
 void GratingWidget::OnEnable() { peer_->SetEnable(GetCheck().get_active()); }
+
+
 
 // AdvancedGratingWidget ////////////////////////////////////////////////////////////////////
 

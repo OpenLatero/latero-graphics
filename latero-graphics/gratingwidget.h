@@ -261,6 +261,7 @@ public:
 	GratingPtr peer_;
 };
 
+
 class GratingWidget : public gtk::CheckFrame
 {
 public:
@@ -270,6 +271,7 @@ protected:
 	void OnEnable();
 	GratingPtr peer_;
 };
+
 
 } // namespace graphics
 } // namespace latero
