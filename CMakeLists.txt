@@ -54,3 +54,11 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/laterographicsConfig.cmake
     DESTINATION lib/cmake/laterographics
 )
+
+# Treat deprecation in GTKMM as errors
+#target_compile_definitions(latero-gui PRIVATE
+#    GLIB_DISABLE_DEPRECATED
+#    GDK_DISABLE_DEPRECATED
+#    GTK_DISABLE_DEPRECATED
+#    GTKMM_DISABLE_DEPRECATED
+#)

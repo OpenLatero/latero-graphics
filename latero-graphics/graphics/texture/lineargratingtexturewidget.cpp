@@ -60,14 +60,45 @@ protected:
 void LinearGratingTextureWidget::Create()
 {
 	using namespace LinearGratingTextureCtrls;
+
+	auto grid = manage(new Gtk::Grid());
+	grid->set_hexpand(true);
+	grid->set_vexpand(true);
+	grid->set_valign(Gtk::ALIGN_CENTER);
+	grid->set_column_homogeneous(true);
+		
+	auto ridgeSizeWidget = CreateRidgeSizeWidget();
+	ridgeSizeWidget->set_vexpand(true);
+	auto gapSizeWidget = CreateGapSizeWidget();
+	gapSizeWidget->set_vexpand(true);
+	auto angleWidget = manage(new AngleWidget(peer_));
+	angleWidget->set_vexpand(true);
+	auto gratingVelocityWidget = CreateGratingVelocityWidget();
+	gratingVelocityWidget->set_vexpand(true);
+	auto tdCentricCheck = CreateTDCentricCheck();
+	tdCentricCheck->set_vexpand(true);
+	auto vibCheck = CreateVibCheck();
+	vibCheck->set_vexpand(true);
+
+	grid->attach(*ridgeSizeWidget,0,0,1,1); 
+	grid->attach(*gapSizeWidget,1,0,1,1);
+	grid->attach(*angleWidget,0,1,1,1);
+	grid->attach(*gratingVelocityWidget,1,1,1,1);
+	grid->attach(*tdCentricCheck,0,2,1,1);
+	grid->attach(*vibCheck,1,2,1,1);
+
+	SetContent(grid);
+
+	/*
 	Gtk::Table *table = manage(new Gtk::Table(2,3));
 	table->attach(*CreateRidgeSizeWidget(),0,1,0,1); 
 	table->attach(*CreateGapSizeWidget(),1,2,0,1);
 	table->attach(*manage(new AngleWidget(peer_)),0,1,1,2);
 	table->attach(*CreateGratingVelocityWidget(),1,2,1,2);
 	table->attach(*CreateTDCentricCheck(),0,1,2,3);
-	table->attach(*CreateVibCheck(),1,2,2,3);
+	//table->attach(*CreateVibCheck(),1,2,2,3);
 	SetContent(table);
+	*/
 }
 
 

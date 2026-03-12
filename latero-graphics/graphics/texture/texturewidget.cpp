@@ -251,10 +251,13 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 
 	Gtk::VBox *vbox = manage(new Gtk::VBox);
 
+	widget->set_vexpand(true);
+	widget->set_valign(Gtk::ALIGN_FILL);
+
 	if (showPanel) box->pack_start(*manage(CreateLeftPanel()), Gtk::PACK_SHRINK);
 	box->pack_start(*vbox);
-	vbox->pack_start(*widget);
-	if (showAdvanced) vbox->pack_start(*advancedButton, Gtk::PACK_SHRINK);
+	vbox->pack_start(*widget, true, true);
+	if (showAdvanced) vbox->pack_start(*advancedButton, false, false);
 	if (showPreview) box->pack_start(*manage(new PatternPreview(peer_)), Gtk::PACK_SHRINK);
 
 	show_all_children();
