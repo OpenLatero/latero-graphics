@@ -152,7 +152,7 @@ protected:
     Glib::RefPtr<Gtk::Adjustment> nbFramesAdj_;
     Glib::RefPtr<Gtk::Adjustment> widthAdj_, heightAdj_;
 	StartTimeWidget startTimeCtrl_;
-	Glib::RefPtr<Gtk::UIManager> uiManager_;
+	std::unique_ptr<Gtk::Menu> popupMenu_;
 	Gtk::Image img_;
 	latero::graphics::gtk::Animation map_;
 	Gtk::ComboBoxText modeCombo_;

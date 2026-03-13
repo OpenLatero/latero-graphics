@@ -187,7 +187,7 @@ bool VisualizeWidget::OnClick(GdkEventButton* event)
 	}
 	else if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
 	{
-		((Gtk::Menu*)uiManager_->get_widget("/PopupMenu"))->popup(event->button, event->time);
+		popupMenu_->popup_at_pointer((GdkEvent*)event);
 		return true;
 	}
 	else
@@ -197,23 +197,33 @@ bool VisualizeWidget::OnClick(GdkEventButton* event)
 
 void VisualizeWidget::CreateMenu()
 {
-	Glib::RefPtr<Gtk::ActionGroup> group = Gtk::ActionGroup::create();
-	group->add(Gtk::Action::create("ContextSave", "save as viz.png/gif", "save image"),
-		sigc::mem_fun(*this, &VisualizeWidget::OnSave));
-	group->add(Gtk::Action::create("ContextSaveAs", "save as", "save as image"),
-		sigc::mem_fun(*this, &VisualizeWidget::OnSaveAs));
+	// Create action group and add actions
+	auto action_group = Gio::SimpleActionGroup::create();
+	action_group->add_action("save",   sigc::mem_fun(*this, &VisualizeWidget::OnSave));
+	action_group->add_action("saveas", sigc::mem_fun(*this, &VisualizeWidget::OnSaveAs));
+	insert_action_group("viz", action_group);
 
-	uiManager_ = Gtk::UIManager::create();
-	uiManager_->insert_action_group(group);
+	// Define the popup menu using Builder XML
+	auto builder = Gtk::Builder::create_from_string(R"(
+	<?xml version="1.0" encoding="UTF-8"?>
+	<interface>
+  	<menu id="PopupMenu">
+    	<item>
+      		<attribute name="label">save as viz.png/gif</attribute>
+      		<attribute name="action">viz.save</attribute>
+    	</item>
+    	<item>
+      		<attribute name="label">save as</attribute>
+      		<attribute name="action">viz.saveas</attribute>
+    	</item>
+  	</menu>
+	</interface>
+	)");
 
-	std::stringstream buf;
-	buf << "<ui>";
-       	buf << "  <popup name='PopupMenu'>";
-	buf << "     <menuitem action='ContextSave'/>";
-	buf << "     <menuitem action='ContextSaveAs'/>";
-       	buf << "  </popup>";
-       	buf << "</ui>";
-	uiManager_->add_ui_from_string(buf.str());
+	// Get the menu and create a Gtk::Menu from it
+	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
+	popupMenu_->attach_to_widget(*this);
 }
 
 void VisualizeWidget::OnSaveAs()
