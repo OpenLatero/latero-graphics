@@ -24,6 +24,7 @@
 #include <gtkmm/spinbutton.h>
 #include <gtkmm/table.h>
 #include "gtk/numwidget.h"
+#include <iostream>
 
 namespace latero {
 namespace graphics { 
@@ -282,7 +283,7 @@ void GratingWidgetSet::OnEnable()
 GratingAdvancedButton::GratingAdvancedButton(GratingPtr peer) :
 	Gtk::Button("more options"), dialog_(peer), peer_(peer)
 {
-	signal_released().connect(sigc::mem_fun(*this, &GratingAdvancedButton::OnPush));
+	signal_clicked().connect(sigc::mem_fun(*this, &GratingAdvancedButton::OnPush));
 };
 void GratingAdvancedButton::OnPush() { dialog_.show(); }
 
@@ -341,7 +342,7 @@ AdvancedGratingWidget::AdvancedGratingWidget(GratingPtr peer) :
 	Gtk::Dialog("Advanced Grating Options")
 {
 	Gtk::HBox *box = manage(new Gtk::HBox);
-	get_vbox()->pack_start(*box);
+	get_content_area()->pack_start(*box);
 	box->pack_start(*manage(new GratingRhythmWidget(peer)));
 	box->pack_start(*manage(new GratingCycleWidget(peer)));
 	box->pack_start(*manage(new GratingModulatorCtrl(peer->GetModulator())));
