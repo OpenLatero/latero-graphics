@@ -103,7 +103,7 @@ protected:
 
 	latero::graphics::gtk::Animation anim_;
 
-	Glib::RefPtr<Gtk::UIManager> uiManager_;
+	std::unique_ptr<Gtk::Menu> popupMenu_;
 	const latero::Tactograph *dev_;
 
 	Point tdPos_;
