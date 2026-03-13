@@ -82,22 +82,28 @@ void PatternPreview::CreatePopupMenu()
 	set_events(Gdk::BUTTON_PRESS_MASK);
 	signal_button_press_event().connect(sigc::mem_fun(*this, &PatternPreview::OnClick));
 
-	Glib::RefPtr<Gtk::ActionGroup> group = Gtk::ActionGroup::create();
-	group->add(Gtk::Action::create("ContextSave", "save", "save image"),
-		sigc::mem_fun(*this, &PatternPreview::OnSave));
+	// Create action group and add actions
+	auto action_group = Gio::SimpleActionGroup::create();
+	action_group->add_action("save", sigc::mem_fun(*this, &PatternPreview::OnSave));
+	insert_action_group("pattern", action_group);
 
+	// Define the popup menu using Builder XML
+	auto builder = Gtk::Builder::create_from_string(R"(
+	<?xml version="1.0" encoding="UTF-8"?>
+	<interface>
+  	<menu id="PopupMenu">
+    	<item>
+      	<attribute name="label">save</attribute>
+      	<attribute name="action">pattern.save</attribute>
+    	</item>
+  	</menu>
+	</interface>
+	)");
 
-	uiManager_ = Gtk::UIManager::create();
-	uiManager_->insert_action_group(group);
-
-	std::stringstream buf;
-	buf << "<ui>";
-	buf << "  <popup name='PopupMenu'>";
-	buf << "     <menuitem action='ContextSave'/>";
-	buf << "     <menuitem action='ContextSaveThumbnail'/>";
-	buf << "  </popup>";
-	buf << "</ui>";
-	uiManager_->add_ui_from_string(buf.str());
+	// Get the menu and create a Gtk::Menu from it
+	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
+	popupMenu_->attach_to_widget(*this);
 }
 
 void PatternPreview::OnSave()
@@ -117,7 +123,7 @@ bool PatternPreview::OnClick(GdkEventButton* event)
 {
 	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
 	{
-		((Gtk::Menu*)uiManager_->get_widget("/PopupMenu"))->popup(event->button, event->time);
+		popupMenu_->popup_at_pointer((GdkEvent*)event);
 		return true;
 	}
 	else
