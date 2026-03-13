@@ -88,17 +88,6 @@ void LinearGratingTextureWidget::Create()
 	grid->attach(*vibCheck,1,2,1,1);
 
 	SetContent(grid);
-
-	/*
-	Gtk::Table *table = manage(new Gtk::Table(2,3));
-	table->attach(*CreateRidgeSizeWidget(),0,1,0,1); 
-	table->attach(*CreateGapSizeWidget(),1,2,0,1);
-	table->attach(*manage(new AngleWidget(peer_)),0,1,1,2);
-	table->attach(*CreateGratingVelocityWidget(),1,2,1,2);
-	table->attach(*CreateTDCentricCheck(),0,1,2,3);
-	//table->attach(*CreateVibCheck(),1,2,2,3);
-	SetContent(table);
-	*/
 }
 
 
@@ -107,22 +96,43 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 {
 	using namespace LinearGratingTextureCtrls;
 
-	Gtk::Table *table = manage(new Gtk::Table(2,7));
-	table->attach(seedCtrl_,0,2,0,1);
-	table->attach(*manage(new GratingPitchWidget(peer->GetGrating())),0,2,1,2); 
-	table->attach(*manage(new AngleWidget(peer)),0,1,2,3);
-		table->attach(gratingCtrls_.velocityWidget_,1,2,2,3);
-	table->attach(gratingCtrls_.compressCtrl_,0,2,3,4);
-	table->attach(tdCentricCtrl_,0,2,4,5);
-	table->attach(vibCtrl_,0,2,5,6);
-	table->attach(gratingCtrls_.advButton_,0,2,6,7);
+	auto gratingPitchWidget = manage(new GratingPitchWidget(peer->GetGrating()));
+	auto angleWidget = manage(new AngleWidget(peer));
 
-	Gtk::VBox *lbox = manage(new Gtk::VBox);
+	seedCtrl_.set_hexpand(true);
+	gratingPitchWidget->set_hexpand(true);
+	angleWidget->set_hexpand(true);
+	gratingCtrls_.velocityWidget_.set_hexpand(true);
+	gratingCtrls_.compressCtrl_.set_hexpand(true);
+	tdCentricCtrl_.set_hexpand(true);
+	vibCtrl_.set_hexpand(true);
+	gratingCtrls_.advButton_.set_hexpand(true);	
+
+	seedCtrl_.set_vexpand(true);
+	gratingPitchWidget->set_vexpand(true);
+	angleWidget->set_vexpand(true);
+	gratingCtrls_.velocityWidget_.set_vexpand(true);
+	gratingCtrls_.compressCtrl_.set_vexpand(true);
+	tdCentricCtrl_.set_vexpand(true);
+	vibCtrl_.set_vexpand(true);
+	gratingCtrls_.advButton_.set_vexpand(true);	
+
+	auto grid = manage(new Gtk::Grid());
+	grid->attach(seedCtrl_,0,2,0,1);
+	grid->attach(*gratingPitchWidget,0,1,2,1);
+	grid->attach(*angleWidget,0,2,1,1);
+	grid->attach(gratingCtrls_.velocityWidget_,1,2,1,1);
+	grid->attach(gratingCtrls_.compressCtrl_,0,3,2,1);
+	grid->attach(tdCentricCtrl_,0,4,2,1);
+	grid->attach(vibCtrl_,0,5,2,1);
+	grid->attach(gratingCtrls_.advButton_,0,6,2,1);
+
+	auto lbox = manage(new Gtk::VBox);
 	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
 	lbox->pack_start(ampCtrl_);
 
 	pack_start(*lbox, Gtk::PACK_SHRINK);
-	pack_start(*table);
+	pack_start(*grid);
 	pack_start(preview_, Gtk::PACK_SHRINK);
 
 	show_all_children();
