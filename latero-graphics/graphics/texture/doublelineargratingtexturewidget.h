@@ -42,7 +42,7 @@ protected:
 };
 
 
-class DoubleLinearGratingTextureAdvancedWidget : public Gtk::Table
+class DoubleLinearGratingTextureAdvancedWidget : public Gtk::Grid
 {
 public:
 	DoubleLinearGratingTextureAdvancedWidget(DoubleLinearGratingTexturePtr peer);

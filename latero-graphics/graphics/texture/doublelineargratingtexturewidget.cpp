@@ -232,23 +232,60 @@ void DoubleLinearGratingTextureWidget::Create()
 
 
 DoubleLinearGratingTextureAdvancedWidget::DoubleLinearGratingTextureAdvancedWidget(DoubleLinearGratingTexturePtr peer) :
-	Gtk::Table(5,5),
 	peer_(peer)
 {
 	using namespace DoubleLinearGratingTextureWidgets;
 
-	attach(*manage(new AmplitudeCtrl(peer)),	0,1,0,5, Gtk::SHRINK);
-	attach(*manage(new AngleWidget(peer)),		1,2,0,1);
-	attach(*manage(new OperationWidget(peer)),	2,3,0,1);
-	attach(*manage(new ConstraintWidget(peer)),	3,4,0,1);
-	attach(*manage(new PrimRidgeSizeWidget(peer)),	1,2,1,2);
-	attach(*manage(new PrimGapSizeWidget(peer)),	2,3,1,2);
-	attach(*manage(new SecondaryScaleWidget(peer)),	3,4,1,2);
-	attach(*manage(new SeedCtrl(peer)),		1,4,2,3);
-	attach(*manage(new OscillatorWidget(peer->GetOscillator(),true)), 	1,4,3,4);
-	attach(*manage(new TextureMotionCtrl(peer)), 	1,4,4,5);
+	set_hexpand(true);
+	set_vexpand(true);
 
-	attach(*manage(new PatternPreview(peer)), 	4,5,0,5);
+	auto amplitudeCtrl = manage(new AmplitudeCtrl(peer));
+	auto angleWidget = manage(new AngleWidget(peer));
+	auto operationWidget = manage(new OperationWidget(peer));
+	auto constraintWidget = manage(new ConstraintWidget(peer));
+	auto primRidgeSizeWidget = manage(new PrimRidgeSizeWidget(peer));
+	auto primGapSizeWidget = manage(new PrimGapSizeWidget(peer));
+	auto secondaryScaleWidget = manage(new SecondaryScaleWidget(peer));
+	auto seedCtrl = manage(new SeedCtrl(peer));
+	auto oscillatorWidget = manage(new OscillatorWidget(peer->GetOscillator(),true));
+	auto textureMotionCtrl = manage(new TextureMotionCtrl(peer));
+	auto patternPreview = manage(new PatternPreview(peer));
+
+	amplitudeCtrl->set_hexpand(false);
+	angleWidget->set_hexpand(true);
+	operationWidget->set_hexpand(true);
+	constraintWidget->set_hexpand(true);
+	primRidgeSizeWidget->set_hexpand(true);
+	primGapSizeWidget->set_hexpand(true);
+	secondaryScaleWidget->set_hexpand(true);
+	seedCtrl->set_hexpand(true);
+	oscillatorWidget->set_hexpand(true);
+	textureMotionCtrl->set_hexpand(true);
+	patternPreview->set_hexpand(false);
+
+	amplitudeCtrl->set_vexpand(true);
+	angleWidget->set_vexpand(true);
+	operationWidget->set_vexpand(true);
+	constraintWidget->set_vexpand(true);
+	primRidgeSizeWidget->set_vexpand(true);
+	primGapSizeWidget->set_vexpand(true);
+	secondaryScaleWidget->set_vexpand(true);
+	seedCtrl->set_vexpand(true);
+	oscillatorWidget->set_vexpand(true);
+	textureMotionCtrl->set_vexpand(true);
+	patternPreview->set_vexpand(false);
+
+	attach(*amplitudeCtrl,0,0,1,5);
+	attach(*angleWidget,1,0,1,1);
+	attach(*operationWidget,2,0,1,1);
+	attach(*constraintWidget,3,0,1,1);
+	attach(*primRidgeSizeWidget,1,1,1,1);
+	attach(*primGapSizeWidget,2,1,1,1);
+	attach(*secondaryScaleWidget,3,1,1,1);
+	attach(*seedCtrl,1,2,3,1);
+	attach(*oscillatorWidget,1,3,3,1);
+	attach(*textureMotionCtrl,1,4,3,1);
+	attach(*patternPreview,4,0,1,5);
 
 	show_all_children();
 }
