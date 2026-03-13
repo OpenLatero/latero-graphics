@@ -46,7 +46,7 @@ protected:
 
 	boost::posix_time::ptime refreshTime_;
 	Gtk::Image img_;
-	Glib::RefPtr<Gtk::UIManager> uiManager_;
+	std::unique_ptr<Gtk::Menu> popupMenu_;
 	ModulatorPtr peer_;
 };
 
