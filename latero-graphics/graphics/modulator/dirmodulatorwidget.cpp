@@ -151,15 +151,15 @@ DirModulatorWidget::DirModulatorWidget(DirModulatorPtr peer) :
 	peer_(peer)
 {
 	using namespace dir_modulator_ctrls;
-	Gtk::Table *table = manage(new Gtk::Table(3,3));
-	table->attach(*manage(new DirCtrl(peer)),0,1,0,1);
-	table->attach(*manage(new SymmetricCtrl(peer)),1,2,0,1);
-	table->attach(*manage(new LowVelModeCombo(peer)),2,3,0,1);
-	table->attach(*manage(new DirToleranceCtrl(peer)),0,1,1,2);
-	table->attach(*manage(new DirTransitionCtrl(peer)),1,3,1,2);
-	table->attach(*manage(new VelToleranceCtrl(peer)),0,1,2,3);
-	table->attach(*manage(new VelTransitionCtrl(peer)),1,3,2,3);
-	pack_start(*table);
+	auto grid = manage(new Gtk::Grid());
+	grid->attach(*manage(new DirCtrl(peer)),0,0,1,1);
+	grid->attach(*manage(new SymmetricCtrl(peer)),1,0,1,1);
+	grid->attach(*manage(new LowVelModeCombo(peer)),2,0,1,1);
+	grid->attach(*manage(new DirToleranceCtrl(peer)),0,1,1,1);
+	grid->attach(*manage(new DirTransitionCtrl(peer)),1,1,2,1);
+	grid->attach(*manage(new VelToleranceCtrl(peer)),0,2,1,1);
+	grid->attach(*manage(new VelTransitionCtrl(peer)),1,2,2,1);
+	pack_start(*grid);
 	pack_start(*manage(new ModulatorPreview(peer)), Gtk::PACK_SHRINK);
 	show_all_children();
 }

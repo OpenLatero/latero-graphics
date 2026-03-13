@@ -73,15 +73,15 @@ protected:
 
 DotWidget::DotWidget(DotPtr peer)
 {
-	Gtk::Table *table = manage(new Gtk::Table(3,4));
-	table->attach(*manage(new DotPosCtrl(peer)), 				0,3, 0,1);
-	table->attach(*manage(new DotRadiusCtrl(peer)), 			0,1, 1,2);
-	table->attach(*manage(new DotHeightCtrl(peer)), 			1,2, 1,2);
-	table->attach(*manage(new RidgeEdgeWidthScale(peer->GetProfile())), 	2,3, 1,2);
-	table->attach(*manage(new RidgeTextureCtrl(peer->GetProfile())), 	0,3, 2,3);
-	table->attach(*manage(new OscillatorWidget(peer->GetOscillator())), 	0,3, 3,4);
+	auto grid = manage(new Gtk::Grid());
+	grid->attach(*manage(new DotPosCtrl(peer)),0,0,3,1);
+	grid->attach(*manage(new DotRadiusCtrl(peer)),0,1,1,1);
+	grid->attach(*manage(new DotHeightCtrl(peer)),1,1,1,1);
+	grid->attach(*manage(new RidgeEdgeWidthScale(peer->GetProfile())),2,1,1,1);
+	grid->attach(*manage(new RidgeTextureCtrl(peer->GetProfile())),0,2,3,1);
+	grid->attach(*manage(new OscillatorWidget(peer->GetOscillator())),0,3,3,1);
 
-	pack_start(*table);
+	pack_start(*grid);
 	pack_start(*manage(new RidgeGraph(peer->GetProfile(),300)), Gtk::PACK_SHRINK);
 }
 
