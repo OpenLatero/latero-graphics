@@ -190,23 +190,44 @@ protected:
 void DoubleLinearGratingTextureWidget::Create()
 {
 	using namespace DoubleLinearGratingTextureWidgets;
-	Gtk::Table *table = manage(new Gtk::Table(4,3));
-	table->attach(*manage(new AmplitudeCtrl(peer_)),	0,1,0,3, Gtk::SHRINK);
+	auto grid = manage(new Gtk::Grid());
 
-	table->attach(*manage(new AngleWidget(peer_)),		1,2,0,1);
-	table->attach(*manage(new OperationWidget(peer_)),	2,3,0,1);
-	table->attach(*manage(new ConstraintWidget(peer_)),	3,4,0,1);
+	auto amplitudeCtrl = manage(new AmplitudeCtrl(peer_));
+	auto angleWidget = manage(new AngleWidget(peer_));
+	auto operationWidget = manage(new OperationWidget(peer_));
+	auto constraintWidget = manage(new ConstraintWidget(peer_));
+	auto primRidgeSizeWidget = manage(new PrimRidgeSizeWidget(peer_));
+	auto primGapSizeWidget = manage(new PrimGapSizeWidget(peer_));
+	auto secondaryScaleWidget = manage(new SecondaryScaleWidget(peer_));
+	auto vibCheck = CreateVibCheck();
+	auto tDCentricCheck = CreateTDCentricCheck();
+	auto motionWidget = CreateMotionWidget();
+	
+	amplitudeCtrl->set_hexpand(false);
+	angleWidget->set_hexpand(true);
+	operationWidget->set_hexpand(true);
+	constraintWidget->set_hexpand(true);
+	primRidgeSizeWidget->set_hexpand(true);
+	primGapSizeWidget->set_hexpand(true);
+	secondaryScaleWidget->set_hexpand(true);
+	vibCheck->set_hexpand(true);
+	tDCentricCheck->set_hexpand(true);
+	motionWidget->set_hexpand(true);
 
-	table->attach(*manage(new PrimRidgeSizeWidget(peer_)),	1,2,1,2);
-	table->attach(*manage(new PrimGapSizeWidget(peer_)),	2,3,1,2);
-	table->attach(*manage(new SecondaryScaleWidget(peer_)),	3,4,1,2);
+	grid->attach(*amplitudeCtrl,0,0,1,3);
+	grid->attach(*angleWidget,1,0,1,1);
+	grid->attach(*operationWidget,2,0,1,1);
+	grid->attach(*constraintWidget,3,0,1,1);
+	grid->attach(*primRidgeSizeWidget,1,1,1,1);
+	grid->attach(*primGapSizeWidget,2,1,1,1);
+	grid->attach(*secondaryScaleWidget,3,1,1,1);
 
 	Gtk::HBox *box = manage(new Gtk::HBox);
-	box->pack_start(*CreateVibCheck());
-	box->pack_start(*CreateTDCentricCheck());
-	table->attach(*box,		 			1,2,2,3);
-	table->attach(*CreateMotionWidget(), 			2,4,2,3);
-	SetContent(table,false);
+	box->pack_start(*vibCheck);
+	box->pack_start(*tDCentricCheck);
+	grid->attach(*box,1,2,1,1);
+	grid->attach(*motionWidget,2,2,2,1);
+	SetContent(grid,false);
 }
 
 
