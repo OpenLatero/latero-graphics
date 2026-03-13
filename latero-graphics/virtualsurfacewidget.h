@@ -207,7 +207,7 @@ protected:
 	bool OnClick(GdkEventButton* event);
 	void CreatePopupMenu();
 
-	Glib::RefPtr<Gtk::UIManager> uiManager_;
+	std::unique_ptr<Gtk::Menu> popupMenu_;
 	bool OnCheckPeer();
 	virtual void on_size_allocate(Gtk::Allocation& allocation);
 

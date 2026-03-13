@@ -474,40 +474,56 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 
 void VirtualSurfaceWidget::CreatePopupMenu()
 {
-	//frame_.set_events(Gdk::EventMask::BUTTON_PRESS_MASK);
 	set_events(Gdk::EventMask::BUTTON_PRESS_MASK);
 	signal_button_press_event().connect(sigc::mem_fun(*this, &VirtualSurfaceWidget::OnClick));
 
-	Glib::RefPtr<Gtk::ActionGroup> group = Gtk::ActionGroup::create();
-	group->add(Gtk::Action::create("ContextSave", "save image", "save image"),
-		sigc::mem_fun(*this, &VirtualSurfaceWidget::OnSave));
-	group->add(Gtk::Action::create("ContextVisualize", "visualize", "visualize tactile image"),
-		sigc::mem_fun(*this, &VirtualSurfaceWidget::OnVisualize));
-	group->add(Gtk::Action::create("ContextRefresh", "refresh", "refresh image"),
-		sigc::mem_fun(*this, &VirtualSurfaceWidget::RefreshBackground));
-	group->add(Gtk::Action::create("ContextCanvasEdit", "edit canvas", "edit generator"),
-		sigc::mem_fun(*this, &VirtualSurfaceWidget::OnEdit));
-	group->add(Gtk::Action::create("ContextCanvasSave", "save canvas", "edit generator"),
-		sigc::mem_fun(*this, &VirtualSurfaceWidget::OnSaveCanvas));
-	group->add(Gtk::Action::create("ContextCanvasSaveAs", "save canvas as", "edit generator"),
-		sigc::mem_fun(*this, &VirtualSurfaceWidget::OnSaveCanvasAs));
+	// Create action group and add actions
+	auto action_group = Gio::SimpleActionGroup::create();
+	action_group->add_action("save",     sigc::mem_fun(*this, &VirtualSurfaceWidget::OnSave));
+	action_group->add_action("visualize",sigc::mem_fun(*this, &VirtualSurfaceWidget::OnVisualize));
+	action_group->add_action("refresh",  sigc::mem_fun(*this, &VirtualSurfaceWidget::RefreshBackground));
+	action_group->add_action("edit",     sigc::mem_fun(*this, &VirtualSurfaceWidget::OnEdit));
+	action_group->add_action("savecanvas",   sigc::mem_fun(*this, &VirtualSurfaceWidget::OnSaveCanvas));
+	action_group->add_action("savecanvases", sigc::mem_fun(*this, &VirtualSurfaceWidget::OnSaveCanvasAs));
+	insert_action_group("vsw", action_group);
 
+	// Define the popup menu using Builder XML
+	auto builder = Gtk::Builder::create_from_string(R"(
+	<?xml version="1.0" encoding="UTF-8"?>
+	<interface>
+  	<menu id="PopupMenu">
+    	<item>
+      	<attribute name="label">save image</attribute>
+      	<attribute name="action">vsw.save</attribute>
+    	</item>
+    	<item>
+      	<attribute name="label">visualize</attribute>
+      	<attribute name="action">vsw.visualize</attribute>
+    	</item>
+    	<item>
+      	<attribute name="label">refresh</attribute>
+      	<attribute name="action">vsw.refresh</attribute>
+    	</item>
+    	<item>
+      	<attribute name="label">edit canvas</attribute>
+      	<attribute name="action">vsw.edit</attribute>
+    	</item>
+    	<item>
+      	<attribute name="label">save canvas as</attribute>
+      	<attribute name="action">vsw.savecanvases</attribute>
+    	</item>
+    	<item>
+      	<attribute name="label">save canvas</attribute>
+      	<attribute name="action">vsw.savecanvas</attribute>
+    	</item>
+  	</menu>
+	</interface>
+	)");
 
-	uiManager_ = Gtk::UIManager::create();
-	uiManager_->insert_action_group(group);
-
-	std::stringstream buf;
-	buf << "<ui>";
-       	buf << "  <popup name='PopupMenu'>";
-	buf << "     <menuitem action='ContextSave'/>";
-	buf << "     <menuitem action='ContextVisualize'/>";
-	buf << "     <menuitem action='ContextRefresh'/>";
-	buf << "     <menuitem action='ContextCanvasEdit'/>";
-	buf << "     <menuitem action='ContextCanvasSaveAs'/>";
-	buf << "     <menuitem action='ContextCanvasSave'/>";
-       	buf << "  </popup>";
-       	buf << "</ui>";
-	uiManager_->add_ui_from_string(buf.str());
+	// Get the menu and create a Gtk::Menu from it
+	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
+	popupMenu_->attach_to_widget(*this);
 }
 
 bool VirtualSurfaceWidget::OnClick(GdkEventButton* event)
@@ -515,7 +531,7 @@ bool VirtualSurfaceWidget::OnClick(GdkEventButton* event)
 	std::cout << "VirtualSurfaceWidget::OnClick\n";
 	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
 	{
-		((Gtk::Menu*)uiManager_->get_widget("/PopupMenu"))->popup(event->button, event->time);
+		popupMenu_->popup_at_pointer((GdkEvent*)event);
 		return true;
 	}
 	else
