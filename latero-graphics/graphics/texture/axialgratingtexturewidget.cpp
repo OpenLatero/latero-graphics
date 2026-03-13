@@ -51,14 +51,29 @@ protected:
 void AxialGratingTextureWidget::Create()
 {
 	using namespace AxialGratingTextureCtrls;
-	Gtk::Table *table = manage(new Gtk::Table(3,3));
-	table->attach(*CreateSeedWidget(),0,2,0,1);
-	table->attach(*manage(new SeedAngleCtrl(peer_)),2,3,0,1);
-	table->attach(*manage(new GratingPitchWidget(peer_->GetGrating())),0,3,1,2);
-	table->attach(*CreateVibCheck(),0,1,2,3);
-	table->attach(*CreateTDCentricCheck(),1,2,2,3);
-	table->attach(*CreateGratingVelocityWidget(),2,3,2,3);
-	SetContent(table);
+
+	auto seedWidget = CreateSeedWidget();
+	auto seedAngleCtrl = manage(new SeedAngleCtrl(peer_));
+	auto gratingPitchWidget = manage(new GratingPitchWidget(peer_->GetGrating()));
+	auto vibCheck = CreateVibCheck();
+	auto tdCenticCheck = CreateTDCentricCheck();
+	auto gratingVelocityWidget = CreateGratingVelocityWidget();
+
+	seedWidget->set_hexpand(true);
+	seedAngleCtrl->set_hexpand(true);
+	gratingPitchWidget->set_hexpand(true);
+	vibCheck->set_hexpand(true);
+	tdCenticCheck->set_hexpand(true);
+	gratingVelocityWidget->set_hexpand(true);
+
+	auto grid = manage(new Gtk::Grid());
+	grid->attach(*seedWidget,0,0,2,1);
+	grid->attach(*seedAngleCtrl,2,0,1,1);
+	grid->attach(*gratingPitchWidget,0,1,3,1);
+	grid->attach(*vibCheck,0,2,1,1);
+	grid->attach(*tdCenticCheck,1,2,1,1);
+	grid->attach(*gratingVelocityWidget,2,2,1,1);
+	SetContent(grid);
 }
 
 AxialGratingTextureAdvancedWidget::AxialGratingTextureAdvancedWidget(AxialGratingTexturePtr peer) :
