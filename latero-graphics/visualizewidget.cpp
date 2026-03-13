@@ -141,25 +141,29 @@ Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 	//timeCtrl->set_sensitive(false);
 
 
-	Gtk::Button *prevButton =  manage(new Gtk::Button);
-        prevButton->add(*manage(new Gtk::Image(Gtk::Stock::MEDIA_PREVIOUS, Gtk::ICON_SIZE_BUTTON))); 
+	auto prevButton =  manage(new Gtk::Button);
+    prevButton->set_image_from_icon_name("media-skip-backward", Gtk::ICON_SIZE_BUTTON);
+	prevButton->set_always_show_image(true); 
 	prevButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnPrevious));
 	
-	Gtk::Button *playButton =  manage(new Gtk::Button);
-	playButton->add(*manage(new Gtk::Image(Gtk::Stock::MEDIA_PLAY, Gtk::ICON_SIZE_BUTTON))); 
+	auto playButton =  manage(new Gtk::Button);
+	playButton->set_image_from_icon_name("media-playback-start", Gtk::ICON_SIZE_BUTTON);
+	playButton->set_always_show_image(true);
 	playButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnPlay));
 
-
-	Gtk::Button *stopButton =  manage(new Gtk::Button);
-	stopButton->add(*manage(new Gtk::Image(Gtk::Stock::MEDIA_STOP, Gtk::ICON_SIZE_BUTTON))); 
+	auto stopButton =  manage(new Gtk::Button);
+	stopButton->set_image_from_icon_name("media-playback-stop", Gtk::ICON_SIZE_BUTTON);
+	stopButton->set_always_show_image(true);
 	stopButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnStop));
 
-	Gtk::Button *nextButton =  manage(new Gtk::Button);
-	nextButton->add(*manage(new Gtk::Image(Gtk::Stock::MEDIA_NEXT, Gtk::ICON_SIZE_BUTTON))); 
+	auto nextButton =  manage(new Gtk::Button);
+	nextButton->set_image_from_icon_name("media-skip-forward", Gtk::ICON_SIZE_BUTTON);
+	nextButton->set_always_show_image(true);
 	nextButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnNext));
 
-	Gtk::Button *refreshButton =  manage(new Gtk::Button);
-	refreshButton->add(*manage(new Gtk::Image(Gtk::Stock::REFRESH, Gtk::ICON_SIZE_BUTTON))); 
+	auto refreshButton =  manage(new Gtk::Button);
+	refreshButton->set_image_from_icon_name("view-refresh", Gtk::ICON_SIZE_BUTTON);
+	refreshButton->set_always_show_image(true);
 	refreshButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnApply));
 
 	pBox->pack_start(*prevButton, Gtk::PACK_SHRINK);

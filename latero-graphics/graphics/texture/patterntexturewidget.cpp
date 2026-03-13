@@ -72,7 +72,8 @@ PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
 {
 	patternHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 	PatternPtr pattern = peer->GetPattern();
-	Gtk::Button *loadButton = manage(new Gtk::Button(Gtk::Stock::OPEN));
+	auto loadButton = manage(new Gtk::Button());
+	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
 
 	Gtk::Box *topbox = manage(new Gtk::HBox);
 	topbox->pack_start(*manage(new PatternTextureGridWidthCtrl(peer)));
@@ -125,7 +126,8 @@ PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr pee
 {
 	patternHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 	PatternPtr pattern = peer->GetPattern();
-	Gtk::Button *loadButton = manage(new Gtk::Button(Gtk::Stock::OPEN));
+	auto loadButton = manage(new Gtk::Button());
+	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
 
 	Gtk::Box *topbox = manage(new Gtk::HBox);
 	topbox->pack_start(*manage(new PatternTextureGridWidthCtrl(peer)));

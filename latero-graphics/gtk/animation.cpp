@@ -256,8 +256,8 @@ void Animation::SaveToFile()
 	Gtk::FileChooserDialog dialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE);
 	std::string dir = std::filesystem::current_path().string();
 	dialog.set_current_folder(dir);
-	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
+	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+	dialog.add_button("Save", Gtk::RESPONSE_OK);
 	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
 	dialog.set_current_name("animation.png");
 

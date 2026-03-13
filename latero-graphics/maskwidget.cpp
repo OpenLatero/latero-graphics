@@ -141,8 +141,11 @@ public:
 	{
 		fileEntry_.set_text(peer->GetImgFile());
 
-		Gtk::Button *pOpenButton = manage(new Gtk::Button(Gtk::Stock::OPEN));
-		Gtk::Button *pReloadButton = manage(new Gtk::Button(Gtk::Stock::REFRESH));
+		auto pOpenButton = manage(new Gtk::Button());
+		pOpenButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
+
+		auto pReloadButton = manage(new Gtk::Button());
+		pReloadButton->set_image_from_icon_name("view-refresh", Gtk::ICON_SIZE_BUTTON);
 
 		Gtk::HBox *box = manage(new Gtk::HBox);
 		box->pack_start(fileEntry_);
@@ -151,8 +154,8 @@ public:
 		box->pack_start(*manage(new MaskSrcTypeCheck(peer)), Gtk::PACK_SHRINK);
 		add(*box);
  
-		pOpenButton->signal_released().connect(sigc::mem_fun(*this, &MaskImageWidget::OnOpen));
-		pReloadButton->signal_released().connect(sigc::mem_fun(*this, &MaskImageWidget::OnReload));
+		pOpenButton->signal_clicked().connect(sigc::mem_fun(*this, &MaskImageWidget::OnOpen));
+		pReloadButton->signal_clicked().connect(sigc::mem_fun(*this, &MaskImageWidget::OnReload));
 	}
 	virtual ~MaskImageWidget() {};
 
@@ -178,8 +181,8 @@ protected:
 		filter->add_pixbuf_formats();
  
 		dialog.set_current_folder(dir);
-		dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-		dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
+		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+		dialog.add_button("Open", Gtk::RESPONSE_OK);
 		dialog.set_default_response(Gtk::RESPONSE_OK);
 		dialog.add_filter(filter);
 

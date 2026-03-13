@@ -33,8 +33,11 @@ namespace graphics {
 TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
 	modeCombo_(texture), texture_(texture)
 {
-	Gtk::Button *saveButton = manage(new Gtk::Button(Gtk::Stock::SAVE));
-	Gtk::Button *loadButton = manage(new Gtk::Button(Gtk::Stock::OPEN));
+	auto saveButton = manage(new Gtk::Button());
+	saveButton->set_image_from_icon_name("document-save", Gtk::ICON_SIZE_BUTTON);
+
+	auto loadButton = manage(new Gtk::Button());
+	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
 
 	pack_start(*saveButton, Gtk::PACK_SHRINK);
 	pack_start(*loadButton, Gtk::PACK_SHRINK);
@@ -62,8 +65,8 @@ void TextureSelectorCtrl::OnSave()
 	filter->add_pattern("*.tx");
 
 	dialog.set_current_folder(dir);
-	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-	dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
+	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+	dialog.add_button("Save", Gtk::RESPONSE_OK);
 	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
 	std::string file = texture_->GetXMLFile();
 	if (file=="") file = "texture.tx";
@@ -84,8 +87,8 @@ void TextureSelectorCtrl::OnLoad()
 	filter->add_pattern("*.tx");
 
 	dialog.set_current_folder(dir);
-	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-	dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
+	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+	dialog.add_button("Open", Gtk::RESPONSE_OK);
 	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
 	dialog.add_filter(filter);
 	if (Gtk::RESPONSE_OK == dialog.run())

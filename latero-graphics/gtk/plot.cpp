@@ -39,8 +39,8 @@ public:
 	{
 		std::string dir = std::filesystem::current_path().string();
 		set_current_folder(dir);
-		add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-		add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
+		add_button("Cancel", Gtk::RESPONSE_CANCEL);
+		add_button("Save", Gtk::RESPONSE_OK);
 		set_default_response(Gtk::RESPONSE_CANCEL);
 		set_current_name("plot.svg");
 	

@@ -407,8 +407,8 @@ void GroupTreeView::OnPatternSave()
 		filter->add_pattern("*.pattern");
 
 		dialog.set_current_folder(dir);
-		dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-		dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
+		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+		dialog.add_button("Save", Gtk::RESPONSE_OK);
 		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
 		std::string file = pattern->GetXMLFile();
 		if (file=="") file = "new.pattern";
@@ -434,8 +434,8 @@ void GroupTreeView::OnTextureSave()
 		filter->add_pattern("*.tx");
 
 		dialog.set_current_folder(dir);
-		dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-		dialog.add_button(Gtk::Stock::SAVE, Gtk::RESPONSE_OK);
+		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+		dialog.add_button("Save", Gtk::RESPONSE_OK);
 		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
 		std::string file = pattern->GetXMLFile();
 		if (file=="") file = "new.tx";
@@ -463,8 +463,8 @@ void GroupTreeView::OnPatternLoad()
 		filter->add_pattern("*.tx");
 
 		dialog.set_current_folder(dir);
-		dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-		dialog.add_button(Gtk::Stock::OPEN, Gtk::RESPONSE_OK);
+		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+		dialog.add_button("Open", Gtk::RESPONSE_OK);
 		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
 		std::string file = pattern->GetXMLFile();
 		if (file=="") file = "new.pattern";
