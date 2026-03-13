@@ -421,9 +421,10 @@ Point VirtualSurfaceArea::GetClickPos(double x, double y)
     
 bool VirtualSurfaceArea::OnButtonPress(GdkEventButton* event)
 {
+	std::cout << "VirtualSurfaceArea::OnButtonPress\n";
     if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1))
         dev_->SetEmulatedState(GetClickPos(event->x, event->y));
-    return true;
+    return false;
 } 
     
 bool VirtualSurfaceArea::OnMotionNotify(GdkEventMotion *event)
@@ -465,7 +466,8 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 
 void VirtualSurfaceWidget::CreatePopupMenu()
 {
-	set_events(Gdk::BUTTON_PRESS_MASK);
+	//frame_.set_events(Gdk::EventMask::BUTTON_PRESS_MASK);
+	set_events(Gdk::EventMask::BUTTON_PRESS_MASK);
 	signal_button_press_event().connect(sigc::mem_fun(*this, &VirtualSurfaceWidget::OnClick));
 
 	Glib::RefPtr<Gtk::ActionGroup> group = Gtk::ActionGroup::create();
@@ -502,6 +504,7 @@ void VirtualSurfaceWidget::CreatePopupMenu()
 
 bool VirtualSurfaceWidget::OnClick(GdkEventButton* event)
 {
+	std::cout << "VirtualSurfaceWidget::OnClick\n";
 	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
 	{
 		((Gtk::Menu*)uiManager_->get_widget("/PopupMenu"))->popup(event->button, event->time);
