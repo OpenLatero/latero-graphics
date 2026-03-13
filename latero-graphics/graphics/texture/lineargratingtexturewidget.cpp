@@ -118,7 +118,7 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	gratingCtrls_.advButton_.set_vexpand(true);	
 
 	auto grid = manage(new Gtk::Grid());
-	grid->attach(seedCtrl_,0,2,0,1);
+	grid->attach(seedCtrl_,0,0,2,1); 
 	grid->attach(*gratingPitchWidget,0,1,2,1);
 	grid->attach(*angleWidget,0,2,1,1);
 	grid->attach(gratingCtrls_.velocityWidget_,1,2,1,1);
