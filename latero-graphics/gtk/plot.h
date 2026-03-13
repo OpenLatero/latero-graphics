@@ -93,7 +93,7 @@ protected:
 		Gdk::Color color;
 	} Trace;
 
-	Glib::RefPtr<Gtk::UIManager> uiManager_;
+	std::unique_ptr<Gtk::Menu> popupMenu_;
 	std::vector<Trace> channels_;
 
 	float xMin_, xMax_;

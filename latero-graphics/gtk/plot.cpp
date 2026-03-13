@@ -225,7 +225,8 @@ bool Plot::OnClick(GdkEventButton* event)
 {
 	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
 	{
-		((Gtk::Menu*)uiManager_->get_widget("/PopupMenu"))->popup(event->button, event->time);
+		popupMenu_->popup_at_pointer((GdkEvent*)event);
+		//((Gtk::Menu*)uiManager_->get_widget("/PopupMenu"))->popup(event->button, event->time);
 		return true;
 	}
 	else
@@ -237,24 +238,33 @@ void Plot::CreatePopupMenu()
 	set_events(Gdk::BUTTON_PRESS_MASK);
 	signal_button_press_event().connect(sigc::mem_fun(*this, &Plot::OnClick));
 
-	Glib::RefPtr<Gtk::ActionGroup> group = Gtk::ActionGroup::create();
-	group->add(Gtk::Action::create("ContextSave", "save as plot.svg/png", "save image"),
-		sigc::mem_fun(*this, &Plot::OnSave));
-	group->add(Gtk::Action::create("ContextSaveAs", "save as ", "save image"),
-		sigc::mem_fun(*this, &Plot::OnSaveAs));
+	// Create action group and add actions
+	auto action_group = Gio::SimpleActionGroup::create();
+	action_group->add_action("save", sigc::mem_fun(*this, &Plot::OnSave));
+	action_group->add_action("saveas", sigc::mem_fun(*this, &Plot::OnSaveAs));
+	insert_action_group("plot", action_group);
 
+	// Define the popup menu using Builder XML
+	auto builder = Gtk::Builder::create_from_string(R"(
+	<?xml version="1.0" encoding="UTF-8"?>
+	<interface>
+  	<menu id="PopupMenu">
+    	<item>
+      		<attribute name="label">save as plot.svg/png</attribute>
+      		<attribute name="action">plot.save</attribute>
+    	</item>
+    	<item>
+      		<attribute name="label">save as</attribute>
+      		<attribute name="action">plot.saveas</attribute>
+    	</item>
+  	</menu>
+	</interface>
+	)");
 
-	uiManager_ = Gtk::UIManager::create();
-	uiManager_->insert_action_group(group);
-
-	std::stringstream buf;
-	buf << "<ui>";
-       	buf << "  <popup name='PopupMenu'>";
-	buf << "     <menuitem action='ContextSave'/>";
-	buf << "     <menuitem action='ContextSaveAs'/>";
-       	buf << "  </popup>";
-       	buf << "</ui>";
-	uiManager_->add_ui_from_string(buf.str());
+	// Get the menu and create a Gtk::Menu from it
+	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
+	popupMenu_->attach_to_widget(*this);
 }
 
 
