@@ -34,13 +34,24 @@ void RadialGratingTextureWidget::Create()
 	checks->pack_start(*CreateVibCheck());
 	checks->pack_start(*CreateTDCentricCheck());
 
-	Gtk::Table *table = manage(new Gtk::Table(2,3));
-	table->attach(*CreateSeedWidget(),0,2,0,1);
-	table->attach(*CreateRidgeSizeWidget(),0,1,1,2);
-	table->attach(*CreateGapSizeWidget(),1,2,1,2);
-	table->attach(*checks,0,1,2,3);
-	table->attach(*CreateGratingVelocityWidget(),1,2,2,3);
-	SetContent(table);
+	auto seedWidget = CreateSeedWidget();
+	auto ridgeSizeWidget = CreateRidgeSizeWidget();
+	auto gapSizeWidget = CreateGapSizeWidget();
+	auto gratingVelocityWidget = CreateGratingVelocityWidget();
+
+	seedWidget->set_hexpand(true);
+	ridgeSizeWidget->set_hexpand(true);
+	gapSizeWidget->set_hexpand(true);
+	checks->set_hexpand(true);
+	gratingVelocityWidget->set_hexpand(true);
+
+	auto grid = manage(new Gtk::Grid());
+	grid->attach(*seedWidget,0,0,2,1);
+	grid->attach(*ridgeSizeWidget,0,1,1,1);
+	grid->attach(*gapSizeWidget,1,1,1,1);
+	grid->attach(*checks,0,2,1,1); 
+	grid->attach(*gratingVelocityWidget,1,2,1,1);
+	SetContent(grid);
 }
 
 RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGratingTexturePtr peer) :
