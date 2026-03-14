@@ -73,23 +73,23 @@ class LinePropertiesCtrl : public Gtk::HBox
 public:
 	LinePropertiesCtrl(LinePtr peer)
 	{
-		Gtk::Box *box = manage(new Gtk::VBox);
-		box->pack_start(*manage(new LineStartCtrl(peer)), Gtk::PACK_SHRINK);
-		box->pack_start(*manage(new LineEndCtrl(peer)), Gtk::PACK_SHRINK);
+		Gtk::Box *box = Gtk::manage(new Gtk::VBox);
+		box->pack_start(*Gtk::manage(new LineStartCtrl(peer)), Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new LineEndCtrl(peer)), Gtk::PACK_SHRINK);
 
 		pack_start(*box);
-		pack_start(*manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
 	}
 	virtual ~LinePropertiesCtrl() {};
 };
 
 LineWidget::LineWidget(LinePtr peer)
 {
-	append_page(*manage(new LinePropertiesCtrl(peer)), "properties");
-	append_page(*manage(new StrokeProfileWidget(peer->GetStroke())), "stroke");
-	append_page(*manage(new StrokeFillWidget(peer->GetStroke())), "fill");
-	append_page(*manage(new StrokeMotionWidget(peer->GetStroke())),"motion");
-	append_page(*manage(new StrokeDottedWidget(peer->GetStroke())),"dots");
+	append_page(*Gtk::manage(new LinePropertiesCtrl(peer)), "properties");
+	append_page(*Gtk::manage(new StrokeProfileWidget(peer->GetStroke())), "stroke");
+	append_page(*Gtk::manage(new StrokeFillWidget(peer->GetStroke())), "fill");
+	append_page(*Gtk::manage(new StrokeMotionWidget(peer->GetStroke())),"motion");
+	append_page(*Gtk::manage(new StrokeDottedWidget(peer->GetStroke())),"dots");
 }
 
 

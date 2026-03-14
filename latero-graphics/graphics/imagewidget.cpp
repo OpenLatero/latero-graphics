@@ -30,12 +30,12 @@ ImageWidget::ImageWidget(ImagePtr peer, bool showMaskWidget) :
 	maskWidget_(peer->GetMask(),peer->Dev()),
 	peer_(peer)
 {
-	Gtk::HBox *box = manage(new Gtk::HBox());
+	Gtk::HBox *box = Gtk::manage(new Gtk::HBox());
 	pack_start(*box);
 	
 	if (showMaskWidget)
 	{
-		Gtk::Notebook *notebook = manage(new Gtk::Notebook);
+		Gtk::Notebook *notebook = Gtk::manage(new Gtk::Notebook);
 		notebook->append_page(maskWidget_, "mask");
 		notebook->append_page(txWidget_, "texture");
 		box->pack_start(*notebook);

@@ -33,10 +33,10 @@ namespace graphics {
 TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
 	modeCombo_(texture), texture_(texture)
 {
-	auto saveButton = manage(new Gtk::Button());
+	auto saveButton = Gtk::manage(new Gtk::Button());
 	saveButton->set_image_from_icon_name("document-save", Gtk::ICON_SIZE_BUTTON);
 
-	auto loadButton = manage(new Gtk::Button());
+	auto loadButton = Gtk::manage(new Gtk::Button());
 	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
 
 	pack_start(*saveButton, Gtk::PACK_SHRINK);
@@ -133,7 +133,7 @@ void TextureSelectorWidget::Build()
 	TexturePtr tx = ctrl_.GetTexture();
 	if (tx)
 	{
-		widget_ = manage(tx->CreateWidget(tx));
+		widget_ = Gtk::manage(tx->CreateWidget(tx));
 		pack_start(*widget_);
 	}
 	show_all_children();

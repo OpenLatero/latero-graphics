@@ -59,7 +59,7 @@ public:
 	AngleWidget(DoubleLinearGratingTexturePtr peer) :
 		adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("orientation", adj_, 0, units::degree)));
+		add(*Gtk::manage(new gtk::HNumWidget("orientation", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &AngleWidget::OnChanged));
 	}
 	virtual ~AngleWidget() {};
@@ -75,7 +75,7 @@ public:
 	PrimRidgeSizeWidget(DoubleLinearGratingTexturePtr peer) :
 		adj_(Gtk::Adjustment::create(peer->GetPrimaryRidgeSize(),0,100)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("primary ridge size", adj_, 1, units::mm)));
+		add(*Gtk::manage(new gtk::HNumWidget("primary ridge size", adj_, 1, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PrimRidgeSizeWidget::OnChanged));
 	}
 	virtual ~PrimRidgeSizeWidget() {};
@@ -91,7 +91,7 @@ public:
 	SecondaryScaleWidget(DoubleLinearGratingTexturePtr peer) :
 		adj_(Gtk::Adjustment::create(peer->GetSecondaryScale(),0,10)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("secondary scale", adj_, 1)));
+		add(*Gtk::manage(new gtk::HNumWidget("secondary scale", adj_, 1)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &SecondaryScaleWidget::OnChanged));
 	}
 	virtual ~SecondaryScaleWidget() {};
@@ -107,7 +107,7 @@ public:
 	PrimGapSizeWidget(DoubleLinearGratingTexturePtr peer) :
 		adj_(Gtk::Adjustment::create(peer->GetPrimaryGapSize(),0,100)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("primary gap size", adj_, 1, units::mm)));
+		add(*Gtk::manage(new gtk::HNumWidget("primary gap size", adj_, 1, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PrimGapSizeWidget::OnChanged));
 	}
 	virtual ~PrimGapSizeWidget() {};
@@ -169,10 +169,10 @@ public:
 		adj1_(Gtk::Adjustment::create(peer->GetSecondaryAmplitude()*100,0,100)),
         peer_(peer)
 	{
-		Gtk::HBox *box = manage(new Gtk::HBox);
+		Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
 		add(*box);
-		box->pack_start(*manage(new gtk::VNumWidget(adj0_,0, units::percent)), Gtk::PACK_SHRINK);
-		box->pack_start(*manage(new gtk::VNumWidget(adj1_,0, units::percent)), Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new gtk::VNumWidget(adj0_,0, units::percent)), Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new gtk::VNumWidget(adj1_,0, units::percent)), Gtk::PACK_SHRINK);
 		adj0_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged0));
 		adj1_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged1));
 	}
@@ -190,15 +190,15 @@ protected:
 void DoubleLinearGratingTextureWidget::Create()
 {
 	using namespace DoubleLinearGratingTextureWidgets;
-	auto grid = manage(new Gtk::Grid());
+	auto grid = Gtk::manage(new Gtk::Grid());
 
-	auto amplitudeCtrl = manage(new AmplitudeCtrl(peer_));
-	auto angleWidget = manage(new AngleWidget(peer_));
-	auto operationWidget = manage(new OperationWidget(peer_));
-	auto constraintWidget = manage(new ConstraintWidget(peer_));
-	auto primRidgeSizeWidget = manage(new PrimRidgeSizeWidget(peer_));
-	auto primGapSizeWidget = manage(new PrimGapSizeWidget(peer_));
-	auto secondaryScaleWidget = manage(new SecondaryScaleWidget(peer_));
+	auto amplitudeCtrl = Gtk::manage(new AmplitudeCtrl(peer_));
+	auto angleWidget = Gtk::manage(new AngleWidget(peer_));
+	auto operationWidget = Gtk::manage(new OperationWidget(peer_));
+	auto constraintWidget = Gtk::manage(new ConstraintWidget(peer_));
+	auto primRidgeSizeWidget = Gtk::manage(new PrimRidgeSizeWidget(peer_));
+	auto primGapSizeWidget = Gtk::manage(new PrimGapSizeWidget(peer_));
+	auto secondaryScaleWidget = Gtk::manage(new SecondaryScaleWidget(peer_));
 	auto vibCheck = CreateVibCheck();
 	auto tDCentricCheck = CreateTDCentricCheck();
 	auto motionWidget = CreateMotionWidget();
@@ -222,7 +222,7 @@ void DoubleLinearGratingTextureWidget::Create()
 	grid->attach(*primGapSizeWidget,2,1,1,1);
 	grid->attach(*secondaryScaleWidget,3,1,1,1);
 
-	Gtk::HBox *box = manage(new Gtk::HBox);
+	Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
 	box->pack_start(*vibCheck);
 	box->pack_start(*tDCentricCheck);
 	grid->attach(*box,1,2,1,1);
@@ -239,17 +239,17 @@ DoubleLinearGratingTextureAdvancedWidget::DoubleLinearGratingTextureAdvancedWidg
 	set_hexpand(true);
 	set_vexpand(true);
 
-	auto amplitudeCtrl = manage(new AmplitudeCtrl(peer));
-	auto angleWidget = manage(new AngleWidget(peer));
-	auto operationWidget = manage(new OperationWidget(peer));
-	auto constraintWidget = manage(new ConstraintWidget(peer));
-	auto primRidgeSizeWidget = manage(new PrimRidgeSizeWidget(peer));
-	auto primGapSizeWidget = manage(new PrimGapSizeWidget(peer));
-	auto secondaryScaleWidget = manage(new SecondaryScaleWidget(peer));
-	auto seedCtrl = manage(new SeedCtrl(peer));
-	auto oscillatorWidget = manage(new OscillatorWidget(peer->GetOscillator(),true));
-	auto textureMotionCtrl = manage(new TextureMotionCtrl(peer));
-	auto patternPreview = manage(new PatternPreview(peer));
+	auto amplitudeCtrl = Gtk::manage(new AmplitudeCtrl(peer));
+	auto angleWidget = Gtk::manage(new AngleWidget(peer));
+	auto operationWidget = Gtk::manage(new OperationWidget(peer));
+	auto constraintWidget = Gtk::manage(new ConstraintWidget(peer));
+	auto primRidgeSizeWidget = Gtk::manage(new PrimRidgeSizeWidget(peer));
+	auto primGapSizeWidget = Gtk::manage(new PrimGapSizeWidget(peer));
+	auto secondaryScaleWidget = Gtk::manage(new SecondaryScaleWidget(peer));
+	auto seedCtrl = Gtk::manage(new SeedCtrl(peer));
+	auto oscillatorWidget = Gtk::manage(new OscillatorWidget(peer->GetOscillator(),true));
+	auto textureMotionCtrl = Gtk::manage(new TextureMotionCtrl(peer));
+	auto patternPreview = Gtk::manage(new PatternPreview(peer));
 
 	amplitudeCtrl->set_hexpand(false);
 	angleWidget->set_hexpand(true);

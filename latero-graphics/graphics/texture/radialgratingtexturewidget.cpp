@@ -30,7 +30,7 @@ namespace graphics {
 
 void RadialGratingTextureWidget::Create()
 {
-	Gtk::HBox *checks = manage(new Gtk::HBox);
+	Gtk::HBox *checks = Gtk::manage(new Gtk::HBox);
 	checks->pack_start(*CreateVibCheck());
 	checks->pack_start(*CreateTDCentricCheck());
 
@@ -45,7 +45,7 @@ void RadialGratingTextureWidget::Create()
 	checks->set_hexpand(true);
 	gratingVelocityWidget->set_hexpand(true);
 
-	auto grid = manage(new Gtk::Grid());
+	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->attach(*seedWidget,0,0,2,1);
 	grid->attach(*ridgeSizeWidget,0,1,1,1);
 	grid->attach(*gapSizeWidget,1,1,1,1);
@@ -58,20 +58,20 @@ RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGra
 	GratingTextureWidgetSet(peer),
 	peer_(peer)
 {
-	Gtk::VBox *vbox = manage(new Gtk::VBox);
+	Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox);
 	vbox->pack_start(seedCtrl_);
-	vbox->pack_start(*manage(new GratingPitchWidget(peer->GetGrating())));
-	vbox->pack_start(*manage(new GratingVelocityWidget(peer->GetGrating())));
-	vbox->pack_start(*manage(new GratingAdvancedButton(peer->GetGrating())),Gtk::PACK_SHRINK);
+	vbox->pack_start(*Gtk::manage(new GratingPitchWidget(peer->GetGrating())));
+	vbox->pack_start(*Gtk::manage(new GratingVelocityWidget(peer->GetGrating())));
+	vbox->pack_start(*Gtk::manage(new GratingAdvancedButton(peer->GetGrating())),Gtk::PACK_SHRINK);
 	vbox->pack_start(tdCentricCtrl_);
 	vbox->pack_start(vibCtrl_);
-	vbox->pack_start(*manage(new TextureMotionCtrl(peer)));
+	vbox->pack_start(*Gtk::manage(new TextureMotionCtrl(peer)));
 
-	Gtk::VBox *lbox = manage(new Gtk::VBox);
+	Gtk::VBox *lbox = Gtk::manage(new Gtk::VBox);
 	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
 	lbox->pack_start(ampCtrl_);
 
-	Gtk::HBox *hbox = manage(new Gtk::HBox);
+	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
 	add(*hbox);
 	hbox->pack_start(*lbox, Gtk::PACK_SHRINK);
 	hbox->pack_start(*vbox);

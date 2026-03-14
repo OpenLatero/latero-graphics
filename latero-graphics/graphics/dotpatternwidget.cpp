@@ -37,20 +37,20 @@ DotPatternMinSpacingCtrl::DotPatternMinSpacingCtrl(DotPatternPtr peer) :
     adj_(Gtk::Adjustment::create(peer->GetMinSpacing(), 0, 50.0)), peer_(peer)
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotPatternMinSpacingCtrl::OnChanged));
-	add(*manage(new gtk::HNumWidget("minimal spacing",adj_,1,"mm")));
+	add(*Gtk::manage(new gtk::HNumWidget("minimal spacing",adj_,1,"mm")));
 }
 void DotPatternMinSpacingCtrl::OnChanged() { peer_->SetMinSpacing(adj_->get_value()); }
 
 DotPatternWidget::DotPatternWidget(DotPatternPtr peer)
 {
-	auto grid = manage(new Gtk::Grid());
-	grid->attach(*manage(new DotPatternMinSpacingCtrl(peer)),0,0,1,1);
-	grid->attach(*manage(new DotsHeightCtrl(peer)),0,1,1,1);
-	grid->attach(*manage(new RidgeEdgeWidthScale(peer->GetProfile())),1,1,1,1);
-	grid->attach(*manage(new RidgeTextureCtrl(peer->GetProfile())),0,2,2,1);
-	grid->attach(*manage(new OscillatorWidget(peer->GetOscillator())),0,3,2,1);
+	auto grid = Gtk::manage(new Gtk::Grid());
+	grid->attach(*Gtk::manage(new DotPatternMinSpacingCtrl(peer)),0,0,1,1);
+	grid->attach(*Gtk::manage(new DotsHeightCtrl(peer)),0,1,1,1);
+	grid->attach(*Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile())),1,1,1,1);
+	grid->attach(*Gtk::manage(new RidgeTextureCtrl(peer->GetProfile())),0,2,2,1);
+	grid->attach(*Gtk::manage(new OscillatorWidget(peer->GetOscillator())),0,3,2,1);
 	pack_start(*grid);
-	pack_start(*manage(new RidgeGraph(peer->GetProfile(),300)), Gtk::PACK_SHRINK);
+	pack_start(*Gtk::manage(new RidgeGraph(peer->GetProfile(),300)), Gtk::PACK_SHRINK);
 }
 
 } // namespace graphics

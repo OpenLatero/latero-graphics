@@ -35,8 +35,8 @@ ToggleWidget::ToggleWidget(TogglePtr peer)
 {
 	PatternPtr p1 = peer->GetFirstPattern();
 	PatternPtr p2 = peer->GetSecondPattern();
-	if (p1) append_page(*manage(p1->CreateWidget(p1)), "first");
-	if (p2) append_page(*manage(p2->CreateWidget(p2)), "second");
+	if (p1) append_page(*Gtk::manage(p1->CreateWidget(p1)), "first");
+	if (p2) append_page(*Gtk::manage(p2->CreateWidget(p2)), "second");
 }
 
 

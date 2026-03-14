@@ -487,14 +487,14 @@ class GroupPanel : public Gtk::HBox
 public:
 	GroupPanel(GroupPtr peer) : peer_(peer)
 	{
-		Gtk::Box *box = manage(new Gtk::VBox);
-		GroupOpCombo *opCombo = manage(new GroupOpCombo(peer));
+		Gtk::Box *box = Gtk::manage(new Gtk::VBox);
+		GroupOpCombo *opCombo = Gtk::manage(new GroupOpCombo(peer));
 
 		box->pack_start(*opCombo, Gtk::PACK_SHRINK);
 		box->pack_start(opWidgetHolder_);
 		OnOpChanged();
 		pack_start(*box);
-		pack_start(*manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
 
 		opCombo->SignalChanged().connect(
 			sigc::mem_fun(*this, &GroupPanel::OnOpChanged));
@@ -515,10 +515,10 @@ public:
 			ModulatorPtr mod = peer_->GetReactiveMod();
 			if (mod)
 			{
-				Gtk::Box *box = manage(new Gtk::HBox);
+				Gtk::Box *box = Gtk::manage(new Gtk::HBox);
 				opWidgetHolder_.add(*box);
 
-				ModulatorCombo *modCombo = manage(new ModulatorCombo(mod));
+				ModulatorCombo *modCombo = Gtk::manage(new ModulatorCombo(mod));
 				modWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 				box->pack_start(*modCombo, Gtk::PACK_SHRINK);
 				box->pack_start(modWidgetHolder_);
@@ -526,7 +526,7 @@ public:
 				Widget *old = modWidgetHolder_.get_child();
 				modWidgetHolder_.remove();
 				delete old;
-				modWidgetHolder_.add(*manage(mod->CreateWidget(mod)));
+				modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
 
 				modCombo->SignalModulatorChanged().connect(
 					sigc::mem_fun(*this, &GroupPanel::OnModulatorChanged));
@@ -544,7 +544,7 @@ public:
 		modWidgetHolder_.remove();
 		delete old;
 
-		modWidgetHolder_.add(*manage(mod->CreateWidget(mod)));
+		modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
 		show_all_children();
 	}
 
@@ -563,13 +563,13 @@ public:
 	ComboTexturePanel(ComboTexturePtr peer, GroupTreeView *treeView, bool showSelector) : 
         treeView_(treeView), txCtrl_(peer), peer_(peer)
 	{
-		Gtk::VBox *lbox = manage(new Gtk::VBox);
-		lbox->pack_start(*manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
-		lbox->pack_start(*manage(new TextureAmplitudeCtrl(peer)));
+		Gtk::VBox *lbox = Gtk::manage(new Gtk::VBox);
+		lbox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
+		lbox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
 
-		Gtk::Box *box = manage(new Gtk::VBox);
-		box->pack_start(*manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
-		box->pack_start(*manage(new OscillatorWidget(peer->GetOscillator(),true)), Gtk::PACK_SHRINK);
+		Gtk::Box *box = Gtk::manage(new Gtk::VBox);
+		box->pack_start(*Gtk::manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new OscillatorWidget(peer->GetOscillator(),true)), Gtk::PACK_SHRINK);
 
 		if (showSelector)
 		{
@@ -579,7 +579,7 @@ public:
 
 		pack_start(*lbox, Gtk::PACK_SHRINK);
 		pack_start(*box);
-		pack_start(*manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
 	}
 
 	virtual ~ComboTexturePanel() {}
@@ -607,9 +607,9 @@ GroupWidget::GroupWidget(GroupPtr peer) :
 	peer_(peer), treeView_(peer), txWidget_(NULL)
 {
     // this was in a vbox above the tree view but commented out, not sure why
-    //pSideBar->pack_start(*manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
+    //pSideBar->pack_start(*Gtk::manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
     
-	Gtk::ScrolledWindow *scrolledTreeView = manage(new Gtk::ScrolledWindow);
+	Gtk::ScrolledWindow *scrolledTreeView = Gtk::manage(new Gtk::ScrolledWindow);
     scrolledTreeView->set_size_request(200,200);
 	scrolledTreeView->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 	scrolledTreeView->set_placement(Gtk::CORNER_TOP_RIGHT);
@@ -667,34 +667,34 @@ void GroupWidget::OnSelectionChanged()
 			if (boost::dynamic_pointer_cast<DoubleLinearGratingTexture>(tx) ||
 			    boost::dynamic_pointer_cast<MotionTexture>(tx))
 			{
-				txWidget_ = manage(new TextureSelectorWidget(tx));
+				txWidget_ = Gtk::manage(new TextureSelectorWidget(tx));
 				currentTx_ = tx;
 				objWidgetHolder_.add(*txWidget_);
 				txWidget_->SignalTextureChanged().connect(sigc::mem_fun(*this, &GroupWidget::OnTextureChange));		
 			}
 			else if (combotx)
 			{
-				objWidgetHolder_.add(*manage(new ComboTexturePanel(combotx,&treeView_,hasParent)));
+				objWidgetHolder_.add(*Gtk::manage(new ComboTexturePanel(combotx,&treeView_,hasParent)));
 			}
 			else if (dots)
 			{
-				objWidgetHolder_.add(*manage(dots->CreateWidget(dots)));
+				objWidgetHolder_.add(*Gtk::manage(dots->CreateWidget(dots)));
 			}
 			else
 			{
-				objWidgetHolder_.add(*manage(new GroupPanel(group)));
+				objWidgetHolder_.add(*Gtk::manage(new GroupPanel(group)));
 			}
 		}
 		else if (tx)
 		{
-			txWidget_ = manage(new TextureSelectorWidget(tx));
+			txWidget_ = Gtk::manage(new TextureSelectorWidget(tx));
 			currentTx_ = tx;
 			objWidgetHolder_.add(*txWidget_);
 			txWidget_->SignalTextureChanged().connect(sigc::mem_fun(*this, &GroupWidget::OnTextureChange));		
 		}
 		else
 		{
-			objWidgetHolder_.add(*manage(pattern->CreateWidget(pattern)));
+			objWidgetHolder_.add(*Gtk::manage(pattern->CreateWidget(pattern)));
 		}
 	}
 

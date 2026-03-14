@@ -53,7 +53,7 @@ public:
 	GratingModulatorFactorWidget(GratingModulatorPtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetFactor(),0.1,10)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget(adj_, 1)));
+		add(*Gtk::manage(new gtk::HNumWidget(adj_, 1)));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorFactorWidget::OnChanged));
 	}
@@ -70,7 +70,7 @@ public:
 	GratingModulatorLengthWidget(GratingModulatorPtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetLength(),1,300)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
+		add(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorLengthWidget::OnChanged));
 	}
@@ -87,7 +87,7 @@ public:
 	GratingModulatorPosWidget(GratingModulatorPtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetPosition(),0,360)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
+		add(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorPosWidget::OnChanged));
 	}
@@ -102,15 +102,15 @@ protected:
 GratingModulatorCtrl::GratingModulatorCtrl(GratingModulatorPtr peer) :
 	Gtk::Frame("pitch modulation"), peer_(peer)
 {
-	Gtk::HBox *box = manage(new Gtk::HBox);
+	Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
 	
 	add(*box);
 	box->pack_start(check_, Gtk::PACK_SHRINK);
 	box->pack_start(widgetbox_);
-	widgetbox_.pack_start(*manage(new GratingModulatorModeCombo(peer)), Gtk::PACK_SHRINK);
-	widgetbox_.pack_start(*manage(new GratingModulatorFactorWidget(peer)));
-	widgetbox_.pack_start(*manage(new GratingModulatorPosWidget(peer)));
-	widgetbox_.pack_start(*manage(new GratingModulatorLengthWidget(peer)));
+	widgetbox_.pack_start(*Gtk::manage(new GratingModulatorModeCombo(peer)), Gtk::PACK_SHRINK);
+	widgetbox_.pack_start(*Gtk::manage(new GratingModulatorFactorWidget(peer)));
+	widgetbox_.pack_start(*Gtk::manage(new GratingModulatorPosWidget(peer)));
+	widgetbox_.pack_start(*Gtk::manage(new GratingModulatorLengthWidget(peer)));
 
 	check_.set_active(peer_->GetEnable());
 	widgetbox_.set_sensitive(check_.get_active());

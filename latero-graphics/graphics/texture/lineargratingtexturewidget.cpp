@@ -40,7 +40,7 @@ public:
 	AngleWidget(LinearGratingTexturePtr peer) :
 		adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("orientation", adj_, 1, units::degree)));
+		add(*Gtk::manage(new gtk::HNumWidget("orientation", adj_, 1, units::degree)));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &AngleWidget::OnChanged));
 	}
@@ -61,7 +61,7 @@ void LinearGratingTextureWidget::Create()
 {
 	using namespace LinearGratingTextureCtrls;
 
-	auto grid = manage(new Gtk::Grid());
+	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->set_hexpand(true);
 	grid->set_vexpand(true);
 	grid->set_valign(Gtk::ALIGN_CENTER);
@@ -71,7 +71,7 @@ void LinearGratingTextureWidget::Create()
 	ridgeSizeWidget->set_vexpand(true);
 	auto gapSizeWidget = CreateGapSizeWidget();
 	gapSizeWidget->set_vexpand(true);
-	auto angleWidget = manage(new AngleWidget(peer_));
+	auto angleWidget = Gtk::manage(new AngleWidget(peer_));
 	angleWidget->set_vexpand(true);
 	auto gratingVelocityWidget = CreateGratingVelocityWidget();
 	gratingVelocityWidget->set_vexpand(true);
@@ -96,8 +96,8 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 {
 	using namespace LinearGratingTextureCtrls;
 
-	auto gratingPitchWidget = manage(new GratingPitchWidget(peer->GetGrating()));
-	auto angleWidget = manage(new AngleWidget(peer));
+	auto gratingPitchWidget = Gtk::manage(new GratingPitchWidget(peer->GetGrating()));
+	auto angleWidget = Gtk::manage(new AngleWidget(peer));
 
 	seedCtrl_.set_hexpand(true);
 	gratingPitchWidget->set_hexpand(true);
@@ -117,7 +117,7 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	vibCtrl_.set_vexpand(true);
 	gratingCtrls_.advButton_.set_vexpand(true);	
 
-	auto grid = manage(new Gtk::Grid());
+	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->attach(seedCtrl_,0,0,2,1); 
 	grid->attach(*gratingPitchWidget,0,1,2,1);
 	grid->attach(*angleWidget,0,2,1,1);
@@ -127,7 +127,7 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	grid->attach(vibCtrl_,0,5,2,1);
 	grid->attach(gratingCtrls_.advButton_,0,6,2,1);
 
-	auto lbox = manage(new Gtk::VBox);
+	auto lbox = Gtk::manage(new Gtk::VBox);
 	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
 	lbox->pack_start(ampCtrl_);
 

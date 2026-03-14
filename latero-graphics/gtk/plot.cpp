@@ -45,8 +45,8 @@ public:
 		set_current_name("plot.svg");
 	
 		// TODO...
-		get_vbox()->pack_start(*manage(new Gtk::SpinButton(wAdj_)));
-		get_vbox()->pack_start(*manage(new Gtk::SpinButton(hAdj_)));
+		get_vbox()->pack_start(*Gtk::manage(new Gtk::SpinButton(wAdj_)));
+		get_vbox()->pack_start(*Gtk::manage(new Gtk::SpinButton(hAdj_)));
 	}
 
 	uint GetWidth() { return wAdj_->get_value(); }

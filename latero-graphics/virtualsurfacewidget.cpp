@@ -561,7 +561,7 @@ void VirtualSurfaceWidget::OnEdit()
 	if (peer_)
 	{
 		Gtk::Dialog dlg;
-		dlg.get_vbox()->pack_start(*manage(peer_->CreateWidget(peer_)));
+		dlg.get_vbox()->pack_start(*Gtk::manage(peer_->CreateWidget(peer_)));
 		dlg.show_all_children();
 		dlg.run();
 	}

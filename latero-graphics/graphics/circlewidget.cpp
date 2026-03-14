@@ -59,7 +59,7 @@ public:
 	CircleRadiusCtrl(CirclePtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetRadius(), 0.1, 100.0)), peer_(peer)
 	{
-		add(*manage(new latero::graphics::gtk::HNumWidget("radius", adj_, 1, "mm")));
+		add(*Gtk::manage(new latero::graphics::gtk::HNumWidget("radius", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &CircleRadiusCtrl::OnChanged));
 	}
 	virtual ~CircleRadiusCtrl() {};
@@ -75,12 +75,12 @@ class CirclePropsWidget : public Gtk::HBox
 public:
 	CirclePropsWidget(CirclePtr peer)
 	{
-		Gtk::Box *box = manage(new Gtk::VBox);
-		box->pack_start(*manage(new CircleCenterCtrl(peer)),Gtk::PACK_SHRINK);
-		box->pack_start(*manage(new CircleRadiusCtrl(peer)),Gtk::PACK_SHRINK);
+		Gtk::Box *box = Gtk::manage(new Gtk::VBox);
+		box->pack_start(*Gtk::manage(new CircleCenterCtrl(peer)),Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new CircleRadiusCtrl(peer)),Gtk::PACK_SHRINK);
 
 		pack_start(*box);
-		pack_start(*manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
 
 	}
 	virtual ~CirclePropsWidget() {};
@@ -89,12 +89,12 @@ public:
 
 CircleWidget::CircleWidget(CirclePtr peer)
 {
-	append_page(*manage(new CirclePropsWidget(peer)),"properties");
-	append_page(*manage(new StrokeProfileWidget(peer->GetStroke())),"stroke");
-	append_page(*manage(new StrokeFillWidget(peer->GetStroke())),"fill");
-	append_page(*manage(new StrokeMotionWidget(peer->GetStroke())),"motion");
-	append_page(*manage(new StrokeDottedWidget(peer->GetStroke())),"dots");
-	append_page(*manage(new ClosedPatternFillTextureWidget(peer)),"texture");
+	append_page(*Gtk::manage(new CirclePropsWidget(peer)),"properties");
+	append_page(*Gtk::manage(new StrokeProfileWidget(peer->GetStroke())),"stroke");
+	append_page(*Gtk::manage(new StrokeFillWidget(peer->GetStroke())),"fill");
+	append_page(*Gtk::manage(new StrokeMotionWidget(peer->GetStroke())),"motion");
+	append_page(*Gtk::manage(new StrokeDottedWidget(peer->GetStroke())),"dots");
+	append_page(*Gtk::manage(new ClosedPatternFillTextureWidget(peer)),"texture");
 }
 
 } // namespace graphics

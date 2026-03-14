@@ -36,13 +36,13 @@ namespace graphics {
 PlainTextureWidget::PlainTextureWidget(PlainTexturePtr peer) :
 	peer_(peer)
 {
-	Gtk::VBox *sidebox = manage(new Gtk::VBox);
-	sidebox->pack_start(*manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
-	sidebox->pack_start(*manage(new TextureAmplitudeCtrl(peer)));
+	Gtk::VBox *sidebox = Gtk::manage(new Gtk::VBox);
+	sidebox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
+	sidebox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
 	pack_start(*sidebox, Gtk::PACK_SHRINK);
 
-	pack_start(*manage(new OscillatorWidget(peer->GetOscillator())));
-	pack_start(*manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+	pack_start(*Gtk::manage(new OscillatorWidget(peer->GetOscillator())));
+	pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
 }
 
 } // namespace graphics

@@ -99,11 +99,11 @@ TextureTDCentricCtrl::TextureTDCentricCtrl(TexturePtr peer) :
 	point_(peer->GetTDCentricPos(), 0, peer->Dev()->GetSurfaceWidth(), 0, peer->Dev()->GetSurfaceHeight()),
     peer_(peer)
 {
-	TextureTDCentricCheck *check = manage(new TextureTDCentricCheck(peer));
+	TextureTDCentricCheck *check = Gtk::manage(new TextureTDCentricCheck(peer));
 	check->set_label("");
 	
 	// TODO: use Check above instead...
-	Gtk::HBox *box = manage(new Gtk::HBox);
+	Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
 	add(*box);
 	box->pack_start(*check, Gtk::PACK_SHRINK);
 	box->pack_start(point_);
@@ -117,7 +117,7 @@ void TextureTDCentricCtrl::OnPosChanged() { peer_->SetTDCentricPos(point_.GetVal
 TextureAmplitudeCtrl::TextureAmplitudeCtrl(TexturePtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
-	pack_start(*manage(new gtk::VNumWidget(adj_,0, units::percent)));
+	pack_start(*Gtk::manage(new gtk::VNumWidget(adj_,0, units::percent)));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureAmplitudeCtrl::OnChanged));
 }
 void TextureAmplitudeCtrl::OnChanged() { peer_->SetAmplitude(adj_->get_value()/100); }
@@ -140,7 +140,7 @@ public:
 	TextureMotionDirectionCtrl(TexturePtr peer) :
 		adj_(Gtk::Adjustment::create(peer->GetMotionDirection(),0,360)), peer_(peer)
 	{
-		pack_start(*manage(new gtk::HNumWidget(adj_,0, units::degree)));
+		pack_start(*Gtk::manage(new gtk::HNumWidget(adj_,0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionDirectionCtrl::OnChanged));
 	}
 
@@ -158,7 +158,7 @@ public:
 	TextureMotionVelocityCtrl(TexturePtr peer) :
 		adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),0,100)), peer_(peer)
 	{
-		pack_start(*manage(new gtk::HNumWidget(adj_,1, units::mm_per_sec)));
+		pack_start(*Gtk::manage(new gtk::HNumWidget(adj_,1, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionVelocityCtrl::OnChanged));
 	}
 
@@ -173,8 +173,8 @@ protected:
 TextureMotionCtrl::TextureMotionCtrl(TexturePtr peer) :
 	gtk::CheckFrame(peer->GetMotionEnable(), "motion"), peer_(peer)
 {
-	GetBox().pack_start(*manage(new TextureMotionDirectionCtrl(peer)));
-	GetBox().pack_start(*manage(new TextureMotionVelocityCtrl(peer)));
+	GetBox().pack_start(*Gtk::manage(new TextureMotionDirectionCtrl(peer)));
+	GetBox().pack_start(*Gtk::manage(new TextureMotionVelocityCtrl(peer)));
 	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &TextureMotionCtrl::OnClick));
 }
 void TextureMotionCtrl::OnClick() { peer_->SetMotionEnable(GetCheck().get_active()); }
@@ -196,7 +196,7 @@ void TextureAdvancedButton::on_clicked()
 		dlg_.get_vbox()->remove(*adv_);
 		delete adv_;
 	}
-	adv_ = manage(peer_->CreateAdvancedWidget(peer_));
+	adv_ = Gtk::manage(peer_->CreateAdvancedWidget(peer_));
 	dlg_.get_vbox()->pack_start(*adv_);
 	dlg_.show_all_children();
 	dlg_.show();  
@@ -220,8 +220,8 @@ TextureWidget::~TextureWidget()
 Gtk::Widget *TextureWidget::CreateLeftPanel()
 {
 	Gtk::VBox *lbox = new Gtk::VBox;
-	lbox->pack_start(*manage(new TextureInvertCtrl(peer_)), Gtk::PACK_SHRINK);
-	lbox->pack_start(*manage(new TextureAmplitudeCtrl(peer_)));
+	lbox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer_)), Gtk::PACK_SHRINK);
+	lbox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer_)));
 	return lbox;
 }
 
@@ -242,36 +242,36 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 	remove();
 	delete wp;
 
-	TextureAdvancedButton *advancedButton = manage(new TextureAdvancedButton(peer_));
+	TextureAdvancedButton *advancedButton = Gtk::manage(new TextureAdvancedButton(peer_));
 	advancedButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureWidget::OnAdvanced));
 	advancedButton->SignalClosed().connect(sigc::mem_fun(*this, &TextureWidget::OnAdvancedClosed));
 
-	Gtk::HBox *box = manage(new Gtk::HBox);
+	Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
 	add(*box);
 
-	Gtk::VBox *vbox = manage(new Gtk::VBox);
+	Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox);
 
 	widget->set_vexpand(true);
 	widget->set_valign(Gtk::ALIGN_FILL);
 
-	if (showPanel) box->pack_start(*manage(CreateLeftPanel()), Gtk::PACK_SHRINK);
+	if (showPanel) box->pack_start(*Gtk::manage(CreateLeftPanel()), Gtk::PACK_SHRINK);
 	box->pack_start(*vbox);
 	vbox->pack_start(*widget, true, true);
 	if (showAdvanced) vbox->pack_start(*advancedButton, false, false);
-	if (showPreview) box->pack_start(*manage(new PatternPreview(peer_)), Gtk::PACK_SHRINK);
+	if (showPreview) box->pack_start(*Gtk::manage(new PatternPreview(peer_)), Gtk::PACK_SHRINK);
 
 	show_all_children();
 }
 
 
 TextureTDCentricCheck* TextureWidget::CreateTDCentricCheck()
-{ return manage(new TextureTDCentricCheck(peer_)); }
+{ return Gtk::manage(new TextureTDCentricCheck(peer_)); }
 
 OscillatorEnableCheck* TextureWidget::CreateVibCheck()
-{ return manage(new OscillatorEnableCheck(peer_->GetOscillator())); }
+{ return Gtk::manage(new OscillatorEnableCheck(peer_->GetOscillator())); }
 
 TextureMotionCtrl* TextureWidget::CreateMotionWidget()
-{ return manage(new TextureMotionCtrl(peer_)); }
+{ return Gtk::manage(new TextureMotionCtrl(peer_)); }
 
 } // namespace graphics
 } // namespace latero

@@ -56,7 +56,7 @@ public:
 	StrokeMinMotionWidthCtrl(StrokePtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetMinMotionWidth(),0,20)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("min width", adj_, 1, units::mm)));
+		add(*Gtk::manage(new gtk::HNumWidget("min width", adj_, 1, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMinMotionWidthCtrl::OnChanged));
 	}
 	virtual ~StrokeMinMotionWidthCtrl() {};
@@ -72,7 +72,7 @@ public:
 	StrokeMotionVelCtrl(StrokePtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),-100,100)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
+		add(*Gtk::manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMotionVelCtrl::OnChanged));
 	}
 	virtual ~StrokeMotionVelCtrl() {};
@@ -88,7 +88,7 @@ public:
 	StrokeSuperposedMotionRatioCtrl(StrokePtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetSuperposedMotionRatio()*100,0,100)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("ratio", adj_, 0, units::percent)));
+		add(*Gtk::manage(new gtk::HNumWidget("ratio", adj_, 0, units::percent)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeSuperposedMotionRatioCtrl::OnChanged));
 	}
 	virtual ~StrokeSuperposedMotionRatioCtrl() {};
@@ -105,7 +105,7 @@ public:
 	StrokeBlendMotionValueCtrl(StrokePtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetBlendMotionValue()*100,0,100)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("blend value", adj_, 0, units::percent)));
+		add(*Gtk::manage(new gtk::HNumWidget("blend value", adj_, 0, units::percent)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeBlendMotionValueCtrl::OnChanged));
 	}
 	virtual ~StrokeBlendMotionValueCtrl() {};
@@ -120,9 +120,9 @@ StrokeMotionWidget::StrokeMotionWidget(StrokePtr peer) : peer_(peer)
 {
 	holder_.set_shadow_type(Gtk::SHADOW_NONE);
 
-	velWidget_ = manage(new StrokeMotionVelCtrl(peer));
-	StrokeMotionCueCombo *wCue = manage(new StrokeMotionCueCombo(peer));
-	Gtk::HBox *box = manage(new Gtk::HBox);
+	velWidget_ = Gtk::manage(new StrokeMotionVelCtrl(peer));
+	StrokeMotionCueCombo *wCue = Gtk::manage(new StrokeMotionCueCombo(peer));
+	Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
 
 
 
@@ -152,7 +152,7 @@ void StrokeMotionWidget::Rebuild()
 
 	velWidget_->set_sensitive(!(cue == Stroke::motion_cue_none));
 
-	Gtk::VBox *box = manage(new Gtk::VBox);
+	Gtk::VBox *box = Gtk::manage(new Gtk::VBox);
 	holder_.add(*box);
 	if (cue == Stroke::motion_cue_none)
 	{
@@ -162,32 +162,32 @@ void StrokeMotionWidget::Rebuild()
 	}
 	else if (cue == Stroke::motion_cue_superposed)
 	{
-		Gtk::HBox *hbox = manage(new Gtk::HBox);
-		hbox->pack_start(*manage(new StrokeMinMotionWidthCtrl(peer_)));
-		hbox->pack_start(*manage(new StrokeSuperposedMotionRatioCtrl(peer_)));
+		Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
+		hbox->pack_start(*Gtk::manage(new StrokeMinMotionWidthCtrl(peer_)));
+		hbox->pack_start(*Gtk::manage(new StrokeSuperposedMotionRatioCtrl(peer_)));
 		box->pack_start(*hbox);
-		box->pack_start(*manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
-		box->pack_start(*manage(new OscillatorWidget(peer_->GetMotionOscillator())),Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new OscillatorWidget(peer_->GetMotionOscillator())),Gtk::PACK_SHRINK);
 	}
 	else if (cue == Stroke::motion_cue_suppressed)
 	{
-		box->pack_start(*manage(new StrokeMinMotionWidthCtrl(peer_)),Gtk::PACK_SHRINK);
-		box->pack_start(*manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
-		box->pack_start(*manage(new OscillatorWidget(peer_->GetMotionOscillator())),Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new StrokeMinMotionWidthCtrl(peer_)),Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new OscillatorWidget(peer_->GetMotionOscillator())),Gtk::PACK_SHRINK);
 	}
 	else if (cue == Stroke::motion_cue_vib)
 	{
-		box->pack_start(*manage(new StrokeMinMotionWidthCtrl(peer_)),Gtk::PACK_SHRINK);
-		box->pack_start(*manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
-		Gtk::Frame *frame = manage(new Gtk::Frame("frequency"));
-		frame->add(*manage(new OscillatorFreqCtrl(peer_->GetMotionOscillator())));
+		box->pack_start(*Gtk::manage(new StrokeMinMotionWidthCtrl(peer_)),Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
+		Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("frequency"));
+		frame->add(*Gtk::manage(new OscillatorFreqCtrl(peer_->GetMotionOscillator())));
 		box->pack_start(*frame,Gtk::PACK_SHRINK);
 	}
 	else if (cue == Stroke::motion_cue_blend)
 	{
-		box->pack_start(*manage(new StrokeMinMotionWidthCtrl(peer_)),Gtk::PACK_SHRINK);
-		box->pack_start(*manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
-		box->pack_start(*manage(new StrokeBlendMotionValueCtrl(peer_)),Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new StrokeMinMotionWidthCtrl(peer_)),Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
+		box->pack_start(*Gtk::manage(new StrokeBlendMotionValueCtrl(peer_)),Gtk::PACK_SHRINK);
 	}
 	show_all_children();
 }

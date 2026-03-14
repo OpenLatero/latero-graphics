@@ -44,7 +44,7 @@ class LimitCtrl : public Ctrl
 public:
 	LimitCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetLimit(), 0, 100))
 	{
-		add(*manage(new gtk::HNumWidget("lower limit", adj_, 0, units::mm_per_sec)));
+		add(*Gtk::manage(new gtk::HNumWidget("lower limit", adj_, 0, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &LimitCtrl::OnChanged));
 	}
 protected:
@@ -57,7 +57,7 @@ class TransitionCtrl : public Ctrl
 public:
 	TransitionCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetTransition(), 0, 100))
 	{
-		add(*manage(new gtk::HNumWidget("transition rate", adj_, 0, units::mm_per_sec)));
+		add(*Gtk::manage(new gtk::HNumWidget("transition rate", adj_, 0, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TransitionCtrl::OnChanged));
 	}
 protected:
@@ -70,7 +70,7 @@ class DelayCtrl : public Ctrl
 public:
 	DelayCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDelay(), 0, 2000))
 	{
-		add(*manage(new gtk::HNumWidget("delayed onset", adj_, 0, units::ms)));
+		add(*Gtk::manage(new gtk::HNumWidget("delayed onset", adj_, 0, units::ms)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DelayCtrl::OnChanged));
 	}
 protected:
@@ -86,12 +86,12 @@ VelModulatorWidget::VelModulatorWidget(VelModulatorPtr peer) :
 	peer_(peer)
 {
 	using namespace vel_modulator_ctrls;
-	Gtk::VBox *box = manage(new Gtk::VBox);
-	box->pack_start(*manage(new LimitCtrl(peer)));
-	box->pack_start(*manage(new TransitionCtrl(peer)));
-	box->pack_start(*manage(new DelayCtrl(peer)));
+	Gtk::VBox *box = Gtk::manage(new Gtk::VBox);
+	box->pack_start(*Gtk::manage(new LimitCtrl(peer)));
+	box->pack_start(*Gtk::manage(new TransitionCtrl(peer)));
+	box->pack_start(*Gtk::manage(new DelayCtrl(peer)));
 	pack_start(*box);
-	pack_start(*manage(new ModulatorPreview(peer)), Gtk::PACK_SHRINK);
+	pack_start(*Gtk::manage(new ModulatorPreview(peer)), Gtk::PACK_SHRINK);
 	show_all_children();
 }
 

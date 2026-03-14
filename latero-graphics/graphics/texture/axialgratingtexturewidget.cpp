@@ -35,7 +35,7 @@ public:
 	SeedAngleCtrl(AxialGratingTexturePtr peer) :
 		adj_(Gtk::Adjustment::create(peer->GetSeedAngle(),0,360)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("seed angle", adj_, 0, units::degree)));
+		add(*Gtk::manage(new gtk::HNumWidget("seed angle", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &SeedAngleCtrl::OnChanged));
 	}
 	virtual ~SeedAngleCtrl() {};
@@ -53,8 +53,8 @@ void AxialGratingTextureWidget::Create()
 	using namespace AxialGratingTextureCtrls;
 
 	auto seedWidget = CreateSeedWidget();
-	auto seedAngleCtrl = manage(new SeedAngleCtrl(peer_));
-	auto gratingPitchWidget = manage(new GratingPitchWidget(peer_->GetGrating()));
+	auto seedAngleCtrl = Gtk::manage(new SeedAngleCtrl(peer_));
+	auto gratingPitchWidget = Gtk::manage(new GratingPitchWidget(peer_->GetGrating()));
 	auto vibCheck = CreateVibCheck();
 	auto tdCenticCheck = CreateTDCentricCheck();
 	auto gratingVelocityWidget = CreateGratingVelocityWidget();
@@ -66,7 +66,7 @@ void AxialGratingTextureWidget::Create()
 	tdCenticCheck->set_hexpand(true);
 	gratingVelocityWidget->set_hexpand(true);
 
-	auto grid = manage(new Gtk::Grid());
+	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->attach(*seedWidget,0,0,2,1);
 	grid->attach(*seedAngleCtrl,2,0,1,1);
 	grid->attach(*gratingPitchWidget,0,1,3,1);
@@ -82,23 +82,23 @@ AxialGratingTextureAdvancedWidget::AxialGratingTextureAdvancedWidget(AxialGratin
 {
 	using namespace AxialGratingTextureCtrls;
 
-	Gtk::VBox *rbox = manage(new Gtk::VBox);
-	Gtk::HBox *seedBox  = manage(new Gtk::HBox);
+	Gtk::VBox *rbox = Gtk::manage(new Gtk::VBox);
+	Gtk::HBox *seedBox  = Gtk::manage(new Gtk::HBox);
 
 	seedBox->pack_start(seedCtrl_);
-	seedBox->pack_start(*manage(new SeedAngleCtrl(peer)));
+	seedBox->pack_start(*Gtk::manage(new SeedAngleCtrl(peer)));
 	rbox->pack_start(*seedBox);
-	rbox->pack_start(*manage(new GratingPitchWidget(peer->GetGrating())));
-	rbox->pack_start(*manage(new GratingVelocityWidget(peer->GetGrating())));
-	rbox->pack_start(*manage(new GratingAdvancedButton(peer->GetGrating())),Gtk::PACK_SHRINK);
+	rbox->pack_start(*Gtk::manage(new GratingPitchWidget(peer->GetGrating())));
+	rbox->pack_start(*Gtk::manage(new GratingVelocityWidget(peer->GetGrating())));
+	rbox->pack_start(*Gtk::manage(new GratingAdvancedButton(peer->GetGrating())),Gtk::PACK_SHRINK);
 	rbox->pack_start(tdCentricCtrl_);
 	rbox->pack_start(vibCtrl_);
 
-	Gtk::VBox *lbox = manage(new Gtk::VBox);
+	Gtk::VBox *lbox = Gtk::manage(new Gtk::VBox);
 	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
 	lbox->pack_start(ampCtrl_);
 
-	Gtk::HBox *hbox = manage(new Gtk::HBox);
+	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
 	add(*hbox);
 	hbox->pack_start(*lbox, Gtk::PACK_SHRINK);
 	hbox->pack_start(*rbox);

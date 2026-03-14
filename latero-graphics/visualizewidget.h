@@ -56,7 +56,7 @@ public:
 		combo_.set_active_text(units);
 
 		pack_start(spin_);
-		pack_start(*manage(new gtk::HSpacer(6)), Gtk::PACK_SHRINK);
+		pack_start(*Gtk::manage(new gtk::HSpacer(6)), Gtk::PACK_SHRINK);
 		pack_start(combo_, Gtk::PACK_SHRINK);
 	};
 
@@ -79,7 +79,7 @@ class StartTimeWidget : public Gtk::HBox
 public:
 	StartTimeWidget() : currentRadio_("now"), timeCtrl_(0, units::min)
 	{
-		Gtk::HBox *pTimeBox = manage(new Gtk::HBox);
+		Gtk::HBox *pTimeBox = Gtk::manage(new Gtk::HBox);
 
 		Gtk::RadioButton::Group group = currentRadio_.get_group();
 		timeRadio_.set_group(group);
@@ -89,7 +89,7 @@ public:
 		pTimeBox->pack_start(timeCtrl_);
 
 		pack_start(currentRadio_, Gtk::PACK_SHRINK);		
-		pack_start(*manage(new gtk::HSpacer(6)), Gtk::PACK_SHRINK);
+		pack_start(*Gtk::manage(new gtk::HSpacer(6)), Gtk::PACK_SHRINK);
 		pack_start(*pTimeBox);
 
 		timeRadio_.signal_clicked().connect(sigc::mem_fun(*this, &StartTimeWidget::OnModeChanged));

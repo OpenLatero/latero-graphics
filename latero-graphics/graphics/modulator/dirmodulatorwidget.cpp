@@ -45,7 +45,7 @@ class LowVelModeCombo : public Ctrl
 public:
 	LowVelModeCombo(DirModulatorPtr peer) : Ctrl(peer)
 	{
-		Gtk::Frame *frame = manage(new Gtk::Frame("low velocity mode"));
+		Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("low velocity mode"));
 		add(*frame);
 		frame->add(combo_);
 		std::vector<std::string> labels = peer->GetLowVelModeLabels();
@@ -68,7 +68,7 @@ class DirCtrl : public Ctrl
 public:
 	DirCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirection(), 0, 360))
 	{
-		add(*manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
+		add(*Gtk::manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirCtrl::OnChanged));
 	}
 protected:
@@ -81,7 +81,7 @@ class DirToleranceCtrl : public Ctrl
 public:
 	DirToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirTolerance(), 0, 180))
 	{
-		add(*manage(new gtk::HNumWidget("direction tolerance", adj_, 0, units::degree)));
+		add(*Gtk::manage(new gtk::HNumWidget("direction tolerance", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirToleranceCtrl::OnChanged));
 	}
 protected:
@@ -94,7 +94,7 @@ class DirTransitionCtrl : public Ctrl
 public:
 	DirTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirTransition(), 1, 180))
 	{
-		add(*manage(new gtk::HNumWidget("direction transition rate", adj_, 0, units::degree)));
+		add(*Gtk::manage(new gtk::HNumWidget("direction transition rate", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirTransitionCtrl::OnChanged));
 	}
 protected:
@@ -107,7 +107,7 @@ class VelToleranceCtrl : public Ctrl
 public:
 	VelToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetVelTolerance(), 0, 100))
 	{
-		add(*manage(new gtk::HNumWidget("velocity tolerance", adj_, 0, units::mm_per_sec)));
+		add(*Gtk::manage(new gtk::HNumWidget("velocity tolerance", adj_, 0, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelToleranceCtrl::OnChanged));
 	}
 protected:
@@ -120,7 +120,7 @@ class VelTransitionCtrl : public Ctrl
 public:
 	VelTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetVelTransition(), 0, 100))
 	{
-		add(*manage(new gtk::HNumWidget("velocity transition rate", adj_, 0, units::mm_per_sec)));
+		add(*Gtk::manage(new gtk::HNumWidget("velocity transition rate", adj_, 0, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelTransitionCtrl::OnChanged));
 	}
 protected:
@@ -133,7 +133,7 @@ class SymmetricCtrl : public Ctrl
 public:
 	SymmetricCtrl(DirModulatorPtr peer) : Ctrl(peer), check_("symmetric")
 	{
-		Gtk::Frame *frame = manage(new Gtk::Frame);
+		Gtk::Frame *frame = Gtk::manage(new Gtk::Frame);
 		add(*frame);
 		frame->add(check_);
 		check_.set_active(peer_->GetSymmetric());
@@ -151,16 +151,16 @@ DirModulatorWidget::DirModulatorWidget(DirModulatorPtr peer) :
 	peer_(peer)
 {
 	using namespace dir_modulator_ctrls;
-	auto grid = manage(new Gtk::Grid());
-	grid->attach(*manage(new DirCtrl(peer)),0,0,1,1);
-	grid->attach(*manage(new SymmetricCtrl(peer)),1,0,1,1);
-	grid->attach(*manage(new LowVelModeCombo(peer)),2,0,1,1);
-	grid->attach(*manage(new DirToleranceCtrl(peer)),0,1,1,1);
-	grid->attach(*manage(new DirTransitionCtrl(peer)),1,1,2,1);
-	grid->attach(*manage(new VelToleranceCtrl(peer)),0,2,1,1);
-	grid->attach(*manage(new VelTransitionCtrl(peer)),1,2,2,1);
+	auto grid = Gtk::manage(new Gtk::Grid());
+	grid->attach(*Gtk::manage(new DirCtrl(peer)),0,0,1,1);
+	grid->attach(*Gtk::manage(new SymmetricCtrl(peer)),1,0,1,1);
+	grid->attach(*Gtk::manage(new LowVelModeCombo(peer)),2,0,1,1);
+	grid->attach(*Gtk::manage(new DirToleranceCtrl(peer)),0,1,1,1);
+	grid->attach(*Gtk::manage(new DirTransitionCtrl(peer)),1,1,2,1);
+	grid->attach(*Gtk::manage(new VelToleranceCtrl(peer)),0,2,1,1);
+	grid->attach(*Gtk::manage(new VelTransitionCtrl(peer)),1,2,2,1);
 	pack_start(*grid);
-	pack_start(*manage(new ModulatorPreview(peer)), Gtk::PACK_SHRINK);
+	pack_start(*Gtk::manage(new ModulatorPreview(peer)), Gtk::PACK_SHRINK);
 	show_all_children();
 }
 

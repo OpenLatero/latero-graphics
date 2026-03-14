@@ -75,10 +75,10 @@ void PointListWidget::InsertPoint(const Point &p)
 
 	rowBox_.push_back(new Gtk::HBox);
 	pointBox_.pack_start(*rowBox_[i], Gtk::PACK_SHRINK);
-	rowBox_[i]->pack_start(*manage(new Gtk::SpinButton(xAdj)));
-	rowBox_[i]->pack_start(*manage(new Gtk::SpinButton(yAdj)));
+	rowBox_[i]->pack_start(*Gtk::manage(new Gtk::SpinButton(xAdj)));
+	rowBox_[i]->pack_start(*Gtk::manage(new Gtk::SpinButton(yAdj)));
 
-	NumButton *delButton = manage(new NumButton("-", static_cast<int>(xAdj_.size())-1));
+	NumButton *delButton = Gtk::manage(new NumButton("-", static_cast<int>(xAdj_.size())-1));
 	rowBox_[i]->pack_start(*delButton, Gtk::PACK_SHRINK);
 	delButton->SignalClicked().connect(sigc::mem_fun(*this, &PointListWidget::OnDelete));
 }

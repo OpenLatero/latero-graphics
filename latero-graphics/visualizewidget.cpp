@@ -53,20 +53,20 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	modeCombo_.append(mode_vib_as_noise);
 	modeCombo_.set_active_text(mode_vib_as_noise);
 
-	Gtk::ScrolledWindow *scrolledWindow = manage(new Gtk::ScrolledWindow);
+	Gtk::ScrolledWindow *scrolledWindow = Gtk::manage(new Gtk::ScrolledWindow);
 	scrolledWindow->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 	scrolledWindow->add(img_);
 	scrolledWindow->set_size_request(5 + widthAdj_->get_value(), 5 + heightAdj_->get_value());
 
-	Gtk::HBox *hbox = manage(new Gtk::HBox);
+	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
 	get_vbox()->pack_start(*scrolledWindow);
 	get_vbox()->pack_start(*GetPlaybackWidget(), Gtk::PACK_SHRINK);
-	get_vbox()->pack_start(*manage(new gtk::VSpacer(18)), Gtk::PACK_SHRINK);
+	get_vbox()->pack_start(*Gtk::manage(new gtk::VSpacer(18)), Gtk::PACK_SHRINK);
 	get_vbox()->pack_start(*hbox, Gtk::PACK_SHRINK);
 
-	hbox->pack_start(*manage(new gtk::HSpacer(12)), Gtk::PACK_SHRINK);
+	hbox->pack_start(*Gtk::manage(new gtk::HSpacer(12)), Gtk::PACK_SHRINK);
 	hbox->pack_start(*GetAnimWidget());
-	hbox->pack_start(*manage(new gtk::HSpacer(12)), Gtk::PACK_SHRINK);
+	hbox->pack_start(*Gtk::manage(new gtk::HSpacer(12)), Gtk::PACK_SHRINK);
 
 	CreateMenu();
 	scrolledWindow->set_events(Gdk::BUTTON_PRESS_MASK);
@@ -77,32 +77,32 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 
 Gtk::Widget *VisualizeWidget::GetAnimWidget()
 {
-	auto grid = manage(new Gtk::Grid());
+	auto grid = Gtk::manage(new Gtk::Grid());
 
-	grid->attach(*manage(new Gtk::Label("Frames:", Gtk::ALIGN_START)),0,0,1,1); // 0,1, 0,1, Gtk::FILL);
-	grid->attach(*manage(new Gtk::Label("Interval:   ", Gtk::ALIGN_START)),0,1,1,1); // 0,1, 1,2, Gtk::FILL);
-	grid->attach(*manage(new Gtk::Label("Start:", Gtk::ALIGN_START)),0,2,1,1); //0,1, 2,3, Gtk::FILL);
+	grid->attach(*Gtk::manage(new Gtk::Label("Frames:", Gtk::ALIGN_START)),0,0,1,1); // 0,1, 0,1, Gtk::FILL);
+	grid->attach(*Gtk::manage(new Gtk::Label("Interval:   ", Gtk::ALIGN_START)),0,1,1,1); // 0,1, 1,2, Gtk::FILL);
+	grid->attach(*Gtk::manage(new Gtk::Label("Start:", Gtk::ALIGN_START)),0,2,1,1); //0,1, 2,3, Gtk::FILL);
 
-	grid->attach(*manage(new Gtk::SpinButton(nbFramesAdj_)),1,0,1,1); // 1,2, 0,1);
+	grid->attach(*Gtk::manage(new Gtk::SpinButton(nbFramesAdj_)),1,0,1,1); // 1,2, 0,1);
 	grid->attach(intervalCtrl_,1,1,1,1); // 1,2, 1,2);
 	grid->attach(startTimeCtrl_,1,2,1,1); // 1,2, 2,3);
 
-	grid->attach(*manage(new Gtk::Label("      Mode:", Gtk::ALIGN_START)),2,0,1,1); // 2,3, 0,1, Gtk::FILL);
-	grid->attach(*manage(new Gtk::Label("      Width:", Gtk::ALIGN_START)),2,1,1,1); // 2,3, 1,2, Gtk::FILL);
-	grid->attach(*manage(new Gtk::Label("      Velocity:   ", Gtk::ALIGN_START)),2,2,1,1); // 2,3, 2,3, Gtk::FILL);
+	grid->attach(*Gtk::manage(new Gtk::Label("      Mode:", Gtk::ALIGN_START)),2,0,1,1); // 2,3, 0,1, Gtk::FILL);
+	grid->attach(*Gtk::manage(new Gtk::Label("      Width:", Gtk::ALIGN_START)),2,1,1,1); // 2,3, 1,2, Gtk::FILL);
+	grid->attach(*Gtk::manage(new Gtk::Label("      Velocity:   ", Gtk::ALIGN_START)),2,2,1,1); // 2,3, 2,3, Gtk::FILL);
 
 	grid->attach(modeCombo_,3,0,4,1); // 3,7, 0,1);
-	grid->attach(*manage(new Gtk::SpinButton(widthAdj_)),3,1,1,1); // 3,4, 1,2);
-	grid->attach(*manage(new Gtk::SpinButton(velMagAdj_)),3,2,1,1); // 3,4, 2,3);
+	grid->attach(*Gtk::manage(new Gtk::SpinButton(widthAdj_)),3,1,1,1); // 3,4, 1,2);
+	grid->attach(*Gtk::manage(new Gtk::SpinButton(velMagAdj_)),3,2,1,1); // 3,4, 2,3);
 
-	grid->attach(*manage(new Gtk::Label("x")),4,1,1,1); // 4,5, 1,2, Gtk::FILL);
-	grid->attach(*manage(new Gtk::Label(" mm/s ", Gtk::ALIGN_START)),4,2,1,1); // 4,5, 2,3, Gtk::FILL);
+	grid->attach(*Gtk::manage(new Gtk::Label("x")),4,1,1,1); // 4,5, 1,2, Gtk::FILL);
+	grid->attach(*Gtk::manage(new Gtk::Label(" mm/s ", Gtk::ALIGN_START)),4,2,1,1); // 4,5, 2,3, Gtk::FILL);
 
-	grid->attach(*manage(new Gtk::SpinButton(heightAdj_)),5,1,1,1); // 5,6, 1,2);
-	grid->attach(*manage(new Gtk::SpinButton(velDirAdj_)),5,2,1,1); // 5,6, 2,3);
+	grid->attach(*Gtk::manage(new Gtk::SpinButton(heightAdj_)),5,1,1,1); // 5,6, 1,2);
+	grid->attach(*Gtk::manage(new Gtk::SpinButton(velDirAdj_)),5,2,1,1); // 5,6, 2,3);
 
-	grid->attach(*manage(new Gtk::Label(" pixels", Gtk::ALIGN_START)),6,1,1,1); // 6,7, 1,2, Gtk::FILL);
-	grid->attach(*manage(new Gtk::Label(" degrees", Gtk::ALIGN_START)),6,2,1,1); // 6,7, 2,3, Gtk::FILL);
+	grid->attach(*Gtk::manage(new Gtk::Label(" pixels", Gtk::ALIGN_START)),6,1,1,1); // 6,7, 1,2, Gtk::FILL);
+	grid->attach(*Gtk::manage(new Gtk::Label(" degrees", Gtk::ALIGN_START)),6,2,1,1); // 6,7, 2,3, Gtk::FILL);
 
 	widthAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &VisualizeWidget::OnWidthChanged));
 	heightAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &VisualizeWidget::OnHeightChanged));
@@ -129,39 +129,39 @@ void VisualizeWidget::OnHeightChanged()
 
 Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 {
-	Gtk::Alignment *pAlignBox = manage(new Gtk::Alignment(Gtk::ALIGN_CENTER, Gtk::ALIGN_CENTER, 0, 0));
-	Gtk::HBox *pBox = manage(new Gtk::HBox);
+	Gtk::Alignment *pAlignBox = Gtk::manage(new Gtk::Alignment(Gtk::ALIGN_CENTER, Gtk::ALIGN_CENTER, 0, 0));
+	Gtk::HBox *pBox = Gtk::manage(new Gtk::HBox);
 
-	//Gtk::Label *frameLabel = manage(new Gtk::Label("frame"));
-	//Gtk::SpinButton *frameCtrl = manage(new Gtk::SpinButton(frameAdj_));
+	//Gtk::Label *frameLabel = Gtk::manage(new Gtk::Label("frame"));
+	//Gtk::SpinButton *frameCtrl = Gtk::manage(new Gtk::SpinButton(frameAdj_));
 	//frameCtrl->set_sensitive(false);
 
-	//Gtk::Label *timeLabel = manage(new Gtk::Label("time (ms)"));
-	//Gtk::SpinButton *timeCtrl = manage(new Gtk::SpinButton(timeAdj_));
+	//Gtk::Label *timeLabel = Gtk::manage(new Gtk::Label("time (ms)"));
+	//Gtk::SpinButton *timeCtrl = Gtk::manage(new Gtk::SpinButton(timeAdj_));
 	//timeCtrl->set_sensitive(false);
 
 
-	auto prevButton =  manage(new Gtk::Button);
+	auto prevButton = Gtk::manage(new Gtk::Button);
     prevButton->set_image_from_icon_name("media-skip-backward", Gtk::ICON_SIZE_BUTTON);
 	prevButton->set_always_show_image(true); 
 	prevButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnPrevious));
 	
-	auto playButton =  manage(new Gtk::Button);
+	auto playButton =  Gtk::manage(new Gtk::Button);
 	playButton->set_image_from_icon_name("media-playback-start", Gtk::ICON_SIZE_BUTTON);
 	playButton->set_always_show_image(true);
 	playButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnPlay));
 
-	auto stopButton =  manage(new Gtk::Button);
+	auto stopButton = Gtk::manage(new Gtk::Button);
 	stopButton->set_image_from_icon_name("media-playback-stop", Gtk::ICON_SIZE_BUTTON);
 	stopButton->set_always_show_image(true);
 	stopButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnStop));
 
-	auto nextButton =  manage(new Gtk::Button);
+	auto nextButton = Gtk::manage(new Gtk::Button);
 	nextButton->set_image_from_icon_name("media-skip-forward", Gtk::ICON_SIZE_BUTTON);
 	nextButton->set_always_show_image(true);
 	nextButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnNext));
 
-	auto refreshButton =  manage(new Gtk::Button);
+	auto refreshButton = Gtk::manage(new Gtk::Button);
 	refreshButton->set_image_from_icon_name("view-refresh", Gtk::ICON_SIZE_BUTTON);
 	refreshButton->set_always_show_image(true);
 	refreshButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnApply));
@@ -170,7 +170,7 @@ Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 	pBox->pack_start(*playButton, Gtk::PACK_SHRINK);
 	pBox->pack_start(*stopButton, Gtk::PACK_SHRINK);
 	pBox->pack_start(*nextButton, Gtk::PACK_SHRINK);
-	pBox->pack_start(*manage(new gtk::HSpacer(12)), Gtk::PACK_SHRINK);
+	pBox->pack_start(*Gtk::manage(new gtk::HSpacer(12)), Gtk::PACK_SHRINK);
 	pBox->pack_start(*refreshButton, Gtk::PACK_SHRINK);
 
 	pAlignBox->add(*pBox);

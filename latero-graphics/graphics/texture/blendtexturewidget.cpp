@@ -33,15 +33,15 @@ BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 {
 	modWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 
-	txWidgets_[0] = manage(new TextureSelectorWidget(peer->GetFirstTexture()));
-	txWidgets_[1] = manage(new TextureSelectorWidget(peer->GetSecondTexture()));
+	txWidgets_[0] = Gtk::manage(new TextureSelectorWidget(peer->GetFirstTexture()));
+	txWidgets_[1] = Gtk::manage(new TextureSelectorWidget(peer->GetSecondTexture()));
 	ModulatorPtr mod = peer->GetModulator();
 
-	Gtk::HBox *optionBox = manage(new Gtk::HBox);
+	Gtk::HBox *optionBox = Gtk::manage(new Gtk::HBox);
 	optionBox->pack_start(modCombo_, Gtk::PACK_SHRINK);
 	optionBox->pack_start(modWidgetHolder_);
-	optionBox->pack_start(*manage(new PatternPreview(peer)),Gtk::PACK_SHRINK);
-	modWidgetHolder_.add(*manage(mod->CreateWidget(mod)));
+	optionBox->pack_start(*Gtk::manage(new PatternPreview(peer)),Gtk::PACK_SHRINK);
+	modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
 
 	append_page(*optionBox,"options");
 	append_page(*txWidgets_[0],"Texture (high)");
@@ -75,7 +75,7 @@ void BlendTextureWidget::OnModulatorChanged(ModulatorPtr mod)
 	modWidgetHolder_.remove();
 	delete old;
 
-	modWidgetHolder_.add(*manage(mod->CreateWidget(mod)));
+	modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
 	show_all_children();
 }
 

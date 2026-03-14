@@ -32,7 +32,7 @@ RidgeEdgeWidthScale::RidgeEdgeWidthScale(RidgePtr peer) :
 	peer_(peer),
 	adj_(Gtk::Adjustment::create(peer->GetEdgeWidth(), Ridge::edgeWidth_min, 10, 10, 50))
 {
-	add(*manage(new gtk::HNumWidget("edge width", adj_, 2, "mm")));
+	add(*Gtk::manage(new gtk::HNumWidget("edge width", adj_, 2, "mm")));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeEdgeWidthScale::OnChange));
 }
 void RidgeEdgeWidthScale::OnChange() { peer_->SetEdgeWidth(adj_->get_value()); }
@@ -46,7 +46,7 @@ public:
 	RidgeTxAmpScale(RidgePtr peer) :
 		peer_(peer), adj_(Gtk::Adjustment::create(100*peer->GetTxAmp(), 0, 100, 10, 50))
 	{
-		add(*manage(new gtk::HNumWidget(adj_, 0, "%")));
+		add(*Gtk::manage(new gtk::HNumWidget(adj_, 0, "%")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxAmpScale::OnChange));
 	}
 	virtual ~RidgeTxAmpScale() {};
@@ -62,7 +62,7 @@ public:
 	RidgeTxNbCyclesScale(RidgePtr peer) :
 		peer_(peer), adj_(Gtk::Adjustment::create(peer->GetTxNbCycles(),1,20.0))
 	{
-		add(*manage(new gtk::HNumWidget(adj_, 0)));
+		add(*Gtk::manage(new gtk::HNumWidget(adj_, 0)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxNbCyclesScale::OnChange));
 	}
 	virtual ~RidgeTxNbCyclesScale() {};
@@ -76,8 +76,8 @@ private:
 RidgeTextureCtrl::RidgeTextureCtrl(RidgePtr peer) :
 	gtk::CheckFrame(peer->GetTxEnable(), "texture"), peer_(peer)
 {
-	GetBox().pack_start(*manage(new RidgeTxAmpScale(peer)));
-	GetBox().pack_start(*manage(new RidgeTxNbCyclesScale(peer)));
+	GetBox().pack_start(*Gtk::manage(new RidgeTxAmpScale(peer)));
+	GetBox().pack_start(*Gtk::manage(new RidgeTxNbCyclesScale(peer)));
 	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &RidgeTextureCtrl::OnClick));
 }
 void RidgeTextureCtrl::OnClick() { peer_->SetTxEnable(GetCheck().get_active()); };
@@ -101,7 +101,7 @@ RidgeWidget::RidgeWidget(RidgePtr peer) :
 	controls_(peer),
     peer_(peer)
 {
-	graph_ = manage(new RidgeGraph(peer));
+	graph_ = Gtk::manage(new RidgeGraph(peer));
 	pack_start(controls_);
 	pack_start(*graph_);
 	graph_->Refresh();

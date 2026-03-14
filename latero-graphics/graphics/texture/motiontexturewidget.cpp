@@ -64,7 +64,7 @@ public:
 	DirectionCtrl(MotionTexturePtr peer) : MotionTextureCtrl(peer),
 		adj_(Gtk::Adjustment::create(peer->GetDirection(),0,360))
 	{
-		add(*manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
+		add(*Gtk::manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirectionCtrl::OnChanged));
 	}
 	virtual ~DirectionCtrl() {};
@@ -79,7 +79,7 @@ public:
 	VelocityCtrl(MotionTexturePtr peer) : MotionTextureCtrl(peer),
 		adj_(Gtk::Adjustment::create(peer->GetVelocity(),0,100))
 	{
-		add(*manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
+		add(*Gtk::manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelocityCtrl::OnChanged));
 	}
 	virtual ~VelocityCtrl() {};
@@ -96,13 +96,13 @@ MotionTextureWidget::MotionTextureWidget(MotionTexturePtr peer) :
 	txWidget_(peer->GetTexture())
 {
 	using namespace MotionTextureCtrls;
-	Gtk::HBox *motionPage = manage(new Gtk::HBox);
-	Gtk::VBox *box = manage(new Gtk::VBox);
-	box->pack_start(*manage(new CueTypeCombo(peer)), Gtk::PACK_SHRINK);
-	box->pack_start(*manage(new DirectionCtrl(peer)), Gtk::PACK_SHRINK);
-	box->pack_start(*manage(new VelocityCtrl(peer)), Gtk::PACK_SHRINK);
+	Gtk::HBox *motionPage = Gtk::manage(new Gtk::HBox);
+	Gtk::VBox *box = Gtk::manage(new Gtk::VBox);
+	box->pack_start(*Gtk::manage(new CueTypeCombo(peer)), Gtk::PACK_SHRINK);
+	box->pack_start(*Gtk::manage(new DirectionCtrl(peer)), Gtk::PACK_SHRINK);
+	box->pack_start(*Gtk::manage(new VelocityCtrl(peer)), Gtk::PACK_SHRINK);
 	motionPage->pack_start(*box);
-	motionPage->pack_start(*manage(new PatternPreview(peer->GetMotionTexture())), Gtk::PACK_SHRINK);
+	motionPage->pack_start(*Gtk::manage(new PatternPreview(peer->GetMotionTexture())), Gtk::PACK_SHRINK);
 
 	append_page(txWidget_, "texture");
 	append_page(*motionPage, "motion cue");

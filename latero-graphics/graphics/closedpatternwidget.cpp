@@ -32,7 +32,7 @@ public:
 	ClosedPatternFillTextureGapCtrl(ClosedPatternPtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetFillTextureGap(), -1, 50)), peer_(peer)
 	{
-		add(*manage(new latero::graphics::gtk::HNumWidget("gap", adj_, 1, "mm")));
+		add(*Gtk::manage(new latero::graphics::gtk::HNumWidget("gap", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureGapCtrl::OnChanged));
 	}
 	virtual ~ClosedPatternFillTextureGapCtrl() {};
@@ -48,7 +48,7 @@ public:
 	ClosedPatternFillTextureEdgeSizeCtrl(ClosedPatternPtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetFillTextureEdgeSize(), 0, 50)), peer_(peer)
 	{
-		add(*manage(new latero::graphics::gtk::HNumWidget("edge size", adj_, 1, "mm")));
+		add(*Gtk::manage(new latero::graphics::gtk::HNumWidget("edge size", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureEdgeSizeCtrl::OnChanged));
 	}
 	virtual ~ClosedPatternFillTextureEdgeSizeCtrl() {};
@@ -67,12 +67,12 @@ ClosedPatternFillTextureWidget::ClosedPatternFillTextureWidget(ClosedPatternPtr 
 {
 	set_shadow_type(Gtk::SHADOW_NONE);
 
-	Gtk::VBox *vbox = manage(new Gtk::VBox);
+	Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox);
 	GetBox().pack_start(*vbox);
 
-	Gtk::HBox *hbox = manage(new Gtk::HBox);
-	hbox->pack_start(*manage(new ClosedPatternFillTextureGapCtrl(peer)));	
-	hbox->pack_start(*manage(new ClosedPatternFillTextureEdgeSizeCtrl(peer)));
+	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
+	hbox->pack_start(*Gtk::manage(new ClosedPatternFillTextureGapCtrl(peer)));	
+	hbox->pack_start(*Gtk::manage(new ClosedPatternFillTextureEdgeSizeCtrl(peer)));
 
 	vbox->pack_start(*hbox, Gtk::PACK_SHRINK);
 	vbox->pack_start(txWidget_);

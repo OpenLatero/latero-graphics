@@ -53,7 +53,7 @@ DotsRadiusCtrl::DotsRadiusCtrl(DotsPtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetDotRadius(), 0.01, 20.0))
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotsRadiusCtrl::OnChanged));
-	add(*manage(new gtk::HNumWidget("radius",adj_,1,"mm")));
+	add(*Gtk::manage(new gtk::HNumWidget("radius",adj_,1,"mm")));
 }
 void DotsRadiusCtrl::OnChanged() { peer_->SetDotRadius(adj_->get_value()); }
 
@@ -63,23 +63,23 @@ DotsHeightCtrl::DotsHeightCtrl(DotsPtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetHeight()*100, 1, 100))
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotsHeightCtrl::OnChanged));
-	add(*manage(new gtk::HNumWidget("height",adj_,0,"%")));
+	add(*Gtk::manage(new gtk::HNumWidget("height",adj_,0,"%")));
 }
 void DotsHeightCtrl::OnChanged() { peer_->SetHeight(adj_->get_value()/100); };
 
 
 DotsWidget::DotsWidget(DotsPtr peer)
 {
-	auto grid = manage(new Gtk::Grid());
-	grid->attach(*manage(new DotsRadiusCtrl(peer)),0,0,2,1);
-	grid->attach(*manage(new DotsHeightCtrl(peer)),0,1,1,1);
-	grid->attach(*manage(new RidgeEdgeWidthScale(peer->GetProfile())),1,1,1,1);
-	grid->attach(*manage(new RidgeTextureCtrl(peer->GetProfile())),0,2,2,1);
-	grid->attach(*manage(new OscillatorWidget(peer->GetOscillator())),0,3,2,1);
-	grid->attach(*manage(new DotsPointsWidget(peer)),2,0,1,4);
+	auto grid = Gtk::manage(new Gtk::Grid());
+	grid->attach(*Gtk::manage(new DotsRadiusCtrl(peer)),0,0,2,1);
+	grid->attach(*Gtk::manage(new DotsHeightCtrl(peer)),0,1,1,1);
+	grid->attach(*Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile())),1,1,1,1);
+	grid->attach(*Gtk::manage(new RidgeTextureCtrl(peer->GetProfile())),0,2,2,1);
+	grid->attach(*Gtk::manage(new OscillatorWidget(peer->GetOscillator())),0,3,2,1);
+	grid->attach(*Gtk::manage(new DotsPointsWidget(peer)),2,0,1,4);
 
 	pack_start(*grid);
-	pack_start(*manage(new RidgeGraph(peer->GetProfile(),300)), Gtk::PACK_SHRINK);
+	pack_start(*Gtk::manage(new RidgeGraph(peer->GetProfile(),300)), Gtk::PACK_SHRINK);
 }
 
 } // namespace graphics

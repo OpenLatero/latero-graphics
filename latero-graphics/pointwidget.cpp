@@ -31,13 +31,13 @@ PointWidget::PointWidget(const Point &init, double xlim_min, double xlim_max, do
 {
 	if (showSliders)
 	{
-		pack_start(*manage(new latero::graphics::gtk::HNumWidget(xAdj_, 3, "mm")));
-		pack_start(*manage(new latero::graphics::gtk::HNumWidget(yAdj_, 3, "mm")));
+		pack_start(*Gtk::manage(new latero::graphics::gtk::HNumWidget(xAdj_, 3, "mm")));
+		pack_start(*Gtk::manage(new latero::graphics::gtk::HNumWidget(yAdj_, 3, "mm")));
 	}
 	else
 	{
-		pack_start(*manage(new Gtk::SpinButton(xAdj_,0,3)));
-		pack_start(*manage(new Gtk::SpinButton(yAdj_,0,3)));
+		pack_start(*Gtk::manage(new Gtk::SpinButton(xAdj_,0,3)));
+		pack_start(*Gtk::manage(new Gtk::SpinButton(yAdj_,0,3)));
 	}
 
 	xAdj_->signal_value_changed().connect(signalValueChanged_);

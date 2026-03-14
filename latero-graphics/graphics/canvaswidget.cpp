@@ -29,7 +29,7 @@ namespace graphics {
 CanvasWidget::CanvasWidget(CanvasPtr peer)
 {
 	GroupPtr p = peer->GetGroup();
-	add(*manage(p->CreateWidget(p)));
+	add(*Gtk::manage(p->CreateWidget(p)));
 }
 
 } // namespace graphics

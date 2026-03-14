@@ -40,7 +40,7 @@ public:
 	StrokeIntensityCtrl(StrokePtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetIntensity()*100,0,100)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("stroke intensity", adj_, 1, "%")));
+		add(*Gtk::manage(new gtk::HNumWidget("stroke intensity", adj_, 1, "%")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeIntensityCtrl::OnChanged));
 	}
 	virtual ~StrokeIntensityCtrl() {};
@@ -57,7 +57,7 @@ public:
 	StrokeWidthCtrl(StrokePtr peer) : 
 		adj_(Gtk::Adjustment::create(peer->GetWidth(),0,50.0)), peer_(peer)
 	{
-		add(*manage(new gtk::HNumWidget("stroke width", adj_, 1, "mm")));
+		add(*Gtk::manage(new gtk::HNumWidget("stroke width", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeWidthCtrl::OnChanged));
 	}
 	virtual ~StrokeWidthCtrl() {};
@@ -91,15 +91,15 @@ class StrokeTextureWidget : public gtk::CheckFrame
 public:
 	StrokeTextureWidget(StrokePtr peer) : gtk::CheckFrame(peer->GetTexture()->GetEnable(), "grating"), peer_(peer)
 	{
-		Gtk::HBox *miscBox = manage(new Gtk::HBox);
+		Gtk::HBox *miscBox = Gtk::manage(new Gtk::HBox);
 
-		miscBox->pack_start(*manage(new GratingAmplitudeWidget(peer->GetTexture())));
-		miscBox->pack_start(*manage(new GratingInvertCtrl(peer->GetTexture())),Gtk::PACK_SHRINK);
+		miscBox->pack_start(*Gtk::manage(new GratingAmplitudeWidget(peer->GetTexture())));
+		miscBox->pack_start(*Gtk::manage(new GratingInvertCtrl(peer->GetTexture())),Gtk::PACK_SHRINK);
 
-		Gtk::VBox *box = manage(new Gtk::VBox);
+		Gtk::VBox *box = Gtk::manage(new Gtk::VBox);
 		GetBox().add(*box);
 
-		box->pack_start(*manage(new GratingPitchWidget(peer->GetTexture())));
+		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer->GetTexture())));
 		box->pack_start(*miscBox);
 	
 		GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &StrokeTextureWidget::OnEnable));
@@ -115,7 +115,7 @@ class StrokeVibrationCtrl : public Gtk::HBox
 public:
 	StrokeVibrationCtrl(StrokePtr peer)
 	{
-		gtk::CheckFrame *vib = manage(new OscillatorWidget(peer->GetOscillator(), true));
+		gtk::CheckFrame *vib = Gtk::manage(new OscillatorWidget(peer->GetOscillator(), true));
 		add(*vib);
 	}
 	virtual ~StrokeVibrationCtrl() {}
@@ -126,25 +126,25 @@ public:
 
 StrokeProfileWidget::StrokeProfileWidget(StrokePtr peer)
 {
-	Gtk::VBox *box = manage(new Gtk::VBox);
-	box->pack_start(*manage(new StrokeWidthCtrl(peer)));
-	box->pack_start(*manage(new StrokeIntensityCtrl(peer)));
-	box->pack_start(*manage(new RidgeEdgeWidthScale(peer->GetProfile())));
-	box->pack_start(*manage(new RidgeTextureCtrl(peer->GetProfile())));
+	Gtk::VBox *box = Gtk::manage(new Gtk::VBox);
+	box->pack_start(*Gtk::manage(new StrokeWidthCtrl(peer)));
+	box->pack_start(*Gtk::manage(new StrokeIntensityCtrl(peer)));
+	box->pack_start(*Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile())));
+	box->pack_start(*Gtk::manage(new RidgeTextureCtrl(peer->GetProfile())));
 
 	pack_start(*box);
-	pack_start(*manage(new RidgeGraph(peer->GetProfile(),300)), Gtk::PACK_SHRINK);
+	pack_start(*Gtk::manage(new RidgeGraph(peer->GetProfile(),300)), Gtk::PACK_SHRINK);
 };
 
 
 StrokeFillWidget::StrokeFillWidget(StrokePtr peer)
 {
-	Gtk::Frame *frame = manage(new Gtk::Frame("general"));
-	frame->add(*manage(new StrokeGutterCheck(peer)));
+	Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("general"));
+	frame->add(*Gtk::manage(new StrokeGutterCheck(peer)));
 
 	pack_start(*frame);
-	pack_start(*manage(new StrokeVibrationCtrl(peer)));
-	pack_start(*manage(new StrokeTextureWidget(peer)));
+	pack_start(*Gtk::manage(new StrokeVibrationCtrl(peer)));
+	pack_start(*Gtk::manage(new StrokeTextureWidget(peer)));
 };
 
 
@@ -169,9 +169,9 @@ protected:
 
 StrokeDottedWidget::StrokeDottedWidget(StrokePtr peer)
 {
-	pack_start(*manage(new StrokeDotEnableCheck(peer)), Gtk::PACK_SHRINK);
+	pack_start(*Gtk::manage(new StrokeDotEnableCheck(peer)), Gtk::PACK_SHRINK);
 	DotPatternPtr p = peer->GetDots();
-	if (p) pack_start(*manage(new DotPatternMinSpacingCtrl(p)), Gtk::PACK_SHRINK);
+	if (p) pack_start(*Gtk::manage(new DotPatternMinSpacingCtrl(p)), Gtk::PACK_SHRINK);
 };
 
 } // namespace graphics
