@@ -59,10 +59,11 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	scrolledWindow->set_size_request(5 + widthAdj_->get_value(), 5 + heightAdj_->get_value());
 
 	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
-	get_vbox()->pack_start(*scrolledWindow);
-	get_vbox()->pack_start(*GetPlaybackWidget(), Gtk::PACK_SHRINK);
-	get_vbox()->pack_start(*Gtk::manage(new gtk::VSpacer(18)), Gtk::PACK_SHRINK);
-	get_vbox()->pack_start(*hbox, Gtk::PACK_SHRINK);
+	auto dlgArea = get_content_area();
+	dlgArea->pack_start(*scrolledWindow);
+	dlgArea->pack_start(*GetPlaybackWidget(), Gtk::PACK_SHRINK);
+	dlgArea->pack_start(*Gtk::manage(new gtk::VSpacer(18)), Gtk::PACK_SHRINK);
+	dlgArea->pack_start(*hbox, Gtk::PACK_SHRINK);
 
 	hbox->pack_start(*Gtk::manage(new gtk::HSpacer(12)), Gtk::PACK_SHRINK);
 	hbox->pack_start(*GetAnimWidget());

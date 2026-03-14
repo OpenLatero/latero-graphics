@@ -22,11 +22,7 @@
 #ifndef LATERO_GRAPHICS_VIRTUAL_SURFACE_WIDGET_H
 #define LATERO_GRAPHICS_VIRTUAL_SURFACE_WIDGET_H
 
-#include <gtkmm/uimanager.h>
-#include <gtkmm/drawingarea.h>
-#include <gtkmm/alignment.h>
-#include <gtkmm/aspectframe.h>
-#include <gtkmm/eventbox.h>
+#include <gtkmm.h>
 #include <latero/tactileimg.h>
 #include <latero/tactograph.h>
 #include "gtk/animation.h"

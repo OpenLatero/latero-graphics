@@ -50,8 +50,8 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 	combo_.set_active_text("line");
 	txCombo_.set_sensitive(false);
 
-	get_vbox()->pack_start(combo_);
-	get_vbox()->pack_start(txCombo_);
+	get_content_area()->pack_start(combo_);
+	get_content_area()->pack_start(txCombo_);
 
 	combo_.signal_changed().connect( sigc::mem_fun(*this, &PatternCreatorDialog::OnComboChanged) );
 	

@@ -40,8 +40,8 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 	combo_.set_active_text("texture");
 	txCombo_.set_sensitive(false);
 
-	get_vbox()->pack_start(combo_);
-	get_vbox()->pack_start(txCombo_);
+	get_content_area()->pack_start(combo_);
+	get_content_area()->pack_start(txCombo_);
 
 	combo_.signal_changed().connect( sigc::mem_fun(*this, &CreateTextureDlg::OnComboChanged) );
 	
@@ -193,11 +193,11 @@ void TextureAdvancedButton::on_clicked()
 { 
 	if (adv_)
 	{
-		dlg_.get_vbox()->remove(*adv_);
+		dlg_.get_content_area()->remove(*adv_);
 		delete adv_;
 	}
 	adv_ = Gtk::manage(peer_->CreateAdvancedWidget(peer_));
-	dlg_.get_vbox()->pack_start(*adv_);
+	dlg_.get_content_area()->pack_start(*adv_);
 	dlg_.show_all_children();
 	dlg_.show();  
 	Gtk::Button::on_clicked(); 
