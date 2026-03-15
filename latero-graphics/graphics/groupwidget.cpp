@@ -143,7 +143,7 @@ bool GroupTreeView::on_button_press_event(GdkEventButton* event)
 		if (pattern)
 		{
 			RebuildMenu(pattern);
-			menu_.popup(event->button, event->time);
+			menu_.popup_at_pointer((GdkEvent*)event);
 		}
 	}
 	return rv;
