@@ -132,7 +132,6 @@ void VisualizeWidget::OnHeightChanged()
 
 Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 {
-	Gtk::Alignment *pAlignBox = Gtk::manage(new Gtk::Alignment(Gtk::ALIGN_CENTER, Gtk::ALIGN_CENTER, 0, 0));
 	Gtk::HBox *pBox = Gtk::manage(new Gtk::HBox);
 
 	//Gtk::Label *frameLabel = Gtk::manage(new Gtk::Label("frame"));
@@ -142,7 +141,6 @@ Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 	//Gtk::Label *timeLabel = Gtk::manage(new Gtk::Label("time (ms)"));
 	//Gtk::SpinButton *timeCtrl = Gtk::manage(new Gtk::SpinButton(timeAdj_));
 	//timeCtrl->set_sensitive(false);
-
 
 	auto prevButton = Gtk::manage(new Gtk::Button);
     prevButton->set_image_from_icon_name("media-skip-backward", Gtk::ICON_SIZE_BUTTON);
@@ -176,8 +174,8 @@ Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 	nextButton->set_margin_end(12);
 	pBox->pack_start(*refreshButton, Gtk::PACK_SHRINK);
 
-	pAlignBox->add(*pBox);
-	return pAlignBox;
+	pBox->set_halign(Gtk::ALIGN_CENTER);
+	return pBox;
 }
 
 
