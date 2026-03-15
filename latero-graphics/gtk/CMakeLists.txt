@@ -16,7 +16,6 @@ set(SRC_H
 	numwidget.h
 	pixbufops.h
 	plot.h
-	spacer.h
 )
 
 set(SRC ${SRC_H} ${SRC_CPP})

@@ -33,7 +33,6 @@
 #include "positiongenfwd.h"
 #include "gtk/animation.h"
 #include "units.h"
-#include "gtk/spacer.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
 
@@ -56,7 +55,7 @@ public:
 		combo_.set_active_text(units);
 
 		pack_start(spin_);
-		pack_start(*Gtk::manage(new gtk::HSpacer(6)), Gtk::PACK_SHRINK);
+		spin_.set_margin_end(6);
 		pack_start(combo_, Gtk::PACK_SHRINK);
 	};
 
@@ -89,7 +88,7 @@ public:
 		pTimeBox->pack_start(timeCtrl_);
 
 		pack_start(currentRadio_, Gtk::PACK_SHRINK);		
-		pack_start(*Gtk::manage(new gtk::HSpacer(6)), Gtk::PACK_SHRINK);
+		currentRadio_.set_margin_end(6);
 		pack_start(*pTimeBox);
 
 		timeRadio_.signal_clicked().connect(sigc::mem_fun(*this, &StartTimeWidget::OnModeChanged));
