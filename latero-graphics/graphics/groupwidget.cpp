@@ -42,6 +42,7 @@
 #include <gtkmm/filechooserdialog.h>
 #include "modulator/modulatorcombo.h"
 #include "modulator/modulator.h"
+#include <gtkmm.h>
 
 namespace latero {
 namespace graphics { 

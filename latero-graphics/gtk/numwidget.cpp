@@ -85,7 +85,7 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	Gtk::Box *box2;
 	if (orient == ORIENT_V)
 	{
-		scale_ = Gtk::manage(new Gtk::VScale(adj));
+		scale_ = Gtk::manage(new Gtk::Scale(adj, Gtk::ORIENTATION_VERTICAL));
 		scale_->set_inverted();
 		box2 = Gtk::manage(new Gtk::HBox);
 		box_ = Gtk::manage(new Gtk::VBox);
@@ -93,7 +93,7 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	}
 	else
 	{
-		scale_ = Gtk::manage(new Gtk::HScale(adj));
+		scale_ = Gtk::manage(new Gtk::Scale(adj, Gtk::ORIENTATION_HORIZONTAL));
 		box2 = Gtk::manage(new Gtk::VBox);
 		box_ = Gtk::manage(new Gtk::HBox);
 		comboBox_ = Gtk::manage(new Gtk::VBox);
