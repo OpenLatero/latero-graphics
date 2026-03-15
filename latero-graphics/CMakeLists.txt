@@ -117,5 +117,3 @@ install(EXPORT laterographicsTargets
     NAMESPACE laterographics::
     DESTINATION lib/cmake/laterographics
 )
-
-#target_compile_definitions(laterographics PRIVATE GDK_DISABLE_DEPRECATED GTK_DISABLE_DEPRECATED GTKMM_DISABLE_DEPRECATED)

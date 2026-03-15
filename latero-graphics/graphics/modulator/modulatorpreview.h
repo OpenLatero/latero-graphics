@@ -23,9 +23,7 @@
 #define LATERO_GRAPHICS_PLANAR_MODULATOR_PREVIEW
 
 #include "modulatorfwd.h"
-#include <gtkmm/eventbox.h>
-#include <gtkmm/image.h>
-#include <gtkmm/uimanager.h>
+#include <gtkmm.h>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
 namespace latero {

@@ -22,9 +22,7 @@
 #ifndef LATERO_GRAPHICS_PATTERN_PREVIEW
 #define LATERO_GRAPHICS_PATTERN_PREVIEW
 
-#include <gtkmm/eventbox.h>
-#include <gtkmm/image.h>
-#include <gtkmm/uimanager.h>
+#include <gtkmm.h>
 #include "pattern.h"
 
 namespace latero {
