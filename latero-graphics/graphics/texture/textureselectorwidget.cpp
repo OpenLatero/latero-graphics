@@ -31,7 +31,7 @@ namespace latero {
 namespace graphics { 
 
 TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
-	modeCombo_(texture), texture_(texture)
+	Gtk::Box(Gtk::ORIENTATION_VERTICAL), modeCombo_(texture), texture_(texture)
 {
 	auto saveButton = Gtk::manage(new Gtk::Button());
 	saveButton->set_image_from_icon_name("document-save", Gtk::ICON_SIZE_BUTTON);

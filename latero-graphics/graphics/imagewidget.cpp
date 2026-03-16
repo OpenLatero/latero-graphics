@@ -26,6 +26,7 @@ namespace latero {
 namespace graphics { 
 
 ImageWidget::ImageWidget(ImagePtr peer, bool showMaskWidget) :
+	Gtk::Box(Gtk::ORIENTATION_VERTICAL),
 	txWidget_(peer->GetTexture()),
 	maskWidget_(peer->GetMask(),peer->Dev()),
 	peer_(peer)

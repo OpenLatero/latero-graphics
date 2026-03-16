@@ -73,7 +73,7 @@ class LinePropertiesCtrl : public Gtk::HBox
 public:
 	LinePropertiesCtrl(LinePtr peer)
 	{
-		Gtk::Box *box = Gtk::manage(new Gtk::VBox);
+		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 		box->pack_start(*Gtk::manage(new LineStartCtrl(peer)), Gtk::PACK_SHRINK);
 		box->pack_start(*Gtk::manage(new LineEndCtrl(peer)), Gtk::PACK_SHRINK);
 

@@ -34,7 +34,7 @@ namespace latero {
 namespace graphics { 
 
 
-class RidgeEdgeWidthScale : public Gtk::VBox
+class RidgeEdgeWidthScale : public Gtk::Box
 {
 public:
 	RidgeEdgeWidthScale(RidgePtr peer);
@@ -56,7 +56,7 @@ protected:
 };
 
 
-class RidgeControls : public Gtk::VBox
+class RidgeControls : public Gtk::Box
 {
 public:
 	RidgeControls(RidgePtr peer);

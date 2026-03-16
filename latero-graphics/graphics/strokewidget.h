@@ -47,7 +47,7 @@ public:
 /**
  * Fill texture
  */
-class StrokeFillWidget : public Gtk::VBox
+class StrokeFillWidget : public Gtk::Box
 {
 public:
 	StrokeFillWidget(StrokePtr peer);
@@ -58,7 +58,7 @@ public:
 /**
  * Dotted texture
  */
-class StrokeDottedWidget : public Gtk::VBox
+class StrokeDottedWidget : public Gtk::Box
 {
 public:
 	StrokeDottedWidget(StrokePtr peer);

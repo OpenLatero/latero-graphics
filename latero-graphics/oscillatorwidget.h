@@ -41,7 +41,7 @@ protected:
 };
 
 
-class OscillatorAmplitudeCtrl : public Gtk::VBox
+class OscillatorAmplitudeCtrl : public Gtk::Box
 {
 public:
 	OscillatorAmplitudeCtrl(OscillatorPtr peer);
@@ -53,7 +53,7 @@ protected:
 };
 
 
-class OscillatorFreqCtrl : public Gtk::VBox
+class OscillatorFreqCtrl : public Gtk::Box
 {
 public:
 	OscillatorFreqCtrl(OscillatorPtr peer);

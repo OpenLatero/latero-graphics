@@ -26,11 +26,11 @@
 namespace latero {
 namespace graphics { 
 
-class ClosedPatternFillTextureGapCtrl : public Gtk::VBox
+class ClosedPatternFillTextureGapCtrl : public Gtk::Box
 {
 public:
-	ClosedPatternFillTextureGapCtrl(ClosedPatternPtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetFillTextureGap(), -1, 50)), peer_(peer)
+	ClosedPatternFillTextureGapCtrl(ClosedPatternPtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFillTextureGap(), -1, 50)), peer_(peer)
 	{
 		add(*Gtk::manage(new latero::graphics::gtk::HNumWidget("gap", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureGapCtrl::OnChanged));
@@ -42,11 +42,11 @@ protected:
 	ClosedPatternPtr peer_;
 };
 
-class ClosedPatternFillTextureEdgeSizeCtrl : public Gtk::VBox
+class ClosedPatternFillTextureEdgeSizeCtrl : public Gtk::Box
 {
 public:
-	ClosedPatternFillTextureEdgeSizeCtrl(ClosedPatternPtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetFillTextureEdgeSize(), 0, 50)), peer_(peer)
+	ClosedPatternFillTextureEdgeSizeCtrl(ClosedPatternPtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFillTextureEdgeSize(), 0, 50)), peer_(peer)
 	{
 		add(*Gtk::manage(new latero::graphics::gtk::HNumWidget("edge size", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureEdgeSizeCtrl::OnChanged));
@@ -67,7 +67,7 @@ ClosedPatternFillTextureWidget::ClosedPatternFillTextureWidget(ClosedPatternPtr 
 {
 	set_shadow_type(Gtk::SHADOW_NONE);
 
-	Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox);
+	auto vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	GetBox().pack_start(*vbox);
 
 	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);

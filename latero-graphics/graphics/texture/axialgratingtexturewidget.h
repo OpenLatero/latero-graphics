@@ -41,7 +41,7 @@ protected:
 };
 
 
-class AxialGratingTextureAdvancedWidget : public Gtk::VBox, public GratingTextureWidgetSet
+class AxialGratingTextureAdvancedWidget : public Gtk::Box, public GratingTextureWidgetSet
 {
 public:
 	AxialGratingTextureAdvancedWidget(AxialGratingTexturePtr peer);

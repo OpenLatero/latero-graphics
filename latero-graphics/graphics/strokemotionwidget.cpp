@@ -50,11 +50,11 @@ private:
 };
 
 
-class StrokeMinMotionWidthCtrl : public Gtk::VBox
+class StrokeMinMotionWidthCtrl : public Gtk::Box
 {
 public:
-	StrokeMinMotionWidthCtrl(StrokePtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetMinMotionWidth(),0,20)), peer_(peer)
+	StrokeMinMotionWidthCtrl(StrokePtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMinMotionWidth(),0,20)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("min width", adj_, 1, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMinMotionWidthCtrl::OnChanged));
@@ -66,11 +66,11 @@ protected:
 	StrokePtr peer_;
 };
 
-class StrokeMotionVelCtrl : public Gtk::VBox
+class StrokeMotionVelCtrl : public Gtk::Box
 {
 public:
-	StrokeMotionVelCtrl(StrokePtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),-100,100)), peer_(peer)
+	StrokeMotionVelCtrl(StrokePtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),-100,100)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMotionVelCtrl::OnChanged));
@@ -82,11 +82,11 @@ protected:
 	StrokePtr peer_;
 };
 
-class StrokeSuperposedMotionRatioCtrl : public Gtk::VBox
+class StrokeSuperposedMotionRatioCtrl : public Gtk::Box
 {
 public:
-	StrokeSuperposedMotionRatioCtrl(StrokePtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetSuperposedMotionRatio()*100,0,100)), peer_(peer)
+	StrokeSuperposedMotionRatioCtrl(StrokePtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetSuperposedMotionRatio()*100,0,100)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("ratio", adj_, 0, units::percent)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeSuperposedMotionRatioCtrl::OnChanged));
@@ -99,11 +99,11 @@ protected:
 };
 
 
-class StrokeBlendMotionValueCtrl : public Gtk::VBox
+class StrokeBlendMotionValueCtrl : public Gtk::Box
 {
 public:
-	StrokeBlendMotionValueCtrl(StrokePtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetBlendMotionValue()*100,0,100)), peer_(peer)
+	StrokeBlendMotionValueCtrl(StrokePtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetBlendMotionValue()*100,0,100)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("blend value", adj_, 0, units::percent)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeBlendMotionValueCtrl::OnChanged));
@@ -116,7 +116,7 @@ protected:
 };
 
 
-StrokeMotionWidget::StrokeMotionWidget(StrokePtr peer) : peer_(peer)
+StrokeMotionWidget::StrokeMotionWidget(StrokePtr peer) : Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer)
 {
 	holder_.set_shadow_type(Gtk::SHADOW_NONE);
 
@@ -152,7 +152,7 @@ void StrokeMotionWidget::Rebuild()
 
 	velWidget_->set_sensitive(!(cue == Stroke::motion_cue_none));
 
-	Gtk::VBox *box = Gtk::manage(new Gtk::VBox);
+	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	holder_.add(*box);
 	if (cue == Stroke::motion_cue_none)
 	{

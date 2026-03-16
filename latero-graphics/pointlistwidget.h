@@ -44,7 +44,7 @@ protected:
 	sigc::signal<void> signalChanged_;
 	std::vector<Glib::RefPtr<Gtk::Adjustment>> xAdj_, yAdj_;
 	std::vector<Gtk::HBox*> rowBox_;
-	Gtk::VBox box_, pointBox_;
+	Gtk::Box box_, pointBox_;
 	Gtk::Button insertButton_;
 };
 

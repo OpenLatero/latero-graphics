@@ -69,7 +69,7 @@ void GratingRegularizeButton::on_clicked() { peer_->Regularize(); Gtk::Button::o
 // GratingRhythmWidget ////////////////////////////////////////////////////////////////////
 
 GratingRhythmWidget::GratingRhythmWidget(GratingPtr peer) : 
-    Gtk::Frame("Rhythm"), peer_(peer)
+    Gtk::Frame("Rhythm"), peer_(peer), buttonBox_(Gtk::ORIENTATION_VERTICAL)
 {
 	set_size_request(-1,20);
 	std::vector<double> rhythm = peer->GetRhythm();
@@ -244,7 +244,7 @@ void GratingInterpWidget::OnChanged()
 GratingCycleWidget::GratingCycleWidget(GratingPtr peer) :
 	interpWidget_(peer), centerWidget_(peer), graph_(peer), peer_(peer)
 {
-	Gtk::VBox *box = Gtk::manage(new Gtk::VBox);
+	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	box->pack_start(interpWidget_);
 	box->pack_start(centerWidget_);
 	pack_start(*box);

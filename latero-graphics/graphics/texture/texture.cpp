@@ -273,7 +273,7 @@ Gtk::Widget *Texture::CreateWidget(PatternPtr ptr)
 
 Gtk::Widget *Texture::CreateWidget(TexturePtr ptr)
 {
-	return new Gtk::VBox;
+	return new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
 }
 
 } // namespace graphics

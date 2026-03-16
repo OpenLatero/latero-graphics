@@ -36,7 +36,7 @@ namespace graphics {
 PlainTextureWidget::PlainTextureWidget(PlainTexturePtr peer) :
 	peer_(peer)
 {
-	Gtk::VBox *sidebox = Gtk::manage(new Gtk::VBox);
+	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	sidebox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
 	sidebox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
 	pack_start(*sidebox, Gtk::PACK_SHRINK);

@@ -40,7 +40,7 @@ protected:
 	RadialGratingTexturePtr peer_;
 };
 
-class RadialGratingTextureAdvancedWidget : public Gtk::VBox, public GratingTextureWidgetSet
+class RadialGratingTextureAdvancedWidget : public Gtk::Box, public GratingTextureWidgetSet
 {
 public:
 	RadialGratingTextureAdvancedWidget(RadialGratingTexturePtr peer);

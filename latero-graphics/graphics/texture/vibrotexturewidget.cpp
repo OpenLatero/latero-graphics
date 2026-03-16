@@ -32,11 +32,11 @@
 namespace latero {
 namespace graphics { 
 
-class VibroTextureFreqCtrl : public Gtk::VBox
+class VibroTextureFreqCtrl : public Gtk::Box
 {
 public:
 	VibroTextureFreqCtrl(VibroTexturePtr peer) :
-		adj_(Gtk::Adjustment::create(peer->GetFreq(),Oscillator::freq_min,Oscillator::freq_max)), peer_(peer)
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),Oscillator::freq_min,Oscillator::freq_max)), peer_(peer)
 	{
 		pack_start(*Gtk::manage(new gtk::HNumWidget("frequency", adj_,1, units::hz)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VibroTextureFreqCtrl::OnChanged));
@@ -51,7 +51,7 @@ protected:
 VibroTextureWidget::VibroTextureWidget(VibroTexturePtr peer) :
 	peer_(peer)
 {
-	Gtk::VBox *sidebox = Gtk::manage(new Gtk::VBox);
+	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	sidebox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
 	sidebox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
 	pack_start(*sidebox, Gtk::PACK_SHRINK);

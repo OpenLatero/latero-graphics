@@ -134,11 +134,11 @@ void TextureInvertCtrl::OnClick() { peer_->SetInvert(check_.get_active()); };
 
 
 
-class TextureMotionDirectionCtrl : public Gtk::VBox
+class TextureMotionDirectionCtrl : public Gtk::Box
 {
 public:
 	TextureMotionDirectionCtrl(TexturePtr peer) :
-		adj_(Gtk::Adjustment::create(peer->GetMotionDirection(),0,360)), peer_(peer)
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionDirection(),0,360)), peer_(peer)
 	{
 		pack_start(*Gtk::manage(new gtk::HNumWidget(adj_,0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionDirectionCtrl::OnChanged));
@@ -152,11 +152,11 @@ protected:
 	TexturePtr peer_;
 };
 
-class TextureMotionVelocityCtrl : public Gtk::VBox
+class TextureMotionVelocityCtrl : public Gtk::Box
 {
 public:
 	TextureMotionVelocityCtrl(TexturePtr peer) :
-		adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),0,100)), peer_(peer)
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),0,100)), peer_(peer)
 	{
 		pack_start(*Gtk::manage(new gtk::HNumWidget(adj_,1, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionVelocityCtrl::OnChanged));
@@ -219,7 +219,7 @@ TextureWidget::~TextureWidget()
 
 Gtk::Widget *TextureWidget::CreateLeftPanel()
 {
-	Gtk::VBox *lbox = new Gtk::VBox;
+	auto lbox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL); // TODO: should this be managed?
 	lbox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer_)), Gtk::PACK_SHRINK);
 	lbox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer_)));
 	return lbox;
@@ -249,7 +249,7 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 	Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
 	add(*box);
 
-	Gtk::VBox *vbox = Gtk::manage(new Gtk::VBox);
+	auto vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 
 	widget->set_vexpand(true);
 	widget->set_valign(Gtk::ALIGN_FILL);

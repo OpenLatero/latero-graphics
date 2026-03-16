@@ -53,11 +53,11 @@ protected:
 };
 
 
-class CircleRadiusCtrl : public Gtk::VBox
+class CircleRadiusCtrl : public Gtk::Box
 {
 public:
-	CircleRadiusCtrl(CirclePtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetRadius(), 0.1, 100.0)), peer_(peer)
+	CircleRadiusCtrl(CirclePtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetRadius(), 0.1, 100.0)), peer_(peer)
 	{
 		add(*Gtk::manage(new latero::graphics::gtk::HNumWidget("radius", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &CircleRadiusCtrl::OnChanged));
@@ -75,7 +75,7 @@ class CirclePropsWidget : public Gtk::HBox
 public:
 	CirclePropsWidget(CirclePtr peer)
 	{
-		Gtk::Box *box = Gtk::manage(new Gtk::VBox);
+		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 		box->pack_start(*Gtk::manage(new CircleCenterCtrl(peer)),Gtk::PACK_SHRINK);
 		box->pack_start(*Gtk::manage(new CircleRadiusCtrl(peer)),Gtk::PACK_SHRINK);
 

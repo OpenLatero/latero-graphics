@@ -29,6 +29,7 @@ namespace latero {
 namespace graphics { 
 
 RidgeEdgeWidthScale::RidgeEdgeWidthScale(RidgePtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_VERTICAL),
 	peer_(peer),
 	adj_(Gtk::Adjustment::create(peer->GetEdgeWidth(), Ridge::edgeWidth_min, 10, 10, 50))
 {
@@ -40,11 +41,11 @@ void RidgeEdgeWidthScale::OnChange() { peer_->SetEdgeWidth(adj_->get_value()); }
 
 
 
-class RidgeTxAmpScale : public Gtk::VBox
+class RidgeTxAmpScale : public Gtk::Box
 {
 public:
 	RidgeTxAmpScale(RidgePtr peer) :
-		peer_(peer), adj_(Gtk::Adjustment::create(100*peer->GetTxAmp(), 0, 100, 10, 50))
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer), adj_(Gtk::Adjustment::create(100*peer->GetTxAmp(), 0, 100, 10, 50))
 	{
 		add(*Gtk::manage(new gtk::HNumWidget(adj_, 0, "%")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxAmpScale::OnChange));
@@ -56,11 +57,11 @@ private:
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
-class RidgeTxNbCyclesScale : public Gtk::VBox
+class RidgeTxNbCyclesScale : public Gtk::Box
 {
 public:
 	RidgeTxNbCyclesScale(RidgePtr peer) :
-		peer_(peer), adj_(Gtk::Adjustment::create(peer->GetTxNbCycles(),1,20.0))
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer), adj_(Gtk::Adjustment::create(peer->GetTxNbCycles(),1,20.0))
 	{
 		add(*Gtk::manage(new gtk::HNumWidget(adj_, 0)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxNbCyclesScale::OnChange));
@@ -85,6 +86,7 @@ void RidgeTextureCtrl::OnClick() { peer_->SetTxEnable(GetCheck().get_active()); 
 
 
 RidgeControls::RidgeControls(RidgePtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_VERTICAL),
 	peer_(peer),
 	edgeWidthScale_(peer),
 	txCtrl_(peer)

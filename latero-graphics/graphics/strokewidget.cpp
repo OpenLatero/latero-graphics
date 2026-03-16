@@ -34,11 +34,11 @@
 namespace latero {
 namespace graphics { 
 
-class StrokeIntensityCtrl : public Gtk::VBox
+class StrokeIntensityCtrl : public Gtk::Box
 {
 public:
-	StrokeIntensityCtrl(StrokePtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetIntensity()*100,0,100)), peer_(peer)
+	StrokeIntensityCtrl(StrokePtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetIntensity()*100,0,100)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("stroke intensity", adj_, 1, "%")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeIntensityCtrl::OnChanged));
@@ -51,11 +51,11 @@ protected:
 };
 
 
-class StrokeWidthCtrl : public Gtk::VBox
+class StrokeWidthCtrl : public Gtk::Box
 {
 public:
-	StrokeWidthCtrl(StrokePtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetWidth(),0,50.0)), peer_(peer)
+	StrokeWidthCtrl(StrokePtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetWidth(),0,50.0)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("stroke width", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeWidthCtrl::OnChanged));
@@ -96,7 +96,7 @@ public:
 		miscBox->pack_start(*Gtk::manage(new GratingAmplitudeWidget(peer->GetTexture())));
 		miscBox->pack_start(*Gtk::manage(new GratingInvertCtrl(peer->GetTexture())),Gtk::PACK_SHRINK);
 
-		Gtk::VBox *box = Gtk::manage(new Gtk::VBox);
+		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 		GetBox().add(*box);
 
 		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer->GetTexture())));
@@ -126,7 +126,7 @@ public:
 
 StrokeProfileWidget::StrokeProfileWidget(StrokePtr peer)
 {
-	Gtk::VBox *box = Gtk::manage(new Gtk::VBox);
+	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	box->pack_start(*Gtk::manage(new StrokeWidthCtrl(peer)));
 	box->pack_start(*Gtk::manage(new StrokeIntensityCtrl(peer)));
 	box->pack_start(*Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile())));
@@ -137,7 +137,8 @@ StrokeProfileWidget::StrokeProfileWidget(StrokePtr peer)
 };
 
 
-StrokeFillWidget::StrokeFillWidget(StrokePtr peer)
+StrokeFillWidget::StrokeFillWidget(StrokePtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_VERTICAL)
 {
 	Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("general"));
 	frame->add(*Gtk::manage(new StrokeGutterCheck(peer)));
@@ -167,7 +168,8 @@ protected:
 };
 
 
-StrokeDottedWidget::StrokeDottedWidget(StrokePtr peer)
+StrokeDottedWidget::StrokeDottedWidget(StrokePtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_VERTICAL)
 {
 	pack_start(*Gtk::manage(new StrokeDotEnableCheck(peer)), Gtk::PACK_SHRINK);
 	DotPatternPtr p = peer->GetDots();

@@ -77,12 +77,13 @@ void AxialGratingTextureWidget::Create()
 }
 
 AxialGratingTextureAdvancedWidget::AxialGratingTextureAdvancedWidget(AxialGratingTexturePtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_VERTICAL),
 	GratingTextureWidgetSet(peer),
 	peer_(peer)
 {
 	using namespace AxialGratingTextureCtrls;
 
-	Gtk::VBox *rbox = Gtk::manage(new Gtk::VBox);
+	auto rbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	Gtk::HBox *seedBox  = Gtk::manage(new Gtk::HBox);
 
 	seedBox->pack_start(seedCtrl_);
@@ -94,7 +95,7 @@ AxialGratingTextureAdvancedWidget::AxialGratingTextureAdvancedWidget(AxialGratin
 	rbox->pack_start(tdCentricCtrl_);
 	rbox->pack_start(vibCtrl_);
 
-	Gtk::VBox *lbox = Gtk::manage(new Gtk::VBox);
+	auto lbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
 	lbox->pack_start(ampCtrl_);
 

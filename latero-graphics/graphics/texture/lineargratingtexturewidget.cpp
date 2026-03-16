@@ -127,7 +127,7 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	grid->attach(vibCtrl_,0,5,2,1);
 	grid->attach(gratingCtrls_.advButton_,0,6,2,1);
 
-	auto lbox = Gtk::manage(new Gtk::VBox);
+	auto lbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
 	lbox->pack_start(ampCtrl_);
 

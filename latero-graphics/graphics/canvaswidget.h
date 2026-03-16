@@ -28,7 +28,7 @@
 namespace latero {
 namespace graphics { 
 
-class CanvasWidget : public Gtk::VBox
+class CanvasWidget : public Gtk::Box
 {
 public:
 	CanvasWidget(CanvasPtr peer);

@@ -30,7 +30,7 @@
 namespace latero {
 namespace graphics { 
 
-class ImageWidget : public Gtk::VBox
+class ImageWidget : public Gtk::Box
 {
 public:
 	ImageWidget(ImagePtr peer, bool showMaskWidget=true);

@@ -81,12 +81,12 @@ PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
 	topbox->pack_start(*Gtk::manage(new TextureAdvancedButton(peer)), Gtk::PACK_SHRINK);
 	topbox->pack_start(*loadButton, Gtk::PACK_SHRINK);
 
-	Gtk::Box *mainbox = Gtk::manage(new Gtk::VBox);
+	auto mainbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	mainbox->pack_start(*topbox, Gtk::PACK_SHRINK);
 	mainbox->pack_start(patternHolder_);
 	patternHolder_.add(*Gtk::manage(pattern->CreateWidget(pattern)));
 	
-	Gtk::VBox *sidebox = Gtk::manage(new Gtk::VBox);
+	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	sidebox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
 	sidebox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
 	pack_start(*sidebox, Gtk::PACK_SHRINK);
@@ -134,13 +134,13 @@ PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr pee
 	topbox->pack_start(*Gtk::manage(new PatternTextureGridHeightCtrl(peer)));
 	topbox->pack_start(*loadButton, Gtk::PACK_SHRINK);
 
-	Gtk::Box *mainbox = Gtk::manage(new Gtk::VBox);
+	auto mainbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	mainbox->pack_start(*topbox, Gtk::PACK_SHRINK);
 	mainbox->pack_start(*Gtk::manage(new TextureMotionCtrl(peer)));
 	mainbox->pack_start(patternHolder_);
 	patternHolder_.add(*Gtk::manage(pattern->CreateWidget(pattern)));
 	
-	Gtk::VBox *sidebox = Gtk::manage(new Gtk::VBox);
+	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	sidebox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
 	sidebox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
 	pack_start(*sidebox, Gtk::PACK_SHRINK);

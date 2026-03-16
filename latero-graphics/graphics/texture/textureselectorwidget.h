@@ -31,7 +31,7 @@
 namespace latero {
 namespace graphics { 
 
-class TextureSelectorCtrl : public Gtk::VBox
+class TextureSelectorCtrl : public Gtk::Box
 {
 public:
 	TextureSelectorCtrl(TexturePtr texture);

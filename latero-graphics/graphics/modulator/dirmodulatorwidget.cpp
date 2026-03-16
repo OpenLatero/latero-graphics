@@ -31,10 +31,10 @@ namespace graphics {
 
 namespace dir_modulator_ctrls {
 
-class Ctrl : public Gtk::VBox
+class Ctrl : public Gtk::Box
 {
 public:
-	Ctrl(DirModulatorPtr peer) : peer_(peer) {}
+	Ctrl(DirModulatorPtr peer) : Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer) {}
 	virtual ~Ctrl() {}
 protected:
 	DirModulatorPtr peer_;

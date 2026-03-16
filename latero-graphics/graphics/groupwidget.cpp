@@ -488,7 +488,7 @@ class GroupPanel : public Gtk::HBox
 public:
 	GroupPanel(GroupPtr peer) : peer_(peer)
 	{
-		Gtk::Box *box = Gtk::manage(new Gtk::VBox);
+		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 		GroupOpCombo *opCombo = Gtk::manage(new GroupOpCombo(peer));
 
 		box->pack_start(*opCombo, Gtk::PACK_SHRINK);
@@ -564,11 +564,11 @@ public:
 	ComboTexturePanel(ComboTexturePtr peer, GroupTreeView *treeView, bool showSelector) : 
         treeView_(treeView), txCtrl_(peer), peer_(peer)
 	{
-		Gtk::VBox *lbox = Gtk::manage(new Gtk::VBox);
+		auto lbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 		lbox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
 		lbox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
 
-		Gtk::Box *box = Gtk::manage(new Gtk::VBox);
+		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 		box->pack_start(*Gtk::manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
 		box->pack_start(*Gtk::manage(new OscillatorWidget(peer->GetOscillator(),true)), Gtk::PACK_SHRINK);
 

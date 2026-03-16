@@ -95,7 +95,7 @@ protected:
 	void AppendCycle(double value);
 	void RemoveCycle();
 
-	Gtk::VBox buttonBox_;
+	Gtk::Box buttonBox_;
 	Gtk::HBox sliderBox_;
 	std::vector<Glib::RefPtr<Gtk::Adjustment>> adjVec_;
 	std::vector<Gtk::Widget*> widget_;

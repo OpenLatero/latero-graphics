@@ -370,7 +370,7 @@ MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev)
 	MaskPositionCtrl *posWidget = Gtk::manage(new MaskPositionCtrl(peer));
 	ctrls_.push_back(posWidget);
 
-	Gtk::VBox *box = Gtk::manage(new Gtk::VBox);
+	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	box->pack_start(*Gtk::manage(new MaskImageWidget(peer)));
 	box->pack_start(*posWidget);
 	box->pack_start(*sizeWidget);

@@ -28,7 +28,7 @@
 namespace latero {
 namespace graphics { 
 
-class StrokeMotionWidget : public Gtk::VBox
+class StrokeMotionWidget : public Gtk::Box
 {
 public:
 	StrokeMotionWidget(StrokePtr peer);

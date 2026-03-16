@@ -26,7 +26,8 @@
 namespace latero {
 namespace graphics { 
 
-CanvasWidget::CanvasWidget(CanvasPtr peer)
+CanvasWidget::CanvasWidget(CanvasPtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_VERTICAL)
 {
 	GroupPtr p = peer->GetGroup();
 	add(*Gtk::manage(p->CreateWidget(p)));

@@ -72,7 +72,7 @@ protected:
 	TexturePtr peer_;
 };
 
-class TextureAmplitudeCtrl : public Gtk::VBox
+class TextureAmplitudeCtrl : public Gtk::Box
 {
 public:
 	TextureAmplitudeCtrl(TexturePtr peer);
