@@ -68,10 +68,11 @@ protected:
 	PointWidget widget_;
 };
 
-class LinePropertiesCtrl : public Gtk::HBox
+class LinePropertiesCtrl : public Gtk::Box
 {
 public:
-	LinePropertiesCtrl(LinePtr peer)
+	LinePropertiesCtrl(LinePtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
 	{
 		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 		box->pack_start(*Gtk::manage(new LineStartCtrl(peer)), Gtk::PACK_SHRINK);

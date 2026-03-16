@@ -42,7 +42,7 @@ protected:
 	LinearGratingTexturePtr peer_;
 };
 
-class LinearGratingTextureAdvancedWidget : public Gtk::HBox, public GratingTextureWidgetSet
+class LinearGratingTextureAdvancedWidget : public Gtk::Box, public GratingTextureWidgetSet
 {
 public:
 	LinearGratingTextureAdvancedWidget(LinearGratingTexturePtr peer);

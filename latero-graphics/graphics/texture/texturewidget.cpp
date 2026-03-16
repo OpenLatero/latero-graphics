@@ -103,7 +103,7 @@ TextureTDCentricCtrl::TextureTDCentricCtrl(TexturePtr peer) :
 	check->set_label("");
 	
 	// TODO: use Check above instead...
-	Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
+	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	add(*box);
 	box->pack_start(*check, Gtk::PACK_SHRINK);
 	box->pack_start(point_);
@@ -123,6 +123,7 @@ TextureAmplitudeCtrl::TextureAmplitudeCtrl(TexturePtr peer) :
 void TextureAmplitudeCtrl::OnChanged() { peer_->SetAmplitude(adj_->get_value()/100); }
 
 TextureInvertCtrl::TextureInvertCtrl(TexturePtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
 	check_("invert"),
 	peer_(peer)
 {
@@ -246,7 +247,7 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 	advancedButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureWidget::OnAdvanced));
 	advancedButton->SignalClosed().connect(sigc::mem_fun(*this, &TextureWidget::OnAdvancedClosed));
 
-	Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
+	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	add(*box);
 
 	auto vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));

@@ -67,7 +67,7 @@ protected:
 };
 
 
-class RidgeWidget : public Gtk::HBox
+class RidgeWidget : public Gtk::Box
 {
 public:
 	RidgeWidget(RidgePtr peer);

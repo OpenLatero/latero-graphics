@@ -122,7 +122,7 @@ StrokeMotionWidget::StrokeMotionWidget(StrokePtr peer) : Gtk::Box(Gtk::ORIENTATI
 
 	velWidget_ = Gtk::manage(new StrokeMotionVelCtrl(peer));
 	StrokeMotionCueCombo *wCue = Gtk::manage(new StrokeMotionCueCombo(peer));
-	Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
+	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 
 
 
@@ -162,7 +162,7 @@ void StrokeMotionWidget::Rebuild()
 	}
 	else if (cue == Stroke::motion_cue_superposed)
 	{
-		Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
+		auto hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 		hbox->pack_start(*Gtk::manage(new StrokeMinMotionWidthCtrl(peer_)));
 		hbox->pack_start(*Gtk::manage(new StrokeSuperposedMotionRatioCtrl(peer_)));
 		box->pack_start(*hbox);

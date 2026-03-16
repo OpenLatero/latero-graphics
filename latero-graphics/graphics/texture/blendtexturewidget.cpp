@@ -37,7 +37,7 @@ BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 	txWidgets_[1] = Gtk::manage(new TextureSelectorWidget(peer->GetSecondTexture()));
 	ModulatorPtr mod = peer->GetModulator();
 
-	Gtk::HBox *optionBox = Gtk::manage(new Gtk::HBox);
+	auto optionBox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	optionBox->pack_start(modCombo_, Gtk::PACK_SHRINK);
 	optionBox->pack_start(modWidgetHolder_);
 	optionBox->pack_start(*Gtk::manage(new PatternPreview(peer)),Gtk::PACK_SHRINK);

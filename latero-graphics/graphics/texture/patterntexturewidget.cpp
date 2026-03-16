@@ -34,11 +34,11 @@
 namespace latero {
 namespace graphics { 
 
-class PatternTextureGridWidthCtrl : public Gtk::HBox
+class PatternTextureGridWidthCtrl : public Gtk::Box
 {
 public:
 	PatternTextureGridWidthCtrl(PatternTexturePtr peer) :
-		adj_(Gtk::Adjustment::create(peer->GetGridWidth(),0.1,500)), peer_(peer)
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetGridWidth(),0.1,500)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("grid width", adj_, 3, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PatternTextureGridWidthCtrl::OnChanged));
@@ -50,11 +50,11 @@ protected:
 	PatternTexturePtr peer_;
 };
 
-class PatternTextureGridHeightCtrl : public Gtk::HBox
+class PatternTextureGridHeightCtrl : public Gtk::Box
 {
 public:
 	PatternTextureGridHeightCtrl(PatternTexturePtr peer) :
-		adj_(Gtk::Adjustment::create(peer->GetGridHeight(),0.1,500)), peer_(peer)
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetGridHeight(),0.1,500)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("grid height", adj_, 3, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PatternTextureGridHeightCtrl::OnChanged));
@@ -68,14 +68,14 @@ protected:
 
 
 PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
-	peer_(peer)
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
 {
 	patternHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 	PatternPtr pattern = peer->GetPattern();
 	auto loadButton = Gtk::manage(new Gtk::Button());
 	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
 
-	Gtk::Box *topbox = Gtk::manage(new Gtk::HBox);
+	Gtk::Box *topbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	topbox->pack_start(*Gtk::manage(new PatternTextureGridWidthCtrl(peer)));
 	topbox->pack_start(*Gtk::manage(new PatternTextureGridHeightCtrl(peer)));
 	topbox->pack_start(*Gtk::manage(new TextureAdvancedButton(peer)), Gtk::PACK_SHRINK);
@@ -122,14 +122,14 @@ void PatternTextureWidget::OnLoad()
 
 
 PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr peer) :
-	peer_(peer)
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
 {
 	patternHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 	PatternPtr pattern = peer->GetPattern();
 	auto loadButton = Gtk::manage(new Gtk::Button());
 	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
 
-	Gtk::Box *topbox = Gtk::manage(new Gtk::HBox);
+	Gtk::Box *topbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	topbox->pack_start(*Gtk::manage(new PatternTextureGridWidthCtrl(peer)));
 	topbox->pack_start(*Gtk::manage(new PatternTextureGridHeightCtrl(peer)));
 	topbox->pack_start(*loadButton, Gtk::PACK_SHRINK);

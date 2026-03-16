@@ -28,7 +28,7 @@
 namespace latero {
 namespace graphics { 
 
-class PlainTextureWidget : public Gtk::HBox
+class PlainTextureWidget : public Gtk::Box
 {
 public:
 	PlainTextureWidget(PlainTexturePtr peer);

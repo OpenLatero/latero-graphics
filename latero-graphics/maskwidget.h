@@ -48,7 +48,7 @@ protected:
     MaskPtr peer_;
 };
 
-class MaskWidget : public Gtk::HBox
+class MaskWidget : public Gtk::Box
 {
 public:
 	MaskWidget(MaskPtr peer, const latero::Tactograph *dev);

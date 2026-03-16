@@ -39,11 +39,11 @@
 namespace latero {
 namespace graphics { 
 
-class TimeWidget : public Gtk::HBox
+class TimeWidget : public Gtk::Box
 {
 public:
 	TimeWidget(int init=0, std::string units=units::nsec) :
-		adj_(Gtk::Adjustment::create(init, 0, 1000000)), spin_(adj_)
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(init, 0, 1000000)), spin_(adj_)
 	{
 		combo_.append(units::day);
 		combo_.append(units::hour);
@@ -73,12 +73,12 @@ protected:
 	Gtk::ComboBoxText combo_;
 };
 
-class StartTimeWidget : public Gtk::HBox
+class StartTimeWidget : public Gtk::Box
 {
 public:
-	StartTimeWidget() : currentRadio_("now"), timeCtrl_(0, units::min)
+	StartTimeWidget() : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), currentRadio_("now"), timeCtrl_(0, units::min)
 	{
-		Gtk::HBox *pTimeBox = Gtk::manage(new Gtk::HBox);
+		auto pTimeBox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 
 		Gtk::RadioButton::Group group = currentRadio_.get_group();
 		timeRadio_.set_group(group);

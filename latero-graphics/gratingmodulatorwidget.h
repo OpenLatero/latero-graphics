@@ -37,7 +37,7 @@ public:
 	virtual ~GratingModulatorCtrl() {};
 protected:
 	void OnClick();
-	Gtk::HBox widgetbox_;
+	Gtk::Box widgetbox_;
 	Gtk::CheckButton check_;
 	GratingModulatorPtr peer_;
 };

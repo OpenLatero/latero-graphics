@@ -83,7 +83,7 @@ protected:
 
 
 VelModulatorWidget::VelModulatorWidget(VelModulatorPtr peer) :
-	peer_(peer)
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
 {
 	using namespace vel_modulator_ctrls;
 	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));

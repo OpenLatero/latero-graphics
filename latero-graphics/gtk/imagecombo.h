@@ -35,7 +35,7 @@ namespace gtk {
  * This widget implements a ComboBox that displays a list of images. A numerical ID is associated with
  * each image.
  */
-class ImageCombo : public Gtk::HBox
+class ImageCombo : public Gtk::Box
 {
 public:
 	/** ctor */

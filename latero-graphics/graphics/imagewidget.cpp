@@ -31,7 +31,7 @@ ImageWidget::ImageWidget(ImagePtr peer, bool showMaskWidget) :
 	maskWidget_(peer->GetMask(),peer->Dev()),
 	peer_(peer)
 {
-	Gtk::HBox *box = Gtk::manage(new Gtk::HBox());
+	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	pack_start(*box);
 	
 	if (showMaskWidget)

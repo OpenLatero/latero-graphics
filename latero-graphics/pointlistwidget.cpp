@@ -73,7 +73,7 @@ void PointListWidget::InsertPoint(const Point &p)
 	xAdj->signal_value_changed().connect(signalChanged_);
 	yAdj->signal_value_changed().connect(signalChanged_);
 
-	rowBox_.push_back(new Gtk::HBox);
+	rowBox_.push_back(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	pointBox_.pack_start(*rowBox_[i], Gtk::PACK_SHRINK);
 	rowBox_[i]->pack_start(*Gtk::manage(new Gtk::SpinButton(xAdj)));
 	rowBox_[i]->pack_start(*Gtk::manage(new Gtk::SpinButton(yAdj)));

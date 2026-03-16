@@ -29,7 +29,7 @@
 namespace latero {
 namespace graphics { 
 
-class PointWidget : public Gtk::HBox
+class PointWidget : public Gtk::Box
 {
 public:
 	PointWidget(const Point &init, 

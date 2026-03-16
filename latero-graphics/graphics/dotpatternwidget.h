@@ -28,7 +28,7 @@
 namespace latero {
 namespace graphics { 
 
-class DotPatternMinSpacingCtrl : public Gtk::HBox
+class DotPatternMinSpacingCtrl : public Gtk::Box
 {
 public:
 	DotPatternMinSpacingCtrl(DotPatternPtr peer);
@@ -40,7 +40,7 @@ protected:
 };
 
 
-class DotPatternWidget : public Gtk::HBox
+class DotPatternWidget : public Gtk::Box
 {
 public:
 	DotPatternWidget(DotPatternPtr peer);

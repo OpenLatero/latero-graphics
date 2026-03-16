@@ -100,6 +100,7 @@ RidgeControls::RidgeControls(RidgePtr peer) :
 ///////////////////////////////////////
 
 RidgeWidget::RidgeWidget(RidgePtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
 	controls_(peer),
     peer_(peer)
 {

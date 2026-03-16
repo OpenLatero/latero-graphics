@@ -34,11 +34,11 @@ namespace graphics {
 
 namespace LinearGratingTextureCtrls {
 
-class AngleWidget : public Gtk::HBox
+class AngleWidget : public Gtk::Box
 {
 public:
 	AngleWidget(LinearGratingTexturePtr peer) :
-		adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("orientation", adj_, 1, units::degree)));
 		adj_->signal_value_changed().connect(
@@ -92,6 +92,7 @@ void LinearGratingTextureWidget::Create()
 
 
 LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGratingTexturePtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
 	GratingTextureWidgetSet(peer)
 {
 	using namespace LinearGratingTextureCtrls;

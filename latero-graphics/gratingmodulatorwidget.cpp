@@ -47,11 +47,11 @@ private:
 };
 
 
-class GratingModulatorFactorWidget : public Gtk::HBox
+class GratingModulatorFactorWidget : public Gtk::Box
 {
 public:
-	GratingModulatorFactorWidget(GratingModulatorPtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetFactor(),0.1,10)), peer_(peer)
+	GratingModulatorFactorWidget(GratingModulatorPtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetFactor(),0.1,10)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget(adj_, 1)));
 		adj_->signal_value_changed().connect(
@@ -64,11 +64,11 @@ protected:
 	GratingModulatorPtr peer_;
 };
 
-class GratingModulatorLengthWidget : public Gtk::HBox
+class GratingModulatorLengthWidget : public Gtk::Box
 {
 public:
-	GratingModulatorLengthWidget(GratingModulatorPtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetLength(),1,300)), peer_(peer)
+	GratingModulatorLengthWidget(GratingModulatorPtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetLength(),1,300)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
 		adj_->signal_value_changed().connect(
@@ -81,11 +81,11 @@ protected:
 	GratingModulatorPtr peer_;
 };
 
-class GratingModulatorPosWidget : public Gtk::HBox
+class GratingModulatorPosWidget : public Gtk::Box
 {
 public:
-	GratingModulatorPosWidget(GratingModulatorPtr peer) : 
-		adj_(Gtk::Adjustment::create(peer->GetPosition(),0,360)), peer_(peer)
+	GratingModulatorPosWidget(GratingModulatorPtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetPosition(),0,360)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
 		adj_->signal_value_changed().connect(
@@ -100,9 +100,9 @@ protected:
 
 
 GratingModulatorCtrl::GratingModulatorCtrl(GratingModulatorPtr peer) :
-	Gtk::Frame("pitch modulation"), peer_(peer)
+	widgetbox_(Gtk::ORIENTATION_HORIZONTAL), Gtk::Frame("pitch modulation"), peer_(peer)
 {
-	Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
+	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	
 	add(*box);
 	box->pack_start(check_, Gtk::PACK_SHRINK);

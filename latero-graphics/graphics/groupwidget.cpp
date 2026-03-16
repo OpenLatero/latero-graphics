@@ -483,10 +483,10 @@ void GroupTreeView::OnPatternLoad()
 }
 
 
-class GroupPanel : public Gtk::HBox
+class GroupPanel : public Gtk::Box
 {
 public:
-	GroupPanel(GroupPtr peer) : peer_(peer)
+	GroupPanel(GroupPtr peer) : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
 	{
 		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 		GroupOpCombo *opCombo = Gtk::manage(new GroupOpCombo(peer));
@@ -516,7 +516,7 @@ public:
 			ModulatorPtr mod = peer_->GetReactiveMod();
 			if (mod)
 			{
-				Gtk::Box *box = Gtk::manage(new Gtk::HBox);
+				Gtk::Box *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 				opWidgetHolder_.add(*box);
 
 				ModulatorCombo *modCombo = Gtk::manage(new ModulatorCombo(mod));
@@ -558,11 +558,11 @@ protected:
 };
 
 
-class ComboTexturePanel : public Gtk::HBox
+class ComboTexturePanel : public Gtk::Box
 {
 public:
-	ComboTexturePanel(ComboTexturePtr peer, GroupTreeView *treeView, bool showSelector) : 
-        treeView_(treeView), txCtrl_(peer), peer_(peer)
+	ComboTexturePanel(ComboTexturePtr peer, GroupTreeView *treeView, bool showSelector) :
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), treeView_(treeView), txCtrl_(peer), peer_(peer)
 	{
 		auto lbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 		lbox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
@@ -605,7 +605,7 @@ protected:
 
 
 GroupWidget::GroupWidget(GroupPtr peer) :
-	peer_(peer), treeView_(peer), txWidget_(NULL)
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer), treeView_(peer), txWidget_(NULL)
 {
     // this was in a vbox above the tree view but commented out, not sure why
     //pSideBar->pack_start(*Gtk::manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);

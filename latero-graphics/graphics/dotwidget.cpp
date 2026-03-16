@@ -32,6 +32,7 @@ namespace latero {
 namespace graphics { 
 
 DotRadiusCtrl::DotRadiusCtrl(DotPtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
 	peer_(peer),
 	adj_(Gtk::Adjustment::create(peer->GetDotRadius(), 0.01, 20.0))
 {
@@ -42,6 +43,7 @@ void DotRadiusCtrl::OnChanged() { peer_->SetDotRadius(adj_->get_value()); }
 
 
 DotHeightCtrl::DotHeightCtrl(DotPtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
 	peer_(peer),
 	adj_(Gtk::Adjustment::create(peer->GetHeight()*100, 1, 100))
 {
@@ -71,7 +73,8 @@ protected:
 
 
 
-DotWidget::DotWidget(DotPtr peer)
+DotWidget::DotWidget(DotPtr peer) :
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
 {
 	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->attach(*Gtk::manage(new DotPosCtrl(peer)),0,0,3,1);

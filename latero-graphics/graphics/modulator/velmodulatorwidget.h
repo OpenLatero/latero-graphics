@@ -28,7 +28,7 @@
 namespace latero {
 namespace graphics { 
 
-class VelModulatorWidget : public Gtk::HBox
+class VelModulatorWidget : public Gtk::Box
 {
 public:
 	VelModulatorWidget(VelModulatorPtr peer);

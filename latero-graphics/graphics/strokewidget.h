@@ -36,7 +36,7 @@ namespace graphics {
 /**
  * Profile of the stroke across the line.
  */
-class StrokeProfileWidget : public Gtk::HBox
+class StrokeProfileWidget : public Gtk::Box
 {
 public:
 	StrokeProfileWidget(StrokePtr peer);

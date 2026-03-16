@@ -28,7 +28,7 @@
 namespace latero {
 namespace graphics { 
 
-class DotsRadiusCtrl : public Gtk::HBox
+class DotsRadiusCtrl : public Gtk::Box
 {
 public:
 	DotsRadiusCtrl(DotsPtr peer);
@@ -40,7 +40,7 @@ protected:
 };
 
 
-class DotsHeightCtrl : public Gtk::HBox
+class DotsHeightCtrl : public Gtk::Box
 {
 public:
 	DotsHeightCtrl(DotsPtr peer);
@@ -51,7 +51,7 @@ protected:
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };
 
-class DotsWidget : public Gtk::HBox
+class DotsWidget : public Gtk::Box
 {
 public:
 	DotsWidget(DotsPtr peer);

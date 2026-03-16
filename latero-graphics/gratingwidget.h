@@ -40,7 +40,7 @@ namespace graphics {
 /**
  * Invert
  */
-class GratingInvertCtrl : public Gtk::HBox
+class GratingInvertCtrl : public Gtk::Box
 {
 public:
 	GratingInvertCtrl(GratingPtr peer);
@@ -54,7 +54,7 @@ protected:
 /**
  * Enable
  */
-class GratingEnableCtrl : public Gtk::HBox
+class GratingEnableCtrl : public Gtk::Box
 {
 public:
 	GratingEnableCtrl(GratingPtr peer);
@@ -96,7 +96,7 @@ protected:
 	void RemoveCycle();
 
 	Gtk::Box buttonBox_;
-	Gtk::HBox sliderBox_;
+	Gtk::Box sliderBox_;
 	std::vector<Glib::RefPtr<Gtk::Adjustment>> adjVec_;
 	std::vector<Gtk::Widget*> widget_;
 	void OnChanged();
@@ -108,7 +108,7 @@ protected:
 /**
  * GapSize
  */
-class GratingGapSizeWidget : public Gtk::HBox
+class GratingGapSizeWidget : public Gtk::Box
 {
 public:
 	GratingGapSizeWidget(GratingPtr peer);
@@ -122,7 +122,7 @@ protected:
 /**
  * RidgeSize
  */
-class GratingRidgeSizeWidget : public Gtk::HBox
+class GratingRidgeSizeWidget : public Gtk::Box
 {
 public:
 	GratingRidgeSizeWidget(GratingPtr peer);
@@ -137,7 +137,7 @@ protected:
 /**
  * Velocity
  */
-class GratingVelocityWidget : public Gtk::HBox
+class GratingVelocityWidget : public Gtk::Box
 {
 public:
 	GratingVelocityWidget(GratingPtr peer);
@@ -154,7 +154,7 @@ protected:
 /**
  * Center
  */
-class GratingCenterWidget : public Gtk::HBox
+class GratingCenterWidget : public Gtk::Box
 {
 public:
 	GratingCenterWidget(GratingPtr peer);
@@ -182,7 +182,7 @@ protected:
 /**
  * Cycle
  */
-class GratingCycleWidget : public Gtk::HBox
+class GratingCycleWidget : public Gtk::Box
 {
 public:
 	GratingCycleWidget(GratingPtr peer);
@@ -197,7 +197,7 @@ protected:
 /**
  * Amplitude
  */
-class GratingAmplitudeWidget : public Gtk::HBox
+class GratingAmplitudeWidget : public Gtk::Box
 {
 public:
 	GratingAmplitudeWidget(GratingPtr peer);
@@ -228,7 +228,7 @@ protected:
 	GratingPtr peer_;
 };
 
-class GratingPitchWidget : public Gtk::HBox
+class GratingPitchWidget : public Gtk::Box
 {
 public:
 	GratingPitchWidget(GratingPtr peer);

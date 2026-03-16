@@ -30,7 +30,7 @@ namespace graphics {
 
 void RadialGratingTextureWidget::Create()
 {
-	Gtk::HBox *checks = Gtk::manage(new Gtk::HBox);
+	auto checks = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	checks->pack_start(*CreateVibCheck());
 	checks->pack_start(*CreateTDCentricCheck());
 
@@ -72,7 +72,7 @@ RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGra
 	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
 	lbox->pack_start(ampCtrl_);
 
-	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
+	auto hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	add(*hbox);
 	hbox->pack_start(*lbox, Gtk::PACK_SHRINK);
 	hbox->pack_start(*vbox);

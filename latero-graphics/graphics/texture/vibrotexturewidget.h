@@ -28,7 +28,7 @@
 namespace latero {
 namespace graphics { 
 
-class VibroTextureWidget : public Gtk::HBox
+class VibroTextureWidget : public Gtk::Box
 {
 public:
 	VibroTextureWidget(VibroTexturePtr peer);

@@ -92,7 +92,7 @@ class PolygonJoinTypeCtrl : public Gtk::Frame
 {
 public:
 	PolygonJoinTypeCtrl(PolygonPtr peer) : 
-		Gtk::Frame("join"), combo_(peer), offsetCtrl_(peer), comboFrame_("type"), peer_(peer)
+		box_(Gtk::ORIENTATION_HORIZONTAL), Gtk::Frame("join"), combo_(peer), offsetCtrl_(peer), comboFrame_("type"), peer_(peer)
 	{
 		add(box_);
 		box_.pack_start(comboFrame_, Gtk::PACK_SHRINK);
@@ -105,7 +105,7 @@ public:
 protected:
 	void OnChange() { offsetCtrl_.set_sensitive(peer_->GetJoinType()==Polygon::join_type_round); }
 
-	Gtk::HBox box_;
+	Gtk::Box box_;
 	PolygonJoinTypeCombo combo_;
 	PolygonRoundingOffsetCtrl offsetCtrl_;
 	Gtk::Frame comboFrame_;
@@ -184,7 +184,7 @@ public:
         peer_(peer)
 	{
 		angleCtrl_.set_sensitive(peer->GetCornerSpan()==Polygon::corner_span_user );
-		Gtk::HBox *box = Gtk::manage(new Gtk::HBox);
+		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 		box->pack_start(combo_, Gtk::PACK_SHRINK);
 		box->pack_start(angleCtrl_);
 		add(*box);
@@ -222,7 +222,7 @@ class PolygonCornerCtrl : public gtk::CheckFrame
 {
 public:
 	PolygonCornerCtrl(PolygonPtr peer) : 
-		mainbox_(Gtk::ORIENTATION_VERTICAL), gtk::CheckFrame(peer->GetCornerEnable(), "corner marker", true), 
+		upperbox_(Gtk::ORIENTATION_HORIZONTAL), lowerbox_(Gtk::ORIENTATION_HORIZONTAL), mainbox_(Gtk::ORIENTATION_VERTICAL), gtk::CheckFrame(peer->GetCornerEnable(), "corner marker", true), 
 		angleCtrl_(peer), typeCombo_(peer), vibWidget_(peer->GetCornerOscillator()), peer_(peer)
 	{
 		
@@ -249,8 +249,8 @@ protected:
 	PolygonCornerTypeCombo typeCombo_;
 	OscillatorWidget vibWidget_;
 	Gtk::Box mainbox_;
-	Gtk::HBox upperbox_;
-	Gtk::HBox lowerbox_;
+	Gtk::Box upperbox_;
+	Gtk::Box lowerbox_;
     PolygonPtr peer_;
 };
 
@@ -271,10 +271,10 @@ protected:
 	PolygonPtr peer_;
 };
 
-class PolygonPropertiesCtrl : public Gtk::HBox
+class PolygonPropertiesCtrl : public Gtk::Box
 {
 public:
-	PolygonPropertiesCtrl(PolygonPtr peer)  : box_(Gtk::ORIENTATION_VERTICAL)
+	PolygonPropertiesCtrl(PolygonPtr peer) : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), box_(Gtk::ORIENTATION_VERTICAL)
 	{
 		pack_start(box_);
 		box_.pack_start(*Gtk::manage(new PolygonJoinTypeCtrl(peer)), Gtk::PACK_SHRINK);

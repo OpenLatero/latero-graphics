@@ -29,7 +29,7 @@
 namespace latero {
 namespace graphics { 
 
-class PatternTextureWidget : public Gtk::HBox
+class PatternTextureWidget : public Gtk::Box
 {
 public:
 	PatternTextureWidget(PatternTexturePtr peer);
@@ -42,7 +42,7 @@ protected:
 	
 };
 
-class PatternTextureAdvancedWidget : public Gtk::HBox
+class PatternTextureAdvancedWidget : public Gtk::Box
 {
 public:
 	PatternTextureAdvancedWidget(PatternTexturePtr peer);

@@ -53,7 +53,7 @@ protected:
     TexturePtr texture_;
 };
 
-class TextureSelectorWidget : public Gtk::HBox
+class TextureSelectorWidget : public Gtk::Box
 {
 public:
 	TextureSelectorWidget(TexturePtr texture);

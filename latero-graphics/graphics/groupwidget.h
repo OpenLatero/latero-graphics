@@ -84,7 +84,7 @@ public:
 };
 
 
-class GroupWidget : public Gtk::HBox
+class GroupWidget : public Gtk::Box
 {
 protected:
 

@@ -70,7 +70,7 @@ ClosedPatternFillTextureWidget::ClosedPatternFillTextureWidget(ClosedPatternPtr 
 	auto vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	GetBox().pack_start(*vbox);
 
-	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
+	auto hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	hbox->pack_start(*Gtk::manage(new ClosedPatternFillTextureGapCtrl(peer)));	
 	hbox->pack_start(*Gtk::manage(new ClosedPatternFillTextureEdgeSizeCtrl(peer)));
 

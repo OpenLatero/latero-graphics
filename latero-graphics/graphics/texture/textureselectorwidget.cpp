@@ -105,7 +105,7 @@ void TextureSelectorCtrl::OnLoad()
 
 
 TextureSelectorWidget::TextureSelectorWidget(TexturePtr texture) :
-	ctrl_(texture),	widget_(NULL)
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), ctrl_(texture), widget_(NULL)
 
 {
 	ctrl_.SignalTextureChanged().connect(sigc::mem_fun(*this, &TextureSelectorWidget::OnChanged));

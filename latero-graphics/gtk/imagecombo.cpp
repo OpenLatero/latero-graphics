@@ -27,7 +27,8 @@ namespace graphics {
 
 namespace gtk {
 
-ImageCombo::ImageCombo()
+ImageCombo::ImageCombo() :
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
 {
 	model_ = Gtk::ListStore::create(columns_);
 	combo_.set_model(model_);

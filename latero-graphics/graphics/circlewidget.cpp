@@ -70,10 +70,11 @@ protected:
 };
 
 
-class CirclePropsWidget : public Gtk::HBox
+class CirclePropsWidget : public Gtk::Box
 {
 public:
-	CirclePropsWidget(CirclePtr peer)
+	CirclePropsWidget(CirclePtr peer) :
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
 	{
 		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 		box->pack_start(*Gtk::manage(new CircleCenterCtrl(peer)),Gtk::PACK_SHRINK);

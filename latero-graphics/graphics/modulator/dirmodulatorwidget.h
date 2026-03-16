@@ -28,7 +28,7 @@
 namespace latero {
 namespace graphics { 
 
-class DirModulatorWidget : public Gtk::HBox
+class DirModulatorWidget : public Gtk::Box
 {
 public:
 	DirModulatorWidget(DirModulatorPtr peer);

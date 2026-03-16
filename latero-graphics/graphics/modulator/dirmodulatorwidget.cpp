@@ -148,7 +148,7 @@ protected:
 
 
 DirModulatorWidget::DirModulatorWidget(DirModulatorPtr peer) :
-	peer_(peer)
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
 {
 	using namespace dir_modulator_ctrls;
 	auto grid = Gtk::manage(new Gtk::Grid());

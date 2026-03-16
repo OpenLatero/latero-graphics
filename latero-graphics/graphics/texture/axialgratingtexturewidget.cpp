@@ -29,11 +29,11 @@ namespace graphics {
 
 namespace AxialGratingTextureCtrls {
 
-class SeedAngleCtrl : public Gtk::HBox
+class SeedAngleCtrl : public Gtk::Box
 {
 public:
 	SeedAngleCtrl(AxialGratingTexturePtr peer) :
-		adj_(Gtk::Adjustment::create(peer->GetSeedAngle(),0,360)), peer_(peer)
+		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetSeedAngle(),0,360)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("seed angle", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &SeedAngleCtrl::OnChanged));
@@ -84,7 +84,7 @@ AxialGratingTextureAdvancedWidget::AxialGratingTextureAdvancedWidget(AxialGratin
 	using namespace AxialGratingTextureCtrls;
 
 	auto rbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-	Gtk::HBox *seedBox  = Gtk::manage(new Gtk::HBox);
+	auto seedBox  = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 
 	seedBox->pack_start(seedCtrl_);
 	seedBox->pack_start(*Gtk::manage(new SeedAngleCtrl(peer)));
@@ -99,7 +99,7 @@ AxialGratingTextureAdvancedWidget::AxialGratingTextureAdvancedWidget(AxialGratin
 	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
 	lbox->pack_start(ampCtrl_);
 
-	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
+	auto hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	add(*hbox);
 	hbox->pack_start(*lbox, Gtk::PACK_SHRINK);
 	hbox->pack_start(*rbox);

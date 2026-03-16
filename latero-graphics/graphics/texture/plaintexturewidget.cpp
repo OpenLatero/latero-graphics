@@ -34,7 +34,7 @@ namespace latero {
 namespace graphics { 
 
 PlainTextureWidget::PlainTextureWidget(PlainTexturePtr peer) :
-	peer_(peer)
+	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
 {
 	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
 	sidebox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);

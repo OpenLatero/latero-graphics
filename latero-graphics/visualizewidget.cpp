@@ -58,7 +58,7 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	scrolledWindow->add(img_);
 	scrolledWindow->set_size_request(5 + widthAdj_->get_value(), 5 + heightAdj_->get_value());
 
-	Gtk::HBox *hbox = Gtk::manage(new Gtk::HBox);
+	auto hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 	auto dlgArea = get_content_area();
 	dlgArea->pack_start(*scrolledWindow);
 	auto playbackWidget = GetPlaybackWidget();
@@ -132,7 +132,7 @@ void VisualizeWidget::OnHeightChanged()
 
 Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 {
-	Gtk::HBox *pBox = Gtk::manage(new Gtk::HBox);
+	auto pBox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
 
 	//Gtk::Label *frameLabel = Gtk::manage(new Gtk::Label("frame"));
 	//Gtk::SpinButton *frameCtrl = Gtk::manage(new Gtk::SpinButton(frameAdj_));

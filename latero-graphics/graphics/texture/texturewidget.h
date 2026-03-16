@@ -83,7 +83,7 @@ protected:
 	TexturePtr peer_;
 };
 
-class TextureInvertCtrl : public Gtk::HBox
+class TextureInvertCtrl : public Gtk::Box
 {
 public:
 	TextureInvertCtrl(TexturePtr peer);
