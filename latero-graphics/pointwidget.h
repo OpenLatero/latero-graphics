@@ -38,9 +38,9 @@ public:
 		bool showSliders = true);
 	Point GetValue();
 	void SetValue(const Point &p);
-	sigc::signal<void> SignalValueChanged();
+	sigc::signal<void()> SignalValueChanged();
 protected:
-	sigc::signal<void> signalValueChanged_;
+	sigc::signal<void()> signalValueChanged_;
     Glib::RefPtr<Gtk::Adjustment> xAdj_, yAdj_;
 };
 

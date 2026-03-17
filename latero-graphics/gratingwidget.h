@@ -59,9 +59,9 @@ class GratingEnableCtrl : public Gtk::Box
 public:
 	GratingEnableCtrl(GratingPtr peer);
 	virtual ~GratingEnableCtrl() {};
-	sigc::signal<void> SignalClicked() { return signalClick_; };
+	sigc::signal<void()> SignalClicked() { return signalClick_; };
 protected:
-	sigc::signal<void> signalClick_;
+	sigc::signal<void()> signalClick_;
 	void OnClick();
 	Gtk::CheckButton check_;
 	GratingPtr peer_;

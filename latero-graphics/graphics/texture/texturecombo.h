@@ -39,11 +39,11 @@ public:
 	virtual ~TextureCombo() {};
 	void Append(std::string txfile);
 	void SetActive(TexturePtr tx);
-	sigc::signal<void,TexturePtr> SignalTextureChanged() { return signalTextureChanged_; }
+	sigc::signal<void(TexturePtr)> SignalTextureChanged() { return signalTextureChanged_; }
 
 	TexturePtr GetTexture() { return tx_; }
 protected:
-	sigc::signal<void,TexturePtr> signalTextureChanged_;
+	sigc::signal<void(TexturePtr)> signalTextureChanged_;
 	void OnComboChanged();
 
 	class Columns : public Gtk::TreeModel::ColumnRecord

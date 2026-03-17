@@ -22,7 +22,7 @@
 #ifndef GTKVL_ANIMATION
 #define GTKVL_ANIMATION
 
-#include <gdkmm/pixbuf.h>
+#include <gdkmm.h>
 
 namespace latero {
 namespace graphics { 
@@ -132,7 +132,7 @@ public:
 	bool IsActive();
 
 	/** signal raised when current frame changes (if activated) */
-	sigc::signal<void> signal_current_frame_changed;
+	sigc::signal<void()> signal_current_frame_changed;
 
 	/********************************************************
 	 * Image processing operations

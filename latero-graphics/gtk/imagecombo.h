@@ -51,7 +51,7 @@ public:
 	void SetActive(int id);
 
 	/** Callback for changes to selected image. Image ID is passed as an argument. */
-	sigc::signal<void,int> SignalChanged();
+	sigc::signal<void(int)> SignalChanged();
 
 protected:
 
@@ -68,7 +68,7 @@ protected:
 	ModelColumns columns_;
 	Gtk::ComboBox combo_;
 	Glib::RefPtr<Gtk::ListStore> model_;
-	sigc::signal<void,int> signalChanged_;
+	sigc::signal<void(int)> signalChanged_;
 };
 
 } // namespace gtk

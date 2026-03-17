@@ -37,10 +37,10 @@ public:
 	virtual ~ModulatorCombo() {};
 	void Append(ModulatorPtr mod);
 	void SetActive(ModulatorPtr mod);
-	sigc::signal<void,ModulatorPtr> SignalModulatorChanged() { return signalModulatorChanged_; }
+	sigc::signal<void(ModulatorPtr)> SignalModulatorChanged() { return signalModulatorChanged_; }
 
 protected:
-	sigc::signal<void,ModulatorPtr> signalModulatorChanged_;
+	sigc::signal<void(ModulatorPtr)> signalModulatorChanged_;
 	void OnComboChanged();
 
 	class Columns : public Gtk::TreeModel::ColumnRecord

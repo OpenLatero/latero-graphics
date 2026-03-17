@@ -195,7 +195,7 @@ public:
 
 	/** signals... activated unlocked... */
 	// applies to both width and effective width
-	sigc::signal<void> signal_width_changed() { return signal_width_changed_; };
+	sigc::signal<void()> signal_width_changed() { return signal_width_changed_; };
 
 
 	/***********************************************
@@ -216,7 +216,7 @@ protected:
 	/** @return the profile of the motion cue, without the intensity */
 	double GetMotionProfile(const StrokeState &state);
 
-	sigc::signal<void> signal_width_changed_;
+	sigc::signal<void()> signal_width_changed_;
 
 	// basic properties
 	RidgePtr profile_; 	// shape of the ridge (smooth, textured, etc)

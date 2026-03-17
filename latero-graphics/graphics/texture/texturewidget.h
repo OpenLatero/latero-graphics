@@ -109,12 +109,12 @@ class TextureAdvancedButton : public Gtk::Button
 public:
 	TextureAdvancedButton(TexturePtr peer);
 	virtual ~TextureAdvancedButton() {};
-	sigc::signal<void> SignalClosed() { return signalClosed_; }
+	sigc::signal<void()> SignalClosed() { return signalClosed_; }
 protected:
 	void OnResponse(int i) { signalClosed_(); }
 	virtual void on_clicked();
 
-	sigc::signal<void> signalClosed_;
+	sigc::signal<void()> signalClosed_;
     Gtk::Widget *adv_;
 	Gtk::Dialog dlg_;
 	TexturePtr peer_;	

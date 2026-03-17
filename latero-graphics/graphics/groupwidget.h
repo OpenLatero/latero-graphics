@@ -35,9 +35,9 @@ class GroupOpCombo : public Gtk::ComboBoxText
 public:
 	GroupOpCombo(GroupPtr peer);
 	virtual ~GroupOpCombo() {};
-	sigc::signal<void> SignalChanged() { return signalChanged_; };
+	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 private:
-	sigc::signal<void> signalChanged_;
+	sigc::signal<void()> signalChanged_;
 	void OnChange();
 	GroupPtr peer_;
 };

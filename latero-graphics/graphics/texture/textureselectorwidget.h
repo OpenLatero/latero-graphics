@@ -42,13 +42,13 @@ public:
 
 	void OnModeChanged(TexturePtr tx);
 
-	sigc::signal<void> SignalTextureChanged() { return SignalTextureChanged_; }
+	sigc::signal<void()> SignalTextureChanged() { return SignalTextureChanged_; }
 
 protected:
 	void OnSave();
 	void OnLoad();
 
-	sigc::signal<void> SignalTextureChanged_;
+	sigc::signal<void()> SignalTextureChanged_;
 	TextureCombo modeCombo_;
     TexturePtr texture_;
 };
@@ -60,10 +60,10 @@ public:
 	virtual ~TextureSelectorWidget();
 	TexturePtr GetTexture() { return ctrl_.GetTexture(); }
 	void SetTexture(TexturePtr tx) { ctrl_.SetTexture(tx); }
-	sigc::signal<void> SignalTextureChanged() { return SignalTextureChanged_; }
+	sigc::signal<void()> SignalTextureChanged() { return SignalTextureChanged_; }
 
 protected:
-	sigc::signal<void> SignalTextureChanged_;
+	sigc::signal<void()> SignalTextureChanged_;
 
 	void OnChanged();
 	void Build();

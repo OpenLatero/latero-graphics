@@ -80,9 +80,9 @@ public:
 	void AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits);
 	void SelectUnits(std::string units);
 
-	sigc::signal<void,std::string> SignalUnitsChanged() { return signalUnitsChanged_; }
+	sigc::signal<void(std::string)> SignalUnitsChanged() { return signalUnitsChanged_; }
 protected:
-	sigc::signal<void,std::string> signalUnitsChanged_;
+	sigc::signal<void(std::string)> signalUnitsChanged_;
 	void SetDigits(uint n);
 	void SetAdjustment(Glib::RefPtr<Gtk::Adjustment> adj);
 	Glib::ustring OnFormat(double v);
