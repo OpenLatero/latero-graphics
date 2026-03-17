@@ -75,10 +75,10 @@ public:
 protected:
 	void CreatePopupMenu();
 	void OnClick(int n_press, double x, double y);
-	bool OnDraw(const Cairo::RefPtr<Cairo::Context>& cr);
+	void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int w, int h);
 
-	const Gdk::Color bgColor_;	// background
-	const Gdk::Color lineColor_;	// line in the middle of the screen
+	const Gdk::RGBA bgColor_;	// background
+	const Gdk::RGBA lineColor_;	// line in the middle of the screen
 
 	typedef struct struct_point
 	{
@@ -89,7 +89,7 @@ protected:
 	typedef struct
 	{
 		std::vector<Point> points;
-		Gdk::Color color;
+		Gdk::RGBA color;
 	} Trace;
 
 	std::unique_ptr<Gtk::Menu> popupMenu_;

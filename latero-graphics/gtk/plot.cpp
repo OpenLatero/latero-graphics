@@ -44,7 +44,6 @@ public:
 		set_default_response(Gtk::ResponseType::CANCEL);
 		set_current_name("plot.svg");
 
-		// TODO...
 		get_content_area()->append(*Gtk::manage(new Gtk::SpinButton(wAdj_)));
 		get_content_area()->append(*Gtk::manage(new Gtk::SpinButton(hAdj_)));
 	}
@@ -68,7 +67,8 @@ Plot::Plot(const char *fgColor, const char *bgColor) :
 	AddChannel(fgColor);
 	CreatePopupMenu();
 
-    signal_draw().connect(sigc::mem_fun(*this, &Plot::OnDraw));
+	// GTKMM4
+    set_draw_func(sigc::mem_fun(*this, &Plot::OnDraw));
 }
 
 Plot::~Plot()
@@ -93,13 +93,9 @@ void Plot::Draw()
 }
 
 
-bool Plot::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr)
+void Plot::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int w, int h)
 {
-	uint w = get_allocation().get_width();
-	uint h = get_allocation().get_height();
-
 	Draw(cr,w,h);
-	return true;
 }
 
 void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
@@ -108,7 +104,7 @@ void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
 	if (gtkmode)
 		cr->set_source_rgb(1,1,1);
 	else
-		Gdk::Cairo::set_source_color(cr, bgColor_);
+		Gdk::Cairo::set_source_rgba(cr, bgColor_);
 	cr->rectangle(0, 0, w, h);
 	cr->fill();
 
@@ -125,7 +121,7 @@ void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
 	if (gtkmode)
 		cr->set_source_rgb(1.0,1.0,1.0);
 	else
-		Gdk::Cairo::set_source_color(cr, lineColor_);
+		Gdk::Cairo::set_source_rgba(cr, lineColor_);
 	cr->move_to(0, 0.45*h);
        	cr->line_to(w, 0.45*h);
 	cr->stroke();
@@ -140,7 +136,7 @@ void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
 			cr->set_source_rgb(0,0,0);
 		}
 		else
-			Gdk::Cairo::set_source_color(cr, channels_[c].color);
+			Gdk::Cairo::set_source_rgba(cr, channels_[c].color);
 		if (points.size())
 		{
 			cr->move_to(points[0].x * w, points[0].y * h);
@@ -172,8 +168,7 @@ void Plot::SetRangeY(float min, float max)
 void Plot::AddChannel(const char *fgColor)
 {
 	Trace t;
-	const Gdk::Color* color = new Gdk::Color(fgColor);
-	t.color = *color; 
+	t.color = Gdk::RGBA(fgColor);
 	channels_.push_back(t);
 }
 
