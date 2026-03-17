@@ -74,8 +74,7 @@ public:
 
 protected:
 	void CreatePopupMenu();
-	bool OnClick(GdkEventButton* event);
-	//virtual bool on_expose_event(GdkEventExpose* event);
+	void OnClick(int n_press, double x, double y);
 	bool OnDraw(const Cairo::RefPtr<Cairo::Context>& cr);
 
 	const Gdk::Color bgColor_;	// background

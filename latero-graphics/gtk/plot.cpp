@@ -221,22 +221,18 @@ void Plot::SaveToFile(std::string filename, uint w, uint h)
 	}
 }
 
-bool Plot::OnClick(GdkEventButton* event)
+// GTKMM4
+void Plot::OnClick(int n_press, double x, double y)
 {
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		//((Gtk::Menu*)uiManager_->get_widget("/PopupMenu"))->popup(event->button, event->time);
-		return true;
-	}
-	else
-		return false;
+	popupMenu_->popup_at_pointer(nullptr);
 }
 
 void Plot::CreatePopupMenu()
 {
-	set_events(Gdk::BUTTON_PRESS_MASK);
-	signal_button_press_event().connect(sigc::mem_fun(*this, &Plot::OnClick));
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &Plot::OnClick));
+	add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
