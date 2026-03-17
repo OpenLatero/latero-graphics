@@ -53,7 +53,7 @@ void OscillatorEnableCheck::on_clicked() { peer_->SetEnable(!get_active()); Gtk:
 
 
 OscillatorAmplitudeCtrl::OscillatorAmplitudeCtrl(OscillatorPtr peer) :
-    Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
+    Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
 	pack_start(*Gtk::manage(new gtk::HNumWidget(adj_,0, units::percent)));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &OscillatorAmplitudeCtrl::OnChanged));
@@ -62,7 +62,7 @@ void OscillatorAmplitudeCtrl::OnChanged() { peer_->SetAmplitude(adj_->get_value(
 
 
 OscillatorFreqCtrl::OscillatorFreqCtrl(OscillatorPtr peer) :
-    Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),0.1,50)), peer_(peer)
+    Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),0.1,50)), peer_(peer)
 {
 	pack_start(*Gtk::manage(new gtk::HNumWidget(adj_,0, units::hz)));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &OscillatorFreqCtrl::OnChanged));

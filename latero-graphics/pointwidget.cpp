@@ -26,7 +26,7 @@ namespace latero {
 namespace graphics { 
 
 PointWidget::PointWidget(const Point &init, double xlim_min, double xlim_max, double ylim_min, double ylim_max, bool showSliders)  :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	xAdj_(Gtk::Adjustment::create(init.x, xlim_min, xlim_max)),
 	yAdj_(Gtk::Adjustment::create(init.y, ylim_min, ylim_max))
 {

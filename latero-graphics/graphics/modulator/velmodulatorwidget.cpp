@@ -32,7 +32,7 @@ namespace vel_modulator_ctrls {
 class Ctrl : public Gtk::Box
 {
 public:
-	Ctrl(VelModulatorPtr peer) : Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer) {}
+	Ctrl(VelModulatorPtr peer) : Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer) {}
 	virtual ~Ctrl() {}
 protected:
 	VelModulatorPtr peer_;
@@ -82,10 +82,10 @@ protected:
 
 
 VelModulatorWidget::VelModulatorWidget(VelModulatorPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
 	using namespace vel_modulator_ctrls;
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	box->pack_start(*Gtk::manage(new LimitCtrl(peer)));
 	box->pack_start(*Gtk::manage(new TransitionCtrl(peer)));
 	box->pack_start(*Gtk::manage(new DelayCtrl(peer)));

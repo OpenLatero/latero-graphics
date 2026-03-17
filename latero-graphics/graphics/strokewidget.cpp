@@ -36,7 +36,7 @@ class StrokeIntensityCtrl : public Gtk::Box
 {
 public:
 	StrokeIntensityCtrl(StrokePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetIntensity()*100,0,100)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetIntensity()*100,0,100)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("stroke intensity", adj_, 1, "%")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeIntensityCtrl::OnChanged));
@@ -53,7 +53,7 @@ class StrokeWidthCtrl : public Gtk::Box
 {
 public:
 	StrokeWidthCtrl(StrokePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetWidth(),0,50.0)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetWidth(),0,50.0)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("stroke width", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeWidthCtrl::OnChanged));
@@ -89,12 +89,12 @@ class StrokeTextureWidget : public gtk::CheckFrame
 public:
 	StrokeTextureWidget(StrokePtr peer) : gtk::CheckFrame(peer->GetTexture()->GetEnable(), "grating"), peer_(peer)
 	{
-		auto miscBox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+		auto miscBox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 
 		miscBox->pack_start(*Gtk::manage(new GratingAmplitudeWidget(peer->GetTexture())));
 		miscBox->pack_start(*Gtk::manage(new GratingInvertCtrl(peer->GetTexture())),Gtk::PACK_SHRINK);
 
-		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 		GetBox().add(*box);
 
 		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer->GetTexture())));
@@ -112,7 +112,7 @@ class StrokeVibrationCtrl : public Gtk::Box
 {
 public:
 	StrokeVibrationCtrl(StrokePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL)
 	{
 		gtk::CheckFrame *vib = Gtk::manage(new OscillatorWidget(peer->GetOscillator(), true));
 		add(*vib);
@@ -124,9 +124,9 @@ public:
 
 
 StrokeProfileWidget::StrokeProfileWidget(StrokePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	box->pack_start(*Gtk::manage(new StrokeWidthCtrl(peer)));
 	box->pack_start(*Gtk::manage(new StrokeIntensityCtrl(peer)));
 	box->pack_start(*Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile())));
@@ -138,7 +138,7 @@ StrokeProfileWidget::StrokeProfileWidget(StrokePtr peer) :
 
 
 StrokeFillWidget::StrokeFillWidget(StrokePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_VERTICAL)
+	Gtk::Box(Gtk::Orientation::VERTICAL)
 {
 	Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("general"));
 	frame->add(*Gtk::manage(new StrokeGutterCheck(peer)));
@@ -169,7 +169,7 @@ protected:
 
 
 StrokeDottedWidget::StrokeDottedWidget(StrokePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_VERTICAL)
+	Gtk::Box(Gtk::Orientation::VERTICAL)
 {
 	pack_start(*Gtk::manage(new StrokeDotEnableCheck(peer)), Gtk::PACK_SHRINK);
 	DotPatternPtr p = peer->GetDots();

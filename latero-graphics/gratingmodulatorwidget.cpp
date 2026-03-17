@@ -51,7 +51,7 @@ class GratingModulatorFactorWidget : public Gtk::Box
 {
 public:
 	GratingModulatorFactorWidget(GratingModulatorPtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetFactor(),0.1,10)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetFactor(),0.1,10)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget(adj_, 1)));
 		adj_->signal_value_changed().connect(
@@ -68,7 +68,7 @@ class GratingModulatorLengthWidget : public Gtk::Box
 {
 public:
 	GratingModulatorLengthWidget(GratingModulatorPtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetLength(),1,300)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetLength(),1,300)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
 		adj_->signal_value_changed().connect(
@@ -85,7 +85,7 @@ class GratingModulatorPosWidget : public Gtk::Box
 {
 public:
 	GratingModulatorPosWidget(GratingModulatorPtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetPosition(),0,360)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetPosition(),0,360)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
 		adj_->signal_value_changed().connect(
@@ -100,9 +100,9 @@ protected:
 
 
 GratingModulatorCtrl::GratingModulatorCtrl(GratingModulatorPtr peer) :
-	widgetbox_(Gtk::ORIENTATION_HORIZONTAL), Gtk::Frame("pitch modulation"), peer_(peer)
+	widgetbox_(Gtk::Orientation::HORIZONTAL), Gtk::Frame("pitch modulation"), peer_(peer)
 {
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	
 	add(*box);
 	box->pack_start(check_, Gtk::PACK_SHRINK);

@@ -138,7 +138,7 @@ public:
 		auto pReloadButton = Gtk::manage(new Gtk::Button());
 		pReloadButton->set_image_from_icon_name("view-refresh", Gtk::ICON_SIZE_BUTTON);
 
-		auto *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+		auto *box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 		box->pack_start(fileEntry_);
 		box->pack_start(*pOpenButton, Gtk::PACK_SHRINK);
 		box->pack_start(*pReloadButton, Gtk::PACK_SHRINK);
@@ -200,7 +200,7 @@ class MaskSizeCtrl : public Gtk::Box, public MaskWidgetCtrl
 {
 public:
 	MaskSizeCtrl(MaskPtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), MaskWidgetCtrl(peer),
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), MaskWidgetCtrl(peer),
 		wRelAdj_(Gtk::Adjustment::create(100*peer->GetWidth(units::percent),1,200)),
 		hRelAdj_(Gtk::Adjustment::create(100*peer->GetHeight(units::percent),1,200)),
 		wAbsAdj_(Gtk::Adjustment::create(peer->GetWidth(units::mm),1,2000)),
@@ -292,7 +292,7 @@ public:
 		freeRadio_.set_group(group);
 		centeredRadio_.signal_clicked().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnModeChanged));
 		
-		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 		box->pack_start(centeredRadio_, Gtk::PACK_SHRINK);
 		box->pack_start(freeRadio_, Gtk::PACK_SHRINK);
 		box->pack_start(posWidget_);
@@ -339,7 +339,7 @@ class MaskDefaultCtrl : public Gtk::Box, public MaskWidgetCtrl
 {
 public:
 	MaskDefaultCtrl(MaskPtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), MaskWidgetCtrl(peer),
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), MaskWidgetCtrl(peer),
 		adj_(Gtk::Adjustment::create(100*peer->GetDefaultAlpha(),0,100))
 	{
 		pack_start(*Gtk::manage(new Gtk::Label("Default ")), Gtk::PACK_SHRINK);
@@ -354,7 +354,7 @@ protected:
 };
 
 MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
 	MaskSizeCtrl *sizeWidget = Gtk::manage(new MaskSizeCtrl(peer));
 	ctrls_.push_back(sizeWidget);
@@ -362,12 +362,12 @@ MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev) :
 	MaskPositionCtrl *posWidget = Gtk::manage(new MaskPositionCtrl(peer));
 	ctrls_.push_back(posWidget);
 
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	box->pack_start(*Gtk::manage(new MaskImageWidget(peer)));
 	box->pack_start(*posWidget);
 	box->pack_start(*sizeWidget);
 
-	auto checkbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	auto checkbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	checkbox->pack_start(*Gtk::manage(new MaskBlurCheck(peer)));
 	checkbox->pack_start(*Gtk::manage(new MaskLockAspectRatioCheck(peer)));
 	Gtk::CheckButton *refMaxWidget = Gtk::manage(new MaskRefMaximizedCheck(peer));

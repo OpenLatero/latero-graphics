@@ -42,7 +42,7 @@ ModulatorPtr Modulator::Create(const latero::Tactograph *dev, const XMLInputNode
 
 Gtk::Widget *Modulator::CreateWidget(ModulatorPtr ptr)
 {
-	return new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+	return new Gtk::Box(Gtk::Orientation::VERTICAL);
 }
 
 Glib::RefPtr<Gdk::Pixbuf> Modulator::GetIllustration(uint size, double maxVel)

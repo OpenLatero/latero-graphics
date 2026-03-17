@@ -48,7 +48,7 @@ protected:
 };
 
 DotsRadiusCtrl::DotsRadiusCtrl(DotsPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	peer_(peer),
 	adj_(Gtk::Adjustment::create(peer->GetDotRadius(), 0.01, 20.0))
 {
@@ -59,7 +59,7 @@ void DotsRadiusCtrl::OnChanged() { peer_->SetDotRadius(adj_->get_value()); }
 
 
 DotsHeightCtrl::DotsHeightCtrl(DotsPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	peer_(peer),
 	adj_(Gtk::Adjustment::create(peer->GetHeight()*100, 1, 100))
 {
@@ -70,7 +70,7 @@ void DotsHeightCtrl::OnChanged() { peer_->SetHeight(adj_->get_value()/100); };
 
 
 DotsWidget::DotsWidget(DotsPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
 	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->attach(*Gtk::manage(new DotsRadiusCtrl(peer)),0,0,2,1);

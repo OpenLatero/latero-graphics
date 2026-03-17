@@ -484,9 +484,9 @@ void GroupTreeView::OnPatternLoad()
 class GroupPanel : public Gtk::Box
 {
 public:
-	GroupPanel(GroupPtr peer) : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
+	GroupPanel(GroupPtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 	{
-		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 		GroupOpCombo *opCombo = Gtk::manage(new GroupOpCombo(peer));
 
 		box->pack_start(*opCombo, Gtk::PACK_SHRINK);
@@ -514,7 +514,7 @@ public:
 			ModulatorPtr mod = peer_->GetReactiveMod();
 			if (mod)
 			{
-				Gtk::Box *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+				Gtk::Box *box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 				opWidgetHolder_.add(*box);
 
 				ModulatorCombo *modCombo = Gtk::manage(new ModulatorCombo(mod));
@@ -560,13 +560,13 @@ class ComboTexturePanel : public Gtk::Box
 {
 public:
 	ComboTexturePanel(ComboTexturePtr peer, GroupTreeView *treeView, bool showSelector) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), treeView_(treeView), txCtrl_(peer), peer_(peer)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), treeView_(treeView), txCtrl_(peer), peer_(peer)
 	{
-		auto lbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+		auto lbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 		lbox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
 		lbox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
 
-		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 		box->pack_start(*Gtk::manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
 		box->pack_start(*Gtk::manage(new OscillatorWidget(peer->GetOscillator(),true)), Gtk::PACK_SHRINK);
 
@@ -603,7 +603,7 @@ protected:
 
 
 GroupWidget::GroupWidget(GroupPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer), treeView_(peer), txWidget_(NULL)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer), treeView_(peer), txWidget_(NULL)
 {
     // this was in a vbox above the tree view but commented out, not sure why
     //pSideBar->pack_start(*Gtk::manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);

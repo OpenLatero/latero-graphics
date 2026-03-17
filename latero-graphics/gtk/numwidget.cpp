@@ -85,18 +85,18 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	Gtk::Box *box2;
 	if (orient == ORIENT_V)
 	{
-		scale_ = Gtk::manage(new Gtk::Scale(adj, Gtk::ORIENTATION_VERTICAL));
+		scale_ = Gtk::manage(new Gtk::Scale(adj, Gtk::Orientation::VERTICAL));
 		scale_->set_inverted();
-		box2 = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-		box_ = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-		comboBox_ = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+		box2 = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+		box_ = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
+		comboBox_ = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	}
 	else
 	{
-		scale_ = Gtk::manage(new Gtk::Scale(adj, Gtk::ORIENTATION_HORIZONTAL));
-		box2 = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-		box_ = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-		comboBox_ = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+		scale_ = Gtk::manage(new Gtk::Scale(adj, Gtk::Orientation::HORIZONTAL));
+		box2 = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
+		box_ = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+		comboBox_ = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	}
 
 	if (name=="")

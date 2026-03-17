@@ -35,7 +35,7 @@ class PatternTextureGridWidthCtrl : public Gtk::Box
 {
 public:
 	PatternTextureGridWidthCtrl(PatternTexturePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetGridWidth(),0.1,500)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetGridWidth(),0.1,500)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("grid width", adj_, 3, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PatternTextureGridWidthCtrl::OnChanged));
@@ -51,7 +51,7 @@ class PatternTextureGridHeightCtrl : public Gtk::Box
 {
 public:
 	PatternTextureGridHeightCtrl(PatternTexturePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetGridHeight(),0.1,500)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetGridHeight(),0.1,500)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("grid height", adj_, 3, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PatternTextureGridHeightCtrl::OnChanged));
@@ -65,25 +65,25 @@ protected:
 
 
 PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
 	patternHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 	PatternPtr pattern = peer->GetPattern();
 	auto loadButton = Gtk::manage(new Gtk::Button());
 	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
 
-	Gtk::Box *topbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	Gtk::Box *topbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	topbox->pack_start(*Gtk::manage(new PatternTextureGridWidthCtrl(peer)));
 	topbox->pack_start(*Gtk::manage(new PatternTextureGridHeightCtrl(peer)));
 	topbox->pack_start(*Gtk::manage(new TextureAdvancedButton(peer)), Gtk::PACK_SHRINK);
 	topbox->pack_start(*loadButton, Gtk::PACK_SHRINK);
 
-	auto mainbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto mainbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	mainbox->pack_start(*topbox, Gtk::PACK_SHRINK);
 	mainbox->pack_start(patternHolder_);
 	patternHolder_.add(*Gtk::manage(pattern->CreateWidget(pattern)));
 	
-	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	sidebox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
 	sidebox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
 	pack_start(*sidebox, Gtk::PACK_SHRINK);
@@ -119,25 +119,25 @@ void PatternTextureWidget::OnLoad()
 
 
 PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
 	patternHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 	PatternPtr pattern = peer->GetPattern();
 	auto loadButton = Gtk::manage(new Gtk::Button());
 	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
 
-	Gtk::Box *topbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	Gtk::Box *topbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	topbox->pack_start(*Gtk::manage(new PatternTextureGridWidthCtrl(peer)));
 	topbox->pack_start(*Gtk::manage(new PatternTextureGridHeightCtrl(peer)));
 	topbox->pack_start(*loadButton, Gtk::PACK_SHRINK);
 
-	auto mainbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto mainbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	mainbox->pack_start(*topbox, Gtk::PACK_SHRINK);
 	mainbox->pack_start(*Gtk::manage(new TextureMotionCtrl(peer)));
 	mainbox->pack_start(patternHolder_);
 	patternHolder_.add(*Gtk::manage(pattern->CreateWidget(pattern)));
 	
-	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	sidebox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
 	sidebox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
 	pack_start(*sidebox, Gtk::PACK_SHRINK);

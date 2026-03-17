@@ -29,7 +29,7 @@ namespace latero {
 namespace graphics { 
 
 TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
-	Gtk::Box(Gtk::ORIENTATION_VERTICAL), modeCombo_(texture), texture_(texture)
+	Gtk::Box(Gtk::Orientation::VERTICAL), modeCombo_(texture), texture_(texture)
 {
 	auto saveButton = Gtk::manage(new Gtk::Button());
 	saveButton->set_image_from_icon_name("document-save", Gtk::ICON_SIZE_BUTTON);
@@ -103,7 +103,7 @@ void TextureSelectorCtrl::OnLoad()
 
 
 TextureSelectorWidget::TextureSelectorWidget(TexturePtr texture) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), ctrl_(texture), widget_(NULL)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), ctrl_(texture), widget_(NULL)
 
 {
 	ctrl_.SignalTextureChanged().connect(sigc::mem_fun(*this, &TextureSelectorWidget::OnChanged));

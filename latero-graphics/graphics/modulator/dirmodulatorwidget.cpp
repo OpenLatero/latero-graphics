@@ -32,7 +32,7 @@ namespace dir_modulator_ctrls {
 class Ctrl : public Gtk::Box
 {
 public:
-	Ctrl(DirModulatorPtr peer) : Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer) {}
+	Ctrl(DirModulatorPtr peer) : Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer) {}
 	virtual ~Ctrl() {}
 protected:
 	DirModulatorPtr peer_;
@@ -146,7 +146,7 @@ protected:
 
 
 DirModulatorWidget::DirModulatorWidget(DirModulatorPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
 	using namespace dir_modulator_ctrls;
 	auto grid = Gtk::manage(new Gtk::Grid());

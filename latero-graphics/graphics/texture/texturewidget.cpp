@@ -100,7 +100,7 @@ TextureTDCentricCtrl::TextureTDCentricCtrl(TexturePtr peer) :
 	check->set_label("");
 	
 	// TODO: use Check above instead...
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	add(*box);
 	box->pack_start(*check, Gtk::PACK_SHRINK);
 	box->pack_start(point_);
@@ -120,7 +120,7 @@ TextureAmplitudeCtrl::TextureAmplitudeCtrl(TexturePtr peer) :
 void TextureAmplitudeCtrl::OnChanged() { peer_->SetAmplitude(adj_->get_value()/100); }
 
 TextureInvertCtrl::TextureInvertCtrl(TexturePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	check_("invert"),
 	peer_(peer)
 {
@@ -136,7 +136,7 @@ class TextureMotionDirectionCtrl : public Gtk::Box
 {
 public:
 	TextureMotionDirectionCtrl(TexturePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionDirection(),0,360)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionDirection(),0,360)), peer_(peer)
 	{
 		pack_start(*Gtk::manage(new gtk::HNumWidget(adj_,0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionDirectionCtrl::OnChanged));
@@ -154,7 +154,7 @@ class TextureMotionVelocityCtrl : public Gtk::Box
 {
 public:
 	TextureMotionVelocityCtrl(TexturePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),0,100)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),0,100)), peer_(peer)
 	{
 		pack_start(*Gtk::manage(new gtk::HNumWidget(adj_,1, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionVelocityCtrl::OnChanged));
@@ -217,7 +217,7 @@ TextureWidget::~TextureWidget()
 
 Gtk::Widget *TextureWidget::CreateLeftPanel()
 {
-	auto lbox = new Gtk::Box(Gtk::ORIENTATION_VERTICAL); // TODO: should this be managed?
+	auto lbox = new Gtk::Box(Gtk::Orientation::VERTICAL); // TODO: should this be managed?
 	lbox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer_)), Gtk::PACK_SHRINK);
 	lbox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer_)));
 	return lbox;
@@ -244,10 +244,10 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 	advancedButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureWidget::OnAdvanced));
 	advancedButton->SignalClosed().connect(sigc::mem_fun(*this, &TextureWidget::OnAdvancedClosed));
 
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	add(*box);
 
-	auto vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 
 	widget->set_vexpand(true);
 	widget->set_valign(Gtk::ALIGN_FILL);

@@ -27,7 +27,7 @@ namespace graphics {
 namespace gtk {
 
 CheckFrame::CheckFrame(bool checkState, std::string label, bool check_in_label) :
-	Gtk::Frame(label), 	mainBox_(Gtk::ORIENTATION_HORIZONTAL), innerBox_(Gtk::ORIENTATION_HORIZONTAL)
+	Gtk::Frame(label), 	mainBox_(Gtk::Orientation::HORIZONTAL), innerBox_(Gtk::Orientation::HORIZONTAL)
 {
 	if (check_in_label)
 	{

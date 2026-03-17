@@ -60,7 +60,7 @@ private:
 class DirectionCtrl : public Gtk::Box, MotionTextureCtrl
 {
 public:
-	DirectionCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), MotionTextureCtrl(peer),
+	DirectionCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), MotionTextureCtrl(peer),
 		adj_(Gtk::Adjustment::create(peer->GetDirection(),0,360))
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
@@ -75,7 +75,7 @@ protected:
 class VelocityCtrl : public Gtk::Box, MotionTextureCtrl
 {
 public:
-	VelocityCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), MotionTextureCtrl(peer),
+	VelocityCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), MotionTextureCtrl(peer),
 		adj_(Gtk::Adjustment::create(peer->GetVelocity(),0,100))
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
@@ -95,8 +95,8 @@ MotionTextureWidget::MotionTextureWidget(MotionTexturePtr peer) :
 	txWidget_(peer->GetTexture())
 {
 	using namespace MotionTextureCtrls;
-	auto motionPage = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto motionPage = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	box->pack_start(*Gtk::manage(new CueTypeCombo(peer)), Gtk::PACK_SHRINK);
 	box->pack_start(*Gtk::manage(new DirectionCtrl(peer)), Gtk::PACK_SHRINK);
 	box->pack_start(*Gtk::manage(new VelocityCtrl(peer)), Gtk::PACK_SHRINK);

@@ -32,7 +32,7 @@ namespace latero {
 namespace graphics { 
 
 DotPatternMinSpacingCtrl::DotPatternMinSpacingCtrl(DotPatternPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetMinSpacing(), 0, 50.0)), peer_(peer)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetMinSpacing(), 0, 50.0)), peer_(peer)
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotPatternMinSpacingCtrl::OnChanged));
 	add(*Gtk::manage(new gtk::HNumWidget("minimal spacing",adj_,1,"mm")));
@@ -40,7 +40,7 @@ DotPatternMinSpacingCtrl::DotPatternMinSpacingCtrl(DotPatternPtr peer) :
 void DotPatternMinSpacingCtrl::OnChanged() { peer_->SetMinSpacing(adj_->get_value()); }
 
 DotPatternWidget::DotPatternWidget(DotPatternPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
 	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->attach(*Gtk::manage(new DotPatternMinSpacingCtrl(peer)),0,0,1,1);

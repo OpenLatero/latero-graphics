@@ -41,7 +41,7 @@ protected:
 
 
 PointListWidget::PointListWidget(const std::vector<Point> &points) :
-	box_(Gtk::ORIENTATION_VERTICAL), pointBox_(Gtk::ORIENTATION_VERTICAL), insertButton_("+")
+	box_(Gtk::Orientation::VERTICAL), pointBox_(Gtk::Orientation::VERTICAL), insertButton_("+")
 {
 	set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_AUTOMATIC);
 	set_placement(Gtk::CORNER_TOP_RIGHT);
@@ -73,7 +73,7 @@ void PointListWidget::InsertPoint(const Point &p)
 	xAdj->signal_value_changed().connect(signalChanged_);
 	yAdj->signal_value_changed().connect(signalChanged_);
 
-	rowBox_.push_back(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	rowBox_.push_back(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	pointBox_.pack_start(*rowBox_[i], Gtk::PACK_SHRINK);
 	rowBox_[i]->pack_start(*Gtk::manage(new Gtk::SpinButton(xAdj)));
 	rowBox_[i]->pack_start(*Gtk::manage(new Gtk::SpinButton(yAdj)));

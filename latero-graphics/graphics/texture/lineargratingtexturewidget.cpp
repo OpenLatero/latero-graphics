@@ -35,7 +35,7 @@ class AngleWidget : public Gtk::Box
 {
 public:
 	AngleWidget(LinearGratingTexturePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
 		add(*Gtk::manage(new gtk::HNumWidget("orientation", adj_, 1, units::degree)));
 		adj_->signal_value_changed().connect(
@@ -89,7 +89,7 @@ void LinearGratingTextureWidget::Create()
 
 
 LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGratingTexturePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	GratingTextureWidgetSet(peer)
 {
 	using namespace LinearGratingTextureCtrls;
@@ -125,7 +125,7 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	grid->attach(vibCtrl_,0,5,2,1);
 	grid->attach(gratingCtrls_.advButton_,0,6,2,1);
 
-	auto lbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto lbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
 	lbox->pack_start(ampCtrl_);
 

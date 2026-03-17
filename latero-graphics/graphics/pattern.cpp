@@ -206,7 +206,7 @@ void Pattern::ClearVisible_()
 
 Gtk::Widget *Pattern::CreateWidget(PatternPtr ptr)
 { 
-	return new Gtk::Box(Gtk::ORIENTATION_VERTICAL); 
+	return new Gtk::Box(Gtk::Orientation::VERTICAL); 
 }
 
 } // namespace graphics

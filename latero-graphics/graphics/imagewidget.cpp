@@ -26,12 +26,12 @@ namespace latero {
 namespace graphics { 
 
 ImageWidget::ImageWidget(ImagePtr peer, bool showMaskWidget) :
-	Gtk::Box(Gtk::ORIENTATION_VERTICAL),
+	Gtk::Box(Gtk::Orientation::VERTICAL),
 	txWidget_(peer->GetTexture()),
 	maskWidget_(peer->GetMask(),peer->Dev()),
 	peer_(peer)
 {
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	pack_start(*box);
 	
 	if (showMaskWidget)

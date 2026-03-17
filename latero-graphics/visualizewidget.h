@@ -36,7 +36,7 @@ class TimeWidget : public Gtk::Box
 {
 public:
 	TimeWidget(int init=0, std::string units=units::nsec) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(init, 0, 1000000)), spin_(adj_)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(init, 0, 1000000)), spin_(adj_)
 	{
 		combo_.append(units::day);
 		combo_.append(units::hour);
@@ -69,9 +69,9 @@ protected:
 class StartTimeWidget : public Gtk::Box
 {
 public:
-	StartTimeWidget() : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), currentRadio_("now"), timeCtrl_(0, units::min)
+	StartTimeWidget() : Gtk::Box(Gtk::Orientation::HORIZONTAL), currentRadio_("now"), timeCtrl_(0, units::min)
 	{
-		auto pTimeBox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+		auto pTimeBox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 
 		Gtk::RadioButton::Group group = currentRadio_.get_group();
 		timeRadio_.set_group(group);

@@ -28,7 +28,7 @@ namespace graphics {
 
 void RadialGratingTextureWidget::Create()
 {
-	auto checks = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	auto checks = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	checks->pack_start(*CreateVibCheck());
 	checks->pack_start(*CreateTDCentricCheck());
 
@@ -53,11 +53,11 @@ void RadialGratingTextureWidget::Create()
 }
 
 RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGratingTexturePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_VERTICAL),
+	Gtk::Box(Gtk::Orientation::VERTICAL),
 	GratingTextureWidgetSet(peer),
 	peer_(peer)
 {
-	auto vbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	vbox->pack_start(seedCtrl_);
 	vbox->pack_start(*Gtk::manage(new GratingPitchWidget(peer->GetGrating())));
 	vbox->pack_start(*Gtk::manage(new GratingVelocityWidget(peer->GetGrating())));
@@ -66,11 +66,11 @@ RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGra
 	vbox->pack_start(vibCtrl_);
 	vbox->pack_start(*Gtk::manage(new TextureMotionCtrl(peer)));
 
-	auto lbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
+	auto lbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
 	lbox->pack_start(ampCtrl_);
 
-	auto hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	auto hbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	add(*hbox);
 	hbox->pack_start(*lbox, Gtk::PACK_SHRINK);
 	hbox->pack_start(*vbox);
