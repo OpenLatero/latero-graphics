@@ -200,7 +200,7 @@ void Group::PlayAudio(AudioDevicePtr dev, Point pos)
 		objects_[i]->PlayAudio(dev,pos);
 }
 
-bool Group::OnKeyPress(GdkEventKey* event)
+bool Group::OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state)
 {
 	printf("Group::OnKeyPress\n");
 	// TODO: unsafe... should be locked!

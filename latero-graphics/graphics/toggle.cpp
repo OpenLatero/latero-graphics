@@ -145,7 +145,7 @@ void Toggle::LoadXML(const XMLInputNode &root)
 }
 
 /*
-bool Toggle::OnKeyPress(GdkEventKey* event)
+bool Toggle::OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state)
 {
 	if ((event->keyval == GDK_Control_L)||(event->keyval == GDK_space))
     {

@@ -91,7 +91,7 @@ public:
 	ModulatorPtr GetReactiveMod() const { LATERO_GRAPHICS_GUARD; return reactiveMod_; }
 
 	virtual void PlayAudio(AudioDevicePtr dev, Point pos);
-    virtual bool OnKeyPress(GdkEventKey* event);
+    virtual bool OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state);
 
 	// only for reactive mode
 	typedef enum { ill_mode_mix, ill_mode_first, ill_mode_second } ill_mode;

@@ -62,7 +62,7 @@ public:
 
 	void DoToggle();
 	void DoToggle_();
-	//virtual bool OnKeyPress(GdkEventKey* event);
+	//virtual bool OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state);
     virtual void OnButtonEvent_(const ButtonEvent &event);
     
 	PatternPtr GetFirstPattern() { LATERO_GRAPHICS_GUARD; return patterns_[0]; }

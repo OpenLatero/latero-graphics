@@ -23,7 +23,7 @@
 #define LATERO_GRAPHICS_GENERATOR_H
 
 #include <latero/tactograph.h>
-#include <gtkmm/widget.h>
+#include <gtkmm.h>
 #include "generatorfwd.h"
 #include "modifiable.h"
 #include "gtk/animation.h"
@@ -132,7 +132,7 @@ public:
 	 * called when a key is pressed on the keyboard
 	 * @return true when key is used by the Generator
 	 */	
-	virtual bool OnKeyPress(GdkEventKey* event);
+	virtual bool OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state);
     
     /**
      * called when a event related to Latero buttons is detected 

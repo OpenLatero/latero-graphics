@@ -136,7 +136,7 @@ public:
 	/** 
 	 * Handle key press or return false if key is unused.
 	 */
-	virtual bool OnKeyPress(GdkEventKey* event) { return false; }
+	virtual bool OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state) { return false; }
 
 	/** @return path of the source XML file, if created from a file */ 
 	std::string GetXMLFile() const { LATERO_GRAPHICS_GUARD; return xmlfile_; }

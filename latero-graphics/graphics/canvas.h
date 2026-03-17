@@ -73,7 +73,7 @@ public:
 	virtual void PlayAudio(AudioDevicePtr dev);
     
 	// see Generator
-	virtual bool OnKeyPress(GdkEventKey* event);
+	virtual bool OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state);
 
     // see Generator
     virtual void OnButtonEvent_(const ButtonEvent &event);

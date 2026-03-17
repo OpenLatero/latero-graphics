@@ -131,7 +131,7 @@ void Generator::SetLatestState_(const State &state, const latero::BiasedImg &fra
 	latestState_ = state;
 }
 
-bool Generator::OnKeyPress(GdkEventKey* event)
+bool Generator::OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state)
 {
 	return false;
 }
