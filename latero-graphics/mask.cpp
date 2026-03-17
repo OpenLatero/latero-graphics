@@ -258,7 +258,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetIllustration(uint w, uint h)
 	//
 	// Destination
 	//
-	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, w, h);
+	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	rv->fill(0xffffffff);
 	Cairo::RefPtr<Cairo::ImageSurface> rvSurface = Cairo::ImageSurface::create(
     		(unsigned char*)rv->get_pixels(),
@@ -471,7 +471,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetAlphaImgCopy() const
 
 Glib::RefPtr<Gdk::Pixbuf> Mask::GetSurfaceAlpha(uint w, uint h)
 {
-	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, w, h);
+	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	rv->fill(defaultAlpha_*0x000000ff);
 
 	Glib::RefPtr<Gdk::Pixbuf> src = GetAlphaImgCopy();

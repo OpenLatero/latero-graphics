@@ -68,7 +68,7 @@ Cairo::RefPtr<Cairo::Pattern> PatternOps::Max(Cairo::RefPtr<Cairo::Context> cr, 
 
 	uint w = 1000;
 	uint h = 1000;
-	Glib::RefPtr<Gdk::Pixbuf> img_a = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, w, h);
+	Glib::RefPtr<Gdk::Pixbuf> img_a = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	Cairo::RefPtr<Cairo::ImageSurface> surf_a = Cairo::ImageSurface::create(
 		(unsigned char*)img_a->get_pixels(), Cairo::FORMAT_ARGB32, w, h, img_a->get_rowstride());
 	Cairo::RefPtr<Cairo::Context> cr_a = Cairo::Context::create(surf_a);

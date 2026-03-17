@@ -102,7 +102,7 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, boost::posix_time::t
 		uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
 		assert(h>0);
 
-		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, w, h);
+		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 		Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create(
 			(unsigned char*)img->get_pixels(),
 			Cairo::FORMAT_ARGB32,
@@ -124,7 +124,7 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, boost::posix_time::t
 		double ws_y = Dev()->GetSurfaceHeight();
 		uint h = w * ws_y/ws_x;
 
-		Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, false, 8, w, h);
+		Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, false, 8, w, h);
 
 		ActuatorState state;
 		if (mode == viz_deflection)

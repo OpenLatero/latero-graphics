@@ -352,7 +352,7 @@ void VirtualSurfaceArea::SetDisplayState(const Point &pos, double angle, const l
 void VirtualSurfaceArea::Clear(guint32 pixel)
 {
 	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(
-			Gdk::COLORSPACE_RGB, true, 8,
+			Gdk::Colorspace::RGB, true, 8,
 			GetWidth(), GetHeight());
 	buf->fill(pixel);
 	Set(buf);

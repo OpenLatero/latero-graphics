@@ -98,7 +98,7 @@ latero::graphics::gtk::Animation Generator::GetIllustration(uint w, boost::posix
 	// by default return a white image
 	uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
 	assert(h>0);
-	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, w, h);
+	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	buf->fill(0xffffffff);
 	latero::graphics::gtk::Animation rv(buf);
 	return rv;
