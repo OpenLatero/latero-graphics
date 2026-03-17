@@ -21,9 +21,6 @@
 
 #include "lineargratingtexturewidget.h"
 #include "lineargratingtexture.h"
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/table.h>
 #include "../../gtk/numwidget.h"
 #include "../../units.h"
 #include "gratingtexturewidget.h"

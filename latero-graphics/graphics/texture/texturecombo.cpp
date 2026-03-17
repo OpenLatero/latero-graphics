@@ -28,7 +28,6 @@
 #include "combotexture.h"
 #include "vibrotexture.h"
 #include "nulltexture.h"
-#include <gtkmm/box.h>
 
 namespace latero {
 namespace graphics { 

@@ -25,7 +25,6 @@
 #include "strokewidget.h"
 #include "../pointwidget.h"
 #include "dotpattern.h"
-#include <gtkmm/frame.h>
 #include "../gtk/numwidget.h"
 #include "patternpreview.h"
 

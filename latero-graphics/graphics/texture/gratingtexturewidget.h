@@ -22,8 +22,7 @@
 #ifndef LATERO_GRAPHICS_GRATING_TEXTURE_WIDGET
 #define LATERO_GRAPHICS_GRATING_TEXTURE_WIDGET
 
-#include <gtkmm/frame.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "texturewidget.h"
 #include "../patternpreview.h"
 //TODO: check why this is required

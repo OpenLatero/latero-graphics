@@ -23,7 +23,7 @@
 #define LATERO_GRAPHICS_TOGGLE_WIDGET
 
 #include "togglefwd.h"
-#include <gtkmm/notebook.h>
+#include <gtkmm.h>
 
 namespace latero {
 namespace graphics { 

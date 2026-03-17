@@ -22,9 +22,7 @@
 #ifndef LATERO_GRAPHICS_GTK_IMAGE_COMBO
 #define LATERO_GRAPHICS_GTK_IMAGE_COMBO
 
-#include <gtkmm/combobox.h>
-#include <gtkmm/liststore.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 
 namespace latero {
 namespace graphics { 

@@ -23,8 +23,7 @@
 #include "dots.h"
 #include "../gtk/numwidget.h"
 #include "../ridgewidget.h"
-#include <gtkmm/frame.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "../pointwidget.h"
 #include "../oscillatorwidget.h"
 #include "../pointlistwidget.h"

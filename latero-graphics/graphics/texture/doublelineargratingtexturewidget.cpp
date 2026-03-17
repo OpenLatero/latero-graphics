@@ -22,9 +22,6 @@
 #include "doublelineargratingtexturewidget.h"
 #include "doublelineargratingtexture.h"
 #include "../../gtk/numwidget.h"
-#include <gtkmm/box.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/frame.h>
 #include "../../pointwidget.h"
 #include "../../graphics/patternpreview.h"
 #include "texturewidget.h"

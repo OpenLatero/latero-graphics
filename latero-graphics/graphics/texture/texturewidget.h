@@ -24,15 +24,10 @@
 
 #include "texturecombo.h"
 #include "texturefwd.h"
-#include <gtkmm/box.h>
-#include <gtkmm/dialog.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/expander.h>
+#include <gtkmm.h>
 #include "../../pointwidget.h"
 #include "../../gtk/checkframe.h"
 #include "../../oscillatorwidget.h"
-#include <gtkmm/checkbutton.h>
-
 namespace latero {
 namespace graphics { 
 

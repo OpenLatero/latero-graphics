@@ -22,9 +22,7 @@
 #ifndef LATERO_GRAPHICS_GTK_CHECK_FRAME_H
 #define LATERO_GRAPHICS_GTK_CHECK_FRAME_H
 
-#include <gtkmm/box.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/checkbutton.h>
+#include <gtkmm.h>
 
 namespace latero {
 namespace graphics { 

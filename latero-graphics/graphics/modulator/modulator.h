@@ -26,7 +26,7 @@
 #include "../../modifiable.h"
 #include <latero/tactograph.h>
 #include "../../xml.h"
-#include <gtkmm/widget.h>
+#include <gtkmm.h>
 #include "../../state.h"
 
 namespace latero {

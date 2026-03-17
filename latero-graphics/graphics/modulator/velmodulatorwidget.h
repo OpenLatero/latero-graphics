@@ -22,7 +22,7 @@
 #ifndef LATERO_GRAPHICS_PLANAR_VEL_MODULATOR_WIDGET
 #define LATERO_GRAPHICS_PLANAR_VEL_MODULATOR_WIDGET
 
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "velmodulatorfwd.h"
 
 namespace latero {

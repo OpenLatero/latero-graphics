@@ -23,7 +23,7 @@
 #define LATERO_GRAPHICS_PATTERN_H
 
 #include <latero/tactograph.h>
-#include <gtkmm/widget.h>
+#include <gtkmm.h>
 #include "patternfwd.h"
 #include "../modifiable.h"
 #include "../state.h"

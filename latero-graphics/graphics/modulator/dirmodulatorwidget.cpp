@@ -22,9 +22,7 @@
 #include "dirmodulatorwidget.h"
 #include "dirmodulator.h"
 #include "modulatorpreview.h"
-#include <gtkmm.h>
 #include "../../gtk/numwidget.h"
-#include <gtkmm/checkbutton.h>
 
 namespace latero {
 namespace graphics { 

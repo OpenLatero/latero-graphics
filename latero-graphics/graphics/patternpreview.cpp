@@ -22,7 +22,6 @@
 #include <filesystem>
 #include <sys/stat.h>
 #include "patternpreview.h"
-#include <gtkmm.h>
 
 namespace latero {
 namespace graphics { 

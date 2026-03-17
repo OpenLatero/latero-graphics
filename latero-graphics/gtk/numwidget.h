@@ -22,16 +22,7 @@
 #ifndef LATERO_GRAPHICS_GTK_NUM_WIDGET_H
 #define LATERO_GRAPHICS_GTK_NUM_WIDGET_H
 
-#include <gtkmm/frame.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/entry.h>
-#include <gtkmm/scale.h>
-#include <gtkmm/box.h>
-#include <gtkmm/comboboxtext.h>
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/alignment.h>
-#include <gtkmm/combobox.h>
-#include <gtkmm/liststore.h>
+#include <gtkmm.h>
 #include <assert.h>
 #include <sstream>
 #include "../units.h"

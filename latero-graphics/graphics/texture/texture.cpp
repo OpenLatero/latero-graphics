@@ -38,7 +38,6 @@
 #include <sys/types.h>
 #include <iostream>
 #include <sys/stat.h>
-#include <gtkmm/box.h>
 
 namespace latero {
 namespace graphics { 

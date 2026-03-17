@@ -22,13 +22,10 @@
 #include <filesystem>
 #include "virtualsurfacewidget.h"
 #include "gtk/pixbufops.h"
-#include <gtkmm.h>
 #include <math.h>
 #include "generator.h"
 #include "positiongen.h"
 #include "visualizewidget.h"
-#include <gtkmm/menu.h>
-#include <gtkmm/filechooserdialog.h>
 #include <iostream>
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "boost/date_time/local_time_adjustor.hpp"

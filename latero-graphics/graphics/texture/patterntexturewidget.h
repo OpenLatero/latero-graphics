@@ -22,8 +22,7 @@
 #ifndef LATERO_GRAPHICS_PLANAR_PATTERN_TEXTURE_WIDGET
 #define LATERO_GRAPHICS_PLANAR_PATTERN_TEXTURE_WIDGET
 
-#include <gtkmm/box.h>
-#include <gtkmm/frame.h>
+#include <gtkmm.h>
 #include "patterntexturefwd.h"
 
 namespace latero {

@@ -23,8 +23,7 @@
 #define LATERO_GRAPHICS_PLANAR_TEXTURE_COMBO
 
 #include "texturefwd.h"
-#include <gtkmm/combobox.h>
-#include <gtkmm/liststore.h>
+#include <gtkmm.h>
 #include <latero/tactograph.h>
 
 namespace latero {

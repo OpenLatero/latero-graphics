@@ -22,8 +22,7 @@
 #ifndef LATERO_GRAPHICS_PLANAR_DOT_WIDGET
 #define LATERO_GRAPHICS_PLANAR_DOT_WIDGET
 
-#include <gtkmm/box.h>
-#include <gtkmm/adjustment.h>
+#include <gtkmm.h>
 #include "dotfwd.h"
 
 

@@ -22,8 +22,7 @@
 #ifndef LATERO_GRAPHICS_PLANAR_LINEAR_GRATING_TEXTURE_WIDGET
 #define LATERO_GRAPHICS_PLANAR_LINEAR_GRATING_TEXTURE_WIDGET
 
-#include <gtkmm/adjustment.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 //TODO: check why this is required
 #include "lineargratingtexture.h"
 #include "gratingtexturewidget.h"

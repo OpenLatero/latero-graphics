@@ -22,7 +22,7 @@
 #ifndef LATERO_GRAPHICS_DOUBLE_LINEAR_GRATING_TEXTURE_WIDGET
 #define LATERO_GRAPHICS_DOUBLE_LINEAR_GRATING_TEXTURE_WIDGET
 
-#include <gtkmm/table.h>
+#include <gtkmm.h>
 //TODO: check why this is required
 #include "doublelineargratingtexture.h"
 #include "texturewidget.h"

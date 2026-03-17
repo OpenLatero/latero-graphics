@@ -22,7 +22,6 @@
 #include <filesystem>
 #include "plot.h"
 #include <assert.h>
-#include <gtkmm.h>
 
 namespace latero {
 namespace graphics { 
@@ -104,7 +103,7 @@ void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
 	if (gtkmode)
 		cr->set_source_rgb(1,1,1);
 	else
-		Gdk::Cairo::set_source_rgba(cr, bgColor_);
+		Gdk::Cairo::set_source_rgba(cr, bgColor_); // GTKMM4
 	cr->rectangle(0, 0, w, h);
 	cr->fill();
 

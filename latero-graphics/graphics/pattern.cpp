@@ -20,7 +20,6 @@
 // -----------------------------------------------------------
 
 #include <sys/stat.h>
-#include <gtkmm/box.h>
 #include <filesystem>
 #include "pattern.h"
 #include "circle.h"

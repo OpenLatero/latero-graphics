@@ -22,7 +22,6 @@
 #include "visualizewidget.h"
 #include "positiongen.h"
 #include <sstream>
-#include <gtkmm.h>
 #include "units.h"
 
 #define UPDATE_RATE_MS 30

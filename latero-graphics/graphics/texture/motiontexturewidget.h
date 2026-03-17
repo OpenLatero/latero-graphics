@@ -22,7 +22,7 @@
 #ifndef LATERO_GRAPHICS_MOTION_TEXTURE_WIDGET
 #define LATERO_GRAPHICS_MOTION_TEXTURE_WIDGET
 
-#include <gtkmm/notebook.h>
+#include <gtkmm.h>
 #include "motiontexturefwd.h"
 #include "textureselectorwidget.h"
 

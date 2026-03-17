@@ -22,12 +22,7 @@
 #ifndef LATERO_GRAPHICS_GRATING_WIDGET
 #define LATERO_GRAPHICS_GRATING_WIDGET
 
-#include <gtkmm/dialog.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/comboboxtext.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/radiobutton.h>
-#include <gtkmm/checkbutton.h>
+#include <gtkmm.h>
 #include "gratingfwd.h"
 #include "gratinggraph.h"
 #include "gratingmodulatorwidget.h"

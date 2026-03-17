@@ -22,10 +22,7 @@
 #ifndef LATERO_GRAPHICS_PLANAR_RIDGE_WIDGET_H
 #define LATERO_GRAPHICS_PLANAR_RIDGE_WIDGET_H
 
-#include <gtkmm/checkbutton.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/comboboxtext.h>
-#include <gtkmm/frame.h>
+#include <gtkmm.h>
 #include "gtk/checkframe.h"
 #include "ridgefwd.h"
 #include "ridgegraph.h"

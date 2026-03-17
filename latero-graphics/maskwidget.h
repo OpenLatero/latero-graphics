@@ -22,7 +22,7 @@
 #ifndef LATERO_GRAPHICS_PLANAR_MASK_WIDGET
 #define LATERO_GRAPHICS_PLANAR_MASK_WIDGET
 
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "maskfwd.h"
 #include "generatorfwd.h"
 #include <latero/tactograph.h>

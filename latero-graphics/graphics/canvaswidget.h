@@ -23,7 +23,7 @@
 #define LATERO_GRAPHICS_CANVAS_WIDGET_H
 
 #include "canvasfwd.h"
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 
 namespace latero {
 namespace graphics { 

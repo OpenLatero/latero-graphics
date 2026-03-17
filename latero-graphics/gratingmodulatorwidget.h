@@ -22,9 +22,7 @@
 #ifndef LATERO_GRAPHICS_GRATING_MODULATOR_WIDGET
 #define LATERO_GRAPHICS_GRATING_MODULATOR_WIDGET
 
-#include <gtkmm/box.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/checkbutton.h>
+#include <gtkmm.h>
 #include "gratingmodulatorfwd.h"
 
 namespace latero {

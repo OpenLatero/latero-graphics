@@ -22,7 +22,6 @@
 #include <filesystem>
 #include <iostream>
 #include <sys/stat.h>
-#include <gtkmm/frame.h>
 #include "generator.h"
 #include "graphics/canvas.h"
 

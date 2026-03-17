@@ -23,7 +23,7 @@
 #define LATERO_GRAPHICS_PLANAR_LINE_WIDGET
 
 #include "linefwd.h"
-#include <gtkmm/notebook.h>
+#include <gtkmm.h>
 
 namespace latero {
 namespace graphics { 

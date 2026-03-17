@@ -23,9 +23,7 @@
 #define LATERO_GRAPHICS_PLANAR_TEXTURE_SELECTOR_WIDGET
 
 #include "texturecombo.h"
-#include <gtkmm/box.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/expander.h>
+#include <gtkmm.h>
 #include "../../pointwidget.h"
 
 namespace latero {

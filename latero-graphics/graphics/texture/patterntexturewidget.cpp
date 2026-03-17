@@ -20,9 +20,6 @@
 // -----------------------------------------------------------
 
 #include "patterntexturewidget.h"
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/box.h>
 #include "patterntexture.h"
 #include "texturewidget.h"
 #include "../../gtk/numwidget.h"

@@ -20,7 +20,7 @@
 // -----------------------------------------------------------
 
 #include "axialgratingtexturewidget.h"
-#include <gtkmm/table.h>
+#include <gtkmm.h>
 #include "axialgratingtexture.h"
 #include "../../gtk/numwidget.h"
 

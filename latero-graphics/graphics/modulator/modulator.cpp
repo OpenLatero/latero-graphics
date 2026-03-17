@@ -22,7 +22,6 @@
 #include "modulator.h"
 #include "dirmodulator.h"
 #include "velmodulator.h"
-#include <gtkmm/box.h>
 
 namespace latero {
 namespace graphics { 

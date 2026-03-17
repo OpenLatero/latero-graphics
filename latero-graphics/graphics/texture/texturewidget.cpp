@@ -21,13 +21,10 @@
 
 #include <filesystem>
 #include "texturewidget.h"
-#include <gtkmm/filechooserdialog.h>
-#include <gtkmm/stock.h>
 #include "texture.h"
 #include "../../graphics/patternpreview.h"
 #include "../../gtk/numwidget.h"
 #include "texture.h"
-#include <gtkmm/checkbutton.h>
 
 namespace latero {
 namespace graphics { 

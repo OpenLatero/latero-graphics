@@ -20,9 +20,6 @@
 // -----------------------------------------------------------
 
 #include "vibrotexturewidget.h"
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/box.h>
 #include "vibrotexture.h"
 #include "texturewidget.h"
 #include "../../gtk/numwidget.h"

@@ -20,9 +20,7 @@
 // -----------------------------------------------------------
 
 #include "radialgratingtexturewidget.h"
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/table.h>
+#include <gtkmm.h>
 #include "radialgratingtexture.h"
 
 namespace latero {

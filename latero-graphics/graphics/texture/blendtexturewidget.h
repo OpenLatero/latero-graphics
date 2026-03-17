@@ -24,7 +24,7 @@
 
 #include "blendtexturefwd.h"
 #include "textureselectorwidget.h"
-#include <gtkmm/notebook.h>
+#include <gtkmm.h>
 #include "../modulator/modulatorcombo.h"
 
 namespace latero {

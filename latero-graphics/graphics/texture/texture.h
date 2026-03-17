@@ -28,7 +28,7 @@
 #include "../../xml.h"
 #include "../../oscillator.h"
 #include <cairomm/context.h>
-#include <gtkmm/widget.h>
+#include <gtkmm.h>
 #include "../../state.h"
 #include "../pattern.h"
 

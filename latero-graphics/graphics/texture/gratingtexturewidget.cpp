@@ -22,7 +22,6 @@
 #include "gratingtexturewidget.h"
 #include "gratingtexture.h"
 #include "../../gtk/numwidget.h"
-#include <gtkmm/notebook.h>
 
 namespace latero {
 namespace graphics { 

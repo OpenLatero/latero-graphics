@@ -21,7 +21,6 @@
 
 #include "ridgewidget.h"
 #include <iostream>
-#include <gtkmm/expander.h>
 #include "gtk/numwidget.h"
 #include "ridge.h"
 

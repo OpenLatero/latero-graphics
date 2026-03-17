@@ -23,7 +23,7 @@
 #define LATERO_GRAPHICS_PLANAR_CIRCLE_WIDGET
 
 #include "circlefwd.h"
-#include <gtkmm/notebook.h>
+#include <gtkmm.h>
 
 namespace latero {
 namespace graphics { 

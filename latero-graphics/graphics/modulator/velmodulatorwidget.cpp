@@ -22,7 +22,6 @@
 #include "velmodulatorwidget.h"
 #include "velmodulator.h"
 #include "modulatorpreview.h"
-#include <gtkmm.h>
 #include "../../gtk/numwidget.h"
 
 namespace latero {

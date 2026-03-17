@@ -28,8 +28,7 @@
 #include <boost/filesystem/convenience.hpp>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <gtkmm/filechooserdialog.h>
-#include <gtkmm/stock.h>
+#include <gtkmm.h>
 #include "../external.h"
 #include <glibmm/main.h>
 

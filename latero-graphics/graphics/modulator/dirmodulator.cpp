@@ -21,7 +21,7 @@
 
 #include "dirmodulator.h"
 #include "dirmodulatorwidget.h"
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "../../units.h"
 
 namespace latero {

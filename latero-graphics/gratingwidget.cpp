@@ -21,8 +21,6 @@
 
 #include "gratingwidget.h"
 #include "grating.h"
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/table.h>
 #include "gtk/numwidget.h"
 #include <iostream>
 

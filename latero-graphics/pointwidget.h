@@ -22,8 +22,7 @@
 #ifndef LATERO_GRAPHICS_POINT_WIDGET
 #define LATERO_GRAPHICS_POINT_WIDGET
 
-#include <gtkmm/adjustment.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "point.h"
 
 namespace latero {

@@ -23,15 +23,6 @@
 #include "maskwidget.h"
 #include "mask.h"
 #include "generator.h"
-#include <gtkmm/filechooserdialog.h>
-#include <gtkmm/stock.h>
-#include <gtkmm/table.h>
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/checkbutton.h>
-#include <gtkmm/radiobutton.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/entry.h>
-#include <gtkmm/adjustment.h>
 #include "gtk/numwidget.h"
 #include "pointwidget.h"
 #include "virtualsurfacewidget.h"

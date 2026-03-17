@@ -25,9 +25,7 @@
 #include "strokemotionwidget.h"
 
 #include "strokefwd.h"
-#include <gtkmm/box.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/checkbutton.h>
+#include <gtkmm.h>
 
 
 namespace latero {

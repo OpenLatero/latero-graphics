@@ -23,7 +23,7 @@
 #define LATERO_GRAPHICS_PLANAR_POLYGON_WIDGET
 
 #include "polygonfwd.h"
-#include <gtkmm/notebook.h>
+#include <gtkmm.h>
 
 namespace latero {
 namespace graphics { 

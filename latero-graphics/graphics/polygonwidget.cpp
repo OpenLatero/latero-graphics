@@ -24,7 +24,6 @@
 #include "polygon.h"
 #include "strokewidget.h"
 #include "../pointwidget.h"
-#include <gtkmm/frame.h>
 #include "../gtk/numwidget.h"
 #include "../gtk/checkframe.h"
 #include "../oscillatorwidget.h"

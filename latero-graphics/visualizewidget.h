@@ -22,14 +22,7 @@
 #ifndef LATERO_GRAPHICS_VISUALIZE_WIDGET_H
 #define LATERO_GRAPHICS_VISUALIZE_WIDGET_H
 
-#include <gtkmm/dialog.h>
-#include <gtkmm/uimanager.h>
-#include <gtkmm/eventbox.h>
-#include <gtkmm/comboboxtext.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/radiobutton.h>
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/image.h>
+#include <gtkmm.h>
 #include "positiongenfwd.h"
 #include "gtk/animation.h"
 #include "units.h"

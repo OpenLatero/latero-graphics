@@ -22,7 +22,6 @@
 #include "oscillatorwidget.h"
 #include "oscillator.h"
 #include "gtk/numwidget.h"
-#include <gtkmm/checkbutton.h>
 
 namespace latero {
 namespace graphics { 

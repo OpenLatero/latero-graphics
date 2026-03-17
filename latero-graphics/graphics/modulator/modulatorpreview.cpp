@@ -22,10 +22,6 @@
 #include <filesystem>
 #include "modulatorpreview.h"
 #include "modulator.h"
-#include <gtkmm/filechooserdialog.h>
-#include <gtkmm/stock.h>
-#include <gtkmm/menu.h>
-#include <gtkmm/builder.h>
 #include <glibmm/main.h>
 #include <giomm/simpleactiongroup.h>
 

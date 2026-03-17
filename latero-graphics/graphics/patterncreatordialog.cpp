@@ -29,7 +29,6 @@
 #include "image.h"
 #include "texture/texture.h"
 #include "dots.h"
-#include <gtkmm/filechooserdialog.h>
 
 namespace latero {
 namespace graphics { 

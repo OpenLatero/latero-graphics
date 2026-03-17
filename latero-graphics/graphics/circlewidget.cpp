@@ -25,8 +25,6 @@
 #include "circle.h"
 #include "../gtk/numwidget.h"
 #include "strokewidget.h"
-#include <gtkmm/frame.h>
-#include <gtkmm/box.h>
 #include "../pointwidget.h"
 #include "patternpreview.h"
 

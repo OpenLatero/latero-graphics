@@ -22,7 +22,6 @@
 #include "motiontexturewidget.h"
 #include "motiontexture.h"
 #include "../../gtk/numwidget.h"
-#include <gtkmm.h>
 #include "../../pointwidget.h"
 #include "../../graphics/patternpreview.h"
 

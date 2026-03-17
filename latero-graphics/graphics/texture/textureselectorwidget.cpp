@@ -21,11 +21,9 @@
 
 #include <filesystem>
 #include "textureselectorwidget.h"
-#include <gtkmm/stock.h>
 #include "texture.h"
 #include "../../graphics/patternpreview.h"
 #include "../../gtk/numwidget.h"
-#include <gtkmm/filechooserdialog.h>
 
 namespace latero {
 namespace graphics { 

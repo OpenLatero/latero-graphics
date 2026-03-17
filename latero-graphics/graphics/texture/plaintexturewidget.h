@@ -22,7 +22,7 @@
 #ifndef LATERO_GRAPHICS_PLANAR_PLAIN_TEXTURE_WIDGET
 #define LATERO_GRAPHICS_PLANAR_PLAIN_TEXTURE_WIDGET
 
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "plaintexturefwd.h"
 
 namespace latero {

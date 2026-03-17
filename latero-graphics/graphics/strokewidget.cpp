@@ -26,10 +26,8 @@
 #include "../ridgewidget.h"
 #include "texture/vibrotexturewidget.h"
 #include "../oscillatorwidget.h"
-#include <gtkmm.h>
 #include "../grating.h"
 #include "dotpatternwidget.h"
-#include <gtkmm/checkbutton.h>
 
 namespace latero {
 namespace graphics { 
