@@ -34,19 +34,19 @@ class PlotSaveDlg : public Gtk::FileChooserDialog
 {
 public:
 	PlotSaveDlg() :
-		Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE),
+		Gtk::FileChooserDialog("Please select file name.", Gtk::FileChooser::Action::SAVE),
 		wAdj_(Gtk::Adjustment::create(1000, 0, 1000)), hAdj_(Gtk::Adjustment::create(500, 0, 1000))
 	{
-		std::string dir = std::filesystem::current_path().string();
-		set_current_folder(dir);
-		add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		add_button("Save", Gtk::RESPONSE_OK);
-		set_default_response(Gtk::RESPONSE_CANCEL);
+		// GTKMM4
+		set_current_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+		add_button("Cancel", Gtk::ResponseType::CANCEL);
+		add_button("Save", Gtk::ResponseType::OK);
+		set_default_response(Gtk::ResponseType::CANCEL);
 		set_current_name("plot.svg");
-	
+
 		// TODO...
-		get_content_area()->pack_start(*Gtk::manage(new Gtk::SpinButton(wAdj_)));
-		get_content_area()->pack_start(*Gtk::manage(new Gtk::SpinButton(hAdj_)));
+		get_content_area()->append(*Gtk::manage(new Gtk::SpinButton(wAdj_)));
+		get_content_area()->append(*Gtk::manage(new Gtk::SpinButton(hAdj_)));
 	}
 
 	uint GetWidth() { return wAdj_->get_value(); }
