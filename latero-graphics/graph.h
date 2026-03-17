@@ -23,14 +23,14 @@
 #define LATERO_GRAPHICS_PLANAR_GRAPH_H
 
 #include "gtk/plot.h"
-#include <gtkmm/box.h>
-#include <gtkmm/eventbox.h>
+#include <gtkmm.h>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
 namespace latero {
 namespace graphics { 
 
-class Graph : public Gtk::EventBox
+// GTKMM4: Gtk::EventBox doesn't exist anymore. Deriving from Gtk::Box instead.
+class Graph : public Gtk::Box
 {
 public:
 	Graph(uint nbPoints=1000, const char *fgColor = "blue", const char *bgColor = "white");

@@ -31,7 +31,7 @@ Graph::Graph(uint nbPoints, const char *fgColor, const char *bgColor) :
 	nbPoints_(nbPoints),
 	plot_(fgColor, bgColor)
 {	
-	add(plot_);
+	append(plot_);
 }
 
 Graph::~Graph()
