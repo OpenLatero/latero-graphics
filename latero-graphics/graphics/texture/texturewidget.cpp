@@ -222,7 +222,7 @@ TextureWidget::TextureWidget(TexturePtr peer) :
 	peer_(peer)
 {
 	printf("TextureWidget::TextureWidget\n");
-	set_shadow_type(Gtk::SHADOW_NONE);
+
 }
 
 TextureWidget::~TextureWidget()

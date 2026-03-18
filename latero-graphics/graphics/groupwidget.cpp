@@ -517,7 +517,7 @@ public:
 				opWidgetHolder_.add(*box);
 
 				ModulatorCombo *modCombo = Gtk::manage(new ModulatorCombo(mod));
-				modWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
+	
 				box->append(*modCombo);
 				box->append(modWidgetHolder_);
 				modWidgetHolder_->set_hexpand();
@@ -618,7 +618,7 @@ GroupWidget::GroupWidget(GroupPtr peer) :
 	scrolledTreeView->set_child(treeView_);
     append(*scrolledTreeView);
     
-    objWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
+
     append(objWidgetHolder_);
 	objWidgetHolder_->set_hexpand();
 

@@ -101,7 +101,7 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 
 	if (name=="")
 	{
-		set_shadow_type(Gtk::SHADOW_NONE);
+
 	}
 	else
 	{

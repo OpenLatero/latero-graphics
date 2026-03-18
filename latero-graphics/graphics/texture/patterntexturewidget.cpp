@@ -67,7 +67,6 @@ protected:
 PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
-	patternHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 	PatternPtr pattern = peer->GetPattern();
 	auto loadButton = Gtk::manage(new Gtk::Button());
 	loadButton->set_icon_name("document-open");
@@ -133,7 +132,6 @@ void PatternTextureWidget::OnLoad()
 PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
-	patternHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 	PatternPtr pattern = peer->GetPattern();
 
 	auto gridWidthCtrl = Gtk::manage(new PatternTextureGridWidthCtrl(peer));

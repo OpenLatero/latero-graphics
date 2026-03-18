@@ -31,8 +31,6 @@ BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 	peer_(peer),
 	modCombo_(peer->GetModulator())
 {
-	modWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
-
 	txWidgets_[0] = Gtk::manage(new TextureSelectorWidget(peer->GetFirstTexture()));
 	txWidgets_[1] = Gtk::manage(new TextureSelectorWidget(peer->GetSecondTexture()));
 	ModulatorPtr mod = peer->GetModulator();

@@ -118,8 +118,6 @@ protected:
 
 StrokeMotionWidget::StrokeMotionWidget(StrokePtr peer) : Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer)
 {
-	holder_.set_shadow_type(Gtk::SHADOW_NONE);
-
 	velWidget_ = Gtk::manage(new StrokeMotionVelCtrl(peer));
 	StrokeMotionCueCombo *wCue = Gtk::manage(new StrokeMotionCueCombo(peer));
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));

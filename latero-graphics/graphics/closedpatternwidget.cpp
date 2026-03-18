@@ -65,8 +65,6 @@ protected:
 ClosedPatternFillTextureWidget::ClosedPatternFillTextureWidget(ClosedPatternPtr peer) :
 	gtk::CheckFrame(peer->GetFillTextureEnable()), txWidget_(peer->GetFillTexture()), peer_(peer)
 {
-	set_shadow_type(Gtk::SHADOW_NONE);
-
 	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	auto gapCtrl = Gtk::manage(new ClosedPatternFillTextureGapCtrl(peer));
 	auto edgeSizeCtrl = Gtk::manage(new ClosedPatternFillTextureEdgeSizeCtrl(peer));
