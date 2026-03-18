@@ -53,7 +53,7 @@ public:
 	GratingModulatorFactorWidget(GratingModulatorPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetFactor(),0.1,10)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget(adj_, 1)));
+		append(*Gtk::manage(new gtk::HNumWidget(adj_, 1)));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorFactorWidget::OnChanged));
 	}
@@ -70,7 +70,7 @@ public:
 	GratingModulatorLengthWidget(GratingModulatorPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetLength(),1,300)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
+		append(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorLengthWidget::OnChanged));
 	}
@@ -87,7 +87,7 @@ public:
 	GratingModulatorPosWidget(GratingModulatorPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetPosition(),0,360)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
+		append(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorPosWidget::OnChanged));
 	}
@@ -105,20 +105,20 @@ GratingModulatorCtrl::GratingModulatorCtrl(GratingModulatorPtr peer) :
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	
 	auto modeCombo = Gtk::manage(new GratingModulatorModeCombo(peer));
-	auto factorWidget = Gtk::manage(new GratingModulatorFactorWidget(peer);
+	auto factorWidget = Gtk::manage(new GratingModulatorFactorWidget(peer));
 	auto posWidget = Gtk::manage(new GratingModulatorPosWidget(peer));
 	auto lengthWidget = Gtk::manage(new GratingModulatorLengthWidget(peer));
 
-	widgetbox_->set_hexpand();
+	widgetbox_.set_hexpand();
 	factorWidget->set_hexpand();
 	posWidget->set_hexpand();
 	lengthWidget->set_hexpand();
 
-	add(*box);
+	set_child(*box);
 	box->append(check_);
 	box->append(widgetbox_);
 	widgetbox_.append(*modeCombo);
-	widgetbox_.append(*factorWidget));
+	widgetbox_.append(*factorWidget);
 	widgetbox_.append(*posWidget);
 	widgetbox_.append(*lengthWidget);
 
