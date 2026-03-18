@@ -80,7 +80,7 @@ void ImageCombo::OnComboChanged()
 	}
 }
 
-sigc::signal<void,int> ImageCombo::SignalChanged()
+sigc::signal<void(int)> ImageCombo::SignalChanged()
 {
 	return signalChanged_;
 };

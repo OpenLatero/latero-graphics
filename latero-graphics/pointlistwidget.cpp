@@ -32,10 +32,10 @@ public:
 		signal_clicked().connect(sigc::mem_fun(*this, &NumButton::OnClicked));
 	}
 	virtual ~NumButton() {};
-	sigc::signal<void,int> SignalClicked() { return signalClicked_; };
+	sigc::signal<void(int)> SignalClicked() { return signalClicked_; };
 protected:
 	void OnClicked() { signalClicked_(id_); }
-	sigc::signal<void,int> signalClicked_;
+	sigc::signal<void(int)> signalClicked_;
 	int id_;
 };
 
