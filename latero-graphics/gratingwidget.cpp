@@ -212,8 +212,8 @@ void GratingCenterWidget::OnChanged()
 GratingInterpWidget::GratingInterpWidget(GratingPtr peer) : 
 	Gtk::Frame("interpolation"), linearRadio_("linear"), arcRadio_("arc"), peer_(peer)
 {
-	Gtk::RadioButton::Group group = linearRadio_.get_group();
-	arcRadio_.set_group(group);
+	// GTKMM4
+	linearRadio_.set_group(arcRadio_);
 
 	Grating::InterpMode mode = peer_->GetInterp();
 	if (mode == Grating::interp_linear)

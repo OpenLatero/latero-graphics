@@ -74,8 +74,8 @@ public:
 	{
 		auto pTimeBox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 
-		Gtk::RadioButton::Group group = currentRadio_.get_group();
-		timeRadio_.set_group(group);
+		//GTKMM4
+		currentRadio_.set_group(timeRadio_);
 		timeRadio_.set_active();
 	
 		pTimeBox->append(timeRadio_);
@@ -103,7 +103,7 @@ public:
 			return timeCtrl_.GetTime();
 	}
 
-	Gtk::RadioButton currentRadio_, timeRadio_;
+	Gtk::CheckButton currentRadio_, timeRadio_;
 	TimeWidget timeCtrl_;
 };
 

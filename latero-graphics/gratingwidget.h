@@ -170,7 +170,7 @@ public:
 	virtual ~GratingInterpWidget() {}
 protected:
 	void OnChanged();
-	Gtk::RadioButton linearRadio_, arcRadio_;
+	Gtk::CheckButton linearRadio_, arcRadio_;
 	GratingPtr peer_;
 };
 

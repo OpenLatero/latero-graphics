@@ -289,8 +289,8 @@ public:
 				-peer->GetSurfaceSize().x*2, peer->GetSurfaceSize().x*2,
 				-peer->GetSurfaceSize().y*2, peer->GetSurfaceSize().y*2)
 	{
-		Gtk::RadioButton::Group group = centeredRadio_.get_group();
-		freeRadio_.set_group(group);
+		centeredRadio_.set_group(freeRadio_);
+
 		centeredRadio_.signal_toggled().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnModeChanged));
 		
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
@@ -331,7 +331,7 @@ protected:
 		SynchFromPeer();
 	}
     
-	Gtk::RadioButton centeredRadio_, freeRadio_;
+	Gtk::CheckButton centeredRadio_, freeRadio_;
 	PointWidget posWidget_;
 };
 
