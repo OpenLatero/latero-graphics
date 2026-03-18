@@ -85,12 +85,12 @@ TexturePtr CreateTextureDlg::CreateTexture()
 }
 
 
-TextureTDCentricCheck::TextureTDCentricCheck(TexturePtr peer) : 
+TextureTDCentricCheck::TextureTDCentricCheck(TexturePtr peer) :
 	Gtk::CheckButton("motion independent"), peer_(peer)
 {
 	set_active(peer->GetTDCentric());
+	signal_toggled().connect([this]{ peer_->SetTDCentric(get_active()); });
 }
-void TextureTDCentricCheck::on_clicked() { peer_->SetTDCentric(!get_active()); Gtk::CheckButton::on_clicked(); };
 
 
 TextureTDCentricCtrl::TextureTDCentricCtrl(TexturePtr peer) : 

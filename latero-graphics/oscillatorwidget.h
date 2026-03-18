@@ -35,7 +35,6 @@ public:
 	OscillatorEnableCheck(OscillatorPtr peer);
 	virtual ~OscillatorEnableCheck() {};
 protected:
-	virtual void on_clicked();
 	OscillatorPtr peer_;
 };
 

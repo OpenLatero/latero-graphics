@@ -48,8 +48,8 @@ OscillatorEnableCheck::OscillatorEnableCheck(OscillatorPtr peer) :
 	Gtk::CheckButton("vibrate"), peer_(peer)
 {
 	set_active(peer->GetEnable());
+	signal_toggled().connect([this]{ peer_->SetEnable(get_active()); });
 }
-void OscillatorEnableCheck::on_clicked() { peer_->SetEnable(!get_active()); Gtk::CheckButton::on_clicked(); };
 
 
 OscillatorAmplitudeCtrl::OscillatorAmplitudeCtrl(OscillatorPtr peer) :

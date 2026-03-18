@@ -117,7 +117,7 @@ public:
  		frame_(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
 		surface_(dev)
 	{
-		set_child(frame_);
+		append(frame_);
 		frame_.set_child(surface_);
 	}
 

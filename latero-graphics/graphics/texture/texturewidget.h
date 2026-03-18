@@ -51,7 +51,6 @@ public:
 	TextureTDCentricCheck(TexturePtr peer);
 	virtual ~TextureTDCentricCheck() {};
 protected:
-	virtual void on_clicked();
 	TexturePtr peer_;
 };
 
