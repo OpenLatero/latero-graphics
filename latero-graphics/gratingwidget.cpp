@@ -223,15 +223,15 @@ GratingInterpWidget::GratingInterpWidget(GratingPtr peer) :
 	
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 
-	linearRadio_->set_hexpand();
-	arcRadio_->set_hexpand();
+	linearRadio_.set_hexpand();
+	arcRadio_.set_hexpand();
 
 	set_child(*box);
 	box->append(linearRadio_);
 	box->append(arcRadio_);
-	linearRadio_.signal_clicked().connect(
+	linearRadio_.signal_toggled().connect(
 		sigc::mem_fun(*this, &GratingInterpWidget::OnChanged));
-	//arcRadio_.signal_clicked().connect(
+	//arcRadio_.signal_toggled().connect(
 	//	sigc::mem_fun(*this, &GratingInterpWidget::OnChanged));
 }
 
@@ -250,10 +250,10 @@ GratingCycleWidget::GratingCycleWidget(GratingPtr peer) :
 {
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 
-	interpWidget_->set_vexpand();
-	centerWidget_->set_vexpand();
+	interpWidget_.set_vexpand();
+	centerWidget_.set_vexpand();
 	box->set_hexpand();
-	graph_->set_hexpand();
+	graph_.set_hexpand();
 
 	box->append(interpWidget_);
 	box->append(centerWidget_);
@@ -346,7 +346,7 @@ GratingWidget::GratingWidget(GratingPtr peer) :
 	grid->attach(*Gtk::manage(new GratingVelocityWidget(peer)), 0, 1, 2, 1);
 	grid->attach(*Gtk::manage(new GratingAdvancedButton(peer)), 0, 2, 1, 1);
 	grid->attach(*Gtk::manage(new GratingInvertCtrl(peer)), 1, 2, 1, 1);
-	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &GratingWidget::OnEnable));
+	GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &GratingWidget::OnEnable));
 };
 void GratingWidget::OnEnable() { peer_->SetEnable(GetCheck().get_active()); }
 

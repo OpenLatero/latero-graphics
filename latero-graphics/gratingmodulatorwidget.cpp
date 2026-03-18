@@ -39,9 +39,9 @@ public:
 		signal_changed().connect(sigc::mem_fun(*this, &GratingModulatorModeCombo::OnChange));
 	}
 	virtual ~GratingModulatorModeCombo() {};
-	sigc::signal<void> SignalChanged() { return signalChanged_; };
+	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 private:
-	sigc::signal<void> signalChanged_;
+	sigc::signal<void()> signalChanged_;
 	void OnChange()  { peer_->SetMode(get_active_text()); signalChanged_(); };
 	GratingModulatorPtr peer_;
 };

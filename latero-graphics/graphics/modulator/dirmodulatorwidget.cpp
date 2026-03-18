@@ -53,9 +53,9 @@ public:
 		combo_.signal_changed().connect(sigc::mem_fun(*this, &LowVelModeCombo::OnChange));
 	}
 	virtual ~LowVelModeCombo() {};
-	sigc::signal<void> SignalChanged() { return signalChanged_; };
+	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 private:
-	sigc::signal<void> signalChanged_;
+	sigc::signal<void()> signalChanged_;
 	void OnChange() { peer_->SetLowVelModeLabel(combo_.get_active_text()); signalChanged_(); }
 	Gtk::ComboBoxText combo_;
 };
