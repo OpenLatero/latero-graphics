@@ -79,7 +79,7 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 		add_controller(drag);
 	}
     
-    signal_draw().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
+    set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
 }
 
 void VirtualSurfaceArea::OnClick(int n_press, double x, double y)
@@ -147,26 +147,20 @@ void VirtualSurfaceArea::on_size_allocate(Gtk::Allocation& allocation)
 	// We could keep a second resized copy, but that would require a lot of memory.
 }
 
-bool VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr)
+void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
 	if (rounded_)
 	{
 		DrawBorderPath(cr);
-    	cr->clip();	
+    	cr->clip();
     }
 
     if (!anim_.GetNbFrames())
     {
     	cr->set_source_rgb(1.0, 1.0, 1.0);
     	cr->paint();
-        return true;
+        return;
     }
-
-    //cr->save();
-    //cr->set_source_rgb(1.0, 0.0, 0.0);
-    //cr->paint();
-    //cr->restore();
-    //return true;
 
     Glib::RefPtr<Gdk::Pixbuf> buf = anim_.GetCurrentFrame();
     if (buf)
@@ -179,9 +173,6 @@ bool VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr)
 
     if (showCursor_)    DrawCursor(cr);
     if (showBorder_)    DrawBorder(cr);
-
-    return true;
-
 }
 
 
