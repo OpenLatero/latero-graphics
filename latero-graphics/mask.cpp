@@ -262,7 +262,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetIllustration(uint w, uint h)
 	rv->fill(0xffffffff);
 	Cairo::RefPtr<Cairo::ImageSurface> rvSurface = Cairo::ImageSurface::create(
     		(unsigned char*)rv->get_pixels(),
-    		Cairo::FORMAT_ARGB32, rv->get_width(), rv->get_height(), rv->get_rowstride());
+    		Cairo::Surface::Format::ARGB32, rv->get_width(), rv->get_height(), rv->get_rowstride());
 	Cairo::RefPtr<Cairo::Context> rvContext = Cairo::Context::create(rvSurface);
 
 	//
@@ -272,7 +272,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetIllustration(uint w, uint h)
 	if (!alpha) return rv;
 	Cairo::RefPtr<Cairo::ImageSurface> alphaSurface = Cairo::ImageSurface::create(
     		(unsigned char*)alpha->get_pixels(),
-    		Cairo::FORMAT_ARGB32, alpha->get_width(), alpha->get_height(), alpha->get_rowstride());
+    		Cairo::Surface::Format::ARGB32, alpha->get_width(), alpha->get_height(), alpha->get_rowstride());
 
 
 	rvContext->set_source_rgb(0,0,0);

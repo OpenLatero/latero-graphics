@@ -69,7 +69,7 @@ latero::graphics::gtk::Animation Canvas::GetIllustration(uint w, boost::posix_ti
 	uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
 	Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create(
-		(unsigned char*)img->get_pixels(), Cairo::FORMAT_ARGB32,
+		(unsigned char*)img->get_pixels(), Cairo::Surface::Format::ARGB32,
 		img->get_width(), img->get_height(), img->get_rowstride());
 	Cairo::RefPtr<Cairo::Context> cr = Cairo::Context::create(surface);
 

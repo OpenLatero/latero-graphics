@@ -215,7 +215,7 @@ void Plot::SaveToFile(std::string filename, uint w, uint h)
 	}
 	else if (ext == "png")
 	{
-		Cairo::RefPtr<Cairo::Surface> surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, w, h);
+		Cairo::RefPtr<Cairo::Surface> surface = Cairo::ImageSurface::create(Cairo::Surface::Format::ARGB32, w, h);
 		Cairo::RefPtr<Cairo::Context> cr = Cairo::Context::create(surface);
 		Draw(cr,w,h,true);
 		surface->write_to_png(filename);

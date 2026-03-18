@@ -104,7 +104,7 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, boost::posix_time::t
 		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 		Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create(
 			(unsigned char*)img->get_pixels(),
-			Cairo::FORMAT_ARGB32,
+			Cairo::Surface::Format::ARGB32,
 			img->get_width(), img->get_height(), img->get_rowstride());
 		Cairo::RefPtr<Cairo::Context> cr = Cairo::Context::create(surface);
 		cr->scale(w/Dev()->GetSurfaceWidth(), h/Dev()->GetSurfaceHeight()); // scale to mm

@@ -31,9 +31,9 @@ Cairo::RefPtr<Cairo::Pattern> PatternOps::Add(Cairo::RefPtr<Cairo::Context> cr, 
 	cr->set_source(a);
 	cr->paint();
 	cr->set_source(b);
-	cr->set_operator(Cairo::OPERATOR_ADD);
+	cr->set_operator(Cairo::Context::Operator::ADD);
 	cr->paint();
-	cr->set_operator(Cairo::OPERATOR_OVER);
+	cr->set_operator(Cairo::Context::Operator::OVER);
 	return cr->pop_group();
 }
 
@@ -43,9 +43,9 @@ Cairo::RefPtr<Cairo::Pattern> PatternOps::Multiply(Cairo::RefPtr<Cairo::Context>
 	cr->set_source(a);
 	cr->paint();
 	cr->set_source(b);
-	cr->set_operator(Cairo::OPERATOR_IN);
+	cr->set_operator(Cairo::Context::Operator::IN);
 	cr->paint();
-	cr->set_operator(Cairo::OPERATOR_OVER);
+	cr->set_operator(Cairo::Context::Operator::OVER);
 	return cr->pop_group();
 }
 
@@ -70,7 +70,7 @@ Cairo::RefPtr<Cairo::Pattern> PatternOps::Max(Cairo::RefPtr<Cairo::Context> cr, 
 	uint h = 1000;
 	Glib::RefPtr<Gdk::Pixbuf> img_a = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	Cairo::RefPtr<Cairo::ImageSurface> surf_a = Cairo::ImageSurface::create(
-		(unsigned char*)img_a->get_pixels(), Cairo::FORMAT_ARGB32, w, h, img_a->get_rowstride());
+		(unsigned char*)img_a->get_pixels(), Cairo::Surface::Format::ARGB32, w, h, img_a->get_rowstride());
 	Cairo::RefPtr<Cairo::Context> cr_a = Cairo::Context::create(surf_a);
 	cr_a->scale(w/clip_x2, h/clip_y2);
 	cr_a->set_source(a);
@@ -87,9 +87,9 @@ Cairo::RefPtr<Cairo::Pattern> PatternOps::Multiply(Cairo::RefPtr<Cairo::Context>
 	cr->set_source(a);
 	cr->paint();
 	cr->set_source_rgba(0,0,0,b);
-	cr->set_operator(Cairo::OPERATOR_IN);
+	cr->set_operator(Cairo::Context::Operator::IN);
 	cr->paint();
-	cr->set_operator(Cairo::OPERATOR_OVER);
+	cr->set_operator(Cairo::Context::Operator::OVER);
 	return cr->pop_group();
 }
 
@@ -99,9 +99,9 @@ Cairo::RefPtr<Cairo::Pattern> PatternOps::Invert(Cairo::RefPtr<Cairo::Context> c
 	cr->set_source(a);
 	cr->paint();
 	cr->set_source_rgba(0,0,0,1.0);
-	cr->set_operator(Cairo::OPERATOR_OUT);
+	cr->set_operator(Cairo::Context::Operator::OUT);
 	cr->paint();
-	cr->set_operator(Cairo::OPERATOR_OVER);
+	cr->set_operator(Cairo::Context::Operator::OVER);
 	return cr->pop_group();
 }
 

@@ -200,15 +200,15 @@ Cairo::RefPtr<Cairo::Pattern> Polygon::GetDrawingPattern(Cairo::RefPtr<Cairo::Co
 		for (unsigned int i=1; i<vertex.size(); ++i)
 			cr->line_to(vertex[i].pos.x, vertex[i].pos.y);
 		cr->close_path();
-		cr->set_line_cap(Cairo::LINE_CAP_ROUND);
-		cr->set_line_join(Cairo::LINE_JOIN_ROUND);
+		cr->set_line_cap(Cairo::Context::LineCap::ROUND);
+		cr->set_line_join(Cairo::Context::LineJoin::ROUND);
 
 		cr->set_line_width(thickness+2*GetFillTextureGap());
 		//cr->set_source_rgba(0,0,0,1);
 		//cr->stroke_preserve(); // todo: doesn't seem to work anymore (Ubuntu 10.10)
 
 		cr->set_source_rgba(0,0,0,value);
-		cr->set_operator(Cairo::OPERATOR_OUT);
+		cr->set_operator(Cairo::Context::Operator::OUT);
 		cr->fill();
 
 		Cairo::RefPtr<Cairo::Pattern> fillMask = cr->pop_group();
@@ -234,8 +234,8 @@ Cairo::RefPtr<Cairo::Pattern> Polygon::GetDrawingPattern(Cairo::RefPtr<Cairo::Co
 		for (unsigned int i=1; i<vertex.size(); ++i)
 			cr->line_to(vertex[i].pos.x, vertex[i].pos.y);
 		cr->close_path();
-		cr->set_line_cap(Cairo::LINE_CAP_ROUND);
-		cr->set_line_join(Cairo::LINE_JOIN_ROUND);
+		cr->set_line_cap(Cairo::Context::LineCap::ROUND);
+		cr->set_line_join(Cairo::Context::LineJoin::ROUND);
 		cr->stroke();
 		Cairo::RefPtr<Cairo::Pattern> strokePattern = cr->pop_group();
 

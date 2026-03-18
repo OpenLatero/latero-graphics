@@ -175,7 +175,7 @@ void Image::DrawIllustration(Cairo::RefPtr<Cairo::Context> mmContext, boost::pos
 	Glib::RefPtr<Gdk::Pixbuf> alpha = mask_->GetSurfaceAlpha(2000,2000); // TODO: pick better value
 	Cairo::RefPtr<Cairo::ImageSurface> alphaSurface = Cairo::ImageSurface::create(
 		(unsigned char*)alpha->get_pixels(),
-		Cairo::FORMAT_ARGB32,
+		Cairo::Surface::Format::ARGB32,
 		alpha->get_width(),
 		alpha->get_height(),
 		alpha->get_rowstride());
