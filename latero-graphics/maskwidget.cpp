@@ -300,8 +300,8 @@ public:
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 		box->append(centeredRadio_);
 		box->append(freeRadio_);
-		box->append(fileEntry_);
-		fileEntry_->set_hexpand();
+		box->append(posWidget_);
+		posWidget_->set_hexpand();
 		set_child(*box);
 
 		posWidget_.SignalValueChanged().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnPosChanged));

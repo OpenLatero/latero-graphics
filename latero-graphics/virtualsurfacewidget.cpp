@@ -61,31 +61,39 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
     
     if (dev->IsEmulated())
 	{
-		set_events(Gdk::BUTTON_PRESS_MASK|Gdk::BUTTON_MOTION_MASK|Gdk::BUTTON_RELEASE_MASK);
-		signal_button_press_event().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnButtonPress));
-		signal_button_release_event().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnButtonRelease));
-		signal_motion_notify_event().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnMotionNotify));
+		auto drag = Gtk::GestureDrag::create();
+		drag->set_button(GDK_BUTTON_PRIMARY);
+		drag->signal_drag_begin().connect([this](double x, double y) {
+			dev_->SetEmulatedState(GetClickPos(x, y));
+		});
+		drag->signal_drag_update().connect([this, drag](double offset_x, double offset_y) {
+			double start_x, start_y;
+			if (drag->get_start_point(start_x, start_y))
+				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
+		});
+		drag->signal_drag_end().connect([this, drag](double offset_x, double offset_y) {
+			double start_x, start_y;
+			if (drag->get_start_point(start_x, start_y))
+				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
+		});
+		add_controller(drag);
 	}
     
     signal_draw().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
 }
 
-bool VirtualSurfaceArea::OnClick(GdkEventButton* event)
+void VirtualSurfaceArea::OnClick(int n_press, double x, double y)
 {
-	if (disablePopup_) return false;
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		return true;
-	}
-	else
-		return false;
+	if (!disablePopup_)
+		popupMenu_->popup_at_pointer(nullptr);
 }
 
 void VirtualSurfaceArea::CreatePopupMenu()
 {
-	set_events(Gdk::BUTTON_PRESS_MASK);
-	signal_button_press_event().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnClick));
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnClick));
+	add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
@@ -424,26 +432,6 @@ Point VirtualSurfaceArea::GetClickPos(double x, double y)
     return Point(x * dev_->GetSurfaceWidth() / GetWidth(), y * dev_->GetSurfaceHeight() / GetHeight());
 }
     
-bool VirtualSurfaceArea::OnButtonPress(GdkEventButton* event)
-{
-	std::cout << "VirtualSurfaceArea::OnButtonPress\n";
-    if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1))
-        dev_->SetEmulatedState(GetClickPos(event->x, event->y));
-    return false;
-} 
-    
-bool VirtualSurfaceArea::OnMotionNotify(GdkEventMotion *event)
-{
-    if (event->state & GDK_BUTTON1_MASK)
-        dev_->SetEmulatedState(GetClickPos(event->x, event->y));
-    return true;
-} 
-    
-bool VirtualSurfaceArea::OnButtonRelease(GdkEventButton* event)
-{
-    dev_->SetEmulatedState(GetClickPos(event->x, event->y));
-    return true;
-}
 
 VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, GeneratorPtr gen, bool refreshBackground) :
 	BaseVirtualSurfaceWidget(dev),
@@ -471,8 +459,10 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 
 void VirtualSurfaceWidget::CreatePopupMenu()
 {
-	set_events(Gdk::EventMask::BUTTON_PRESS_MASK);
-	signal_button_press_event().connect(sigc::mem_fun(*this, &VirtualSurfaceWidget::OnClick));
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &VirtualSurfaceWidget::OnClick));
+	add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
@@ -523,16 +513,10 @@ void VirtualSurfaceWidget::CreatePopupMenu()
 	popupMenu_->attach_to_widget(*this);
 }
 
-bool VirtualSurfaceWidget::OnClick(GdkEventButton* event)
+void VirtualSurfaceWidget::OnClick(int n_press, double x, double y)
 {
 	std::cout << "VirtualSurfaceWidget::OnClick\n";
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		return true;
-	}
-	else
-		return false;
+	popupMenu_->popup_at_pointer(nullptr);
 }
 
 void VirtualSurfaceWidget::OnSave()

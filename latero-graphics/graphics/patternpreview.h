@@ -39,7 +39,7 @@ public:
 protected:
 	void CreatePopupMenu();
 	void OnSave();
-	bool OnClick(GdkEventButton* event);
+	void OnClick(int n_press, double x, double y);
 	bool OnTimer();
 	void Refresh();
 

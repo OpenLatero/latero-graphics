@@ -41,8 +41,10 @@ ModulatorPreview::ModulatorPreview(ModulatorPtr peer) : peer_(peer)
 
 void ModulatorPreview::CreatePopupMenu()
 {
-	set_events(Gdk::BUTTON_PRESS_MASK);
-	signal_button_press_event().connect(sigc::mem_fun(*this, &ModulatorPreview::OnClick));
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &ModulatorPreview::OnClick));
+	add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
@@ -101,15 +103,9 @@ void ModulatorPreview::OnSave()
 }
 
 	
-bool ModulatorPreview::OnClick(GdkEventButton* event)
+void ModulatorPreview::OnClick(int n_press, double x, double y)
 {
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		return true;
-	}
-	else
-		return false;
+	popupMenu_->popup_at_pointer(nullptr);
 }
 
 bool ModulatorPreview::OnTimer()

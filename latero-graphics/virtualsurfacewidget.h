@@ -64,11 +64,8 @@ public:
 
 protected:
 	void CreatePopupMenu();
-	bool OnClick(GdkEventButton* event);
+	void OnClick(int n_press, double x, double y);
 	void OnSave();
-    bool OnButtonPress(GdkEventButton* event);
-    bool OnMotionNotify(GdkEventMotion *event);
-    bool OnButtonRelease(GdkEventButton* event);
     Point GetClickPos(double x, double y);
 
 	// invalidate the entire window
@@ -200,7 +197,7 @@ protected:
 	void OnSaveCanvas();
 	void OnSaveCanvasAs();
 	void OnVisualize();
-	bool OnClick(GdkEventButton* event);
+	void OnClick(int n_press, double x, double y);
 	void CreatePopupMenu();
 
 	std::unique_ptr<Gtk::Menu> popupMenu_;
