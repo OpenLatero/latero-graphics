@@ -84,8 +84,9 @@ void ModulatorPreview::OnSaveAs()
 	dialog.set_current_name("modulation.png");
 	if (Gtk::RESPONSE_OK == dialog.run())
 	{
-		printf("saving %s\n", dialog.get_filename().c_str());
-		peer_->GetIllustration(1000,50)->save(dialog.get_filename(),"png");
+		auto filename = dialog.get_file()->get_path(); // GTKMM4
+		printf("saving %s\n", filename.c_str());
+		peer_->GetIllustration(1000,50)->save(filename,"png");
 	}
 }
 

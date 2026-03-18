@@ -180,7 +180,7 @@ protected:
 
 		if (Gtk::RESPONSE_OK == dialog.run())		
 		{
-			std::string filename = dialog.get_filename();
+			std::string filename = dialog.get_file()->get_path(); // GTKMM4
 			fileEntry_.set_text(filename.c_str());
 			peer_->SetImage(filename,false); // TODO
 		}

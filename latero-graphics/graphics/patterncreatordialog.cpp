@@ -95,7 +95,7 @@ PatternPtr PatternCreatorDialog::CreatePattern()
 		dialog.set_current_name(file);
 		dialog.add_filter(filter);
 		if (Gtk::RESPONSE_OK == dialog.run())
-			return Pattern::Create(dev_,dialog.get_filename()); 
+			return Pattern::Create(dev_,dialog.get_file()->get_path()); // GTKMM4
 		else
 			return PatternPtr();
 	}

@@ -110,9 +110,11 @@ void PatternPreview::OnSave()
 	PatternIllustrationSaveDialog dialog;
 	if (Gtk::RESPONSE_OK == dialog.run())
 	{
-		printf("saving pattern preview to %s\n", dialog.get_filename().c_str());
-		peer_->GetVisualization(1000,boost::posix_time::seconds(0),viz_mode)->save(dialog.get_filename(),"png");
-		chmod(dialog.get_filename().c_str(), 0666); // make accessible to others than root
+		// GTKMM4
+		auto filename = dialog.get_file()->get_path();
+		printf("saving pattern preview to %s\n", filename.c_str());
+		peer_->GetVisualization(1000,boost::posix_time::seconds(0),viz_mode)->save(filename,"png");
+		chmod(filename.c_str(), 0666); // make accessible to others than root
 	}
 }
 

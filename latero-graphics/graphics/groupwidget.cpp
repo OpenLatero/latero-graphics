@@ -414,7 +414,7 @@ void GroupTreeView::OnPatternSave()
 		dialog.add_filter(filter);
 
 		if (Gtk::RESPONSE_OK == dialog.run())
-			pattern->SaveToFile(dialog.get_filename());
+			pattern->SaveToFile(dialog.get_file()->get_path()); // GTKMM4
 	}
 }
 
@@ -441,7 +441,7 @@ void GroupTreeView::OnTextureSave()
 		dialog.add_filter(filter);
 
 		if (Gtk::RESPONSE_OK == dialog.run())
-			pattern->SaveToFile(dialog.get_filename());
+			pattern->SaveToFile(dialog.get_file()->get_path()); // GTKMM4
 	}
 }
 
@@ -471,7 +471,8 @@ void GroupTreeView::OnPatternLoad()
 
 		if (Gtk::RESPONSE_OK == dialog.run())
 		{
-			PatternPtr newPattern = Pattern::Create(pattern->Dev(),dialog.get_filename()); 
+			// GTKMM4
+			PatternPtr newPattern = Pattern::Create(pattern->Dev(),dialog.get_file()->get_path()); 
 			parent->ReplacePattern(pattern,newPattern);
 			Refresh();
 			Select(newPattern);

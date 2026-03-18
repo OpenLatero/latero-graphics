@@ -192,7 +192,8 @@ void Plot::OnSaveAs()
 	PlotSaveDlg dialog;
 	if (Gtk::RESPONSE_OK == dialog.run())
 	{
-		SaveToFile(dialog.get_filename(), dialog.GetWidth(), dialog.GetHeight());
+		// GTKMM4
+		SaveToFile(dialog.get_file()->get_path(), dialog.GetWidth(), dialog.GetHeight());
 	}
 }
 

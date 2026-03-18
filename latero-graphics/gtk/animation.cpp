@@ -262,8 +262,7 @@ void Animation::SaveToFile()
 
 	if (Gtk::RESPONSE_OK == dialog.run())
 	{
-		printf("saving animation to %s\n", dialog.get_filename().c_str());
-		SaveToFile(dialog.get_filename());
+		SaveToFile(dialog.get_file()->get_path());
 	}
 }
 

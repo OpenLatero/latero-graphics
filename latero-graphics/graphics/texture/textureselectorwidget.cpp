@@ -74,7 +74,7 @@ void TextureSelectorCtrl::OnSave()
 	dialog.add_filter(filter);
 
 	if (Gtk::RESPONSE_OK == dialog.run())
-		 texture_->Save(dialog.get_filename());
+		 texture_->Save(dialog.get_file()->get_path()); // GTKMM4
 }
 
 void TextureSelectorCtrl::OnLoad()
@@ -93,7 +93,7 @@ void TextureSelectorCtrl::OnLoad()
 	dialog.add_filter(filter);
 	if (Gtk::RESPONSE_OK == dialog.run())
 	{
-		texture_ = Texture::Create(texture_->Dev(), dialog.get_filename().c_str());
+		texture_ = Texture::Create(texture_->Dev(), dialog.get_file()->get_path().c_str());// GTKMM4
 		modeCombo_.SetActive(texture_);
 		SignalTextureChanged_();
 	}

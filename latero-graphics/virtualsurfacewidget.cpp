@@ -578,7 +578,7 @@ void VirtualSurfaceWidget::OnSaveCanvasAs()
 		dialog.set_current_name("test.gen");
 		if (Gtk::RESPONSE_OK == dialog.run())		
 		{
-			std::string filename = dialog.get_filename();
+			std::string filename = dialog.get_file()->get_path(); // GTKMM4
 			peer_->SaveToFile(filename);
 		}
 	}

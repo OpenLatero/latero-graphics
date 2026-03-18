@@ -329,8 +329,8 @@ void GratingPitchWidget::OnRegularize()
 	ridgeWidget_ = Gtk::manage(new GratingRidgeSizeWidget(peer_));
 	gapWidget_ = Gtk::manage(new GratingGapSizeWidget(peer_));
 
-	ridgeWidget_->set_hexpand():
-	gapWidget_->set_hexpand():
+	ridgeWidget_->set_hexpand();
+	gapWidget_->set_hexpand();
 
 	append(*ridgeWidget_);
 	append(*gapWidget_);

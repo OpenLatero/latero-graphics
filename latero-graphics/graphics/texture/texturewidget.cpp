@@ -77,7 +77,7 @@ TexturePtr CreateTextureDlg::CreateTexture()
 		dialog.add_filter(filter);
 
 		if (Gtk::RESPONSE_OK == dialog.run())
-			return Texture::Create(dev_,dialog.get_filename()); 
+			return Texture::Create(dev_,dialog.get_file()->get_path()); // GTKMM4
 		else
 			return TexturePtr();
 	}
