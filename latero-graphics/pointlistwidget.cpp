@@ -43,8 +43,8 @@ protected:
 PointListWidget::PointListWidget(const std::vector<Point> &points) :
 	box_(Gtk::Orientation::VERTICAL), pointBox_(Gtk::Orientation::VERTICAL), insertButton_("+")
 {
-	set_policy(Gtk::POLICY_NEVER, Gtk::POLICY_AUTOMATIC);
-	set_placement(Gtk::CORNER_TOP_RIGHT);
+	set_policy(Gtk::PolicyType::NEVER, Gtk::PolicyType::AUTOMATIC);
+	set_placement(Gtk::CornerType::TOP_RIGHT);
 	add(box_);
 
 	for (unsigned int i=0; i<points.size(); ++i)

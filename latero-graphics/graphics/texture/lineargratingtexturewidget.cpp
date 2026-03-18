@@ -61,7 +61,7 @@ void LinearGratingTextureWidget::Create()
 	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->set_hexpand();
 	grid->set_vexpand();
-	grid->set_valign(Gtk::ALIGN_CENTER);
+	grid->set_valign(Gtk::Align::CENTER);
 	grid->set_column_homogeneous(true);
 		
 	auto ridgeSizeWidget = CreateRidgeSizeWidget();

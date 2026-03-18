@@ -273,7 +273,7 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 
 	widget->set_vexpand();
-	widget->set_valign(Gtk::ALIGN_FILL);
+	widget->set_valign(Gtk::Align::FILL);
 
 	if (showPanel) 
 		box->append(*Gtk::manage(CreateLeftPanel()));
