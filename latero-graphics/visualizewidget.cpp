@@ -59,16 +59,18 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 
 	auto hbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	auto dlgArea = get_content_area();
-	dlgArea->pack_start(*scrolledWindow);
+	dlgArea->append(*scrolledWindow);
+	scrolledWindow->set_vexpand();
 	auto playbackWidget = GetPlaybackWidget();
-	dlgArea->pack_start(*playbackWidget, Gtk::PACK_SHRINK);
+	dlgArea->append(*playbackWidget);
 	playbackWidget->set_margin_bottom(18);
-	dlgArea->pack_start(*hbox, Gtk::PACK_SHRINK);
+	dlgArea->append(*hbox);
 
 	auto animWidget = GetAnimWidget();
 	animWidget->set_margin_start(12);
 	animWidget->set_margin_end(12);
-	hbox->pack_start(*animWidget);
+	hbox->append(*animWidget);
+	animWidget->set_hexpand();
 
 	CreateMenu();
 	scrolledWindow->set_events(Gdk::BUTTON_PRESS_MASK);
@@ -166,12 +168,12 @@ Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 	refreshButton->set_always_show_image(true);
 	refreshButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnApply));
 
-	pBox->pack_start(*prevButton, Gtk::PACK_SHRINK);
-	pBox->pack_start(*playButton, Gtk::PACK_SHRINK);
-	pBox->pack_start(*stopButton, Gtk::PACK_SHRINK);
-	pBox->pack_start(*nextButton, Gtk::PACK_SHRINK);
+	pBox->append(*prevButton);
+	pBox->append(*playButton);
+	pBox->append(*stopButton);
+	pBox->append(*nextButton);
 	nextButton->set_margin_end(12);
-	pBox->pack_start(*refreshButton, Gtk::PACK_SHRINK);
+	pBox->append(*refreshButton);
 
 	pBox->set_halign(Gtk::ALIGN_CENTER);
 	return pBox;

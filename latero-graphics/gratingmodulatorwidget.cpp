@@ -104,13 +104,23 @@ GratingModulatorCtrl::GratingModulatorCtrl(GratingModulatorPtr peer) :
 {
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	
+	auto modeCombo = Gtk::manage(new GratingModulatorModeCombo(peer));
+	auto factorWidget = Gtk::manage(new GratingModulatorFactorWidget(peer);
+	auto posWidget = Gtk::manage(new GratingModulatorPosWidget(peer));
+	auto lengthWidget = Gtk::manage(new GratingModulatorLengthWidget(peer));
+
+	widgetbox_->set_hexpand();
+	factorWidget->set_hexpand();
+	posWidget->set_hexpand();
+	lengthWidget->set_hexpand();
+
 	add(*box);
-	box->pack_start(check_, Gtk::PACK_SHRINK);
-	box->pack_start(widgetbox_);
-	widgetbox_.pack_start(*Gtk::manage(new GratingModulatorModeCombo(peer)), Gtk::PACK_SHRINK);
-	widgetbox_.pack_start(*Gtk::manage(new GratingModulatorFactorWidget(peer)));
-	widgetbox_.pack_start(*Gtk::manage(new GratingModulatorPosWidget(peer)));
-	widgetbox_.pack_start(*Gtk::manage(new GratingModulatorLengthWidget(peer)));
+	box->append(check_);
+	box->append(widgetbox_);
+	widgetbox_.append(*modeCombo);
+	widgetbox_.append(*factorWidget));
+	widgetbox_.append(*posWidget);
+	widgetbox_.append(*lengthWidget);
 
 	check_.set_active(peer_->GetEnable());
 	widgetbox_.set_sensitive(check_.get_active());

@@ -74,11 +74,12 @@ public:
 		Gtk::Box(Gtk::Orientation::HORIZONTAL)
 	{
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-		box->pack_start(*Gtk::manage(new LineStartCtrl(peer)), Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new LineEndCtrl(peer)), Gtk::PACK_SHRINK);
+		box->append(*Gtk::manage(new LineStartCtrl(peer)));
+		box->append(*Gtk::manage(new LineEndCtrl(peer)));
 
-		pack_start(*box);
-		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		append(*box);
+		box->set_hexpand();
+		append(*Gtk::manage(new PatternPreview(peer)));
 	}
 	virtual ~LinePropertiesCtrl() {};
 };

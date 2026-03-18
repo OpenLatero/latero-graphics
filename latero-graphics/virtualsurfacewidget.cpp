@@ -558,7 +558,9 @@ void VirtualSurfaceWidget::OnEdit()
 	if (peer_)
 	{
 		Gtk::Dialog dlg;
-		dlg.get_content_area()->pack_start(*Gtk::manage(peer_->CreateWidget(peer_)));
+		auto widget = Gtk::manage(peer_->CreateWidget(peer_));
+		dlg.get_content_area()->append(*widget);
+		widget->set_vexpand();
 		dlg.show_all_children();
 		dlg.run();
 	}

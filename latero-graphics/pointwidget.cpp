@@ -32,13 +32,25 @@ PointWidget::PointWidget(const Point &init, double xlim_min, double xlim_max, do
 {
 	if (showSliders)
 	{
-		pack_start(*Gtk::manage(new latero::graphics::gtk::HNumWidget(xAdj_, 3, "mm")));
-		pack_start(*Gtk::manage(new latero::graphics::gtk::HNumWidget(yAdj_, 3, "mm")));
+		auto xWidget = Gtk::manage(new latero::graphics::gtk::HNumWidget(xAdj_, 3, "mm"));
+		auto yWidget = Gtk::manage(new latero::graphics::gtk::HNumWidget(yAdj_, 3, "mm"));
+
+		append(*xWidget);
+		append(*yWidget);
+
+		xWidget->set_hexpand();
+		yWidget->set_hexpand();
 	}
 	else
 	{
-		pack_start(*Gtk::manage(new Gtk::SpinButton(xAdj_,0,3)));
-		pack_start(*Gtk::manage(new Gtk::SpinButton(yAdj_,0,3)));
+		auto xWidget = Gtk::manage(new Gtk::SpinButton(xAdj_,0,3));
+		auto yWidget = Gtk::manage(new Gtk::SpinButton(yAdj_,0,3));
+
+\		append(*xWidget);
+		append(*yWidget);
+
+		xWidget->set_hexpand();
+		yWidget->set_hexpand();		
 	}
 
 	xAdj_->signal_value_changed().connect(signalValueChanged_);

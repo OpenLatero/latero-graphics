@@ -94,9 +94,10 @@ public:
 		box_(Gtk::Orientation::HORIZONTAL), Gtk::Frame("join"), combo_(peer), offsetCtrl_(peer), comboFrame_("type"), peer_(peer)
 	{
 		add(box_);
-		box_.pack_start(comboFrame_, Gtk::PACK_SHRINK);
+		box_.append(comboFrame_);
 		comboFrame_.add(combo_);
-		box_.pack_start(offsetCtrl_);
+		offsetCtrl_.set_hexpand();
+		box_.append(offsetCtrl_);
 		OnChange();
 		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonJoinTypeCtrl::OnChange));
 	}
@@ -184,8 +185,9 @@ public:
 	{
 		angleCtrl_.set_sensitive(peer->GetCornerSpan()==Polygon::corner_span_user );
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-		box->pack_start(combo_, Gtk::PACK_SHRINK);
-		box->pack_start(angleCtrl_);
+		box->append(combo_);
+		angleCtrl_.set_hexpand();
+		box->append(angleCtrl_);
 		add(*box);
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnChanged));
 		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnComboChanged));
@@ -224,18 +226,32 @@ public:
 		upperbox_(Gtk::Orientation::HORIZONTAL), lowerbox_(Gtk::Orientation::HORIZONTAL), mainbox_(Gtk::Orientation::VERTICAL), gtk::CheckFrame(peer->GetCornerEnable(), "corner marker", true), 
 		angleCtrl_(peer), typeCombo_(peer), vibWidget_(peer->GetCornerOscillator()), peer_(peer)
 	{
-		
 		vibWidget_.set_sensitive(peer_->GetCornerType()==Polygon::corner_type_solid);
 
-		GetBox().pack_start(mainbox_);
-		mainbox_.pack_start(upperbox_);
-		mainbox_.pack_start(lowerbox_);
-		upperbox_.pack_start(angleCtrl_);
-		upperbox_.pack_start(*Gtk::manage(new PolygonCornerBlendCombo(peer)));
-		upperbox_.pack_start(*Gtk::manage(new PolygonCornerBlendSizeCtrl(peer)));
-		upperbox_.pack_start(*Gtk::manage(new PolygonCornerMotionCheck(peer)));
-		lowerbox_.pack_start(typeCombo_);
-		lowerbox_.pack_start(vibWidget_);
+		auto blendCombo = Gtk::manage(new PolygonCornerBlendCombo(peer));
+		auto blendSizeCtrl = Gtk::manage(new PolygonCornerBlendSizeCtrl(peer);
+		auto motionCheck = Gtk::manage(new PolygonCornerMotionCheck(peer));
+
+		mainbox_->set_hexpand();
+		upperbox_->set_vexpand():
+		lowerbox_->set_vexpand():
+		angleCtrl_->set_hexpand();
+		blendCombo->set_hexpand();
+		blendSizeCtrl->set_hexpand();
+		motionCheck->set_hexpand();
+		typeCombo_->set_hexpand();
+		vibWidget_->set_hexpand();
+
+		GetBox().append(mainbox);
+		mainbox_.append(upperbox_);
+		mainbox_.append(lowerbox_);
+		upperbox_.append(angleCtrl_);
+		upperbox_.append(*blendCombo);
+		upperbox_.append(*blendSizeCtrl));
+		upperbox_.append(*motionCheck);
+		lowerbox_.append(typeCombo_);
+		lowerbox_.append(vibWidget_);
+
 		GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnClick));
 		typeCombo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnComboChanged));
 	}
@@ -275,11 +291,12 @@ class PolygonPropertiesCtrl : public Gtk::Box
 public:
 	PolygonPropertiesCtrl(PolygonPtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), box_(Gtk::Orientation::VERTICAL)
 	{
-		pack_start(box_);
-		box_.pack_start(*Gtk::manage(new PolygonJoinTypeCtrl(peer)), Gtk::PACK_SHRINK);
-		box_.pack_start(*Gtk::manage(new PolygonCornerCtrl(peer)), Gtk::PACK_SHRINK);
-		pack_start(*Gtk::manage(new PolygonVerticesCtrl(peer)), Gtk::PACK_SHRINK);
-		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		append(box_);
+		box->set_hexpand();
+		box_.append(*Gtk::manage(new PolygonJoinTypeCtrl(peer)));
+		box_.append(*Gtk::manage(new PolygonCornerCtrl(peer)));
+		append(*Gtk::manage(new PolygonVerticesCtrl(peer)));
+		append(*Gtk::manage(new PatternPreview(peer)));
 	}
 	virtual ~PolygonPropertiesCtrl() {};
 protected:

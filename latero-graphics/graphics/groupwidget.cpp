@@ -119,7 +119,7 @@ void GroupTreeView::RebuildMenu(PatternPtr pattern)
 
         item = Gtk::make_managed<Gtk::MenuItem>("Move up");
         item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveUp));
-        menu_.append(*item);
+        menu_.append(*item,);
 
         item = Gtk::make_managed<Gtk::MenuItem>("Move down");
         item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveDown));
@@ -489,11 +489,13 @@ public:
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 		GroupOpCombo *opCombo = Gtk::manage(new GroupOpCombo(peer));
 
-		box->pack_start(*opCombo, Gtk::PACK_SHRINK);
-		box->pack_start(opWidgetHolder_);
+		box->append(*opCombo);
+		box->append(opWidgetHolder_);
+		opWidgetHolder_->set_hexpand();
 		OnOpChanged();
-		pack_start(*box);
-		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		append(*box);
+		box->set_hexpand();
+		append(*Gtk::manage(new PatternPreview(peer)));
 
 		opCombo->SignalChanged().connect(
 			sigc::mem_fun(*this, &GroupPanel::OnOpChanged));
@@ -519,8 +521,10 @@ public:
 
 				ModulatorCombo *modCombo = Gtk::manage(new ModulatorCombo(mod));
 				modWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
-				box->pack_start(*modCombo, Gtk::PACK_SHRINK);
-				box->pack_start(modWidgetHolder_);
+				box->append(*modCombo);
+				box->append(modWidgetHolder_);
+				modWidgetHolder_->set_hexpand();
+
 
 				Widget *old = modWidgetHolder_.get_child();
 				modWidgetHolder_.remove();
@@ -562,23 +566,28 @@ public:
 	ComboTexturePanel(ComboTexturePtr peer, GroupTreeView *treeView, bool showSelector) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), treeView_(treeView), txCtrl_(peer), peer_(peer)
 	{
+		auto textureAmplitudeCtrl = Gtk::manage(new TextureAmplitudeCtrl(peer));
+
+		textureAmplitudeCtrl->set_vexpand();
+
 		auto lbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-		lbox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
-		lbox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
+		lbox->append(*Gtk::manage(new TextureInvertCtrl(peer)));
+		lbox->append(*textureAmplitudeCtrl);
 
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-		box->pack_start(*Gtk::manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new OscillatorWidget(peer->GetOscillator(),true)), Gtk::PACK_SHRINK);
+		box->append(*Gtk::manage(new GroupOpCombo(peer)));
+		box->append(*Gtk::manage(new OscillatorWidget(peer->GetOscillator(),true)));
 
 		if (showSelector)
 		{
-			pack_start(txCtrl_, Gtk::PACK_SHRINK);
+			append(txCtrl_);
 			txCtrl_.SignalTextureChanged().connect(sigc::mem_fun(*this, &ComboTexturePanel::OnTextureChange));	
 		}
 
-		pack_start(*lbox, Gtk::PACK_SHRINK);
-		pack_start(*box);
-		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		append(*lbox);
+		append(*box);
+		box->set_hexpand();
+		append(*Gtk::manage(new PatternPreview(peer)));
 	}
 
 	virtual ~ComboTexturePanel() {}
@@ -606,17 +615,18 @@ GroupWidget::GroupWidget(GroupPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer), treeView_(peer), txWidget_(NULL)
 {
     // this was in a vbox above the tree view but commented out, not sure why
-    //pSideBar->pack_start(*Gtk::manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
+    //pSideBar->append(*Gtk::manage(new GroupOpCombo(peer)));
     
 	Gtk::ScrolledWindow *scrolledTreeView = Gtk::manage(new Gtk::ScrolledWindow);
     scrolledTreeView->set_size_request(200,200);
 	scrolledTreeView->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 	scrolledTreeView->set_placement(Gtk::CORNER_TOP_RIGHT);
 	scrolledTreeView->add(treeView_);
-    pack_start(*scrolledTreeView, false, false);
+    append(*scrolledTreeView);
     
     objWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
-    pack_start(objWidgetHolder_, true, true);
+    append(objWidgetHolder_);
+	objWidgetHolder_->set_hexpand();
 
 	treeView_.get_selection()->signal_changed().connect(
     		sigc::mem_fun(*this, &GroupWidget::OnSelectionChanged));

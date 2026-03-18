@@ -85,12 +85,25 @@ VelModulatorWidget::VelModulatorWidget(VelModulatorPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
 	using namespace vel_modulator_ctrls;
+
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	box->pack_start(*Gtk::manage(new LimitCtrl(peer)));
-	box->pack_start(*Gtk::manage(new TransitionCtrl(peer)));
-	box->pack_start(*Gtk::manage(new DelayCtrl(peer)));
-	pack_start(*box);
-	pack_start(*Gtk::manage(new ModulatorPreview(peer)), Gtk::PACK_SHRINK);
+	auto limitCtrl = Gtk::manage(new LimitCtrl(peer));
+	auto transitionCtrl = Gtk::manage(new TransitionCtrl(peer));
+	auto delayCtrl = Gtk::manage(new DelayCtrl(peer));
+	auto previewCtrl = Gtk::manage(new ModulatorPreview(peer));
+
+	limitCtrl->set_vexpand();
+	transitionCtrl->set_vexpand();
+	delayCtrl->set_vexpand();
+	box->set_hexpand();
+
+	box->append(*limitCtrl);
+	box->append(*transitionCtrl);
+	box->append(*delayCtrl);
+
+	append(*box);
+	append(*previewCtrl);
+
 	show_all_children();
 }
 

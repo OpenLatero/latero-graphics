@@ -97,11 +97,12 @@ MotionTextureWidget::MotionTextureWidget(MotionTexturePtr peer) :
 	using namespace MotionTextureCtrls;
 	auto motionPage = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	box->pack_start(*Gtk::manage(new CueTypeCombo(peer)), Gtk::PACK_SHRINK);
-	box->pack_start(*Gtk::manage(new DirectionCtrl(peer)), Gtk::PACK_SHRINK);
-	box->pack_start(*Gtk::manage(new VelocityCtrl(peer)), Gtk::PACK_SHRINK);
-	motionPage->pack_start(*box);
-	motionPage->pack_start(*Gtk::manage(new PatternPreview(peer->GetMotionTexture())), Gtk::PACK_SHRINK);
+	box->append(*Gtk::manage(new CueTypeCombo(peer)));
+	box->append(*Gtk::manage(new DirectionCtrl(peer)));
+	box->append(*Gtk::manage(new VelocityCtrl(peer)));
+	motionPage->append(*box);
+	box->set_hexpand();
+	motionPage->append(*Gtk::manage(new PatternPreview(peer->GetMotionTexture())));
 
 	append_page(txWidget_, "texture");
 	append_page(*motionPage, "motion cue");

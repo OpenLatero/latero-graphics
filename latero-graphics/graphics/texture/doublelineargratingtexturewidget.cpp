@@ -168,8 +168,8 @@ public:
 	{
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 		add(*box);
-		box->pack_start(*Gtk::manage(new gtk::VNumWidget(adj0_,0, units::percent)), Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new gtk::VNumWidget(adj1_,0, units::percent)), Gtk::PACK_SHRINK);
+		box->append(*Gtk::manage(new gtk::VNumWidget(adj0_,0, units::percent)));
+		box->append(*Gtk::manage(new gtk::VNumWidget(adj1_,0, units::percent)));
 		adj0_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged0));
 		adj1_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged1));
 	}
@@ -201,15 +201,15 @@ void DoubleLinearGratingTextureWidget::Create()
 	auto motionWidget = CreateMotionWidget();
 	
 	amplitudeCtrl->set_hexpand(false);
-	angleWidget->set_hexpand(true);
-	operationWidget->set_hexpand(true);
-	constraintWidget->set_hexpand(true);
-	primRidgeSizeWidget->set_hexpand(true);
-	primGapSizeWidget->set_hexpand(true);
-	secondaryScaleWidget->set_hexpand(true);
-	vibCheck->set_hexpand(true);
-	tDCentricCheck->set_hexpand(true);
-	motionWidget->set_hexpand(true);
+	angleWidget->set_hexpand();
+	operationWidget->set_hexpand();
+	constraintWidget->set_hexpand();
+	primRidgeSizeWidget->set_hexpand();
+	primGapSizeWidget->set_hexpand();
+	secondaryScaleWidget->set_hexpand();
+	vibCheck->set_hexpand();
+	tDCentricCheck->set_hexpand();
+	motionWidget->set_hexpand();
 
 	grid->attach(*amplitudeCtrl,0,0,1,3);
 	grid->attach(*angleWidget,1,0,1,1);
@@ -219,9 +219,12 @@ void DoubleLinearGratingTextureWidget::Create()
 	grid->attach(*primGapSizeWidget,2,1,1,1);
 	grid->attach(*secondaryScaleWidget,3,1,1,1);
 
+	vibCheck->set_hexpand();
+	tDCentricCheck->set_hexpand();
+
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	box->pack_start(*vibCheck);
-	box->pack_start(*tDCentricCheck);
+	box->append(*vibCheck);
+	box->append(*tDCentricCheck);
 	grid->attach(*box,1,2,1,1);
 	grid->attach(*motionWidget,2,2,2,1);
 	SetContent(grid,false);
@@ -233,8 +236,8 @@ DoubleLinearGratingTextureAdvancedWidget::DoubleLinearGratingTextureAdvancedWidg
 {
 	using namespace DoubleLinearGratingTextureWidgets;
 
-	set_hexpand(true);
-	set_vexpand(true);
+	set_hexpand();
+	set_vexpand();
 
 	auto amplitudeCtrl = Gtk::manage(new AmplitudeCtrl(peer));
 	auto angleWidget = Gtk::manage(new AngleWidget(peer));
@@ -249,27 +252,27 @@ DoubleLinearGratingTextureAdvancedWidget::DoubleLinearGratingTextureAdvancedWidg
 	auto patternPreview = Gtk::manage(new PatternPreview(peer));
 
 	amplitudeCtrl->set_hexpand(false);
-	angleWidget->set_hexpand(true);
-	operationWidget->set_hexpand(true);
-	constraintWidget->set_hexpand(true);
-	primRidgeSizeWidget->set_hexpand(true);
-	primGapSizeWidget->set_hexpand(true);
-	secondaryScaleWidget->set_hexpand(true);
-	seedCtrl->set_hexpand(true);
-	oscillatorWidget->set_hexpand(true);
-	textureMotionCtrl->set_hexpand(true);
+	angleWidget->set_hexpand();
+	operationWidget->set_hexpand();
+	constraintWidget->set_hexpand();
+	primRidgeSizeWidget->set_hexpand();
+	primGapSizeWidget->set_hexpand();
+	secondaryScaleWidget->set_hexpand();
+	seedCtrl->set_hexpand();
+	oscillatorWidget->set_hexpand();
+	textureMotionCtrl->set_hexpand();
 	patternPreview->set_hexpand(false);
 
-	amplitudeCtrl->set_vexpand(true);
-	angleWidget->set_vexpand(true);
-	operationWidget->set_vexpand(true);
-	constraintWidget->set_vexpand(true);
-	primRidgeSizeWidget->set_vexpand(true);
-	primGapSizeWidget->set_vexpand(true);
-	secondaryScaleWidget->set_vexpand(true);
-	seedCtrl->set_vexpand(true);
-	oscillatorWidget->set_vexpand(true);
-	textureMotionCtrl->set_vexpand(true);
+	amplitudeCtrl->set_vexpand();
+	angleWidget->set_vexpand();
+	operationWidget->set_vexpand();
+	constraintWidget->set_vexpand();
+	primRidgeSizeWidget->set_vexpand();
+	primGapSizeWidget->set_vexpand();
+	secondaryScaleWidget->set_vexpand();
+	seedCtrl->set_vexpand();
+	oscillatorWidget->set_vexpand();
+	textureMotionCtrl->set_vexpand();
 	patternPreview->set_vexpand(false);
 
 	attach(*amplitudeCtrl,0,0,1,5);

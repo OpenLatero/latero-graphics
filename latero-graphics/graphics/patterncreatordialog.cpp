@@ -49,8 +49,11 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 	combo_.set_active_text("line");
 	txCombo_.set_sensitive(false);
 
-	get_content_area()->pack_start(combo_);
-	get_content_area()->pack_start(txCombo_);
+	get_content_area()->append(combo_);
+	get_content_area()->append(txCombo_);
+
+	combo_->set_vexpand();
+	txCombo_->set_vexpand();
 
 	combo_.signal_changed().connect( sigc::mem_fun(*this, &PatternCreatorDialog::OnComboChanged) );
 	

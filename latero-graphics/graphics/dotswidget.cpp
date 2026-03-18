@@ -80,8 +80,10 @@ DotsWidget::DotsWidget(DotsPtr peer) :
 	grid->attach(*Gtk::manage(new OscillatorWidget(peer->GetOscillator())),0,3,2,1);
 	grid->attach(*Gtk::manage(new DotsPointsWidget(peer)),2,0,1,4);
 
-	pack_start(*grid);
-	pack_start(*Gtk::manage(new RidgeGraph(peer->GetProfile(),300)), Gtk::PACK_SHRINK);
+	grid->set_hexpand();
+
+	append(*grid);
+	append(*Gtk::manage(new RidgeGraph(peer->GetProfile(),300)));
 }
 
 } // namespace graphics

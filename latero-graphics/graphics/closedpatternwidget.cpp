@@ -68,14 +68,20 @@ ClosedPatternFillTextureWidget::ClosedPatternFillTextureWidget(ClosedPatternPtr 
 	set_shadow_type(Gtk::SHADOW_NONE);
 
 	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	GetBox().pack_start(*vbox);
+	auto gapCtrl = Gtk::manage(new ClosedPatternFillTextureGapCtrl(peer));
+	auto edgeSizeCtrl = Gtk::manage(new ClosedPatternFillTextureEdgeSizeCtrl(peer));
 
+	vbox->set_hexpand();
+	gapCtrl->set_hexpand();
+	edgeSizeCtrl->set_hexpand();
+	txWidget_->set_vexpand();
+
+	GetBox().append(*vbox);
 	auto hbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	hbox->pack_start(*Gtk::manage(new ClosedPatternFillTextureGapCtrl(peer)));	
-	hbox->pack_start(*Gtk::manage(new ClosedPatternFillTextureEdgeSizeCtrl(peer)));
-
-	vbox->pack_start(*hbox, Gtk::PACK_SHRINK);
-	vbox->pack_start(txWidget_);
+	hbox->append(*gapCtrl);	
+	hbox->append(*edgeSizeCtrl);
+	vbox->append(*hbox);
+	vbox->append(txWidget_);
 
 	txWidget_.SignalTextureChanged().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureWidget::OnTextureChanged));;
 	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureWidget::OnCheck));

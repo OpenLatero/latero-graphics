@@ -32,20 +32,23 @@ ImageWidget::ImageWidget(ImagePtr peer, bool showMaskWidget) :
 	peer_(peer)
 {
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	pack_start(*box);
+	append(*box);
+	box->set_vexpand();
 	
 	if (showMaskWidget)
 	{
 		Gtk::Notebook *notebook = Gtk::manage(new Gtk::Notebook);
 		notebook->append_page(maskWidget_, "mask");
 		notebook->append_page(txWidget_, "texture");
-		box->pack_start(*notebook);
+		box->append(*notebook);
+		notebook->set_hexpand();
 	}
 	else
 	{
-		box->pack_start(txWidget_);
+		box->append(txWidget_);
+		txWidget_->set_hexpand();
 	}
-	//box->pack_start(vizButton_,Gtk::PACK_SHRINK);
+	//box->append(vizButton_);
 
 
 	txWidget_.SignalTextureChanged().connect(

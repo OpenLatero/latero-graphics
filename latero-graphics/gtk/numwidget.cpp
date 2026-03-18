@@ -30,7 +30,7 @@ NumWidgetCombo::NumWidgetCombo()
 {
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	pack_start(columns_.units);
+	append(columns_.units);
 }
 
 void NumWidgetCombo::Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
@@ -116,18 +116,20 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
     //scale_->set_update_policy(Gtk::UPDATE_DISCONTINUOUS);
 
 	add(*box2);
-	box2->pack_start(*box_, Gtk::PACK_SHRINK);
+	box2->append(*box_);
 	if (orient == ORIENT_V)
 	{
-		box_->pack_start(*scale_); 
-		box_->pack_start(spin_, Gtk::PACK_SHRINK);
-		box_->pack_start(*comboBox_, Gtk::PACK_SHRINK);
+		box_->append(*scale_); 
+		scale_->set_vexpand();
+		box_->append(spin_);
+		box_->append(*comboBox_);
 	}
 	else
 	{
-		box_->pack_start(spin_, Gtk::PACK_SHRINK);
-		box_->pack_start(*comboBox_, Gtk::PACK_SHRINK);
-		box_->pack_start(*scale_); 
+		box_->append(spin_);
+		box_->append(*comboBox_);
+		box_->append(*scale_); 
+		scale_->set_hexpand();
 	}
 
 	scale_->signal_format_value().connect(
@@ -142,7 +144,7 @@ void NumWidget::AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, u
 {
 	unitsCombo_.Append(units,adj,digits);
 	if (unitsCombo_.GetSize())
-		comboBox_->pack_start(unitsCombo_, Gtk::PACK_SHRINK);
+		comboBox_->append(unitsCombo_);
 }
 
 void NumWidget::SetDigits(uint n)

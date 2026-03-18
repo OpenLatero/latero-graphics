@@ -37,9 +37,11 @@ TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
 	auto loadButton = Gtk::manage(new Gtk::Button());
 	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
 
-	pack_start(*saveButton, Gtk::PACK_SHRINK);
-	pack_start(*loadButton, Gtk::PACK_SHRINK);
-	pack_start(modeCombo_);
+	append(*saveButton);
+	append(*loadButton);
+	append(modeCombo_);
+
+	modeCombo_->set_vexpand();
 
 	saveButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnSave));
 	loadButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnLoad));
@@ -127,12 +129,13 @@ void TextureSelectorWidget::Rebuild()
 
 void TextureSelectorWidget::Build()
 {
-	pack_start(ctrl_, Gtk::PACK_SHRINK);
+	append(ctrl_);
 	TexturePtr tx = ctrl_.GetTexture();
 	if (tx)
 	{
 		widget_ = Gtk::manage(tx->CreateWidget(tx));
-		pack_start(*widget_);
+		append(*widget_);
+		widget->set_hexpand();
 	}
 	show_all_children();
 }

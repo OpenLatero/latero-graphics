@@ -157,8 +157,9 @@ DirModulatorWidget::DirModulatorWidget(DirModulatorPtr peer) :
 	grid->attach(*Gtk::manage(new DirTransitionCtrl(peer)),1,1,2,1);
 	grid->attach(*Gtk::manage(new VelToleranceCtrl(peer)),0,2,1,1);
 	grid->attach(*Gtk::manage(new VelTransitionCtrl(peer)),1,2,2,1);
-	pack_start(*grid);
-	pack_start(*Gtk::manage(new ModulatorPreview(peer)), Gtk::PACK_SHRINK);
+	append(*grid);
+	grid->set_hexpand();
+	append(*Gtk::manage(new ModulatorPreview(peer)));
 	show_all_children();
 }
 

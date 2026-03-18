@@ -81,7 +81,7 @@ ModulatorCombo::ModulatorCombo(ModulatorPtr mod) :
 
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	pack_start(columns_.img);
+	append(columns_.img);
 
 	Append(DirModulator::Create(dev_));
 	DirModulatorPtr symDirmod = DirModulator::Create(dev_);

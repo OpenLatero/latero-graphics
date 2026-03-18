@@ -32,7 +32,7 @@ ImageCombo::ImageCombo() :
 {
 	model_ = Gtk::ListStore::create(columns_);
 	combo_.set_model(model_);
-	combo_.pack_start(columns_.img_);
+	combo_.append(columns_.img_);
 	add(combo_);
 	combo_.signal_changed().connect( sigc::mem_fun(*this, &ImageCombo::OnComboChanged) );
 	show_all_children();

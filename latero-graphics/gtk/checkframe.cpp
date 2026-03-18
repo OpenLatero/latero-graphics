@@ -23,7 +23,6 @@
 
 namespace latero {
 namespace graphics { 
-
 namespace gtk {
 
 CheckFrame::CheckFrame(bool checkState, std::string label, bool check_in_label) :
@@ -39,14 +38,14 @@ CheckFrame::CheckFrame(bool checkState, std::string label, bool check_in_label) 
 	innerBox_.set_sensitive(checkState);
 
 	add(mainBox_);
-	if (!check_in_label) mainBox_.pack_start(check_, Gtk::PACK_SHRINK);
-	mainBox_.pack_start(innerBox_);
+	if (!check_in_label) mainBox_.append(check_);
+	mainBox_.append(innerBox_);
+	innerBox_.set_hexpand();
 	check_.signal_clicked().connect(sigc::mem_fun(*this, &CheckFrame::OnClick));
 }
 
 
 } // namespace gtk
-
 } // namespace graphics
 } // namespace latero
 

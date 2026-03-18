@@ -139,10 +139,11 @@ public:
 		pReloadButton->set_image_from_icon_name("view-refresh", Gtk::ICON_SIZE_BUTTON);
 
 		auto *box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-		box->pack_start(fileEntry_);
-		box->pack_start(*pOpenButton, Gtk::PACK_SHRINK);
-		box->pack_start(*pReloadButton, Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new MaskSrcTypeCheck(peer)), Gtk::PACK_SHRINK);
+		box->append(fileEntry_);
+		fileEntry_->set_hexpand();
+		box->append(*pOpenButton);
+		box->append(*pReloadButton);
+		box->append(*Gtk::manage(new MaskSrcTypeCheck(peer)));
 		add(*box);
  
 		pOpenButton->signal_clicked().connect(sigc::mem_fun(*this, &MaskImageWidget::OnOpen));
@@ -293,9 +294,10 @@ public:
 		centeredRadio_.signal_clicked().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnModeChanged));
 		
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-		box->pack_start(centeredRadio_, Gtk::PACK_SHRINK);
-		box->pack_start(freeRadio_, Gtk::PACK_SHRINK);
-		box->pack_start(posWidget_);
+		box->append(centeredRadio_);
+		box->append(freeRadio_);
+		box->append(fileEntry_);
+		fileEntry_->set_hexpand();
 		add(*box);
 
 		posWidget_.SignalValueChanged().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnPosChanged));
@@ -342,9 +344,9 @@ public:
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), MaskWidgetCtrl(peer),
 		adj_(Gtk::Adjustment::create(100*peer->GetDefaultAlpha(),0,100))
 	{
-		pack_start(*Gtk::manage(new Gtk::Label("Default ")), Gtk::PACK_SHRINK);
-		pack_start(*Gtk::manage(new Gtk::SpinButton(adj_)), Gtk::PACK_SHRINK);
-		pack_start(*Gtk::manage(new Gtk::Label("%")), Gtk::PACK_SHRINK);
+		append(*Gtk::manage(new Gtk::Label("Default ")));
+		append(*Gtk::manage(new Gtk::SpinButton(adj_)));
+		append(*Gtk::manage(new Gtk::Label("%")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskDefaultCtrl::OnChanged));
 	}
 	virtual ~MaskDefaultCtrl() {}
@@ -356,27 +358,44 @@ protected:
 MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
+	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
+	auto checkbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));	
+	auto maskImageWidget = Gtk::manage(new MaskImageWidget(peer));
+	auto maskBlurCheck = Gtk::manage(new MaskBlurCheck(peer));
+	auto maskLockAspectRatioCheck = Gtk::manage(new MaskLockAspectRatioCheck(peer));
+	auto refMaxWidget = Gtk::manage(new MaskRefMaximizedCheck(peer));
+	auto maskDefaultCtrl = Gtk::manage(new MaskDefaultCtrl(peer));
+	auto maskSurfaceWidget = Gtk::manage(new MaskSurfaceWidget(dev,peer));
+
 	MaskSizeCtrl *sizeWidget = Gtk::manage(new MaskSizeCtrl(peer));
 	ctrls_.push_back(sizeWidget);
 
 	MaskPositionCtrl *posWidget = Gtk::manage(new MaskPositionCtrl(peer));
 	ctrls_.push_back(posWidget);
 
-	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	box->pack_start(*Gtk::manage(new MaskImageWidget(peer)));
-	box->pack_start(*posWidget);
-	box->pack_start(*sizeWidget);
+	maskImageWidget->set_vexpand();
+	posWidget->set_vexpand();
+	sizeWidget->set_vexpand();
+	checkbox->set_vexpand();
+	maskBlurCheck->set_hexpand();
+	maskLockAspectRatioCheck->set_hexpand();
+	refMaxWidget->set_hexpand();
+	maskDefaultCtrl->set_hexpand();
+	box->set_hexpand();
+	maskSurfaceWidget->set_hexpand();
 
-	auto checkbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	checkbox->pack_start(*Gtk::manage(new MaskBlurCheck(peer)));
-	checkbox->pack_start(*Gtk::manage(new MaskLockAspectRatioCheck(peer)));
-	Gtk::CheckButton *refMaxWidget = Gtk::manage(new MaskRefMaximizedCheck(peer));
-	checkbox->pack_start(*refMaxWidget);
-	checkbox->pack_start(*Gtk::manage(new MaskDefaultCtrl(peer)));
-	box->pack_start(*checkbox);
+	box->append(*maskImageWidget);
+	box->append(*posWidget);
+	box->append(*sizeWidget);
+	box->append(*checkbox);
 
-	pack_start(*box);	
-	pack_start(*Gtk::manage(new MaskSurfaceWidget(dev,peer)));	
+	checkbox->append(*maskBlurCheck);
+	checkbox->append(*maskLockAspectRatioCheck);
+	checkbox->append(*refMaxWidget);
+	checkbox->append(*maskDefaultCtrl);
+
+	append(*box);
+	append(*maskSurfaceWidget);	
 
  	refMaxWidget->signal_toggled().connect(sigc::mem_fun(*this, &MaskWidget::SynchFromPeer));
 	sizeWidget->SignalChanged().connect(sigc::mem_fun(*this, &MaskWidget::SynchFromPeer));

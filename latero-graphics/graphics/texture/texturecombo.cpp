@@ -117,7 +117,7 @@ TextureCombo::TextureCombo(TexturePtr tx, std::vector<std::string> textures) :
 
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	pack_start(columns_.img);
+	append(columns_.img);
 
 	for (unsigned int i=0; i<textures_.size(); ++i)
 		Append(textures_[i]);
@@ -137,7 +137,7 @@ TextureCombo::TextureCombo(const latero::Tactograph *dev, std::vector<std::strin
 
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	pack_start(columns_.img);
+	append(columns_.img);
 
 	for (unsigned int i=0; i<textures_.size(); ++i)
 		Append(textures_[i]);

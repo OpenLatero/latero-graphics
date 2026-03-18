@@ -76,8 +76,15 @@ private:
 RidgeTextureCtrl::RidgeTextureCtrl(RidgePtr peer) :
 	gtk::CheckFrame(peer->GetTxEnable(), "texture"), peer_(peer)
 {
-	GetBox().pack_start(*Gtk::manage(new RidgeTxAmpScale(peer)));
-	GetBox().pack_start(*Gtk::manage(new RidgeTxNbCyclesScale(peer)));
+	auto ridgeTxAmpScale = Gtk::manage(new RidgeTxAmpScale(peer));
+	auto ridgeTxNbCyclesScale = Gtk::manage(new RidgeTxNbCyclesScale(peer));
+
+	GetBox().append(*ridgeTxAmpScale);
+	GetBox().append(*ridgeTxNbCyclesScale);
+
+	ridgeTxAmpScale->set_hexpand();
+	ridgeTxNbCyclesScale->set_hexpand();
+	
 	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &RidgeTextureCtrl::OnClick));
 }
 void RidgeTextureCtrl::OnClick() { peer_->SetTxEnable(GetCheck().get_active()); };
@@ -91,8 +98,11 @@ RidgeControls::RidgeControls(RidgePtr peer) :
 	txCtrl_(peer)
 {
 	set_size_request(300,-1);
-	pack_start(edgeWidthScale_);
-	pack_start(txCtrl_);
+	append(edgeWidthScale_);
+	append(txCtrl_);
+
+	edgeWidthScale_->set_vexpand();
+	txCtrl_->set_vexpand();
 }
 
 
@@ -104,8 +114,12 @@ RidgeWidget::RidgeWidget(RidgePtr peer) :
     peer_(peer)
 {
 	graph_ = Gtk::manage(new RidgeGraph(peer));
-	pack_start(controls_);
-	pack_start(*graph_);
+	append(controls_);
+	append(*graph_);
+
+	controls_->set_hexpand();
+	graph_->set_hexpand();
+
 	graph_->Refresh();
 }
 

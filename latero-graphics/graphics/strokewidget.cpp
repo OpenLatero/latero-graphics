@@ -90,15 +90,20 @@ public:
 	StrokeTextureWidget(StrokePtr peer) : gtk::CheckFrame(peer->GetTexture()->GetEnable(), "grating"), peer_(peer)
 	{
 		auto miscBox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-
-		miscBox->pack_start(*Gtk::manage(new GratingAmplitudeWidget(peer->GetTexture())));
-		miscBox->pack_start(*Gtk::manage(new GratingInvertCtrl(peer->GetTexture())),Gtk::PACK_SHRINK);
-
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-		GetBox().add(*box);
+		auto amplitudeWidget = Gtk::manage(new GratingAmplitudeWidget(peer->GetTexture()));
+		auto invertCtrl = Gtk::manage(new GratingInvertCtrl(peer->GetTexture()));
+		auto pitchWidget = Gtk::manage(new GratingPitchWidget(peer->GetTexture()));
 
-		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer->GetTexture())));
-		box->pack_start(*miscBox);
+		amplitudeWidget->set_hexpand();
+		pitchWidget->set_hexpand();
+		miscBox->set_hexpand();
+
+		miscBox->append(*amplitudeWidget);
+		miscBox->append(*invertCtrl);
+		GetBox().add(*box);
+		box->append(*pitchWidget);
+		box->append(*miscBox);
 	
 		GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &StrokeTextureWidget::OnEnable));
 	};
@@ -127,13 +132,25 @@ StrokeProfileWidget::StrokeProfileWidget(StrokePtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	box->pack_start(*Gtk::manage(new StrokeWidthCtrl(peer)));
-	box->pack_start(*Gtk::manage(new StrokeIntensityCtrl(peer)));
-	box->pack_start(*Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile())));
-	box->pack_start(*Gtk::manage(new RidgeTextureCtrl(peer->GetProfile())));
+	auto w1 = Gtk::manage(new StrokeWidthCtrl(peer));
+	auto w2 = Gtk::manage(new StrokeIntensityCtrl(peer));
+	auto w3 = Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile()));
+	auto w4 = Gtk::manage(new RidgeTextureCtrl(peer->GetProfile()));
+	auto w5 = Gtk::manage(new RidgeGraph(peer->GetProfile(),300));
 
-	pack_start(*box);
-	pack_start(*Gtk::manage(new RidgeGraph(peer->GetProfile(),300)), Gtk::PACK_SHRINK);
+	w1->set_vexpand();
+	w2->set_vexpand();
+	w3->set_vexpand();
+	w4->set_vexpand();
+	box->w1->set_hexpand();
+
+	box->append(*w1);
+	box->append(*w2);
+	box->append(*w3);
+	box->append(*w4);
+
+	append(*box);
+	append(*w5);
 };
 
 
@@ -143,9 +160,20 @@ StrokeFillWidget::StrokeFillWidget(StrokePtr peer) :
 	Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("general"));
 	frame->add(*Gtk::manage(new StrokeGutterCheck(peer)));
 
-	pack_start(*frame);
-	pack_start(*Gtk::manage(new StrokeVibrationCtrl(peer)));
-	pack_start(*Gtk::manage(new StrokeTextureWidget(peer)));
+	auto vibrationCtrl = Gtk::manage(new StrokeVibrationCtrl(peer));
+	auto textureWidget = Gtk::manage(new StrokeTextureWidget(peer));
+
+	frame->set_vexpand();
+	vibrationCtrl->set_vexpand();
+	textureWidget->set_vexpand();
+
+	append(*frame);
+	append(*vibrationCtrl);
+	append(*textureWidget);
+
+	frame->set_vexpand();
+	vibrationCtrl->set_vexpand();
+	textureWidget->set_vexpand();
 };
 
 
@@ -171,9 +199,9 @@ protected:
 StrokeDottedWidget::StrokeDottedWidget(StrokePtr peer) :
 	Gtk::Box(Gtk::Orientation::VERTICAL)
 {
-	pack_start(*Gtk::manage(new StrokeDotEnableCheck(peer)), Gtk::PACK_SHRINK);
+	append(*Gtk::manage(new StrokeDotEnableCheck(peer)));
 	DotPatternPtr p = peer->GetDots();
-	if (p) pack_start(*Gtk::manage(new DotPatternMinSpacingCtrl(p)), Gtk::PACK_SHRINK);
+	if (p) append(*Gtk::manage(new DotPatternMinSpacingCtrl(p)));
 };
 
 } // namespace graphics

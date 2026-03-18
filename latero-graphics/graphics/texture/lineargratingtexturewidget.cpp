@@ -59,23 +59,23 @@ void LinearGratingTextureWidget::Create()
 	using namespace LinearGratingTextureCtrls;
 
 	auto grid = Gtk::manage(new Gtk::Grid());
-	grid->set_hexpand(true);
-	grid->set_vexpand(true);
+	grid->set_hexpand();
+	grid->set_vexpand();
 	grid->set_valign(Gtk::ALIGN_CENTER);
 	grid->set_column_homogeneous(true);
 		
 	auto ridgeSizeWidget = CreateRidgeSizeWidget();
-	ridgeSizeWidget->set_vexpand(true);
+	ridgeSizeWidget->set_vexpand();
 	auto gapSizeWidget = CreateGapSizeWidget();
-	gapSizeWidget->set_vexpand(true);
+	gapSizeWidget->set_vexpand();
 	auto angleWidget = Gtk::manage(new AngleWidget(peer_));
-	angleWidget->set_vexpand(true);
+	angleWidget->set_vexpand();
 	auto gratingVelocityWidget = CreateGratingVelocityWidget();
-	gratingVelocityWidget->set_vexpand(true);
+	gratingVelocityWidget->set_vexpand();
 	auto tdCentricCheck = CreateTDCentricCheck();
-	tdCentricCheck->set_vexpand(true);
+	tdCentricCheck->set_vexpand();
 	auto vibCheck = CreateVibCheck();
-	vibCheck->set_vexpand(true);
+	vibCheck->set_vexpand();
 
 	grid->attach(*ridgeSizeWidget,0,0,1,1); 
 	grid->attach(*gapSizeWidget,1,0,1,1);
@@ -97,23 +97,25 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	auto gratingPitchWidget = Gtk::manage(new GratingPitchWidget(peer->GetGrating()));
 	auto angleWidget = Gtk::manage(new AngleWidget(peer));
 
-	seedCtrl_.set_hexpand(true);
-	gratingPitchWidget->set_hexpand(true);
-	angleWidget->set_hexpand(true);
-	gratingCtrls_.velocityWidget_.set_hexpand(true);
-	gratingCtrls_.compressCtrl_.set_hexpand(true);
-	tdCentricCtrl_.set_hexpand(true);
-	vibCtrl_.set_hexpand(true);
-	gratingCtrls_.advButton_.set_hexpand(true);	
+	seedCtrl_.set_hexpand();
+	gratingPitchWidget->set_hexpand();
+	angleWidget->set_hexpand();
+	gratingCtrls_.velocityWidget_.set_hexpand();
+	gratingCtrls_.compressCtrl_.set_hexpand();
+	tdCentricCtrl_.set_hexpand();
+	vibCtrl_.set_hexpand();
+	gratingCtrls_.advButton_.set_hexpand();	
 
-	seedCtrl_.set_vexpand(true);
-	gratingPitchWidget->set_vexpand(true);
-	angleWidget->set_vexpand(true);
-	gratingCtrls_.velocityWidget_.set_vexpand(true);
-	gratingCtrls_.compressCtrl_.set_vexpand(true);
-	tdCentricCtrl_.set_vexpand(true);
-	vibCtrl_.set_vexpand(true);
-	gratingCtrls_.advButton_.set_vexpand(true);	
+	seedCtrl_.set_vexpand();
+	gratingPitchWidget->set_vexpand();
+	angleWidget->set_vexpand();
+	gratingCtrls_.velocityWidget_.set_vexpand();
+	gratingCtrls_.compressCtrl_.set_vexpand();
+	tdCentricCtrl_.set_vexpand();
+	vibCtrl_.set_vexpand();
+	gratingCtrls_.advButton_.set_vexpand();	
+	grid->set_hexpand();
+	ampCtrl_->set_vexpand();
 
 	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->attach(seedCtrl_,0,0,2,1); 
@@ -126,12 +128,13 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	grid->attach(gratingCtrls_.advButton_,0,6,2,1);
 
 	auto lbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	lbox->pack_start(invertCtrl_, Gtk::PACK_SHRINK);
-	lbox->pack_start(ampCtrl_);
+	lbox->append(invertCtrl_);
+	lbox->append(ampCtrl_);
 
-	pack_start(*lbox, Gtk::PACK_SHRINK);
-	pack_start(*grid);
-	pack_start(preview_, Gtk::PACK_SHRINK);
+	append(*lbox);
+	append(*grid);
+
+	append(preview_);
 
 	show_all_children();
 }

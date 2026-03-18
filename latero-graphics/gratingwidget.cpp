@@ -79,17 +79,17 @@ GratingRhythmWidget::GratingRhythmWidget(GratingPtr peer) :
 	auto plusButton = Gtk::manage(new Gtk::Button("+"));
 	plusButton->signal_clicked().connect(
 		sigc::mem_fun(*this, &GratingRhythmWidget::OnAddCycle));
-	buttonBox_.pack_start(*plusButton,Gtk::PACK_SHRINK);
+	buttonBox_.append(*plusButton);
 
 	auto minusButton = Gtk::manage(new Gtk::Button("-"));
 	minusButton->signal_clicked().connect(
 		sigc::mem_fun(*this, &GratingRhythmWidget::OnRemoveCycle));
-	buttonBox_.pack_start(*minusButton,Gtk::PACK_SHRINK);
+	buttonBox_.append(*minusButton);
 
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	add(*box);
-	box->pack_start(sliderBox_,Gtk::PACK_SHRINK);
-	box->pack_start(buttonBox_,Gtk::PACK_SHRINK);
+	box->append(sliderBox_);
+	box->append(buttonBox_);
 }
 
 GratingRhythmWidget::~GratingRhythmWidget()
@@ -126,7 +126,7 @@ void GratingRhythmWidget::AppendCycle(double value)
 
 	Gtk::Widget *widget = new latero::graphics::gtk::VNumWidget(adj,0);
 	widget_.push_back(widget);
-	sliderBox_.pack_start(*widget, Gtk::PACK_SHRINK);
+	sliderBox_.append(*widget);
 	show_all_children();
 }
 
@@ -171,10 +171,11 @@ void GratingRidgeSizeWidget::OnChanged() { peer_->SetRidgeSize(adj_->get_value()
 GratingVelocityWidget::GratingVelocityWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), distAdj_(Gtk::Adjustment::create(peer->GetVel(),-100,100)), hzAdj_(Gtk::Adjustment::create(peer->GetVel(),-10,10)), peer_(peer)
 {
-	gtk::HNumWidget *widget = new gtk::HNumWidget("velocity", distAdj_, 0, peer->GetUnits() + units::per_sec);
+	gtk::HNumWidget *widget = Gtk::manage(new gtk::HNumWidget("velocity", distAdj_, 0, peer->GetUnits() + units::per_sec));
 	widget->AddUnits(units::hz,hzAdj_,2);
 	widget->SelectUnits(peer->GetVelUnits());
-	pack_start(*Gtk::manage(widget));
+	append(*widget);
+	widget->set_hexpand();
 	distAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &GratingVelocityWidget::OnChangedDist));
 	hzAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &GratingVelocityWidget::OnChangedHz));
 	widget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &GratingVelocityWidget::OnChangedUnits));
@@ -222,9 +223,13 @@ GratingInterpWidget::GratingInterpWidget(GratingPtr peer) :
 		arcRadio_.set_active();
 	
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+
+	linearRadio_->set_hexpand();
+	arcRadio_->set_hexpand();
+
 	add(*box);
-	box->pack_start(linearRadio_);
-	box->pack_start(arcRadio_);
+	box->append(linearRadio_);
+	box->append(arcRadio_);
 	linearRadio_.signal_clicked().connect(
 		sigc::mem_fun(*this, &GratingInterpWidget::OnChanged));
 	//arcRadio_.signal_clicked().connect(
@@ -245,10 +250,17 @@ GratingCycleWidget::GratingCycleWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), interpWidget_(peer), centerWidget_(peer), graph_(peer), peer_(peer)
 {
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	box->pack_start(interpWidget_);
-	box->pack_start(centerWidget_);
-	pack_start(*box);
-	pack_start(graph_);
+
+	interpWidget_->set_vexpand();
+	centerWidget_->set_vexpand();
+	box->set_hexpand();
+	graph_->set_hexpand();
+
+	box->append(interpWidget_);
+	box->append(centerWidget_);
+	append(*box);
+	append(graph_);
+
 	graph_.Refresh();
 	show_all_children();
 }
@@ -295,9 +307,13 @@ GratingPitchWidget::GratingPitchWidget(GratingPtr peer) :
 	ridgeWidget_ = Gtk::manage(new GratingRidgeSizeWidget(peer));
 	gapWidget_ = Gtk::manage(new GratingGapSizeWidget(peer));
 
-	pack_start(*ridgeWidget_);
-	pack_start(*gapWidget_);
-	if (peer->GetRegularizable()) pack_start(regularizeButton_,Gtk::PACK_SHRINK);
+	ridgeWidget_->set_hexpand();
+	gapWidget_->set_hexpand();
+
+	append(*ridgeWidget_);
+	append(*gapWidget_);
+
+	if (peer->GetRegularizable()) append(regularizeButton_);
 	regularizeButton_.signal_clicked().connect(sigc::mem_fun(*this, &GratingPitchWidget::OnRegularize));
 }
 
@@ -315,9 +331,12 @@ void GratingPitchWidget::OnRegularize()
 	ridgeWidget_ = Gtk::manage(new GratingRidgeSizeWidget(peer_));
 	gapWidget_ = Gtk::manage(new GratingGapSizeWidget(peer_));
 
-	pack_start(*ridgeWidget_);
-	pack_start(*gapWidget_);
-	if (peer_->GetRegularizable()) pack_start(regularizeButton_,Gtk::PACK_SHRINK);
+	ridgeWidget_->set_hexpand():
+	gapWidget_->set_hexpand():
+
+	append(*ridgeWidget_);
+	append(*gapWidget_);
+	if (peer_->GetRegularizable()) append(regularizeButton_);
 	show_all_children();
 }
 
@@ -342,10 +361,19 @@ AdvancedGratingWidget::AdvancedGratingWidget(GratingPtr peer) :
 	Gtk::Dialog("Advanced Grating Options")
 {
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	get_content_area()->pack_start(*box);
-	box->pack_start(*Gtk::manage(new GratingRhythmWidget(peer)));
-	box->pack_start(*Gtk::manage(new GratingCycleWidget(peer)));
-	box->pack_start(*Gtk::manage(new GratingModulatorCtrl(peer->GetModulator())));
+	auto rhythmWidget = Gtk::manage(new GratingRhythmWidget(peer));	
+	auto cycleWidget = Gtk::manage(new GratingCycleWidget(peer));
+	auto modulatorCtrl = Gtk::manage(new GratingModulatorCtrl(peer->GetModulator()));
+
+	box->set_vexpand();
+	rhythmWidget->set_hexpand();
+	cycleWidget->set_hexpand();
+	modulatorCtrl->set_hexpand();
+
+	get_content_area()->append(*box);
+	box->append(*rhythmWidget);
+	box->append(*cycleWidget);
+	box->append(*modulatorCtrl);
 	show_all_children();
 }
 

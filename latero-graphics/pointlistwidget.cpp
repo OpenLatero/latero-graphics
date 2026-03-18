@@ -49,8 +49,9 @@ PointListWidget::PointListWidget(const std::vector<Point> &points) :
 
 	for (unsigned int i=0; i<points.size(); ++i)
 		InsertPoint(points[i]);
-	box_.pack_start(pointBox_);
-	box_.pack_start(insertButton_, Gtk::PACK_SHRINK);
+	box_.append(pointBox_);
+	pointBox_->set_vexpand();
+	box_.append(insertButton_);
 	insertButton_.signal_clicked().connect(sigc::mem_fun(*this, &PointListWidget::OnInsert));
 
 	show_all_children();
@@ -63,8 +64,8 @@ PointListWidget::~PointListWidget()
 
 void PointListWidget::InsertPoint(const Point &p)
 {
-    Glib::RefPtr<Gtk::Adjustment> xAdj = Gtk::Adjustment::create(p.x,0,100000);
-    Glib::RefPtr<Gtk::Adjustment> yAdj = Gtk::Adjustment::create(p.y,0,100000);
+    auto xAdj = Gtk::Adjustment::create(p.x,0,100000);
+    auto yAdj = Gtk::Adjustment::create(p.y,0,100000);
 
 	xAdj_.push_back(xAdj);
 	yAdj_.push_back(yAdj);
@@ -74,12 +75,19 @@ void PointListWidget::InsertPoint(const Point &p)
 	yAdj->signal_value_changed().connect(signalChanged_);
 
 	rowBox_.push_back(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	pointBox_.pack_start(*rowBox_[i], Gtk::PACK_SHRINK);
-	rowBox_[i]->pack_start(*Gtk::manage(new Gtk::SpinButton(xAdj)));
-	rowBox_[i]->pack_start(*Gtk::manage(new Gtk::SpinButton(yAdj)));
+	pointBox_.append(*rowBox_[i]);
+
+	auto xSpin = Gtk::manage(new Gtk::SpinButton(xAdj));
+	auto ySpin = Gtk::manage(new Gtk::SpinButton(yAdj));
+
+	xSpin->set_hexpand();
+	ySpin->set_hexpand();
+
+	rowBox_[i]->append(*xSpin);
+	rowBox_[i]->append(*ySpin);
 
 	NumButton *delButton = Gtk::manage(new NumButton("-", static_cast<int>(xAdj_.size())-1));
-	rowBox_[i]->pack_start(*delButton, Gtk::PACK_SHRINK);
+	rowBox_[i]->append(*delButton);
 	delButton->SignalClicked().connect(sigc::mem_fun(*this, &PointListWidget::OnDelete));
 }
 

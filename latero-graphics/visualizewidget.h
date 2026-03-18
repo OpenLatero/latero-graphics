@@ -47,9 +47,10 @@ public:
 		combo_.append(units::nsec);
 		combo_.set_active_text(units);
 
-		pack_start(spin_);
+		append(spin_);
+		spin_.set_hexpand();
 		spin_.set_margin_end(6);
-		pack_start(combo_, Gtk::PACK_SHRINK);
+		append(combo_);
 	};
 
 	virtual ~TimeWidget() {};
@@ -77,12 +78,14 @@ public:
 		timeRadio_.set_group(group);
 		timeRadio_.set_active();
 	
-		pTimeBox->pack_start(timeRadio_, Gtk::PACK_SHRINK);
-		pTimeBox->pack_start(timeCtrl_);
+		pTimeBox->append(timeRadio_);
+		pTimeBox->append(timeCtrl_);
+		timeCtrl_->set_hexpand();
 
-		pack_start(currentRadio_, Gtk::PACK_SHRINK);		
+		append(currentRadio_);		
 		currentRadio_.set_margin_end(6);
-		pack_start(*pTimeBox);
+		append(*pTimeBox);
+		pTimeBox->set_hexpand();
 
 		timeRadio_.signal_clicked().connect(sigc::mem_fun(*this, &StartTimeWidget::OnModeChanged));
 	};

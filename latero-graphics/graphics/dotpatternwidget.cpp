@@ -48,8 +48,9 @@ DotPatternWidget::DotPatternWidget(DotPatternPtr peer) :
 	grid->attach(*Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile())),1,1,1,1);
 	grid->attach(*Gtk::manage(new RidgeTextureCtrl(peer->GetProfile())),0,2,2,1);
 	grid->attach(*Gtk::manage(new OscillatorWidget(peer->GetOscillator())),0,3,2,1);
-	pack_start(*grid);
-	pack_start(*Gtk::manage(new RidgeGraph(peer->GetProfile(),300)), Gtk::PACK_SHRINK);
+	append(*grid);
+	grid->set_hexpand();
+	append(*Gtk::manage(new RidgeGraph(peer->GetProfile(),300)));
 }
 
 } // namespace graphics
