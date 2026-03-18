@@ -114,11 +114,10 @@ class BaseVirtualSurfaceWidget : public Gtk::Box
 {
 public:
 	BaseVirtualSurfaceWidget(const latero::Tactograph *dev) :
- 		frame_("", 0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
+ 		frame_(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
 		surface_(dev)
 	{
 		set_child(frame_);
-		frame_.unset_label(); // this is necessary to remove blank above surface
 		frame_.set_child(surface_);
 	}
 
