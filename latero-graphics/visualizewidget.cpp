@@ -75,8 +75,6 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	CreateMenu();
 	scrolledWindow->set_events(Gdk::BUTTON_PRESS_MASK);
 	scrolledWindow->signal_button_press_event().connect(sigc::mem_fun(*this, &VisualizeWidget::OnClick));
-
-	show_all_children();
 }
 
 Gtk::Widget *VisualizeWidget::GetAnimWidget()
@@ -278,7 +276,6 @@ void VisualizeWidget::RefreshImg()
 	frameAdj_->set_value(map_.GetCurrentFrameIndex());
 	Glib::RefPtr<Gdk::Pixbuf> buf = map_.GetCurrentFrame();
 	img_.set(buf);
-	show_all_children();
 }
 
 void VisualizeWidget::ReloadAnimation()

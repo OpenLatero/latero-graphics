@@ -198,7 +198,6 @@ void StrokeMotionWidget::Rebuild()
 		box->append(*Gtk::manage(new GratingPitchWidget(peer_->GetMotionTexture())));
 		box->append(*Gtk::manage(new StrokeBlendMotionValueCtrl(peer_)));
 	}
-	show_all_children();
 }
 
 } // namespace graphics

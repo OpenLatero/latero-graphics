@@ -54,8 +54,6 @@ BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 		sigc::mem_fun(*this, &BlendTextureWidget::OnSecondTextureChanged));
 	modCombo_.SignalModulatorChanged().connect(
 		sigc::mem_fun(*this, &BlendTextureWidget::OnModulatorChanged));
-
-	show_all_children();
 }
 
 void BlendTextureWidget::OnFirstTextureChanged()
@@ -77,7 +75,6 @@ void BlendTextureWidget::OnModulatorChanged(ModulatorPtr mod)
 	delete old;
 
 	modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
-	show_all_children();
 }
 
 } // namespace graphics

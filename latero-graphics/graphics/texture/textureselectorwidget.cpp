@@ -137,7 +137,6 @@ void TextureSelectorWidget::Build()
 		append(*widget_);
 		widget->set_hexpand();
 	}
-	show_all_children();
 }
 
 

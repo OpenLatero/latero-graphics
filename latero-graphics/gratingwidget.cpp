@@ -127,7 +127,6 @@ void GratingRhythmWidget::AppendCycle(double value)
 	Gtk::Widget *widget = new latero::graphics::gtk::VNumWidget(adj,0);
 	widget_.push_back(widget);
 	sliderBox_.append(*widget);
-	show_all_children();
 }
 
 void GratingRhythmWidget::OnAddCycle()
@@ -262,7 +261,6 @@ GratingCycleWidget::GratingCycleWidget(GratingPtr peer) :
 	append(graph_);
 
 	graph_.Refresh();
-	show_all_children();
 }
 
 // GratingWidgetSet ////////////////////////////////////////////////////////////////////
@@ -337,7 +335,6 @@ void GratingPitchWidget::OnRegularize()
 	append(*ridgeWidget_);
 	append(*gapWidget_);
 	if (peer_->GetRegularizable()) append(regularizeButton_);
-	show_all_children();
 }
 
 GratingWidget::GratingWidget(GratingPtr peer) :
@@ -374,7 +371,6 @@ AdvancedGratingWidget::AdvancedGratingWidget(GratingPtr peer) :
 	box->append(*rhythmWidget);
 	box->append(*cycleWidget);
 	box->append(*modulatorCtrl);
-	show_all_children();
 }
 
 // GratingAmplitudeWidget ////////////////////////////////////////////////////////////////////

@@ -53,8 +53,6 @@ PointListWidget::PointListWidget(const std::vector<Point> &points) :
 	pointBox_->set_vexpand();
 	box_.append(insertButton_);
 	insertButton_.signal_clicked().connect(sigc::mem_fun(*this, &PointListWidget::OnInsert));
-
-	show_all_children();
 }
 
 PointListWidget::~PointListWidget()
@@ -101,7 +99,6 @@ void PointListWidget::OnDelete(int i)
 		xAdj_.erase(xAdj_.begin()+i);
 		yAdj_.erase(yAdj_.begin()+i);
 
-		show_all_children();
 		signalChanged_();
 	}
 }
@@ -109,7 +106,6 @@ void PointListWidget::OnDelete(int i)
 void PointListWidget::OnInsert()
 {
 	InsertPoint(Point(0,0));
-	show_all_children();
 	signalChanged_();
 }
 

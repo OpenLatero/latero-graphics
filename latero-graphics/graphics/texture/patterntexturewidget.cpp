@@ -120,7 +120,6 @@ void PatternTextureWidget::OnLoad()
 
 			peer_->SetPattern(newPattern);
 			patternHolder_.add(*Gtk::manage(newPattern->CreateWidget(newPattern)));
-			show_all_children();
 		}
 	}
 }
@@ -187,7 +186,6 @@ void PatternTextureAdvancedWidget::OnLoad()
 
 			peer_->SetPattern(newPattern);
 			patternHolder_.add(*Gtk::manage(newPattern->CreateWidget(newPattern)));
-			show_all_children();
 		}
 	}
 }

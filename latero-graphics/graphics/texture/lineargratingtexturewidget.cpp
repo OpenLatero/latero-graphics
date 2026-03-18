@@ -135,8 +135,6 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	append(*grid);
 
 	append(preview_);
-
-	show_all_children();
 }
 
 } // namespace graphics

@@ -106,7 +106,6 @@ MotionTextureWidget::MotionTextureWidget(MotionTexturePtr peer) :
 
 	append_page(txWidget_, "texture");
 	append_page(*motionPage, "motion cue");
-	show_all_children();
 
 	txWidget_.SignalTextureChanged().connect(sigc::mem_fun(*this, &MotionTextureWidget::OnTextureChanged));;
 }

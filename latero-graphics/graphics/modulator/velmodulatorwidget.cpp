@@ -103,8 +103,6 @@ VelModulatorWidget::VelModulatorWidget(VelModulatorPtr peer) :
 
 	append(*box);
 	append(*previewCtrl);
-
-	show_all_children();
 }
 
 } // namespace graphics

@@ -160,7 +160,6 @@ DirModulatorWidget::DirModulatorWidget(DirModulatorPtr peer) :
 	append(*grid);
 	grid->set_hexpand();
 	append(*Gtk::manage(new ModulatorPreview(peer)));
-	show_all_children();
 }
 
 } // namespace graphics

@@ -35,7 +35,6 @@ ImageCombo::ImageCombo() :
 	combo_.append(columns_.img_);
 	add(combo_);
 	combo_.signal_changed().connect( sigc::mem_fun(*this, &ImageCombo::OnComboChanged) );
-	show_all_children();
 }
 
 ImageCombo::~ImageCombo()

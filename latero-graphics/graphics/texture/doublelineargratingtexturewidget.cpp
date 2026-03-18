@@ -286,8 +286,6 @@ DoubleLinearGratingTextureAdvancedWidget::DoubleLinearGratingTextureAdvancedWidg
 	attach(*oscillatorWidget,1,3,3,1);
 	attach(*textureMotionCtrl,1,4,3,1);
 	attach(*patternPreview,4,0,1,5);
-
-	show_all_children();
 }
 
 } // namespace graphics

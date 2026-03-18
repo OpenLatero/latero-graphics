@@ -93,8 +93,6 @@ RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGra
 	hbox->append(*lbox);
 	hbox->append(*vbox);
 	hbox->append(preview_);
-
-	show_all_children();
 }
 
 } // namespace graphics

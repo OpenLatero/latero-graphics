@@ -270,7 +270,6 @@ void GroupTreeView::Refresh()
 
 	set_model(store);
 	expand_all();
-	show_all_children();
 }
 
 
@@ -499,9 +498,6 @@ public:
 
 		opCombo->SignalChanged().connect(
 			sigc::mem_fun(*this, &GroupPanel::OnOpChanged));
-
-
-		show_all_children();
 	}
 
 	void OnOpChanged()
@@ -535,8 +531,6 @@ public:
 					sigc::mem_fun(*this, &GroupPanel::OnModulatorChanged));
 			}
 		}
-
-		show_all_children();
 	}
 
 	void OnModulatorChanged(ModulatorPtr mod)
@@ -548,7 +542,6 @@ public:
 		delete old;
 
 		modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
-		show_all_children();
 	}
 
 	virtual ~GroupPanel() {}
@@ -706,8 +699,6 @@ void GroupWidget::OnSelectionChanged()
 			objWidgetHolder_.add(*Gtk::manage(pattern->CreateWidget(pattern)));
 		}
 	}
-
-	show_all_children();
 }
 
 } // namespace graphics

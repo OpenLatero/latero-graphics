@@ -46,8 +46,7 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 	combo_.signal_changed().connect( sigc::mem_fun(*this, &CreateTextureDlg::OnComboChanged) );
 	
 	add_button("OK", Gtk::RESPONSE_OK);
-	add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	show_all_children();		
+	add_button("Cancel", Gtk::RESPONSE_CANCEL);	
 }
 
 
@@ -214,7 +213,6 @@ void TextureAdvancedButton::on_clicked()
 	adv_ = Gtk::manage(peer_->CreateAdvancedWidget(peer_));
 	dlg_.get_content_area()->append(*adv_);
 	adv_->set_vexpand();
-	dlg_.show_all_children();
 	dlg_.show();  
 	Gtk::Button::on_clicked(); 
 }
@@ -287,8 +285,6 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 		vbox->append(*advancedButton);
 	if (showPreview) 
 		box->append(*Gtk::manage(new PatternPreview(peer_)));
-
-	show_all_children();
 }
 
 

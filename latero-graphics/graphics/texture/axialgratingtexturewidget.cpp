@@ -118,8 +118,6 @@ AxialGratingTextureAdvancedWidget::AxialGratingTextureAdvancedWidget(AxialGratin
 	hbox->append(*rbox);
 	rbox->set_hexpand();
 	hbox->append(preview_);
-
-	show_all_children();
 }
 
 } // namespace graphics
