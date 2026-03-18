@@ -525,8 +525,9 @@ void VirtualSurfaceWidget::OnVisualize()
 		PositionGenPtr gen = boost::dynamic_pointer_cast<PositionGen>(peer_);
 		if (gen)
 		{
-			VisualizeWidget dlg(gen);
-			dlg.run();
+			auto dlg = new VisualizeWidget(gen);
+			dlg->signal_hide().connect([dlg]{ delete dlg; });
+			dlg->present();
 		}
 	}
 }
@@ -535,11 +536,12 @@ void VirtualSurfaceWidget::OnEdit()
 {
 	if (peer_)
 	{
-		Gtk::Dialog dlg;
+		auto dlg = new Gtk::Dialog();
 		auto widget = Gtk::manage(peer_->CreateWidget(peer_));
-		dlg.get_content_area()->append(*widget);
+		dlg->get_content_area()->append(*widget);
 		widget->set_vexpand();
-		dlg.run();
+		dlg->signal_hide().connect([dlg]{ delete dlg; });
+		dlg->present();
 	}
 }
 
@@ -547,18 +549,22 @@ void VirtualSurfaceWidget::OnSaveCanvasAs()
 {
 	if (peer_)
 	{
-		Gtk::FileChooserDialog dialog("Please select a generator file.", Gtk::FileChooser::Action::SAVE);
+		auto dialog = new Gtk::FileChooserDialog("Please select a generator file.", Gtk::FileChooser::Action::SAVE);
 		std::string dir = std::filesystem::current_path().string();
-		dialog.set_current_folder(Gio::File::create_for_path(dir));
-		dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
-		dialog.add_button("Save", Gtk::ResponseType::OK);
-		dialog.set_default_response(Gtk::ResponseType::CANCEL);
-		dialog.set_current_name("test.gen");
-		if (Gtk::ResponseType::OK == dialog.run())		
-		{
-			std::string filename = dialog.get_file()->get_path(); // GTKMM4
-			peer_->SaveToFile(filename);
-		}
+		dialog->set_current_folder(Gio::File::create_for_path(dir));
+		dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
+		dialog->add_button("Save", Gtk::ResponseType::OK);
+		dialog->set_default_response(Gtk::ResponseType::CANCEL);
+		dialog->set_current_name("test.gen");
+		dialog->signal_response().connect([this, dialog](int response_id) {
+			if (response_id == Gtk::ResponseType::OK)
+			{
+				std::string filename = dialog->get_file()->get_path();
+				peer_->SaveToFile(filename);
+			}
+			delete dialog;
+		});
+		dialog->show();
 	}
 }
 
