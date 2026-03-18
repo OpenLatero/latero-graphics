@@ -56,47 +56,55 @@ void TextureSelectorCtrl::OnModeChanged(TexturePtr tx)
 void TextureSelectorCtrl::OnSave()
 {
 	if (!texture_) return;
-	
-	Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
+
+	auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
 
 	std::string dir = std::filesystem::current_path().string();
- 
-    Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+
+	auto filter = Gtk::FileFilter::create();
 	filter->add_pattern("*.tx");
 
-	dialog.set_current_folder(Gio::File::create_for_path(dir));
-	dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
-	dialog.add_button("Save", Gtk::ResponseType::OK);
-	dialog.set_default_response(Gtk::ResponseType::CANCEL);
+	dialog->set_current_folder(Gio::File::create_for_path(dir));
+	dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
+	dialog->add_button("Save", Gtk::ResponseType::OK);
+	dialog->set_default_response(Gtk::ResponseType::CANCEL);
 	std::string file = texture_->GetXMLFile();
 	if (file=="") file = "texture.tx";
-	dialog.set_current_name(file);
-	dialog.add_filter(filter);
+	dialog->set_current_name(file);
+	dialog->add_filter(filter);
 
-	if (Gtk::ResponseType::OK == dialog.run())
-		 texture_->Save(dialog.get_file()->get_path()); // GTKMM4
+	dialog->signal_response().connect([this, dialog](int response_id) {
+		if (response_id == Gtk::ResponseType::OK)
+			texture_->Save(dialog->get_file()->get_path());
+		delete dialog;
+	});
+	dialog->show();
 }
 
 void TextureSelectorCtrl::OnLoad()
 {
-	Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FileChooser::Action::OPEN);
+	auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::OPEN);
 
 	std::string dir = std::filesystem::current_path().string();
- 
-    Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+
+	auto filter = Gtk::FileFilter::create();
 	filter->add_pattern("*.tx");
 
-	dialog.set_current_folder(Gio::File::create_for_path(dir));
-	dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
-	dialog.add_button("Open", Gtk::ResponseType::OK);
-	dialog.set_default_response(Gtk::ResponseType::CANCEL);
-	dialog.add_filter(filter);
-	if (Gtk::ResponseType::OK == dialog.run())
-	{
-		texture_ = Texture::Create(texture_->Dev(), dialog.get_file()->get_path().c_str());// GTKMM4
-		modeCombo_.SetActive(texture_);
-		SignalTextureChanged_();
-	}
+	dialog->set_current_folder(Gio::File::create_for_path(dir));
+	dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
+	dialog->add_button("Open", Gtk::ResponseType::OK);
+	dialog->set_default_response(Gtk::ResponseType::CANCEL);
+	dialog->add_filter(filter);
+	dialog->signal_response().connect([this, dialog](int response_id) {
+		if (response_id == Gtk::ResponseType::OK)
+		{
+			texture_ = Texture::Create(texture_->Dev(), dialog->get_file()->get_path().c_str());
+			modeCombo_.SetActive(texture_);
+			SignalTextureChanged_();
+		}
+		delete dialog;
+	});
+	dialog->show();
 }
 
 

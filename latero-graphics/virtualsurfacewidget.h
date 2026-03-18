@@ -120,7 +120,7 @@ public:
  		frame_("", 0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
 		surface_(dev)
 	{
-		add(frame_);
+		set_child(frame_);
 		frame_.unset_label(); // this is necessary to remove blank above surface
 		frame_.set_shadow_type(Gtk::SHADOW_NONE); // this removes the border
 		frame_.add(surface_);

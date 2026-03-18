@@ -154,8 +154,8 @@ public:
 protected:
 	void OnOpen()
 	{
-		Gtk::FileChooserDialog dialog("Please select an image file.");
- 
+		auto dialog = new Gtk::FileChooserDialog("Please select an image file.", Gtk::FileChooser::Action::OPEN);
+
 		std::string dir;
 		std::string currentFile = peer_->GetImgFile();
 		if (currentFile == "")
@@ -168,22 +168,26 @@ protected:
 			dir = currentFile.substr(0, currentFile.find_last_of('/'));
 		}
 
-        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+		auto filter = Gtk::FileFilter::create();
 		filter->set_name("supported image formats");
 		filter->add_pixbuf_formats();
- 
-		dialog.set_current_folder(Gio::File::create_for_path(dir));
-		dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
-		dialog.add_button("Open", Gtk::ResponseType::OK);
-		dialog.set_default_response(Gtk::ResponseType::OK);
-		dialog.add_filter(filter);
 
-		if (Gtk::ResponseType::OK == dialog.run())		
-		{
-			std::string filename = dialog.get_file()->get_path(); // GTKMM4
-			fileEntry_.set_text(filename.c_str());
-			peer_->SetImage(filename,false); // TODO
-		}
+		dialog->set_current_folder(Gio::File::create_for_path(dir));
+		dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
+		dialog->add_button("Open", Gtk::ResponseType::OK);
+		dialog->set_default_response(Gtk::ResponseType::OK);
+		dialog->add_filter(filter);
+
+		dialog->signal_response().connect([this, dialog](int response_id) {
+			if (response_id == Gtk::ResponseType::OK)
+			{
+				std::string filename = dialog->get_file()->get_path();
+				fileEntry_.set_text(filename.c_str());
+				peer_->SetImage(filename, false); // TODO
+			}
+			delete dialog;
+		});
+		dialog->show();
 	}
 
 	void OnReload()
@@ -218,7 +222,7 @@ public:
 		gtk::HNumWidget *hWidget = Gtk::manage(new gtk::HNumWidget("height",hRelAdj_,0, units::percent));
 		hWidget->AddUnits(units::mm, hAbsAdj_, 0);
 		hWidget->SelectUnits(peer->GetHeightUnits());
-		add(*hWidget);
+		append(*hWidget);
 		hRelAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnRelHeightChanged));
 		hAbsAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnAbsHeightChanged));
 		hWidget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnHeightUnitsChanged));

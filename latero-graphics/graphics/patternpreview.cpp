@@ -107,15 +107,18 @@ void PatternPreview::CreatePopupMenu()
 
 void PatternPreview::OnSave()
 {
-	PatternIllustrationSaveDialog dialog;
-	if (Gtk::ResponseType::OK == dialog.run())
-	{
-		// GTKMM4
-		auto filename = dialog.get_file()->get_path();
-		printf("saving pattern preview to %s\n", filename.c_str());
-		peer_->GetVisualization(1000,boost::posix_time::seconds(0),viz_mode)->save(filename,"png");
-		chmod(filename.c_str(), 0666); // make accessible to others than root
-	}
+	auto dialog = new PatternIllustrationSaveDialog();
+	dialog->signal_response().connect([this, dialog](int response_id) {
+		if (response_id == Gtk::ResponseType::OK)
+		{
+			auto filename = dialog->get_file()->get_path();
+			printf("saving pattern preview to %s\n", filename.c_str());
+			peer_->GetVisualization(1000,boost::posix_time::seconds(0),viz_mode)->save(filename,"png");
+			chmod(filename.c_str(), 0666); // make accessible to others than root
+		}
+		delete dialog;
+	});
+	dialog->show();
 }
 
 
