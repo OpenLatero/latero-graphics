@@ -80,7 +80,7 @@ public:
 	
 		pTimeBox->append(timeRadio_);
 		pTimeBox->append(timeCtrl_);
-		timeCtrl_->set_hexpand();
+		timeCtrl_.set_hexpand();
 
 		append(currentRadio_);		
 		currentRadio_.set_margin_end(6);

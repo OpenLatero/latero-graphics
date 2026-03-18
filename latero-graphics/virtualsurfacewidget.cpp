@@ -350,8 +350,7 @@ void VirtualSurfaceArea::SetDisplayState(const Point &pos, double angle, const l
 	Gdk::Rectangle invRect(oldBox);
 	invRect.join(newBox);
 
-	Glib::RefPtr<Gdk::Window> win = get_window();
-	if (win) win->invalidate_rect(invRect, false);
+	queue_draw();
 }
 
 void VirtualSurfaceArea::Clear(guint32 pixel)
@@ -383,12 +382,7 @@ void VirtualSurfaceArea::ShowBorder(bool v)
 
 void VirtualSurfaceArea::Invalidate()
 {
-    Glib::RefPtr<Gdk::Window> win = get_window();
-    if (win)
-    {
-        Gdk::Rectangle r(0, 0, get_allocation().get_width(), get_allocation().get_height());
-        win->invalidate_rect(r, false);
-    }
+    queue_draw();
 }
 
 

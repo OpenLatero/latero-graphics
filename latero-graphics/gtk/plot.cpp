@@ -90,11 +90,7 @@ void Plot::Clear()
 
 void Plot::Draw()
 {
-	if (get_realized())
-	{
-		Gdk::Rectangle invRect(0, 0, get_allocation().get_width(), get_allocation().get_height());
-		get_window()->invalidate_rect(invRect, false);
-	}
+	queue_draw();
 }
 
 
