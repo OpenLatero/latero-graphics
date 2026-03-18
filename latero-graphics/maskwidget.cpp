@@ -140,11 +140,11 @@ public:
 
 		auto *box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 		box->append(fileEntry_);
-		fileEntry_->set_hexpand();
+		fileEntry_.set_hexpand();
 		box->append(*pOpenButton);
 		box->append(*pReloadButton);
 		box->append(*Gtk::manage(new MaskSrcTypeCheck(peer)));
-		add(*box);
+		set_child(*box);
  
 		pOpenButton->signal_clicked().connect(sigc::mem_fun(*this, &MaskImageWidget::OnOpen));
 		pReloadButton->signal_clicked().connect(sigc::mem_fun(*this, &MaskImageWidget::OnReload));
@@ -172,7 +172,7 @@ protected:
 		filter->set_name("supported image formats");
 		filter->add_pixbuf_formats();
  
-		dialog.set_current_folder(dir);
+		dialog.set_current_folder(Gio::File::create_for_path(dir));
 		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
 		dialog.add_button("Open", Gtk::RESPONSE_OK);
 		dialog.set_default_response(Gtk::RESPONSE_OK);

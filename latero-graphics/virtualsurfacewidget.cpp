@@ -571,7 +571,7 @@ void VirtualSurfaceWidget::OnSaveCanvasAs()
 	{
 		Gtk::FileChooserDialog dialog("Please select a generator file.", Gtk::FILE_CHOOSER_ACTION_SAVE);
 		std::string dir = std::filesystem::current_path().string();
-		dialog.set_current_folder(dir);
+		dialog.set_current_folder(Gio::File::create_for_path(dir));
 		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
 		dialog.add_button("Save", Gtk::RESPONSE_OK);
 		dialog.set_default_response(Gtk::RESPONSE_CANCEL);

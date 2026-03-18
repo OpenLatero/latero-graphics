@@ -64,7 +64,7 @@ void TextureSelectorCtrl::OnSave()
     Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
 	filter->add_pattern("*.tx");
 
-	dialog.set_current_folder(dir);
+	dialog.set_current_folder(Gio::File::create_for_path(dir));
 	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
 	dialog.add_button("Save", Gtk::RESPONSE_OK);
 	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
@@ -86,7 +86,7 @@ void TextureSelectorCtrl::OnLoad()
     Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
 	filter->add_pattern("*.tx");
 
-	dialog.set_current_folder(dir);
+	dialog.set_current_folder(Gio::File::create_for_path(dir));
 	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
 	dialog.add_button("Open", Gtk::RESPONSE_OK);
 	dialog.set_default_response(Gtk::RESPONSE_CANCEL);

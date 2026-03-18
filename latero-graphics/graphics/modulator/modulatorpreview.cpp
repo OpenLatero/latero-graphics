@@ -77,7 +77,7 @@ void ModulatorPreview::OnSaveAs()
 {
 	Gtk::FileChooserDialog dialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE);
 	std::string dir = std::filesystem::current_path().string();
-	dialog.set_current_folder(dir);
+	dialog.set_current_folder(Gio::File::create_for_path(dir));
 	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
 	dialog.add_button("Save", Gtk::RESPONSE_OK);
 	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
