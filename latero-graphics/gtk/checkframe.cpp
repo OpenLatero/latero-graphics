@@ -41,7 +41,7 @@ CheckFrame::CheckFrame(bool checkState, std::string label, bool check_in_label) 
 	if (!check_in_label) mainBox_.append(check_);
 	mainBox_.append(innerBox_);
 	innerBox_.set_hexpand();
-	check_.signal_clicked().connect(sigc::mem_fun(*this, &CheckFrame::OnClick));
+	check_.signal_toggled().connect(sigc::mem_fun(*this, &CheckFrame::OnClick));
 }
 
 

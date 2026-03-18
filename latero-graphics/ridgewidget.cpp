@@ -85,7 +85,7 @@ RidgeTextureCtrl::RidgeTextureCtrl(RidgePtr peer) :
 	ridgeTxAmpScale->set_hexpand();
 	ridgeTxNbCyclesScale->set_hexpand();
 	
-	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &RidgeTextureCtrl::OnClick));
+	GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &RidgeTextureCtrl::OnClick));
 }
 void RidgeTextureCtrl::OnClick() { peer_->SetTxEnable(GetCheck().get_active()); };
 

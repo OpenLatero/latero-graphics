@@ -211,7 +211,7 @@ public:
 	PolygonCornerMotionCheck(PolygonPtr peer) : Gtk::CheckButton("motion"), peer_(peer)
 	{
 		set_active(peer->GetCornerMotion());
-		signal_clicked().connect(sigc::mem_fun(*this, &PolygonCornerMotionCheck::OnChange));
+		signal_toggled().connect(sigc::mem_fun(*this, &PolygonCornerMotionCheck::OnChange));
 	};
 	virtual ~PolygonCornerMotionCheck() {};
 private:
@@ -252,7 +252,7 @@ public:
 		lowerbox_.append(typeCombo_);
 		lowerbox_.append(vibWidget_);
 
-		GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnClick));
+		GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnClick));
 		typeCombo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnComboChanged));
 	}
 	virtual ~PolygonCornerCtrl() {};

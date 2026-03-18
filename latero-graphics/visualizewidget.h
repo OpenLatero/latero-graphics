@@ -87,7 +87,7 @@ public:
 		append(*pTimeBox);
 		pTimeBox->set_hexpand();
 
-		timeRadio_.signal_clicked().connect(sigc::mem_fun(*this, &StartTimeWidget::OnModeChanged));
+		timeRadio_.signal_toggled().connect(sigc::mem_fun(*this, &StartTimeWidget::OnModeChanged));
 	};
 
 	virtual ~StartTimeWidget() {};

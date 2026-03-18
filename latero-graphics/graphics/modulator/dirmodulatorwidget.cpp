@@ -135,7 +135,7 @@ public:
 		add(*frame);
 		frame->add(check_);
 		check_.set_active(peer_->GetSymmetric());
-		check_.signal_clicked().connect(sigc::mem_fun(*this, &SymmetricCtrl::OnClick));
+		check_.signal_toggled().connect(sigc::mem_fun(*this, &SymmetricCtrl::OnClick));
 	}
 	void OnClick() { peer_->SetSymmetric(check_.get_active()); };
 protected:

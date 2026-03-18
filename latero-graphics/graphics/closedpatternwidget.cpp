@@ -84,7 +84,7 @@ ClosedPatternFillTextureWidget::ClosedPatternFillTextureWidget(ClosedPatternPtr 
 	vbox->append(txWidget_);
 
 	txWidget_.SignalTextureChanged().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureWidget::OnTextureChanged));;
-	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureWidget::OnCheck));
+	GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureWidget::OnCheck));
 }
 void ClosedPatternFillTextureWidget::OnCheck() { peer_->SetFillTextureEnable(GetCheck().get_active()); }
 void ClosedPatternFillTextureWidget::OnTextureChanged() { peer_->SetFillTexture(txWidget_.GetTexture()); }

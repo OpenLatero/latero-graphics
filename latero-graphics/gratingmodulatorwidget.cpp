@@ -124,7 +124,7 @@ GratingModulatorCtrl::GratingModulatorCtrl(GratingModulatorPtr peer) :
 
 	check_.set_active(peer_->GetEnable());
 	widgetbox_.set_sensitive(check_.get_active());
-	check_.signal_clicked().connect(sigc::mem_fun(*this, &GratingModulatorCtrl::OnClick));
+	check_.signal_toggled().connect(sigc::mem_fun(*this, &GratingModulatorCtrl::OnClick));
 }
     
 void GratingModulatorCtrl::OnClick()

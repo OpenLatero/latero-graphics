@@ -87,7 +87,7 @@ OscillatorWidget::OscillatorWidget(OscillatorPtr peer, bool showBlendBode) :
 	GetBox().append(*freqCtrl);
 
 	if (showBlendBode) GetBox().append(*Gtk::manage(new OscillatorBlendModeCombo(peer)));
-	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &OscillatorWidget::OnClick));
+	GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &OscillatorWidget::OnClick));
 }
 void OscillatorWidget::OnClick() { peer_->SetEnable(GetCheck().get_active()); }
 

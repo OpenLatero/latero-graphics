@@ -291,7 +291,7 @@ public:
 	{
 		Gtk::RadioButton::Group group = centeredRadio_.get_group();
 		freeRadio_.set_group(group);
-		centeredRadio_.signal_clicked().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnModeChanged));
+		centeredRadio_.signal_toggled().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnModeChanged));
 		
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 		box->append(centeredRadio_);

@@ -105,7 +105,7 @@ public:
 		box->append(*pitchWidget);
 		box->append(*miscBox);
 	
-		GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &StrokeTextureWidget::OnEnable));
+		GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &StrokeTextureWidget::OnEnable));
 	};
 	virtual ~StrokeTextureWidget() {};
 protected:

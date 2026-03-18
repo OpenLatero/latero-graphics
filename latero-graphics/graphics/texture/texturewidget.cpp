@@ -109,7 +109,7 @@ TextureTDCentricCtrl::TextureTDCentricCtrl(TexturePtr peer) :
 	box->append(point_);
 	point_->set_hexpand();
 	point_.set_sensitive(check->get_active());
-	check->signal_clicked().connect(sigc::mem_fun(*this, &TextureTDCentricCtrl::OnClick));
+	check->signal_toggled().connect(sigc::mem_fun(*this, &TextureTDCentricCtrl::OnClick));
 	point_.SignalValueChanged().connect(sigc::mem_fun(*this, &TextureTDCentricCtrl::OnPosChanged));
 }
 void TextureTDCentricCtrl::OnClick() { point_.set_sensitive(peer_->GetTDCentric()); };
@@ -132,7 +132,7 @@ TextureInvertCtrl::TextureInvertCtrl(TexturePtr peer) :
 {
 	add(check_);
 	check_.set_active(peer_->GetInvert());
-	check_.signal_clicked().connect(sigc::mem_fun(*this, &TextureInvertCtrl::OnClick));
+	check_.signal_toggled().connect(sigc::mem_fun(*this, &TextureInvertCtrl::OnClick));
 }
 void TextureInvertCtrl::OnClick() { peer_->SetInvert(check_.get_active()); };
 
@@ -190,7 +190,7 @@ TextureMotionCtrl::TextureMotionCtrl(TexturePtr peer) :
 	dirCtrl->set_hexpand();
 	velCtrl->set_hexpand();
 
-	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &TextureMotionCtrl::OnClick));
+	GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &TextureMotionCtrl::OnClick));
 }
 void TextureMotionCtrl::OnClick() { peer_->SetMotionEnable(GetCheck().get_active()); }
 
