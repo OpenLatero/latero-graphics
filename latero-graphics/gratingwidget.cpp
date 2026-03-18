@@ -34,9 +34,9 @@ GratingInvertCtrl::GratingInvertCtrl(GratingPtr peer) :
 	check_("invert"),
 	peer_(peer)
 {
-	add(check_);
+	append(check_);
 	check_.set_active(peer_->GetInvert());
-	check_.signal_clicked().connect(sigc::mem_fun(*this, &GratingInvertCtrl::OnClick));
+	check_.signal_toggled().connect(sigc::mem_fun(*this, &GratingInvertCtrl::OnClick));
 }
 void GratingInvertCtrl::OnClick() { peer_->SetInvert(check_.get_active()); };
 
@@ -48,9 +48,9 @@ GratingEnableCtrl::GratingEnableCtrl(GratingPtr peer) :
 	check_("enable"),
 	peer_(peer)
 {
-	add(check_);
+	append(check_);
 	check_.set_active(peer_->GetEnable());
-	check_.signal_clicked().connect(
+	check_.signal_toggled().connect(
 		sigc::mem_fun(*this, &GratingEnableCtrl::OnClick));
 }
 
@@ -87,7 +87,7 @@ GratingRhythmWidget::GratingRhythmWidget(GratingPtr peer) :
 	buttonBox_.append(*minusButton);
 
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	add(*box);
+	set_child(*box);
 	box->append(sliderBox_);
 	box->append(buttonBox_);
 }
@@ -148,7 +148,7 @@ void GratingRhythmWidget::OnRemoveCycle()
 GratingGapSizeWidget::GratingGapSizeWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetGapSize(),0,100)), peer_(peer)
 {
-	add(*Gtk::manage(new gtk::HNumWidget("gap size", adj_, 2, peer->GetUnits())));
+	append(*Gtk::manage(new gtk::HNumWidget("gap size", adj_, 2, peer->GetUnits())));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &GratingGapSizeWidget::OnChanged));
 }
 void GratingGapSizeWidget::OnChanged() { peer_->SetGapSize(adj_->get_value()); }
@@ -159,7 +159,7 @@ void GratingGapSizeWidget::OnChanged() { peer_->SetGapSize(adj_->get_value()); }
 GratingRidgeSizeWidget::GratingRidgeSizeWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetRidgeSize(),0,100)), peer_(peer)
 {
-	add(*Gtk::manage(new gtk::HNumWidget("ridge size", adj_, 2, peer->GetUnits())));
+	append(*Gtk::manage(new gtk::HNumWidget("ridge size", adj_, 2, peer->GetUnits())));
 	adj_->signal_value_changed().connect(
 		sigc::mem_fun(*this, &GratingRidgeSizeWidget::OnChanged));
 }
@@ -198,7 +198,7 @@ void GratingVelocityWidget::OnChangedUnits(std::string units)
 GratingCenterWidget::GratingCenterWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(100*peer->GetCenter(),100*Grating::center_min,100*Grating::center_max)), peer_(peer)
 {
-	add(*Gtk::manage(new gtk::HNumWidget("center", adj_, 0, "%")));	adj_->signal_value_changed().connect(
+	append(*Gtk::manage(new gtk::HNumWidget("center", adj_, 0, "%")));	adj_->signal_value_changed().connect(
 		sigc::mem_fun(*this, &GratingCenterWidget::OnChanged));
 }
 
@@ -227,7 +227,7 @@ GratingInterpWidget::GratingInterpWidget(GratingPtr peer) :
 	linearRadio_->set_hexpand();
 	arcRadio_->set_hexpand();
 
-	add(*box);
+	set_child(*box);
 	box->append(linearRadio_);
 	box->append(arcRadio_);
 	linearRadio_.signal_clicked().connect(
@@ -344,7 +344,7 @@ GratingWidget::GratingWidget(GratingPtr peer) :
 	gtk::CheckFrame(peer->GetEnable(), "grating"), peer_(peer)
 {
 	Gtk::Grid *grid = Gtk::manage(new Gtk::Grid());
-	GetBox().add(*grid);
+	GetBox().append(*grid);
 	grid->attach(*Gtk::manage(new GratingPitchWidget(peer)), 0, 0, 2, 1);
 	grid->attach(*Gtk::manage(new GratingVelocityWidget(peer)), 0, 1, 2, 1);
 	grid->attach(*Gtk::manage(new GratingAdvancedButton(peer)), 0, 2, 1, 1);
@@ -382,7 +382,7 @@ AdvancedGratingWidget::AdvancedGratingWidget(GratingPtr peer) :
 GratingAmplitudeWidget::GratingAmplitudeWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
-	add(*Gtk::manage(new gtk::HNumWidget("amplitude", adj_, 0, units::percent)));
+	append(*Gtk::manage(new gtk::HNumWidget("amplitude", adj_, 0, units::percent)));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &GratingAmplitudeWidget::OnChanged));
 }
 void GratingAmplitudeWidget::OnChanged() { peer_->SetAmplitude(adj_->get_value()/100); }
