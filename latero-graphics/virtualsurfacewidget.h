@@ -96,7 +96,7 @@ protected:
 
 	latero::graphics::gtk::Animation anim_;
 
-	std::unique_ptr<Gtk::Menu> popupMenu_;
+	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	const latero::Tactograph *dev_;
 
 	Point tdPos_;
@@ -198,7 +198,7 @@ protected:
 	void OnClick(int n_press, double x, double y);
 	void CreatePopupMenu();
 
-	std::unique_ptr<Gtk::Menu> popupMenu_;
+	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	bool OnCheckPeer();
 	virtual void on_size_allocate(Gtk::Allocation& allocation);
 

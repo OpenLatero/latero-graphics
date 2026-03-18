@@ -70,9 +70,9 @@ void ModulatorPreview::CreatePopupMenu()
 	)");
 
 	// Get the menu and create a Gtk::Menu from it
-	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
-	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
-	popupMenu_->attach_to_widget(*this);
+	auto menu_model = std::dynamic_pointer_cast<Gio::MenuModel>(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu_model);
+	popupMenu_->set_parent(*this);
 }
 
 void ModulatorPreview::OnSaveAs()
@@ -105,7 +105,8 @@ void ModulatorPreview::OnSave()
 	
 void ModulatorPreview::OnClick(int n_press, double x, double y)
 {
-	popupMenu_->popup_at_pointer(nullptr);
+	popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
+	popupMenu_->popup();
 }
 
 bool ModulatorPreview::OnTimer()
