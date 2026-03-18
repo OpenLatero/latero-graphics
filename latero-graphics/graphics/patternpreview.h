@@ -28,7 +28,7 @@
 namespace latero {
 namespace graphics { 
 
-class PatternPreview : public Gtk::EventBox
+class PatternPreview : public Gtk::Box
 {
 public:
 	static const Pattern::VizMode viz_mode = Pattern::viz_deflection_and_vibration;

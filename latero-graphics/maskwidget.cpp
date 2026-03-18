@@ -301,7 +301,7 @@ public:
 		box->append(centeredRadio_);
 		box->append(freeRadio_);
 		box->append(posWidget_);
-		posWidget_->set_hexpand();
+		posWidget_.set_hexpand();
 		set_child(*box);
 
 		posWidget_.SignalValueChanged().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnPosChanged));

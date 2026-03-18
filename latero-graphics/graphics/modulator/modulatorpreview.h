@@ -29,7 +29,7 @@
 namespace latero {
 namespace graphics { 
 
-class ModulatorPreview : public Gtk::EventBox
+class ModulatorPreview : public Gtk::Box
 {
 public:
 	ModulatorPreview(ModulatorPtr peer);

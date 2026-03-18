@@ -30,7 +30,7 @@ namespace graphics {
 
 ModulatorPreview::ModulatorPreview(ModulatorPtr peer) : peer_(peer)
 {
-	add(img_);
+	append(img_);
 	Refresh();
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &ModulatorPreview::OnTimer),

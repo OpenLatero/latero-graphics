@@ -110,7 +110,7 @@ protected:
  * This widget represents the virtual surface explored by a tactile display. It is implement as an AspectFrame enclosing a 
  * DrawingArea so that the aspect ratio can be maintained.
  */
-class BaseVirtualSurfaceWidget : public Gtk::EventBox
+class BaseVirtualSurfaceWidget : public Gtk::Box
 {
 public:
 	BaseVirtualSurfaceWidget(const latero::Tactograph *dev) :
