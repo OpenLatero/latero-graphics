@@ -73,8 +73,15 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	animWidget->set_hexpand();
 
 	CreateMenu();
-	scrolledWindow->set_events(Gdk::BUTTON_PRESS_MASK);
-	scrolledWindow->signal_button_press_event().connect(sigc::mem_fun(*this, &VisualizeWidget::OnClick));
+	auto leftGesture = Gtk::GestureClick::create();
+	leftGesture->set_button(GDK_BUTTON_PRIMARY);
+	leftGesture->signal_pressed().connect([this](int, double, double){ OnNext(); });
+	scrolledWindow->add_controller(leftGesture);
+
+	auto rightGesture = Gtk::GestureClick::create();
+	rightGesture->set_button(GDK_BUTTON_SECONDARY);
+	rightGesture->signal_pressed().connect([this](int, double, double){ popupMenu_->popup_at_pointer(nullptr); });
+	scrolledWindow->add_controller(rightGesture);
 }
 
 Gtk::Widget *VisualizeWidget::GetAnimWidget()
@@ -175,22 +182,6 @@ Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 
 VisualizeWidget::~VisualizeWidget()
 {
-}
-
-bool VisualizeWidget::OnClick(GdkEventButton* event)
-{
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1))
-	{
-		OnNext();
-        return true;
-	}
-	else if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		return true;
-	}
-	else
-		return false;
 }
 
 

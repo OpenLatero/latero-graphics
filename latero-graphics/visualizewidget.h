@@ -126,7 +126,6 @@ protected:
 	Gtk::Widget *GetPlaybackWidget();
 	latero::graphics::gtk::Animation GetDeflectionMap(uint w, uint n, double velMag, double velDir);
 	void RefreshImg();
-	bool OnClick(GdkEventButton* event);
 	void CreateMenu();
 	void OnSave();
 	void OnSaveAs();

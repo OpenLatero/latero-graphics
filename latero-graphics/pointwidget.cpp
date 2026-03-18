@@ -46,7 +46,7 @@ PointWidget::PointWidget(const Point &init, double xlim_min, double xlim_max, do
 		auto xWidget = Gtk::manage(new Gtk::SpinButton(xAdj_,0,3));
 		auto yWidget = Gtk::manage(new Gtk::SpinButton(yAdj_,0,3));
 
-\		append(*xWidget);
+		append(*xWidget);
 		append(*yWidget);
 
 		xWidget->set_hexpand();

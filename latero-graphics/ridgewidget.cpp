@@ -32,7 +32,7 @@ RidgeEdgeWidthScale::RidgeEdgeWidthScale(RidgePtr peer) :
 	peer_(peer),
 	adj_(Gtk::Adjustment::create(peer->GetEdgeWidth(), Ridge::edgeWidth_min, 10, 10, 50))
 {
-	add(*Gtk::manage(new gtk::HNumWidget("edge width", adj_, 2, "mm")));
+	append(*Gtk::manage(new gtk::HNumWidget("edge width", adj_, 2, "mm")));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeEdgeWidthScale::OnChange));
 }
 void RidgeEdgeWidthScale::OnChange() { peer_->SetEdgeWidth(adj_->get_value()); }
@@ -46,7 +46,7 @@ public:
 	RidgeTxAmpScale(RidgePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer), adj_(Gtk::Adjustment::create(100*peer->GetTxAmp(), 0, 100, 10, 50))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget(adj_, 0, "%")));
+		append(*Gtk::manage(new gtk::HNumWidget(adj_, 0, "%")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxAmpScale::OnChange));
 	}
 	virtual ~RidgeTxAmpScale() {};
@@ -62,7 +62,7 @@ public:
 	RidgeTxNbCyclesScale(RidgePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer), adj_(Gtk::Adjustment::create(peer->GetTxNbCycles(),1,20.0))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget(adj_, 0)));
+		append(*Gtk::manage(new gtk::HNumWidget(adj_, 0)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxNbCyclesScale::OnChange));
 	}
 	virtual ~RidgeTxNbCyclesScale() {};
@@ -101,8 +101,8 @@ RidgeControls::RidgeControls(RidgePtr peer) :
 	append(edgeWidthScale_);
 	append(txCtrl_);
 
-	edgeWidthScale_->set_vexpand();
-	txCtrl_->set_vexpand();
+	edgeWidthScale_.set_vexpand();
+	txCtrl_.set_vexpand();
 }
 
 
@@ -117,7 +117,7 @@ RidgeWidget::RidgeWidget(RidgePtr peer) :
 	append(controls_);
 	append(*graph_);
 
-	controls_->set_hexpand();
+	controls_.set_hexpand();
 	graph_->set_hexpand();
 
 	graph_->Refresh();

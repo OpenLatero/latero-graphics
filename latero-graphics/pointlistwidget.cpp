@@ -45,12 +45,12 @@ PointListWidget::PointListWidget(const std::vector<Point> &points) :
 {
 	set_policy(Gtk::PolicyType::NEVER, Gtk::PolicyType::AUTOMATIC);
 	set_placement(Gtk::CornerType::TOP_RIGHT);
-	add(box_);
+	set_child(box_);
 
 	for (unsigned int i=0; i<points.size(); ++i)
 		InsertPoint(points[i]);
 	box_.append(pointBox_);
-	pointBox_->set_vexpand();
+	pointBox_.set_vexpand();
 	box_.append(insertButton_);
 	insertButton_.signal_clicked().connect(sigc::mem_fun(*this, &PointListWidget::OnInsert));
 }
