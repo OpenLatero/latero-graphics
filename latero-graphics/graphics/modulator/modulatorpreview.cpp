@@ -75,14 +75,14 @@ void ModulatorPreview::CreatePopupMenu()
 
 void ModulatorPreview::OnSaveAs()
 {
-	Gtk::FileChooserDialog dialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE);
+	Gtk::FileChooserDialog dialog("Please select file name.", Gtk::FileChooser::Action::SAVE);
 	std::string dir = std::filesystem::current_path().string();
 	dialog.set_current_folder(Gio::File::create_for_path(dir));
-	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	dialog.add_button("Save", Gtk::RESPONSE_OK);
-	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
+	dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
+	dialog.add_button("Save", Gtk::ResponseType::OK);
+	dialog.set_default_response(Gtk::ResponseType::CANCEL);
 	dialog.set_current_name("modulation.png");
-	if (Gtk::RESPONSE_OK == dialog.run())
+	if (Gtk::ResponseType::OK == dialog.run())
 	{
 		auto filename = dialog.get_file()->get_path(); // GTKMM4
 		printf("saving %s\n", filename.c_str());

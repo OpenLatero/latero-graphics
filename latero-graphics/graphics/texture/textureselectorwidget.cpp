@@ -57,7 +57,7 @@ void TextureSelectorCtrl::OnSave()
 {
 	if (!texture_) return;
 	
-	Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
+	Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
 
 	std::string dir = std::filesystem::current_path().string();
  
@@ -65,21 +65,21 @@ void TextureSelectorCtrl::OnSave()
 	filter->add_pattern("*.tx");
 
 	dialog.set_current_folder(Gio::File::create_for_path(dir));
-	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	dialog.add_button("Save", Gtk::RESPONSE_OK);
-	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
+	dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
+	dialog.add_button("Save", Gtk::ResponseType::OK);
+	dialog.set_default_response(Gtk::ResponseType::CANCEL);
 	std::string file = texture_->GetXMLFile();
 	if (file=="") file = "texture.tx";
 	dialog.set_current_name(file);
 	dialog.add_filter(filter);
 
-	if (Gtk::RESPONSE_OK == dialog.run())
+	if (Gtk::ResponseType::OK == dialog.run())
 		 texture_->Save(dialog.get_file()->get_path()); // GTKMM4
 }
 
 void TextureSelectorCtrl::OnLoad()
 {
-	Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_OPEN);
+	Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FileChooser::Action::OPEN);
 
 	std::string dir = std::filesystem::current_path().string();
  
@@ -87,11 +87,11 @@ void TextureSelectorCtrl::OnLoad()
 	filter->add_pattern("*.tx");
 
 	dialog.set_current_folder(Gio::File::create_for_path(dir));
-	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	dialog.add_button("Open", Gtk::RESPONSE_OK);
-	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
+	dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
+	dialog.add_button("Open", Gtk::ResponseType::OK);
+	dialog.set_default_response(Gtk::ResponseType::CANCEL);
 	dialog.add_filter(filter);
-	if (Gtk::RESPONSE_OK == dialog.run())
+	if (Gtk::ResponseType::OK == dialog.run())
 	{
 		texture_ = Texture::Create(texture_->Dev(), dialog.get_file()->get_path().c_str());// GTKMM4
 		modeCombo_.SetActive(texture_);

@@ -569,14 +569,14 @@ void VirtualSurfaceWidget::OnSaveCanvasAs()
 {
 	if (peer_)
 	{
-		Gtk::FileChooserDialog dialog("Please select a generator file.", Gtk::FILE_CHOOSER_ACTION_SAVE);
+		Gtk::FileChooserDialog dialog("Please select a generator file.", Gtk::FileChooser::Action::SAVE);
 		std::string dir = std::filesystem::current_path().string();
 		dialog.set_current_folder(Gio::File::create_for_path(dir));
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Save", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
+		dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
+		dialog.add_button("Save", Gtk::ResponseType::OK);
+		dialog.set_default_response(Gtk::ResponseType::CANCEL);
 		dialog.set_current_name("test.gen");
-		if (Gtk::RESPONSE_OK == dialog.run())		
+		if (Gtk::ResponseType::OK == dialog.run())		
 		{
 			std::string filename = dialog.get_file()->get_path(); // GTKMM4
 			peer_->SaveToFile(filename);

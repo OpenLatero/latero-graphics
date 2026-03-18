@@ -45,8 +45,8 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 
 	combo_.signal_changed().connect( sigc::mem_fun(*this, &CreateTextureDlg::OnComboChanged) );
 	
-	add_button("OK", Gtk::RESPONSE_OK);
-	add_button("Cancel", Gtk::RESPONSE_CANCEL);	
+	add_button("OK", Gtk::ResponseType::OK);
+	add_button("Cancel", Gtk::ResponseType::CANCEL);	
 }
 
 
@@ -61,7 +61,7 @@ TexturePtr CreateTextureDlg::CreateTexture()
 	if (type == "texture")	return txCombo_.GetTexture();
 	else if (type == "load from file")
 	{
-		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
+		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
 			
 		std::string dir = std::filesystem::current_path().string();
  
@@ -69,14 +69,14 @@ TexturePtr CreateTextureDlg::CreateTexture()
 		filter->add_pattern("*.tx");
 
 		dialog.set_current_folder(Gio::File::create_for_path(dir));
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Open", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
+		dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
+		dialog.add_button("Open", Gtk::ResponseType::OK);
+		dialog.set_default_response(Gtk::ResponseType::CANCEL);
 		std::string file = "new.tx";
 		dialog.set_current_name(file);
 		dialog.add_filter(filter);
 
-		if (Gtk::RESPONSE_OK == dialog.run())
+		if (Gtk::ResponseType::OK == dialog.run())
 			return Texture::Create(dev_,dialog.get_file()->get_path()); // GTKMM4
 		else
 			return TexturePtr();

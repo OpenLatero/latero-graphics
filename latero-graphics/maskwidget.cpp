@@ -173,12 +173,12 @@ protected:
 		filter->add_pixbuf_formats();
  
 		dialog.set_current_folder(Gio::File::create_for_path(dir));
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Open", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_OK);
+		dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
+		dialog.add_button("Open", Gtk::ResponseType::OK);
+		dialog.set_default_response(Gtk::ResponseType::OK);
 		dialog.add_filter(filter);
 
-		if (Gtk::RESPONSE_OK == dialog.run())		
+		if (Gtk::ResponseType::OK == dialog.run())		
 		{
 			std::string filename = dialog.get_file()->get_path(); // GTKMM4
 			fileEntry_.set_text(filename.c_str());
@@ -210,7 +210,7 @@ public:
 		gtk::HNumWidget *wWidget = Gtk::manage(new gtk::HNumWidget("width",wRelAdj_,0, units::percent));
 		wWidget->AddUnits(units::mm, wAbsAdj_, 0);
 		wWidget->SelectUnits(peer->GetWidthUnits());
-		add(*wWidget);
+		append(*wWidget);
 		wRelAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnRelWidthChanged));
 		wAbsAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnAbsWidthChanged));
 		wWidget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnWidthUnitsChanged));
@@ -298,7 +298,7 @@ public:
 		box->append(freeRadio_);
 		box->append(fileEntry_);
 		fileEntry_->set_hexpand();
-		add(*box);
+		set_child(*box);
 
 		posWidget_.SignalValueChanged().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnPosChanged));
 

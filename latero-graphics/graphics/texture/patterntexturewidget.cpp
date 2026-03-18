@@ -109,7 +109,7 @@ PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
 void PatternTextureWidget::OnLoad()
 {
 	PatternCreatorDialog dlg(peer_->Dev());
-	if (Gtk::RESPONSE_OK == dlg.run())
+	if (Gtk::ResponseType::OK == dlg.run())
 	{
 		PatternPtr newPattern = dlg.CreatePattern();
 		if (newPattern)
@@ -175,7 +175,7 @@ PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr pee
 void PatternTextureAdvancedWidget::OnLoad()
 {
 	PatternCreatorDialog dlg(peer_->Dev());
-	if (Gtk::RESPONSE_OK == dlg.run())
+	if (Gtk::ResponseType::OK == dlg.run())
 	{
 		PatternPtr newPattern = dlg.CreatePattern();
 		if (newPattern)

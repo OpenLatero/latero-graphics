@@ -44,24 +44,24 @@ public:
 
 
 PatternIllustrationSaveDialog::PatternIllustrationSaveDialog() :
-	Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE)
+	Gtk::FileChooserDialog("Please select file name.", Gtk::FileChooser::Action::SAVE)
 {
 	std::string dir = std::filesystem::current_path().string();
 	set_current_folder(Gio::File::create_for_path(dir));
-	add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	add_button("Save", Gtk::RESPONSE_OK);
-	set_default_response(Gtk::RESPONSE_CANCEL);
+	add_button("Cancel", Gtk::ResponseType::CANCEL);
+	add_button("Save", Gtk::ResponseType::OK);
+	set_default_response(Gtk::ResponseType::CANCEL);
 	set_current_name("pattern.png");
 }
 
 PatternThumbnailSaveDialog::PatternThumbnailSaveDialog() :
-	Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE)
+	Gtk::FileChooserDialog("Please select file name.", Gtk::FileChooser::Action::SAVE)
 {
 	std::string dir = std::filesystem::current_path().string();
 	set_current_folder(Gio::File::create_for_path(dir));
-	add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	add_button("Save", Gtk::RESPONSE_OK);
-	set_default_response(Gtk::RESPONSE_CANCEL);
+	add_button("Cancel", Gtk::ResponseType::CANCEL);
+	add_button("Save", Gtk::ResponseType::OK);
+	set_default_response(Gtk::ResponseType::CANCEL);
 	set_current_name("thumbnail.png");
 }
 
@@ -108,7 +108,7 @@ void PatternPreview::CreatePopupMenu()
 void PatternPreview::OnSave()
 {
 	PatternIllustrationSaveDialog dialog;
-	if (Gtk::RESPONSE_OK == dialog.run())
+	if (Gtk::ResponseType::OK == dialog.run())
 	{
 		// GTKMM4
 		auto filename = dialog.get_file()->get_path();

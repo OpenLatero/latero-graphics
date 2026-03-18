@@ -157,7 +157,7 @@ void GroupTreeView::OnPatternAppend()
 		if (tx)
 		{
 			CreateTextureDlg dlg(peer_->Dev());
-			if (Gtk::RESPONSE_OK == dlg.run())
+			if (Gtk::ResponseType::OK == dlg.run())
 			{
 				PatternPtr newPattern = dlg.CreateTexture();
 				if (newPattern)
@@ -171,7 +171,7 @@ void GroupTreeView::OnPatternAppend()
 		else
 		{
 			PatternCreatorDialog dlg(peer_->Dev());
-			if (Gtk::RESPONSE_OK == dlg.run())
+			if (Gtk::ResponseType::OK == dlg.run())
 			{
 				PatternPtr newPattern = dlg.CreatePattern();
 				if (newPattern)
@@ -195,7 +195,7 @@ void GroupTreeView::OnPatternPrepend()
 		if (!tx)
 		{
 			PatternCreatorDialog dlg(peer_->Dev());
-			if (Gtk::RESPONSE_OK == dlg.run())
+			if (Gtk::ResponseType::OK == dlg.run())
 			{
 				PatternPtr newPattern = dlg.CreatePattern();
 				if (newPattern)
@@ -209,7 +209,7 @@ void GroupTreeView::OnPatternPrepend()
 		else
 		{
 			CreateTextureDlg dlg(peer_->Dev());
-			if (Gtk::RESPONSE_OK == dlg.run())
+			if (Gtk::ResponseType::OK == dlg.run())
 			{
 				PatternPtr newPattern = dlg.CreateTexture();
 				if (newPattern)
@@ -365,7 +365,7 @@ void GroupTreeView::OnGroupAddPattern()
 	if (!group) return;
 
 	PatternCreatorDialog dlg(peer_->Dev());
-	if (Gtk::RESPONSE_OK == dlg.run())
+	if (Gtk::ResponseType::OK == dlg.run())
 	{
 		PatternPtr obj = dlg.CreatePattern();
 		group->InsertPattern(obj);
@@ -381,7 +381,7 @@ void GroupTreeView::OnGroupAddTexture()
 	if (!group) return;
 
 	CreateTextureDlg dlg(peer_->Dev());
-	if (Gtk::RESPONSE_OK == dlg.run())
+	if (Gtk::ResponseType::OK == dlg.run())
 	{
 		PatternPtr obj = dlg.CreateTexture();
 		group->InsertPattern(obj);
@@ -397,7 +397,7 @@ void GroupTreeView::OnPatternSave()
 	PatternPtr pattern = GetCurrentPattern();
 	if (pattern)
 	{
-		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
+		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
 
 		std::string dir = std::filesystem::current_path().string();
  
@@ -405,15 +405,15 @@ void GroupTreeView::OnPatternSave()
 		filter->add_pattern("*.pattern");
 
 		dialog.set_current_folder(Gio::File::create_for_path(dir));
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Save", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
+		dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
+		dialog.add_button("Save", Gtk::ResponseType::OK);
+		dialog.set_default_response(Gtk::ResponseType::CANCEL);
 		std::string file = pattern->GetXMLFile();
 		if (file=="") file = "new.pattern";
 		dialog.set_current_name(file);
 		dialog.add_filter(filter);
 
-		if (Gtk::RESPONSE_OK == dialog.run())
+		if (Gtk::ResponseType::OK == dialog.run())
 			pattern->SaveToFile(dialog.get_file()->get_path()); // GTKMM4
 	}
 }
@@ -424,7 +424,7 @@ void GroupTreeView::OnTextureSave()
 	PatternPtr pattern = GetCurrentPattern();
 	if (pattern)
 	{
-		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
+		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
 
 		std::string dir = std::filesystem::current_path().string();
  
@@ -432,15 +432,15 @@ void GroupTreeView::OnTextureSave()
 		filter->add_pattern("*.tx");
 
 		dialog.set_current_folder(Gio::File::create_for_path(dir));
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Save", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
+		dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
+		dialog.add_button("Save", Gtk::ResponseType::OK);
+		dialog.set_default_response(Gtk::ResponseType::CANCEL);
 		std::string file = pattern->GetXMLFile();
 		if (file=="") file = "new.tx";
 		dialog.set_current_name(file);
 		dialog.add_filter(filter);
 
-		if (Gtk::RESPONSE_OK == dialog.run())
+		if (Gtk::ResponseType::OK == dialog.run())
 			pattern->SaveToFile(dialog.get_file()->get_path()); // GTKMM4
 	}
 }
@@ -452,7 +452,7 @@ void GroupTreeView::OnPatternLoad()
 	GroupPtr parent = GetParentGroup(pattern);
 	if (pattern && parent)
 	{
-		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
+		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
 
 		std::string dir = std::filesystem::current_path().string();
  
@@ -461,15 +461,15 @@ void GroupTreeView::OnPatternLoad()
 		filter->add_pattern("*.tx");
 
 		dialog.set_current_folder(Gio::File::create_for_path(dir));
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Open", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
+		dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
+		dialog.add_button("Open", Gtk::ResponseType::OK);
+		dialog.set_default_response(Gtk::ResponseType::CANCEL);
 		std::string file = pattern->GetXMLFile();
 		if (file=="") file = "new.pattern";
 		dialog.set_current_name(file);
 		dialog.add_filter(filter);
 
-		if (Gtk::RESPONSE_OK == dialog.run())
+		if (Gtk::ResponseType::OK == dialog.run())
 		{
 			// GTKMM4
 			PatternPtr newPattern = Pattern::Create(pattern->Dev(),dialog.get_file()->get_path()); 

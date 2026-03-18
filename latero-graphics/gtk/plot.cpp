@@ -190,7 +190,7 @@ void Plot::InsertPoint(unsigned int channel, float x, float y)
 void Plot::OnSaveAs()
 {
 	PlotSaveDlg dialog;
-	if (Gtk::RESPONSE_OK == dialog.run())
+	if (Gtk::ResponseType::OK == dialog.run())
 	{
 		// GTKMM4
 		SaveToFile(dialog.get_file()->get_path(), dialog.GetWidth(), dialog.GetHeight());
