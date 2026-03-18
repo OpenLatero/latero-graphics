@@ -70,7 +70,7 @@ PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
 	patternHolder_.set_shadow_type(Gtk::SHADOW_NONE);
 	PatternPtr pattern = peer->GetPattern();
 	auto loadButton = Gtk::manage(new Gtk::Button());
-	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
+	loadButton->set_icon_name("document-open");
 
 	auto patternTextureGridWidthCtrl = Gtk::manage(new PatternTextureGridWidthCtrl(peer));
 	auto patternTextureGridHeightCtrl = Gtk::manage(new PatternTextureGridHeightCtrl(peer));
@@ -143,7 +143,7 @@ PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr pee
 	auto invertCtrl = Gtk::manage(new TextureInvertCtrl(peer));
 	auto amplitudeCtrl = Gtk::manage(new TextureAmplitudeCtrl(peer));
 
-	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
+	loadButton->set_icon_name("document-open");
 	gridWidthCtrl->set_hexpand();
 	gridHeightCtrl->set_hexpand();
 	motionCtrl->set_vexpand();

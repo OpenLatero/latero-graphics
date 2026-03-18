@@ -32,10 +32,10 @@ TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
 	Gtk::Box(Gtk::Orientation::VERTICAL), modeCombo_(texture), texture_(texture)
 {
 	auto saveButton = Gtk::manage(new Gtk::Button());
-	saveButton->set_image_from_icon_name("document-save", Gtk::ICON_SIZE_BUTTON);
+	saveButton->set_icon_name("document-save");
 
 	auto loadButton = Gtk::manage(new Gtk::Button());
-	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
+	loadButton->set_icon_name("document-open");
 
 	append(*saveButton);
 	append(*loadButton);

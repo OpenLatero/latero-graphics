@@ -133,10 +133,10 @@ public:
 		fileEntry_.set_text(peer->GetImgFile());
 
 		auto pOpenButton = Gtk::manage(new Gtk::Button());
-		pOpenButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
+		pOpenButton->set_icon_name("document-open");
 
 		auto pReloadButton = Gtk::manage(new Gtk::Button());
-		pReloadButton->set_image_from_icon_name("view-refresh", Gtk::ICON_SIZE_BUTTON);
+		pReloadButton->set_icon_name("view-refresh");
 
 		auto *box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 		box->append(fileEntry_);
