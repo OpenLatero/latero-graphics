@@ -34,7 +34,7 @@ void ModulatorCombo::Append(ModulatorPtr mod)
 
 	Glib::RefPtr<Gdk::Pixbuf> img  = mod->GetIllustration(50,50);
 	if ((img->get_width() != 50) || (img->get_height() != 50))
-		img = img->scale_simple(50,50,Gdk::INTERP_BILINEAR);
+		img = img->scale_simple(50,50,Gdk::InterpType::BILINEAR);
 	row[columns_.img] = img;
 }
 

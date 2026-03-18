@@ -41,7 +41,7 @@ void TextureCombo::Append(std::string txfile)
 
 	Glib::RefPtr<Gdk::Pixbuf> img  = Gdk::Pixbuf::create_from_file(row[columns_.imgfile]);
 	if ((img->get_width() != 50) || (img->get_height() != 50))
-		img = img->scale_simple(50,50,Gdk::INTERP_BILINEAR);
+		img = img->scale_simple(50,50,Gdk::InterpType::BILINEAR);
 	row[columns_.img] = img;
 }
 

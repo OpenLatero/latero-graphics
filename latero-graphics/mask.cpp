@@ -487,7 +487,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetSurfaceAlpha(uint w, uint h)
 
 	if ((size_x>=1)&&(size_y>= 1))
 	{
-		src = src->scale_simple(size_x, size_y, Gdk::INTERP_BILINEAR);
+		src = src->scale_simple(size_x, size_y, Gdk::InterpType::BILINEAR);
 
 		int src_x1 = fmax(0,-offset_x);
 		int src_y1 = fmax(0,-offset_y);

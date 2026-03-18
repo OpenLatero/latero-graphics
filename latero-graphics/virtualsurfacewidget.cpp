@@ -161,7 +161,7 @@ bool VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr)
     if (buf)
     {
         // the animation might not have the right size
-        buf = buf->scale_simple(GetWidth(),GetHeight(),Gdk::INTERP_NEAREST);
+        buf = buf->scale_simple(GetWidth(),GetHeight(),Gdk::InterpType::NEAREST);
         Gdk::Cairo::set_source_pixbuf(cr, buf, 0, 0);
         cr->paint();
     }
