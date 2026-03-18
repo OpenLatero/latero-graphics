@@ -38,7 +38,7 @@ public:
 	StrokeIntensityCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetIntensity()*100,0,100)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("stroke intensity", adj_, 1, "%")));
+		append(*Gtk::manage(new gtk::HNumWidget("stroke intensity", adj_, 1, "%")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeIntensityCtrl::OnChanged));
 	}
 	virtual ~StrokeIntensityCtrl() {};
@@ -55,7 +55,7 @@ public:
 	StrokeWidthCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetWidth(),0,50.0)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("stroke width", adj_, 1, "mm")));
+		append(*Gtk::manage(new gtk::HNumWidget("stroke width", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeWidthCtrl::OnChanged));
 	}
 	virtual ~StrokeWidthCtrl() {};
@@ -101,7 +101,7 @@ public:
 
 		miscBox->append(*amplitudeWidget);
 		miscBox->append(*invertCtrl);
-		GetBox().add(*box);
+		GetBox().append(*box);
 		box->append(*pitchWidget);
 		box->append(*miscBox);
 	
@@ -120,7 +120,7 @@ public:
 		Gtk::Box(Gtk::Orientation::HORIZONTAL)
 	{
 		gtk::CheckFrame *vib = Gtk::manage(new OscillatorWidget(peer->GetOscillator(), true));
-		add(*vib);
+		append(*vib);
 	}
 	virtual ~StrokeVibrationCtrl() {}
 };
@@ -132,25 +132,25 @@ StrokeProfileWidget::StrokeProfileWidget(StrokePtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	auto w1 = Gtk::manage(new StrokeWidthCtrl(peer));
-	auto w2 = Gtk::manage(new StrokeIntensityCtrl(peer));
-	auto w3 = Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile()));
-	auto w4 = Gtk::manage(new RidgeTextureCtrl(peer->GetProfile()));
-	auto w5 = Gtk::manage(new RidgeGraph(peer->GetProfile(),300));
+	auto strokeWidthCtrl = Gtk::manage(new StrokeWidthCtrl(peer));
+	auto strokeIntensityCtrl = Gtk::manage(new StrokeIntensityCtrl(peer));
+	auto ridgeEdgeWidthScale = Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile()));
+	auto ridgeTextureCtrl = Gtk::manage(new RidgeTextureCtrl(peer->GetProfile()));
+	auto ridgeGraph = Gtk::manage(new RidgeGraph(peer->GetProfile(),300));
 
-	w1->set_vexpand();
-	w2->set_vexpand();
-	w3->set_vexpand();
-	w4->set_vexpand();
-	box->w1->set_hexpand();
+	strokeWidthCtrl->set_vexpand();
+	strokeIntensityCtrl->set_vexpand();
+	ridgeEdgeWidthScale->set_vexpand();
+	ridgeTextureCtrl->set_vexpand();
+	strokeWidthCtrl->set_hexpand();
 
-	box->append(*w1);
-	box->append(*w2);
-	box->append(*w3);
-	box->append(*w4);
+	box->append(*strokeWidthCtrl);
+	box->append(*strokeIntensityCtrl);
+	box->append(*ridgeEdgeWidthScale);
+	box->append(*ridgeTextureCtrl);
 
 	append(*box);
-	append(*w5);
+	append(*ridgeGraph);
 };
 
 
@@ -158,7 +158,7 @@ StrokeFillWidget::StrokeFillWidget(StrokePtr peer) :
 	Gtk::Box(Gtk::Orientation::VERTICAL)
 {
 	Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("general"));
-	frame->add(*Gtk::manage(new StrokeGutterCheck(peer)));
+	frame->set_child(*Gtk::manage(new StrokeGutterCheck(peer)));
 
 	auto vibrationCtrl = Gtk::manage(new StrokeVibrationCtrl(peer));
 	auto textureWidget = Gtk::manage(new StrokeTextureWidget(peer));

@@ -189,7 +189,7 @@ void StrokeMotionWidget::Rebuild()
 		box->append(*Gtk::manage(new StrokeMinMotionWidthCtrl(peer_)));
 		box->append(*Gtk::manage(new GratingPitchWidget(peer_->GetMotionTexture())));
 		Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("frequency"));
-		frame->add(*Gtk::manage(new OscillatorFreqCtrl(peer_->GetMotionOscillator())));
+		frame->set_child(*Gtk::manage(new OscillatorFreqCtrl(peer_->GetMotionOscillator())));
 		box->append(*frame);
 	}
 	else if (cue == Stroke::motion_cue_blend)

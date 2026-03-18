@@ -621,7 +621,7 @@ GroupWidget::GroupWidget(GroupPtr peer) :
     scrolledTreeView->set_size_request(200,200);
 	scrolledTreeView->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
 	scrolledTreeView->set_placement(Gtk::CORNER_TOP_RIGHT);
-	scrolledTreeView->add(treeView_);
+	scrolledTreeView->set_child(treeView_);
     append(*scrolledTreeView);
     
     objWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);

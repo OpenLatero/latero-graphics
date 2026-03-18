@@ -54,7 +54,7 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 
 	Gtk::ScrolledWindow *scrolledWindow = Gtk::manage(new Gtk::ScrolledWindow);
 	scrolledWindow->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-	scrolledWindow->add(img_);
+	scrolledWindow->set_child(img_);
 	scrolledWindow->set_size_request(5 + widthAdj_->get_value(), 5 + heightAdj_->get_value());
 
 	auto hbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
