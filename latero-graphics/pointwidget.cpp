@@ -68,7 +68,7 @@ void PointWidget::SetValue(const Point &p)
 	yAdj_->set_value(p.y);
 }
 
-sigc::signal<void> PointWidget::SignalValueChanged()
+sigc::signal<void()> PointWidget::SignalValueChanged()
 {
 	return signalValueChanged_;
 }

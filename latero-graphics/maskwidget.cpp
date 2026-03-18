@@ -238,10 +238,10 @@ public:
 		hAbsAdj_->set_value(peer_->GetHeight(units::mm));
 	}
 
-	sigc::signal<void> SignalChanged() { return signalChanged_; };
+	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 
 protected:
-	sigc::signal<void> signalChanged_;
+	sigc::signal<void()> signalChanged_;
 
 	void OnWidthUnitsChanged(std::string units) { peer_->SetWidthUnits(units); }
 	void OnHeightUnitsChanged(std::string units) { peer_->SetHeightUnits(units); }

@@ -51,9 +51,9 @@ public:
 		signal_changed().connect(sigc::mem_fun(*this, &CueTypeCombo::OnChange));
 	};
 	virtual ~CueTypeCombo() {};
-	sigc::signal<void> SignalChanged() { return signalChanged_; };
+	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 private:
-	sigc::signal<void> signalChanged_;
+	sigc::signal<void()> signalChanged_;
 	void OnChange() { peer_->SetCueType(get_active_text()); signalChanged_(); };
 };
 
