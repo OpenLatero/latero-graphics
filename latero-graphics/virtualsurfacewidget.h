@@ -71,7 +71,7 @@ protected:
 	// invalidate the entire window
 	void Invalidate();
 
-	virtual void on_size_allocate(Gtk::Allocation& allocation);
+	//virtual void on_size_allocate(int width, int height, int baseline);
 
 	/** dots per mm in x */
 	inline double dpmm_x() { return GetWidth() / dev_->GetSurfaceWidth(); }
@@ -88,7 +88,7 @@ protected:
 	void DrawCursor(const Cairo::RefPtr<Cairo::Context> &cr);
 
 	//virtual bool on_expose_event(GdkEventExpose* event);
-    void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height);
+    bool OnDraw(const Cairo::RefPtr<Cairo::Context>& cr);
 
 protected:
     
@@ -200,7 +200,7 @@ protected:
 
 	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	bool OnCheckPeer();
-	virtual void on_size_allocate(Gtk::Allocation& allocation);
+	virtual void on_size_allocate(int width, int height, int baseline);
 
 private:
 	GeneratorPtr peer_;

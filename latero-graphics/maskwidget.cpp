@@ -79,9 +79,9 @@ protected:
 		return true;
 	}
 
-	virtual void on_size_allocate(Gtk::Allocation& allocation)
+	virtual void on_size_allocate(int width, int height, int baseline)
 	{
-		latero::graphics::VirtualSurfaceWidget::on_size_allocate(allocation);
+		latero::graphics::VirtualSurfaceWidget::on_size_allocate(width, height, baseline);
 		RefreshBackground();
 	}
 

@@ -139,13 +139,15 @@ VirtualSurfaceArea::~VirtualSurfaceArea()
 	anim_.Deactivate();
 }
 
-void VirtualSurfaceArea::on_size_allocate(Gtk::Allocation& allocation)
+/*
+void VirtualSurfaceArea::on_size_allocate(int width, int height, int baseline)
 {
-	Gtk::DrawingArea::on_size_allocate(allocation);
+	Gtk::DrawingArea:on_size_allocate(width, height, baseline);
     
 	// We can't resize the animation here: quality degrades too quickly.
 	// We could keep a second resized copy, but that would require a lot of memory.
 }
+*/
 
 void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
@@ -605,10 +607,9 @@ void VirtualSurfaceWidget::RefreshBackground()
 	}
 }
 
-
-void VirtualSurfaceWidget::on_size_allocate(Gtk::Allocation& allocation)
+void VirtualSurfaceWidget::on_size_allocate(int width, int height, int baseline)
 {
-	BaseVirtualSurfaceWidget::on_size_allocate(allocation);
+	BaseVirtualSurfaceWidget::on_size_allocate(width, height, baseline);
 	RefreshBackground();
 }
 
