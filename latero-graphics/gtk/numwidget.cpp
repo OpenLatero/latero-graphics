@@ -135,8 +135,7 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 		scale_->set_hexpand();
 	}
 
-	scale_->signal_format_value().connect(
-		sigc::mem_fun(*this, &NumWidget::OnFormat));
+	scale_->set_format_value_func(sigc::mem_fun(*this, &NumWidget::OnFormat)); // GTKMM4: signal_format_value() replaced by set_format_value_func()
 
 	unitsCombo_.Append(units,adj,digits);
 	unitsCombo_.SetActive(units);

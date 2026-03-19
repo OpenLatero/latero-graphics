@@ -185,12 +185,13 @@ void Plot::InsertPoint(unsigned int channel, float x, float y)
 
 void Plot::OnSaveAs()
 {
-	PlotSaveDlg dialog;
-	if (Gtk::ResponseType::OK == dialog.run())
-	{
-		// GTKMM4
-		SaveToFile(dialog.get_file()->get_path(), dialog.GetWidth(), dialog.GetHeight());
-	}
+	auto dialog = new PlotSaveDlg(); // GTKMM4: replaced blocking run() with async signal_response()
+	dialog->signal_response().connect([this, dialog](int response_id) {
+		if (response_id == Gtk::ResponseType::OK)
+			SaveToFile(dialog->get_file()->get_path(), dialog->GetWidth(), dialog->GetHeight());
+		delete dialog;
+	});
+	dialog->show();
 }
 
 void Plot::OnSave()
