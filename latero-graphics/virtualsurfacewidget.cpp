@@ -609,7 +609,7 @@ void VirtualSurfaceWidget::RefreshBackground()
 
 void VirtualSurfaceWidget::on_size_allocate(int width, int height, int baseline)
 {
-	BaseVirtualSurfaceWidget::on_size_allocate(width, height, baseline);
+	//Gtk::Widget::on_size_allocate(width, height, baseline); // GTKMM4
 	RefreshBackground();
 }
 
