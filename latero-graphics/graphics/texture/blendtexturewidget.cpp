@@ -38,9 +38,9 @@ BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 	auto optionBox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	optionBox->append(modCombo_);
 	optionBox->append(modWidgetHolder_);
-	modWidgetHolder_->set_hexpand();
+	modWidgetHolder_.set_hexpand();
 	optionBox->append(*Gtk::manage(new PatternPreview(peer)));
-	modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
+	modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
 
 	append_page(*optionBox,"options");
 	append_page(*txWidgets_[0],"Texture (high)");
@@ -69,10 +69,10 @@ void BlendTextureWidget::OnModulatorChanged(ModulatorPtr mod)
 	peer_->SetModulator(mod);
 
 	Widget *old = modWidgetHolder_.get_child();
-	modWidgetHolder_.remove();
+	modWidgetHolder_.unset_child(); // GTKMM4: Frame::remove() → unset_child()
 	delete old;
 
-	modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
+	modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
 }
 
 } // namespace graphics

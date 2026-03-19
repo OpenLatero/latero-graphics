@@ -112,12 +112,14 @@ TextureCombo::TextureCombo(TexturePtr tx, std::vector<std::string> textures) :
 {
 	if (textures_.size()==0) textures_ = GetStockTextures();
 
-	// display as a table with 4 columns
-	set_wrap_width(4);
+	// GTKMM4: set_wrap_width() removed from Gtk::ComboBox
 
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	append(columns_.img);
+	// GTKMM4: append(column) removed; use CellRendererPixbuf with pack_start/add_attribute
+	Gtk::CellRendererPixbuf* cell = Gtk::manage(new Gtk::CellRendererPixbuf());
+	pack_start(*cell);
+	add_attribute(*cell, "pixbuf", columns_.img);
 
 	for (unsigned int i=0; i<textures_.size(); ++i)
 		Append(textures_[i]);
@@ -132,12 +134,14 @@ TextureCombo::TextureCombo(const latero::Tactograph *dev, std::vector<std::strin
 {
 	if (textures_.size()==0) textures_ = GetStockTextures();
 
-	// display as a table with 4 columns
-	set_wrap_width(4);
+	// GTKMM4: set_wrap_width() removed from Gtk::ComboBox
 
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	append(columns_.img);
+	// GTKMM4: append(column) removed; use CellRendererPixbuf with pack_start/add_attribute
+	Gtk::CellRendererPixbuf* cell = Gtk::manage(new Gtk::CellRendererPixbuf());
+	pack_start(*cell);
+	add_attribute(*cell, "pixbuf", columns_.img);
 
 	for (unsigned int i=0; i<textures_.size(); ++i)
 		Append(textures_[i]);

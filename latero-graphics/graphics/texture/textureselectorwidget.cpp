@@ -41,7 +41,7 @@ TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
 	append(*loadButton);
 	append(modeCombo_);
 
-	modeCombo_->set_vexpand();
+	modeCombo_.set_vexpand();
 
 	saveButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnSave));
 	loadButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnLoad));
@@ -143,7 +143,7 @@ void TextureSelectorWidget::Build()
 	{
 		widget_ = Gtk::manage(tx->CreateWidget(tx));
 		append(*widget_);
-		widget->set_hexpand();
+		widget_->set_hexpand();
 	}
 }
 
