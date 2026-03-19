@@ -32,8 +32,11 @@ ImageCombo::ImageCombo() :
 {
 	model_ = Gtk::ListStore::create(columns_);
 	combo_.set_model(model_);
-	combo_.append(columns_.img_);
-	add(combo_);
+	// GTKMM4: replaced combo_.append(columns_.img_) with cell renderer API
+	Gtk::CellRendererPixbuf* cell = Gtk::manage(new Gtk::CellRendererPixbuf());
+	combo_.pack_start(*cell);
+	combo_.add_attribute(*cell, "pixbuf", columns_.img_);
+	append(combo_);
 	combo_.signal_changed().connect( sigc::mem_fun(*this, &ImageCombo::OnComboChanged) );
 }
 

@@ -37,7 +37,7 @@ CheckFrame::CheckFrame(bool checkState, std::string label, bool check_in_label) 
 	check_.set_active(checkState);
 	innerBox_.set_sensitive(checkState);
 
-	add(mainBox_);
+	set_child(mainBox_);
 	if (!check_in_label) mainBox_.append(check_);
 	mainBox_.append(innerBox_);
 	innerBox_.set_hexpand();
