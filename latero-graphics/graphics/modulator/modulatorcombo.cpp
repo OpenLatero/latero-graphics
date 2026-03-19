@@ -77,11 +77,13 @@ ModulatorCombo::ModulatorCombo(ModulatorPtr mod) :
 	dev_(mod->Dev()),
 	signalEnable_(true)
 {
-	set_wrap_width(1);
-
+	// GTKMM4: set_wrap_width() removed from Gtk::ComboBox
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	append(columns_.img);
+	// GTKMM4: append(column) removed; use CellRendererPixbuf with pack_start/add_attribute
+	Gtk::CellRendererPixbuf* cell = Gtk::manage(new Gtk::CellRendererPixbuf());
+	pack_start(*cell);
+	add_attribute(*cell, "pixbuf", columns_.img);
 
 	Append(DirModulator::Create(dev_));
 	DirModulatorPtr symDirmod = DirModulator::Create(dev_);

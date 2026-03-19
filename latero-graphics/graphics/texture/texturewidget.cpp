@@ -37,8 +37,8 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 	combo_.set_active_text("texture");
 	txCombo_.set_sensitive(false);
 
-	combo_->set_vexpand();
-	txCombo_->set_vexpand();
+	combo_.set_vexpand();
+	txCombo_.set_vexpand();
 
 	get_content_area()->append(combo_);
 	get_content_area()->append(txCombo_);
@@ -53,6 +53,26 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 void CreateTextureDlg::OnComboChanged()
 {
 	txCombo_.set_sensitive(combo_.get_active_text() == "texture");
+
+	// GTKMM4: show file dialog immediately on selection so the path is ready when OK is clicked
+	if (combo_.get_active_text() == "load from file")
+	{
+		loadedFile_.clear();
+		auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::OPEN);
+		auto filter = Gtk::FileFilter::create();
+		filter->add_pattern("*.tx");
+		dialog->set_current_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+		dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
+		dialog->add_button("Open", Gtk::ResponseType::OK);
+		dialog->set_default_response(Gtk::ResponseType::CANCEL);
+		dialog->add_filter(filter);
+		dialog->signal_response().connect([this, dialog](int response_id) {
+			if (response_id == Gtk::ResponseType::OK)
+				loadedFile_ = dialog->get_file()->get_path();
+			delete dialog;
+		});
+		dialog->show();
+	}
 }
 
 TexturePtr CreateTextureDlg::CreateTexture()
@@ -61,25 +81,10 @@ TexturePtr CreateTextureDlg::CreateTexture()
 	if (type == "texture")	return txCombo_.GetTexture();
 	else if (type == "load from file")
 	{
-		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
-			
-		std::string dir = std::filesystem::current_path().string();
- 
-        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
-		filter->add_pattern("*.tx");
-
-		dialog.set_current_folder(Gio::File::create_for_path(dir));
-		dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
-		dialog.add_button("Open", Gtk::ResponseType::OK);
-		dialog.set_default_response(Gtk::ResponseType::CANCEL);
-		std::string file = "new.tx";
-		dialog.set_current_name(file);
-		dialog.add_filter(filter);
-
-		if (Gtk::ResponseType::OK == dialog.run())
-			return Texture::Create(dev_,dialog.get_file()->get_path()); // GTKMM4
-		else
-			return TexturePtr();
+		// GTKMM4: file was already selected in OnComboChanged(); path stored in loadedFile_
+		if (!loadedFile_.empty())
+			return Texture::Create(dev_, loadedFile_);
+		return TexturePtr();
 	}
 	else return TexturePtr();
 }
@@ -103,10 +108,10 @@ TextureTDCentricCtrl::TextureTDCentricCtrl(TexturePtr peer) :
 	
 	// TODO: use Check above instead...
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	add(*box);
+	set_child(*box);
 	box->append(*check);
 	box->append(point_);
-	point_->set_hexpand();
+	point_.set_hexpand();
 	point_.set_sensitive(check->get_active());
 	check->signal_toggled().connect(sigc::mem_fun(*this, &TextureTDCentricCtrl::OnClick));
 	point_.SignalValueChanged().connect(sigc::mem_fun(*this, &TextureTDCentricCtrl::OnPosChanged));
@@ -129,7 +134,7 @@ TextureInvertCtrl::TextureInvertCtrl(TexturePtr peer) :
 	check_("invert"),
 	peer_(peer)
 {
-	add(check_);
+	append(check_);
 	check_.set_active(peer_->GetInvert());
 	check_.signal_toggled().connect(sigc::mem_fun(*this, &TextureInvertCtrl::OnClick));
 }
@@ -143,7 +148,7 @@ public:
 	TextureMotionDirectionCtrl(TexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionDirection(),0,360)), peer_(peer)
 	{
-		auto Gtk::manage(new gtk::HNumWidget(adj_,0, units::degree));
+		auto widget = Gtk::manage(new gtk::HNumWidget(adj_,0, units::degree));
 		append(*widget);
 		widget->set_vexpand();
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionDirectionCtrl::OnChanged));
@@ -260,7 +265,7 @@ void TextureWidget::OnAdvancedClosed()
 void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPreview, bool showAdvanced)
 {
 	Gtk::Widget *wp = get_child();
-	remove();
+	unset_child(); // GTKMM4: Frame::remove() → unset_child()
 	delete wp;
 
 	TextureAdvancedButton *advancedButton = Gtk::manage(new TextureAdvancedButton(peer_));
@@ -268,7 +273,7 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 	advancedButton->SignalClosed().connect(sigc::mem_fun(*this, &TextureWidget::OnAdvancedClosed));
 
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	add(*box);
+	set_child(*box);
 
 	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 
