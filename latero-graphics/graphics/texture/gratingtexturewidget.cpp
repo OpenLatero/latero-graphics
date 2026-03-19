@@ -34,7 +34,7 @@ GratingTextureSeedCtrl::GratingTextureSeedCtrl(GratingTexturePtr peer) :
 	peer_(peer),
 	widget_(peer->GetSeed(),0,peer->Dev()->GetSurfaceWidth(),0,peer->Dev()->GetSurfaceHeight())
 {
-	add(widget_);
+	set_child(widget_);
 	widget_.SignalValueChanged().connect(
 		sigc::mem_fun(*this, &GratingTextureSeedCtrl::OnChanged));
 

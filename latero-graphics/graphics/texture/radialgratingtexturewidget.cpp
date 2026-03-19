@@ -34,6 +34,8 @@ void RadialGratingTextureWidget::Create()
 	auto ridgeSizeWidget = CreateRidgeSizeWidget();
 	auto gapSizeWidget = CreateGapSizeWidget();
 	auto gratingVelocityWidget = CreateGratingVelocityWidget();
+	auto checks = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+	auto grid = Gtk::manage(new Gtk::Grid());
 
 	vibCheck->set_hexpand();
 	tdCentricCheck->set_hexpand();
@@ -43,11 +45,9 @@ void RadialGratingTextureWidget::Create()
 	checks->set_hexpand();
 	gratingVelocityWidget->set_hexpand();
 
-	auto checks = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	checks->append(*vibCheck);
 	checks->append(*tdCentricCheck);
 
-	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->attach(*seedWidget,0,0,2,1);
 	grid->attach(*ridgeSizeWidget,0,1,1,1);
 	grid->attach(*gapSizeWidget,1,1,1,1);
@@ -65,17 +65,17 @@ RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGra
 	auto gratingVelocityWidget = Gtk::manage(new GratingVelocityWidget(peer->GetGrating()));
 	auto gratingAdvancedButton = Gtk::manage(new GratingAdvancedButton(peer->GetGrating()));
 	auto textureMotionCtrl = Gtk::manage(new TextureMotionCtrl(peer));
+	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 
 	gratingPitchWidget->set_vexpand();
 	gratingVelocityWidget->set_vexpand();
-	tdCentricCtrl_->set_vexpand();
-	vibCtrl_->set_vexpand();
+	tdCentricCtrl_.set_vexpand();
+	vibCtrl_.set_vexpand();
 	textureMotionCtrl->set_vexpand();
-	ampCtrl_->set_vexpand();
-	seedCtrl_->set_vexpand();
+	ampCtrl_.set_vexpand();
+	seedCtrl_.set_vexpand();
 	vbox->set_hexpand();
 
-	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	vbox->append(seedCtrl_);
 	vbox->append(*gratingPitchWidget);
 	vbox->append(*gratingVelocityWidget);
@@ -89,7 +89,7 @@ RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGra
 	lbox->append(ampCtrl_);
 
 	auto hbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	add(*hbox);
+	append(*hbox);
 	hbox->append(*lbox);
 	hbox->append(*vbox);
 	hbox->append(preview_);

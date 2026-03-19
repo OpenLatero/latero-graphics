@@ -37,7 +37,7 @@ public:
 	AngleWidget(LinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("orientation", adj_, 1, units::degree)));
+		append(*Gtk::manage(new gtk::HNumWidget("orientation", adj_, 1, units::degree)));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &AngleWidget::OnChanged));
 	}
@@ -96,6 +96,7 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 
 	auto gratingPitchWidget = Gtk::manage(new GratingPitchWidget(peer->GetGrating()));
 	auto angleWidget = Gtk::manage(new AngleWidget(peer));
+	auto grid = Gtk::manage(new Gtk::Grid());
 
 	seedCtrl_.set_hexpand();
 	gratingPitchWidget->set_hexpand();
@@ -115,9 +116,8 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	vibCtrl_.set_vexpand();
 	gratingCtrls_.advButton_.set_vexpand();	
 	grid->set_hexpand();
-	ampCtrl_->set_vexpand();
+	ampCtrl_.set_vexpand();
 
-	auto grid = Gtk::manage(new Gtk::Grid());
 	grid->attach(seedCtrl_,0,0,2,1); 
 	grid->attach(*gratingPitchWidget,0,1,2,1);
 	grid->attach(*angleWidget,0,2,1,1);

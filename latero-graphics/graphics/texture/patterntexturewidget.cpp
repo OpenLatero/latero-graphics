@@ -37,7 +37,7 @@ public:
 	PatternTextureGridWidthCtrl(PatternTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetGridWidth(),0.1,500)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("grid width", adj_, 3, units::mm)));
+		append(*Gtk::manage(new gtk::HNumWidget("grid width", adj_, 3, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PatternTextureGridWidthCtrl::OnChanged));
 	}
 	virtual ~PatternTextureGridWidthCtrl() {};
@@ -53,7 +53,7 @@ public:
 	PatternTextureGridHeightCtrl(PatternTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetGridHeight(),0.1,500)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("grid height", adj_, 3, units::mm)));
+		append(*Gtk::manage(new gtk::HNumWidget("grid height", adj_, 3, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PatternTextureGridHeightCtrl::OnChanged));
 	}
 	virtual ~PatternTextureGridHeightCtrl() {};
@@ -79,10 +79,10 @@ PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
 	auto textureAmplitudeCtrl = Gtk::manage(new TextureAmplitudeCtrl(peer));
 	auto patternPreview = Gtk::manage(new PatternPreview(peer));
 
-	patternTextureGridWidthCtrl->set_hexpand()
-	patternTextureGridHeightCtrl->set_hexpand()
-	patternHolder_->set_vexpand()
-	textureAmplitudeCtrl->set_vexpand()
+	patternTextureGridWidthCtrl->set_hexpand();
+	patternTextureGridHeightCtrl->set_hexpand();
+	patternHolder_.set_vexpand();
+	textureAmplitudeCtrl->set_vexpand();
 
 	Gtk::Box *topbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	topbox->append(*patternTextureGridWidthCtrl);
@@ -93,7 +93,7 @@ PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
 	auto mainbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	mainbox->append(*topbox);
 	mainbox->append(patternHolder_);
-	patternHolder_.add(*patternWidget);
+	patternHolder_.set_child(*patternWidget);
 	
 	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	sidebox->append(*textureInvertCtrl);
@@ -107,20 +107,23 @@ PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
 
 void PatternTextureWidget::OnLoad()
 {
-	PatternCreatorDialog dlg(peer_->Dev());
-	if (Gtk::ResponseType::OK == dlg.run())
-	{
-		PatternPtr newPattern = dlg.CreatePattern();
-		if (newPattern)
+	auto dlg = new PatternCreatorDialog(peer_->Dev()); // GTKMM4: replaced blocking run()
+	dlg->signal_response().connect([this, dlg](int response_id) {
+		if (response_id == Gtk::ResponseType::OK)
 		{
-			Gtk::Widget *wp = patternHolder_.get_child();
-			patternHolder_.remove();
-			delete wp;
-
-			peer_->SetPattern(newPattern);
-			patternHolder_.add(*Gtk::manage(newPattern->CreateWidget(newPattern)));
+			PatternPtr newPattern = dlg->CreatePattern();
+			if (newPattern)
+			{
+				Gtk::Widget *wp = patternHolder_.get_child();
+				patternHolder_.unset_child();
+				delete wp;
+				peer_->SetPattern(newPattern);
+				patternHolder_.set_child(*Gtk::manage(newPattern->CreateWidget(newPattern)));
+			}
 		}
-	}
+		delete dlg;
+	});
+	dlg->show();
 }
 
 
@@ -145,7 +148,7 @@ PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr pee
 	gridWidthCtrl->set_hexpand();
 	gridHeightCtrl->set_hexpand();
 	motionCtrl->set_vexpand();
-	patternHolder_->set_vexpand();
+	patternHolder_.set_vexpand();
 	amplitudeCtrl->set_vexpand();
 
 	auto topbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
@@ -157,7 +160,7 @@ PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr pee
 	mainbox->append(*topbox);
 	mainbox->append(*motionCtrl);
 	mainbox->append(patternHolder_);
-	patternHolder_.add(*Gtk::manage(pattern->CreateWidget(pattern)));
+	patternHolder_.set_child(*Gtk::manage(pattern->CreateWidget(pattern)));
 	
 	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
 	sidebox->append(*invertCtrl);
@@ -172,20 +175,23 @@ PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr pee
 
 void PatternTextureAdvancedWidget::OnLoad()
 {
-	PatternCreatorDialog dlg(peer_->Dev());
-	if (Gtk::ResponseType::OK == dlg.run())
-	{
-		PatternPtr newPattern = dlg.CreatePattern();
-		if (newPattern)
+	auto dlg = new PatternCreatorDialog(peer_->Dev()); // GTKMM4: replaced blocking run()
+	dlg->signal_response().connect([this, dlg](int response_id) {
+		if (response_id == Gtk::ResponseType::OK)
 		{
-			Gtk::Widget *wp = patternHolder_.get_child();
-			patternHolder_.remove();
-			delete wp;
-
-			peer_->SetPattern(newPattern);
-			patternHolder_.add(*Gtk::manage(newPattern->CreateWidget(newPattern)));
+			PatternPtr newPattern = dlg->CreatePattern();
+			if (newPattern)
+			{
+				Gtk::Widget *wp = patternHolder_.get_child();
+				patternHolder_.unset_child();
+				delete wp;
+				peer_->SetPattern(newPattern);
+				patternHolder_.set_child(*Gtk::manage(newPattern->CreateWidget(newPattern)));
+			}
 		}
-	}
+		delete dlg;
+	});
+	dlg->show();
 }
 
 } // namespace graphics

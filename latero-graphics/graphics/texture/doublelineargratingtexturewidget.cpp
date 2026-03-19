@@ -40,7 +40,7 @@ public:
 		peer_(peer),
 		widget_(peer->GetSeed(),0,227,0,168) // TODO: we'd like to know the surface size here...
 	{
-		add(widget_);
+		set_child(widget_);
 		widget_.SignalValueChanged().connect(sigc::mem_fun(*this, &SeedCtrl::OnChanged));
 	}
 	virtual ~SeedCtrl() {};
@@ -56,7 +56,7 @@ public:
 	AngleWidget(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("orientation", adj_, 0, units::degree)));
+		append(*Gtk::manage(new gtk::HNumWidget("orientation", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &AngleWidget::OnChanged));
 	}
 	virtual ~AngleWidget() {};
@@ -72,7 +72,7 @@ public:
 	PrimRidgeSizeWidget(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetPrimaryRidgeSize(),0,100)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("primary ridge size", adj_, 1, units::mm)));
+		append(*Gtk::manage(new gtk::HNumWidget("primary ridge size", adj_, 1, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PrimRidgeSizeWidget::OnChanged));
 	}
 	virtual ~PrimRidgeSizeWidget() {};
@@ -88,7 +88,7 @@ public:
 	SecondaryScaleWidget(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetSecondaryScale(),0,10)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("secondary scale", adj_, 1)));
+		append(*Gtk::manage(new gtk::HNumWidget("secondary scale", adj_, 1)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &SecondaryScaleWidget::OnChanged));
 	}
 	virtual ~SecondaryScaleWidget() {};
@@ -104,7 +104,7 @@ public:
 	PrimGapSizeWidget(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetPrimaryGapSize(),0,100)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("primary gap size", adj_, 1, units::mm)));
+		append(*Gtk::manage(new gtk::HNumWidget("primary gap size", adj_, 1, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PrimGapSizeWidget::OnChanged));
 	}
 	virtual ~PrimGapSizeWidget() {};
@@ -121,7 +121,7 @@ public:
 		Gtk::Frame("constraint"),
 		peer_(peer)
 	{
-		add(combo_);
+		set_child(combo_);
 		combo_.append("orthogonal");
 		combo_.append("parallel");
 		if (peer->GetConstraint() == DoubleLinearGratingTexture::constraint_ortho)
@@ -150,7 +150,7 @@ public:
 		Gtk::Frame("operation"),
 		combo_(peer)
 	{
-		add(combo_);
+		set_child(combo_);
 	}
 	virtual ~OperationWidget() {};
 protected:
@@ -167,7 +167,7 @@ public:
         peer_(peer)
 	{
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-		add(*box);
+		set_child(*box);
 		box->append(*Gtk::manage(new gtk::VNumWidget(adj0_,0, units::percent)));
 		box->append(*Gtk::manage(new gtk::VNumWidget(adj1_,0, units::percent)));
 		adj0_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged0));
