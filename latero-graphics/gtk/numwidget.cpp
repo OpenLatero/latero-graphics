@@ -30,7 +30,10 @@ NumWidgetCombo::NumWidgetCombo()
 {
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	append(columns_.units);
+	// GTKMM4: replaced append(columns_.units) with cell renderer API
+	Gtk::CellRendererText* cell = Gtk::manage(new Gtk::CellRendererText());
+	pack_start(*cell);
+	add_attribute(*cell, "text", columns_.units);
 }
 
 void NumWidgetCombo::Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
@@ -115,7 +118,7 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	// in which case the policy should be emulated by not handling all updates the same.
     //scale_->set_update_policy(Gtk::UPDATE_DISCONTINUOUS);
 
-	add(*box2);
+	set_child(*box2);
 	box2->append(*box_);
 	if (orient == ORIENT_V)
 	{
