@@ -78,7 +78,8 @@ public:
 
 	void RebuildMenu(PatternPtr pattern);
 
-	Gtk::Menu menu_;
+	std::unique_ptr<Gtk::PopoverMenu> popupMenu_; // GTKMM4: replaced Gtk::Menu
+	Glib::RefPtr<Gio::SimpleActionGroup> actionGroup_; // GTKMM4
 	ListColumns columns_;
 	GroupPtr peer_;
 };
