@@ -52,19 +52,40 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 	get_content_area()->append(combo_);
 	get_content_area()->append(txCombo_);
 
-	combo_->set_vexpand();
-	txCombo_->set_vexpand();
+	combo_.set_vexpand();
+	txCombo_.set_vexpand();
 
 	combo_.signal_changed().connect( sigc::mem_fun(*this, &PatternCreatorDialog::OnComboChanged) );
 	
 	add_button("O", Gtk::ResponseType::OK);
-	add_button("Cancel", Gtk::ResponseType::CANCEL);		
+	add_button("Cancel", Gtk::ResponseType::CANCEL);
 }
 
 
 void PatternCreatorDialog::OnComboChanged()
 {
 	txCombo_.set_sensitive(combo_.get_active_text() == "texture");
+
+	// GTKMM4: show file dialog immediately on selection so the path is ready when OK is clicked
+	if (combo_.get_active_text() == "load from file")
+	{
+		loadedFile_.clear();
+		auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::OPEN);
+		auto filter = Gtk::FileFilter::create();
+		filter->add_pattern("*.pattern");
+		filter->add_pattern("*.tx");
+		dialog->set_current_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+		dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
+		dialog->add_button("Open", Gtk::ResponseType::OK);
+		dialog->set_default_response(Gtk::ResponseType::CANCEL);
+		dialog->add_filter(filter);
+		dialog->signal_response().connect([this, dialog](int response_id) {
+			if (response_id == Gtk::ResponseType::OK)
+				loadedFile_ = dialog->get_file()->get_path();
+			delete dialog;
+		});
+		dialog->show();
+	}
 }
 
 PatternPtr PatternCreatorDialog::CreatePattern()
@@ -80,24 +101,10 @@ PatternPtr PatternCreatorDialog::CreatePattern()
 	else if (type == "group")	return Group::Create(dev_);
 	else if (type == "load from file")
 	{
-		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
-		
-		std::string dir = std::filesystem::current_path().string();
-
-        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
-		filter->add_pattern("*.pattern");
-		filter->add_pattern("*.tx");
-		dialog.set_current_folder(Gio::File::create_for_path(dir));
-		dialog.add_button("Cancel", Gtk::ResponseType::CANCEL);
-		dialog.add_button("Open", Gtk::ResponseType::OK);
-		dialog.set_default_response(Gtk::ResponseType::CANCEL);
-		std::string file = "new.pattern";
-		dialog.set_current_name(file);
-		dialog.add_filter(filter);
-		if (Gtk::ResponseType::OK == dialog.run())
-			return Pattern::Create(dev_,dialog.get_file()->get_path()); // GTKMM4
-		else
-			return PatternPtr();
+		// GTKMM4: file was already selected in OnComboChanged(); path stored in loadedFile_
+		if (!loadedFile_.empty())
+			return Pattern::Create(dev_, loadedFile_);
+		return PatternPtr();
 	}
 	else return PatternPtr();
 }

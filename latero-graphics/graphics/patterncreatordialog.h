@@ -42,6 +42,7 @@ protected:
 	Gtk::ComboBoxText combo_;
 	TextureCombo txCombo_;
 	const latero::Tactograph *dev_;
+	std::string loadedFile_; // GTKMM4: stores path selected via file dialog
 };
 
 } // namespace graphics

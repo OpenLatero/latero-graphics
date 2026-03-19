@@ -46,7 +46,7 @@ ImageWidget::ImageWidget(ImagePtr peer, bool showMaskWidget) :
 	else
 	{
 		box->append(txWidget_);
-		txWidget_->set_hexpand();
+		txWidget_.set_hexpand();
 	}
 	//box->append(vizButton_);
 

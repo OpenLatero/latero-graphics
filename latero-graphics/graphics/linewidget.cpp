@@ -39,7 +39,7 @@ public:
 		peer_(peer),
 		widget_(peer->GetStartPoint(),0,peer->Dev()->GetSurfaceWidth(),0,peer->Dev()->GetSurfaceHeight())
 	{
-		add(widget_);
+		set_child(widget_);
 		widget_.SignalValueChanged().connect(sigc::mem_fun(*this, &LineStartCtrl::OnChanged));
 	}
 	virtual ~LineStartCtrl() {};
@@ -58,7 +58,7 @@ public:
 		peer_(peer),
 		widget_(peer->GetEndPoint(),0,peer->Dev()->GetSurfaceWidth(),0,peer->Dev()->GetSurfaceHeight())
 	{
-		add(widget_);
+		set_child(widget_);
 		widget_.SignalValueChanged().connect(sigc::mem_fun(*this, &LineEndCtrl::OnChanged));
 	}
 protected:
