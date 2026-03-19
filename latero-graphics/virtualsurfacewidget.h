@@ -88,7 +88,7 @@ protected:
 	void DrawCursor(const Cairo::RefPtr<Cairo::Context> &cr);
 
 	//virtual bool on_expose_event(GdkEventExpose* event);
-    bool OnDraw(const Cairo::RefPtr<Cairo::Context>& cr);
+    void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height);
 
 protected:
     
