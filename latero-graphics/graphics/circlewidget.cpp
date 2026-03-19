@@ -40,7 +40,7 @@ public:
 		peer_(peer),
 		widget_(peer->GetCenter(),0,peer->Dev()->GetSurfaceWidth(),0,peer->Dev()->GetSurfaceHeight())
 	{
-		add(widget_);
+		set_child(widget_);
 		widget_.SignalValueChanged().connect(sigc::mem_fun(*this, &CircleCenterCtrl::OnChanged));
 	}
 	virtual ~CircleCenterCtrl() {};
@@ -57,7 +57,7 @@ public:
 	CircleRadiusCtrl(CirclePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetRadius(), 0.1, 100.0)), peer_(peer)
 	{
-		add(*Gtk::manage(new latero::graphics::gtk::HNumWidget("radius", adj_, 1, "mm")));
+		append(*Gtk::manage(new latero::graphics::gtk::HNumWidget("radius", adj_, 1, "mm")));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &CircleRadiusCtrl::OnChanged));
 	}
 	virtual ~CircleRadiusCtrl() {};

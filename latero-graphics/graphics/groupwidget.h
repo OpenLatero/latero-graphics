@@ -64,7 +64,7 @@ public:
 	GroupPtr GetParentGroup(PatternPtr pattern);
 
 	PatternPtr GetCurrentPattern();
-	virtual bool on_button_press_event(GdkEventButton* event);
+	void OnClick(int n_press, double x, double y); // GTKMM4: replaced on_button_press_event
 	void OnPatternRemove();
 	void OnPatternSave();
 	void OnTextureSave();

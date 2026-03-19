@@ -35,7 +35,7 @@ DotRadiusCtrl::DotRadiusCtrl(DotPtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetDotRadius(), 0.01, 20.0))
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotRadiusCtrl::OnChanged));
-	add(*Gtk::manage(new gtk::HNumWidget("radius",adj_,1,"mm")));
+	append(*Gtk::manage(new gtk::HNumWidget("radius",adj_,1,"mm")));
 }
 void DotRadiusCtrl::OnChanged() { peer_->SetDotRadius(adj_->get_value()); }
 
@@ -46,7 +46,7 @@ DotHeightCtrl::DotHeightCtrl(DotPtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetHeight()*100, 1, 100))
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotHeightCtrl::OnChanged));
-	add(*Gtk::manage(new gtk::HNumWidget("height",adj_,0,"%")));
+	append(*Gtk::manage(new gtk::HNumWidget("height",adj_,0,"%")));
 }
 void DotHeightCtrl::OnChanged() { peer_->SetHeight(adj_->get_value()/100); };
 
@@ -60,7 +60,7 @@ public:
 		widget_(peer->GetPos(),0,peer->Dev()->GetSurfaceWidth(),0,peer->Dev()->GetSurfaceHeight())
 	{
 		widget_.SignalValueChanged().connect(sigc::mem_fun(*this, &DotPosCtrl::OnChanged));
-		add(widget_);
+		set_child(widget_);
 	}
 	virtual ~DotPosCtrl() {}
 protected:

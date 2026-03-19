@@ -206,7 +206,7 @@ bool Group::OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state)
 	// TODO: unsafe... should be locked!
 	bool rv = false;
 	for (unsigned int i=0; i<objects_.size(); ++i)
-		rv |= objects_[i]->OnKeyPress(event);
+		rv |= objects_[i]->OnKeyPress(keyval, keycode, state);
 	return rv;
 }
 

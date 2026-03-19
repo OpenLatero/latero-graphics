@@ -116,7 +116,7 @@ void Canvas::PlayAudio(AudioDevicePtr dev)
     
 bool Canvas::OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state)
 {
-	return GetGroup()->OnKeyPress(event);
+	return GetGroup()->OnKeyPress(keyval, keycode, state);
 }
 
 void Canvas::OnButtonEvent_(const ButtonEvent &event) 

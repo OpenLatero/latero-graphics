@@ -68,6 +68,12 @@ GroupTreeView::GroupTreeView(GroupPtr peer) :
 	Refresh();
 	append_column("name", columns_.name_);
 	set_headers_visible (false);
+
+	// GTKMM4: replaced on_button_press_event with GestureClick
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &GroupTreeView::OnClick));
+	add_controller(gesture);
 }
 
 void GroupTreeView::RebuildMenu(PatternPtr pattern)
@@ -132,19 +138,14 @@ void GroupTreeView::RebuildMenu(PatternPtr pattern)
 }
 
 
-bool GroupTreeView::on_button_press_event(GdkEventButton* event)
+void GroupTreeView::OnClick(int n_press, double x, double y) // GTKMM4: replaced on_button_press_event
 {
-	bool rv = TreeView::on_button_press_event(event);
-	if( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) )
+	PatternPtr pattern = GetCurrentPattern();
+	if (pattern)
 	{
-		PatternPtr pattern = GetCurrentPattern();
-		if (pattern)
-		{
-			RebuildMenu(pattern);
-			menu_.popup_at_pointer((GdkEvent*)event);
-		}
+		RebuildMenu(pattern);
+		// GTKMM4: menu_.popup_at_pointer() — needs Gtk::Menu migration, see RebuildMenu
 	}
-	return rv;
 }
 
 void GroupTreeView::OnPatternAppend()

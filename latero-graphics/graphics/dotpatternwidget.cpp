@@ -35,7 +35,7 @@ DotPatternMinSpacingCtrl::DotPatternMinSpacingCtrl(DotPatternPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetMinSpacing(), 0, 50.0)), peer_(peer)
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotPatternMinSpacingCtrl::OnChanged));
-	add(*Gtk::manage(new gtk::HNumWidget("minimal spacing",adj_,1,"mm")));
+	append(*Gtk::manage(new gtk::HNumWidget("minimal spacing",adj_,1,"mm")));
 }
 void DotPatternMinSpacingCtrl::OnChanged() { peer_->SetMinSpacing(adj_->get_value()); }
 

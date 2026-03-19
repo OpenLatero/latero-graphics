@@ -30,7 +30,7 @@ CanvasWidget::CanvasWidget(CanvasPtr peer) :
 	Gtk::Box(Gtk::Orientation::VERTICAL)
 {
 	GroupPtr p = peer->GetGroup();
-	add(*Gtk::manage(p->CreateWidget(p)));
+	append(*Gtk::manage(p->CreateWidget(p)));
 }
 
 } // namespace graphics
