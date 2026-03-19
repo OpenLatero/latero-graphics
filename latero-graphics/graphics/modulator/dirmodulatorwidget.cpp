@@ -44,8 +44,8 @@ public:
 	LowVelModeCombo(DirModulatorPtr peer) : Ctrl(peer)
 	{
 		Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("low velocity mode"));
-		add(*frame);
-		frame->add(combo_);
+		append(*frame);
+		frame->set_child(combo_);
 		std::vector<std::string> labels = peer->GetLowVelModeLabels();
 		for (unsigned int i=0; i<labels.size(); ++i)
 			combo_.append(labels[i]);
@@ -66,7 +66,7 @@ class DirCtrl : public Ctrl
 public:
 	DirCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirection(), 0, 360))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
+		append(*Gtk::manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirCtrl::OnChanged));
 	}
 protected:
@@ -79,7 +79,7 @@ class DirToleranceCtrl : public Ctrl
 public:
 	DirToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirTolerance(), 0, 180))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("direction tolerance", adj_, 0, units::degree)));
+		append(*Gtk::manage(new gtk::HNumWidget("direction tolerance", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirToleranceCtrl::OnChanged));
 	}
 protected:
@@ -92,7 +92,7 @@ class DirTransitionCtrl : public Ctrl
 public:
 	DirTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirTransition(), 1, 180))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("direction transition rate", adj_, 0, units::degree)));
+		append(*Gtk::manage(new gtk::HNumWidget("direction transition rate", adj_, 0, units::degree)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirTransitionCtrl::OnChanged));
 	}
 protected:
@@ -105,7 +105,7 @@ class VelToleranceCtrl : public Ctrl
 public:
 	VelToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetVelTolerance(), 0, 100))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("velocity tolerance", adj_, 0, units::mm_per_sec)));
+		append(*Gtk::manage(new gtk::HNumWidget("velocity tolerance", adj_, 0, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelToleranceCtrl::OnChanged));
 	}
 protected:
@@ -118,7 +118,7 @@ class VelTransitionCtrl : public Ctrl
 public:
 	VelTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetVelTransition(), 0, 100))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("velocity transition rate", adj_, 0, units::mm_per_sec)));
+		append(*Gtk::manage(new gtk::HNumWidget("velocity transition rate", adj_, 0, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelTransitionCtrl::OnChanged));
 	}
 protected:
@@ -132,8 +132,8 @@ public:
 	SymmetricCtrl(DirModulatorPtr peer) : Ctrl(peer), check_("symmetric")
 	{
 		Gtk::Frame *frame = Gtk::manage(new Gtk::Frame);
-		add(*frame);
-		frame->add(check_);
+		append(*frame);
+		frame->set_child(check_);
 		check_.set_active(peer_->GetSymmetric());
 		check_.signal_toggled().connect(sigc::mem_fun(*this, &SymmetricCtrl::OnClick));
 	}

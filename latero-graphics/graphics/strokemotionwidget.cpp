@@ -56,7 +56,7 @@ public:
 	StrokeMinMotionWidthCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMinMotionWidth(),0,20)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("min width", adj_, 1, units::mm)));
+		append(*Gtk::manage(new gtk::HNumWidget("min width", adj_, 1, units::mm)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMinMotionWidthCtrl::OnChanged));
 	}
 	virtual ~StrokeMinMotionWidthCtrl() {};
@@ -72,7 +72,7 @@ public:
 	StrokeMotionVelCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),-100,100)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
+		append(*Gtk::manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMotionVelCtrl::OnChanged));
 	}
 	virtual ~StrokeMotionVelCtrl() {};
@@ -88,7 +88,7 @@ public:
 	StrokeSuperposedMotionRatioCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetSuperposedMotionRatio()*100,0,100)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("ratio", adj_, 0, units::percent)));
+		append(*Gtk::manage(new gtk::HNumWidget("ratio", adj_, 0, units::percent)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeSuperposedMotionRatioCtrl::OnChanged));
 	}
 	virtual ~StrokeSuperposedMotionRatioCtrl() {};
@@ -105,7 +105,7 @@ public:
 	StrokeBlendMotionValueCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetBlendMotionValue()*100,0,100)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("blend value", adj_, 0, units::percent)));
+		append(*Gtk::manage(new gtk::HNumWidget("blend value", adj_, 0, units::percent)));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeBlendMotionValueCtrl::OnChanged));
 	}
 	virtual ~StrokeBlendMotionValueCtrl() {};
@@ -143,7 +143,7 @@ void StrokeMotionWidget::OnCueChanged()
 void StrokeMotionWidget::Rebuild()
 {
 	Gtk::Widget *wp = holder_.get_child();
-	holder_.remove();
+	holder_.unset_child(); // GTKMM4: Frame::remove() → unset_child()
 	delete wp;
 
 	Stroke::MotionCue cue = peer_->GetMotionCue();
@@ -151,7 +151,7 @@ void StrokeMotionWidget::Rebuild()
 	velWidget_->set_sensitive(!(cue == Stroke::motion_cue_none));
 
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	holder_.add(*box);
+	holder_.set_child(*box);
 	if (cue == Stroke::motion_cue_none)
 	{
 	}
