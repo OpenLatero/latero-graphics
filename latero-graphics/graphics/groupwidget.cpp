@@ -608,9 +608,8 @@ GroupWidget::GroupWidget(GroupPtr peer) :
 	scrolledTreeView->set_child(treeView_);
     append(*scrolledTreeView);
     
-
     append(objWidgetHolder_);
-	objWidgetHolder_.set_hexpand(); // GTKMM4: not a pointer
+	objWidgetHolder_.set_hexpand();
 
 	treeView_.get_selection()->signal_changed().connect(
     		sigc::mem_fun(*this, &GroupWidget::OnSelectionChanged));
@@ -662,7 +661,7 @@ void GroupWidget::OnSelectionChanged()
 			{
 				txWidget_ = Gtk::manage(new TextureSelectorWidget(tx));
 				currentTx_ = tx;
-				objWidgetHolder_.set_child(*txWidget_); // GTKMM4: Frame::add() → set_child()
+				objWidgetHolder_.set_child(*txWidget_);
 				txWidget_->SignalTextureChanged().connect(sigc::mem_fun(*this, &GroupWidget::OnTextureChange));
 			}
 			else if (combotx)
