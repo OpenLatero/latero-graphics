@@ -119,6 +119,7 @@ public:
 	{
 		append(frame_);
 		frame_.set_child(surface_);
+		surface_.set_expand();
 	}
 
 	virtual ~BaseVirtualSurfaceWidget()

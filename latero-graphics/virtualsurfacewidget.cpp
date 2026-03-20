@@ -48,8 +48,6 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 	rounded_(false),
 	disablePopup_(false)
 {
-	std::cout << "VirtualSurfaceArea::VirtualSurfaceArea(): entering\n";
-
 	Clear(0xffffffff);
 
 	// TODO: The following was removed to temporarily disable animation. This saves a lot
@@ -59,10 +57,8 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 	//anim_.signal_current_frame_changed.connect(
 	//	sigc::mem_fun(*this, &VirtualSurfaceArea::Invalidate));
 
-	std::cout << "VirtualSurfaceArea::VirtualSurfaceArea(): 1\n";
 	CreatePopupMenu();
     
-		std::cout << "VirtualSurfaceArea::VirtualSurfaceArea(): 2\n";
     if (dev->IsEmulated())
 	{
 		auto drag = Gtk::GestureDrag::create();
@@ -82,9 +78,7 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 		});
 		add_controller(drag);
 	}
-    	std::cout << "VirtualSurfaceArea::VirtualSurfaceArea(): 3\n";
     set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
-	std::cout << "VirtualSurfaceArea::VirtualSurfaceArea(): leaving\n";
 }
 
 void VirtualSurfaceArea::OnClick(int n_press, double x, double y)
@@ -164,6 +158,7 @@ void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int wid
 
     if (!anim_.GetNbFrames())
     {
+		//std::cout << "VirtualSurfaceArea::OnDraw(): anim is empty\n";
     	cr->set_source_rgb(1.0, 1.0, 1.0);
     	cr->paint();
         return;
@@ -356,7 +351,6 @@ void VirtualSurfaceArea::SetDisplayState(const Point &pos, double angle, const l
 
 void VirtualSurfaceArea::Clear(guint32 pixel)
 {
-	std::cout << "VirtualSurfaceArea::Clear(): entering\n";
 	if ((GetWidth()<=0)||(GetHeight()<=0))
 	{
 		std::cout << "VirtualSurfaceArea::Clear() called while width or height is zero. Ignoring.\n";
