@@ -51,8 +51,8 @@ public:
 	void ShowCursor(bool v = true);
 	void AnimateCursor(bool v = true);
 
-	inline uint GetWidth() { return get_allocation().get_width(); };
-	inline uint GetHeight() { return get_allocation().get_height(); };
+	inline uint GetWidth() { return get_width(); };
+	inline uint GetHeight() { return get_height(); };
 
 	void DisablePopup() { disablePopup_=true; }
 	void EnablePopup() { disablePopup_=false; }
