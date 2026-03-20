@@ -57,7 +57,7 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 
 	combo_.signal_changed().connect( sigc::mem_fun(*this, &PatternCreatorDialog::OnComboChanged) );
 	
-	add_button("O", Gtk::ResponseType::OK);
+	add_button("Ok", Gtk::ResponseType::OK);
 	add_button("Cancel", Gtk::ResponseType::CANCEL);
 }
 

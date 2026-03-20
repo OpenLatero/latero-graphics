@@ -252,11 +252,8 @@ PatternPtr GroupTreeView::GetCurrentPattern()
 void GroupTreeView::Refresh()
 {
 	Glib::RefPtr<Gtk::TreeStore> store = Gtk::TreeStore::create(columns_);
-
 	Gtk::TreeModel::Row row = *store->append();
-
 	InsertPattern(peer_, &row, store);
-
 	set_model(store);
 	expand_all();
 }
@@ -638,9 +635,7 @@ void GroupWidget::OnTextureChange()
 
 void GroupWidget::OnSelectionChanged()
 {
-	Widget *old = objWidgetHolder_.get_child();
-	objWidgetHolder_.unset_child(); // GTKMM4: Frame::remove() → unset_child()
-	delete old;
+	objWidgetHolder_.unset_child();
 
 	txWidget_ = NULL;
 	currentTx_ = TexturePtr();
