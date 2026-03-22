@@ -355,7 +355,6 @@ void VirtualSurfaceArea::Clear(guint32 pixel)
 	{
 		std::cout << "VirtualSurfaceArea::Clear() called while width or height is zero. Ignoring.\n";
 		return;
-
 	}
 
 	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(
@@ -598,8 +597,11 @@ bool VirtualSurfaceWidget::RefreshCursor()
 bool VirtualSurfaceWidget::OnCheckPeer()
 {
 	if (peer_)
-		if (peer_->GetLastModified() > bgUpdateTime_)
+	{
+		// if the background has never been updated or peer has been modified since
+		if (bgUpdateTime_.is_not_a_date_time() || (peer_->GetLastModified() > bgUpdateTime_))
 			RefreshBackground();
+	}
 	return true;
 }
 
