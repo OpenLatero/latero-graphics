@@ -65,9 +65,12 @@ PatternThumbnailSaveDialog::PatternThumbnailSaveDialog() :
 	set_current_name("thumbnail.png");
 }
 
-PatternPreview::PatternPreview(PatternPtr peer) : peer_(peer)
+PatternPreview::PatternPreview(PatternPtr peer) : 
+	peer_(peer),
+	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
 	append(img_);
+	img_.set_hexpand();
 	Refresh();
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &PatternPreview::OnTimer),

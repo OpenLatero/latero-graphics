@@ -238,7 +238,7 @@ TextureWidget::~TextureWidget()
 
 Gtk::Widget *TextureWidget::CreateLeftPanel()
 {
-	auto lbox = new Gtk::Box(Gtk::Orientation::VERTICAL); // TODO: should this be managed?
+	auto lbox = new Gtk::Box(Gtk::Orientation::VERTICAL);
 	
 	auto invertCtrl = Gtk::manage(new TextureInvertCtrl(peer_));
 	auto ampCtrl = Gtk::manage(new TextureAmplitudeCtrl(peer_));
@@ -280,16 +280,22 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 	widget->set_vexpand();
 	widget->set_valign(Gtk::Align::FILL);
 
-	if (showPanel) 
-		box->append(*Gtk::manage(CreateLeftPanel()));
+	if (showPanel){
+		auto leftPanel = Gtk::manage(CreateLeftPanel());
+		box->append(*leftPanel);
+		leftPanel->set_hexpand(false);
+	}
 	box->append(*vbox);
-	vbox->set_hexpand();
 	vbox->set_hexpand();
 	vbox->append(*widget);
 	if (showAdvanced)
 		vbox->append(*advancedButton);
 	if (showPreview) 
-		box->append(*Gtk::manage(new PatternPreview(peer_)));
+	{
+		auto preview = Gtk::manage(new PatternPreview(peer_));
+		box->append(*preview);
+		preview->set_hexpand();
+	}
 }
 
 
