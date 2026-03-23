@@ -33,7 +33,7 @@ class ModulatorPreview : public Gtk::Box
 {
 public:
 	ModulatorPreview(ModulatorPtr peer);
-	virtual ~ModulatorPreview() {}
+	virtual ~ModulatorPreview() { if (popupMenu_) popupMenu_->unparent(); }
 protected:
 	void CreatePopupMenu();
 	void OnSave();

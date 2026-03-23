@@ -125,9 +125,12 @@ void GroupTreeView::RebuildMenu(PatternPtr pattern) // GTKMM4: replaced Gtk::Men
 		menu->append("Move down",      "tree.move_down");
 	}
 
-	popupMenu_.reset();
-	popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu);
-	popupMenu_->set_parent(*this);
+	if (!popupMenu_) {
+		popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu);
+		popupMenu_->set_parent(*this);
+	} else {
+		popupMenu_->set_menu_model(menu);
+	}
 }
 
 

@@ -135,6 +135,7 @@ void VirtualSurfaceArea::SetRounded(bool v)
 
 VirtualSurfaceArea::~VirtualSurfaceArea()
 {
+	if (popupMenu_) popupMenu_->unparent();
 	anim_.Deactivate();
 }
 
@@ -579,6 +580,7 @@ void VirtualSurfaceWidget::OnSaveCanvas()
 
 VirtualSurfaceWidget::~VirtualSurfaceWidget()
 {
+	if (popupMenu_) popupMenu_->unparent();
 }
 
 bool VirtualSurfaceWidget::RefreshCursor()

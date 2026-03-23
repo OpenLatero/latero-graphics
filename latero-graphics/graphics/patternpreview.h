@@ -35,7 +35,7 @@ public:
 	static const int height = 200;
 
 	PatternPreview(PatternPtr peer);
-	virtual ~PatternPreview() {}
+	virtual ~PatternPreview() { if (popupMenu_) popupMenu_->unparent(); }
 protected:
 	void CreatePopupMenu();
 	void OnSave();

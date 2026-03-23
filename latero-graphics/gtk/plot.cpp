@@ -78,6 +78,7 @@ Plot::Plot(const char *fgColor, const char *bgColor) :
 
 Plot::~Plot()
 {
+	if (popupMenu_) popupMenu_->unparent();
 }
 
 void Plot::Clear()

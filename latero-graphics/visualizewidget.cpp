@@ -185,6 +185,7 @@ Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 
 VisualizeWidget::~VisualizeWidget()
 {
+	if (popupMenu_) popupMenu_->unparent();
 }
 
 
