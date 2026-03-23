@@ -545,6 +545,8 @@ void VirtualSurfaceWidget::OnEdit()
 		dlg->get_content_area()->append(*widget);
 		widget->set_vexpand();
 		dlg->signal_hide().connect([dlg]{ delete dlg; });
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+			dlg->set_transient_for(*win);
 		dlg->present();
 	}
 }
@@ -560,6 +562,8 @@ void VirtualSurfaceWidget::OnSaveCanvasAs()
 		dialog->add_button("Save", Gtk::ResponseType::OK);
 		dialog->set_default_response(Gtk::ResponseType::CANCEL);
 		dialog->set_current_name("test.gen");
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+			dialog->set_transient_for(*win);
 		dialog->signal_response().connect([this, dialog](int response_id) {
 			if (response_id == Gtk::ResponseType::OK)
 			{

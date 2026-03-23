@@ -187,6 +187,8 @@ void Plot::InsertPoint(unsigned int channel, float x, float y)
 void Plot::OnSaveAs()
 {
 	auto dialog = new PlotSaveDlg(); // GTKMM4: replaced blocking run() with async signal_response()
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+		dialog->set_transient_for(*win);
 	dialog->signal_response().connect([this, dialog](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 			SaveToFile(dialog->get_file()->get_path(), dialog->GetWidth(), dialog->GetHeight());

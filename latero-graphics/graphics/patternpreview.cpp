@@ -113,6 +113,8 @@ void PatternPreview::CreatePopupMenu()
 void PatternPreview::OnSave()
 {
 	auto dialog = new PatternIllustrationSaveDialog();
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+		dialog->set_transient_for(*win);
 	dialog->signal_response().connect([this, dialog](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 		{

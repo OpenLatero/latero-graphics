@@ -73,6 +73,8 @@ void TextureSelectorCtrl::OnSave()
 	dialog->set_current_name(file);
 	dialog->add_filter(filter);
 
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+		dialog->set_transient_for(*win);
 	dialog->signal_response().connect([this, dialog](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 			texture_->Save(dialog->get_file()->get_path());
@@ -95,6 +97,8 @@ void TextureSelectorCtrl::OnLoad()
 	dialog->add_button("Open", Gtk::ResponseType::OK);
 	dialog->set_default_response(Gtk::ResponseType::CANCEL);
 	dialog->add_filter(filter);
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+		dialog->set_transient_for(*win);
 	dialog->signal_response().connect([this, dialog](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 		{

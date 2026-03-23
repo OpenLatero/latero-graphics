@@ -79,6 +79,7 @@ void PatternCreatorDialog::OnComboChanged()
 		dialog->add_button("Open", Gtk::ResponseType::OK);
 		dialog->set_default_response(Gtk::ResponseType::CANCEL);
 		dialog->add_filter(filter);
+		dialog->set_transient_for(*this);
 		dialog->signal_response().connect([this, dialog](int response_id) {
 			if (response_id == Gtk::ResponseType::OK)
 				loadedFile_ = dialog->get_file()->get_path();

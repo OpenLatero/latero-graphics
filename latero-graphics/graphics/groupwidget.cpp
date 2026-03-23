@@ -155,6 +155,7 @@ void GroupTreeView::OnPatternAppend()
 	if (tx)
 	{
 		auto dlg = new CreateTextureDlg(peer_->Dev()); // GTKMM4: replaced blocking run()
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dlg->set_transient_for(*win);
 		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {
 			if (response_id == Gtk::ResponseType::OK)
 			{
@@ -168,6 +169,7 @@ void GroupTreeView::OnPatternAppend()
 	else
 	{
 		auto dlg = new PatternCreatorDialog(peer_->Dev()); // GTKMM4
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dlg->set_transient_for(*win);
 		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {
 			if (response_id == Gtk::ResponseType::OK)
 			{
@@ -190,6 +192,7 @@ void GroupTreeView::OnPatternPrepend()
 	if (!tx)
 	{
 		auto dlg = new PatternCreatorDialog(peer_->Dev()); // GTKMM4: replaced blocking run()
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dlg->set_transient_for(*win);
 		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {
 			if (response_id == Gtk::ResponseType::OK)
 			{
@@ -203,6 +206,7 @@ void GroupTreeView::OnPatternPrepend()
 	else
 	{
 		auto dlg = new CreateTextureDlg(peer_->Dev()); // GTKMM4
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dlg->set_transient_for(*win);
 		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {
 			if (response_id == Gtk::ResponseType::OK)
 			{
@@ -354,6 +358,7 @@ void GroupTreeView::OnGroupAddPattern()
 	if (!group) return;
 
 	auto dlg = new PatternCreatorDialog(peer_->Dev()); // GTKMM4: replaced blocking run()
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dlg->set_transient_for(*win);
 	dlg->signal_response().connect([this, dlg, group](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 		{
@@ -374,6 +379,7 @@ void GroupTreeView::OnGroupAddTexture()
 	if (!group) return;
 
 	auto dlg = new CreateTextureDlg(peer_->Dev()); // GTKMM4: replaced blocking run()
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dlg->set_transient_for(*win);
 	dlg->signal_response().connect([this, dlg, group](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 		{
@@ -405,6 +411,7 @@ void GroupTreeView::OnPatternSave()
 	if (file=="") file = "new.pattern";
 	dialog->set_current_name(file);
 	dialog->add_filter(filter);
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dialog->set_transient_for(*win);
 	dialog->signal_response().connect([pattern, dialog](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 			pattern->SaveToFile(dialog->get_file()->get_path());
@@ -430,6 +437,7 @@ void GroupTreeView::OnTextureSave()
 	if (file=="") file = "new.tx";
 	dialog->set_current_name(file);
 	dialog->add_filter(filter);
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dialog->set_transient_for(*win);
 	dialog->signal_response().connect([pattern, dialog](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 			pattern->SaveToFile(dialog->get_file()->get_path());
@@ -457,6 +465,7 @@ void GroupTreeView::OnPatternLoad()
 	if (file=="") file = "new.pattern";
 	dialog->set_current_name(file);
 	dialog->add_filter(filter);
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dialog->set_transient_for(*win);
 	dialog->signal_response().connect([this, pattern, parent, dialog](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 		{

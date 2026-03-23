@@ -178,6 +178,8 @@ protected:
 		dialog->set_default_response(Gtk::ResponseType::OK);
 		dialog->add_filter(filter);
 
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+			dialog->set_transient_for(*win);
 		dialog->signal_response().connect([this, dialog](int response_id) {
 			if (response_id == Gtk::ResponseType::OK)
 			{
