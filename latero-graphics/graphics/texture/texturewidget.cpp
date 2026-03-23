@@ -264,9 +264,7 @@ void TextureWidget::OnAdvancedClosed()
 
 void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPreview, bool showAdvanced)
 {
-	Gtk::Widget *wp = get_child();
-	unset_child(); // GTKMM4: Frame::remove() → unset_child()
-	delete wp;
+	unset_child();
 
 	TextureAdvancedButton *advancedButton = Gtk::manage(new TextureAdvancedButton(peer_));
 	advancedButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureWidget::OnAdvanced));
