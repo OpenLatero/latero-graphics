@@ -46,7 +46,7 @@ class GroupTreeView : public Gtk::TreeView
 {
 public:
 	GroupTreeView(GroupPtr peer);
-	virtual ~GroupTreeView() {}
+	virtual ~GroupTreeView() { if (popupMenu_) popupMenu_->unparent(); }
 
 	class ListColumns : public Gtk::TreeModelColumnRecord
 	{
