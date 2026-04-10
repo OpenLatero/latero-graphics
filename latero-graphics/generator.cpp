@@ -94,6 +94,10 @@ Generator::Generator(const latero::Tactograph *dev) :
 
 latero::graphics::gtk::Animation Generator::GetIllustration(uint w, boost::posix_time::time_duration t) const
 {
+	if (w == 0) {
+		std::cout << "Generator::GetIllustration: Invalid width" << std::endl;
+		return latero::graphics::gtk::Animation();
+	}
 	// by default return a white image
 	uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
 	assert(h>0);

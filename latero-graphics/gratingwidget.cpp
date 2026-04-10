@@ -295,7 +295,11 @@ GratingAdvancedButton::GratingAdvancedButton(GratingPtr peer) :
 {
 	signal_clicked().connect(sigc::mem_fun(*this, &GratingAdvancedButton::OnPush));
 };
-void GratingAdvancedButton::OnPush() { dialog_.show(); }
+void GratingAdvancedButton::OnPush()
+{
+	// TODO_GTKMM4: Error "GtkDialog mapped without a transient parent. This is discouraged."
+	dialog_.show();
+}
 
 // GratingWidget ////////////////////////////////////////////////////////////////////
 

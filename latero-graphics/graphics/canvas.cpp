@@ -66,6 +66,11 @@ Canvas::~Canvas()
 
 latero::graphics::gtk::Animation Canvas::GetIllustration(uint w, boost::posix_time::time_duration t) const
 {
+	if (w == 0) 
+	{
+		std::cout << "Canvas::GetIllustration: Invalid width" << std::endl;
+		return latero::graphics::gtk::Animation();
+	}
 	uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
 	Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create(
