@@ -115,7 +115,6 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	tdCentricCtrl_.set_vexpand();
 	vibCtrl_.set_vexpand();
 	gratingCtrls_.advButton_.set_vexpand();	
-	grid->set_hexpand();
 	ampCtrl_.set_vexpand();
 
 	grid->attach(seedCtrl_,0,0,2,1); 
@@ -131,9 +130,11 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	lbox->append(invertCtrl_);
 	lbox->append(ampCtrl_);
 
+	lbox->set_hexpand(false);
+	preview_.set_size_request(200, 200);
+
 	append(*lbox);
 	append(*grid);
-
 	append(preview_);
 }
 

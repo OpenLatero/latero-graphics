@@ -346,6 +346,7 @@ GratingWidget::GratingWidget(GratingPtr peer) :
 	gtk::CheckFrame(peer->GetEnable(), "grating"), peer_(peer)
 {
 	Gtk::Grid *grid = Gtk::manage(new Gtk::Grid());
+	grid->set_hexpand(true);
 	GetBox().append(*grid);
 	grid->attach(*Gtk::manage(new GratingPitchWidget(peer)), 0, 0, 2, 1);
 	grid->attach(*Gtk::manage(new GratingVelocityWidget(peer)), 0, 1, 2, 1);

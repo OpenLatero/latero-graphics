@@ -122,8 +122,9 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	box2->append(*box_);
 	if (orient == ORIENT_V)
 	{
-		box_->append(*scale_); 
+		box_->append(*scale_);
 		scale_->set_vexpand();
+		scale_->set_size_request(-1, 150);
 		box_->append(spin_);
 		box_->append(*comboBox_);
 	}
@@ -131,8 +132,9 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	{
 		box_->append(spin_);
 		box_->append(*comboBox_);
-		box_->append(*scale_); 
+		box_->append(*scale_);
 		scale_->set_hexpand();
+		scale_->set_size_request(150, -1);
 	}
 
 	scale_->set_format_value_func(sigc::mem_fun(*this, &NumWidget::OnFormat)); // GTKMM4: signal_format_value() replaced by set_format_value_func()
