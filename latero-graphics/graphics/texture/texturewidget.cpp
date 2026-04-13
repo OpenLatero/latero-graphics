@@ -219,7 +219,9 @@ void TextureAdvancedButton::on_clicked()
 	adv_ = Gtk::manage(peer_->CreateAdvancedWidget(peer_));
 	dlg_.get_content_area()->append(*adv_);
 	adv_->set_vexpand();
-	dlg_.show();  
+	if (auto win = dynamic_cast<Gtk::Window*>(get_root()))
+		dlg_.set_transient_for(*win);
+	dlg_.show();
 	Gtk::Button::on_clicked(); 
 }
 

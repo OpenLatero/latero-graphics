@@ -297,7 +297,8 @@ GratingAdvancedButton::GratingAdvancedButton(GratingPtr peer) :
 };
 void GratingAdvancedButton::OnPush()
 {
-	// TODO_GTKMM4: Error "GtkDialog mapped without a transient parent. This is discouraged."
+	if (auto win = dynamic_cast<Gtk::Window*>(get_root()))
+		dialog_.set_transient_for(*win);
 	dialog_.show();
 }
 
@@ -361,6 +362,7 @@ void GratingWidget::OnEnable() { peer_->SetEnable(GetCheck().get_active()); }
 AdvancedGratingWidget::AdvancedGratingWidget(GratingPtr peer) :
 	Gtk::Dialog("Advanced Grating Options")
 {
+	set_hide_on_close(true);
 	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 	auto rhythmWidget = Gtk::manage(new GratingRhythmWidget(peer));	
 	auto cycleWidget = Gtk::manage(new GratingCycleWidget(peer));
