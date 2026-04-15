@@ -134,7 +134,7 @@ void TextureSelectorWidget::Rebuild()
 	if (widget_)
 	{
 		remove(*widget_);
-		delete widget_;
+		//delete widget_; // GTKMM4: fixed seg fault - causing memory leak?
 	}
 	Build();
 }
