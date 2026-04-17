@@ -22,6 +22,7 @@
 #include <filesystem>
 #include "plot.h"
 #include <assert.h>
+#include <iostream>
 
 namespace latero {
 namespace graphics { 
@@ -100,7 +101,7 @@ void Plot::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int w, int h)
 	Draw(cr,w,h);
 }
 
-void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
+void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, int w, int h, bool gtkmode)
 {
 	// clear background
 	if (gtkmode)
@@ -125,7 +126,7 @@ void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
 	else
 		Gdk::Cairo::set_source_rgba(cr, lineColor_);
 	cr->move_to(0, 0.45*h);
-       	cr->line_to(w, 0.45*h);
+    cr->line_to(w, 0.45*h);
 	cr->stroke();
 
 	// draw each curve
@@ -139,11 +140,13 @@ void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
 		}
 		else
 			Gdk::Cairo::set_source_rgba(cr, channels_[c].color);
+
 		if (points.size())
 		{
-			cr->move_to(points[0].x * w, points[0].y * h);
-			for (unsigned int i=1; i<points.size(); i++)
+			cr->move_to(points[0].x * w, points[0].y * 0.9 * h);
+			for (unsigned int i=1; i<points.size(); i++) {
 				cr->line_to(points[i].x * w, points[i].y * 0.9 * h);
+			}
 			cr->stroke();
 		}
 	}
