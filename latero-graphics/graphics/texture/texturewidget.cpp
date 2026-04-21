@@ -297,6 +297,7 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 		box->append(*preview);
 		preview->set_size_request(200, -1);
 		preview->set_vexpand();
+		preview->set_hexpand(false);
 	}
 }
 

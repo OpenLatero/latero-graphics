@@ -486,15 +486,20 @@ public:
 	GroupPanel(GroupPtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 	{
 		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-		GroupOpCombo *opCombo = Gtk::manage(new GroupOpCombo(peer));
+		auto opCombo = Gtk::manage(new GroupOpCombo(peer));
+		auto patternPreview = Gtk::manage(new PatternPreview(peer));
 
 		box->append(*opCombo);
 		box->append(opWidgetHolder_);
 		opWidgetHolder_.set_hexpand(); // GTKMM4: not a pointer
 		OnOpChanged();
-		append(*box);
+
 		box->set_hexpand();
-		append(*Gtk::manage(new PatternPreview(peer)));
+		patternPreview->set_hexpand(false);
+		patternPreview->set_size_request(200, -1);
+
+		append(*box);
+		append(*patternPreview);
 
 		opCombo->SignalChanged().connect(
 			sigc::mem_fun(*this, &GroupPanel::OnOpChanged));
