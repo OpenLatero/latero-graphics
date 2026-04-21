@@ -51,7 +51,7 @@ TexturePtr Texture::Create(const latero::Tactograph *dev, const XMLInputNode &no
 	assert(node.GetType() == "Texture");
 	std::string type = node.GetSubType();
 
-	printf("name=%s, type=%s, subtype=%s\n", node.GetName().c_str(), node.GetType().c_str(), node.GetSubType().c_str());
+	//printf("name=%s, type=%s, subtype=%s\n", node.GetName().c_str(), node.GetType().c_str(), node.GetSubType().c_str());
 
 	if (type == "LinearGrating")		return LinearGratingTexture::Create(dev,node);
 	else if (type == "RadialGrating")	return RadialGratingTexture::Create(dev,node);

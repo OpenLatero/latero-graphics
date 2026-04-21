@@ -391,14 +391,12 @@ void VirtualSurfaceArea::Invalidate()
 
 void VirtualSurfaceArea::Set(latero::graphics::gtk::Animation &anim)
 {
-	std::cout << "VirtualSurfaceArea::Set(anim)\n";
 	anim_ = anim;
 	Invalidate();
 }
 
 void VirtualSurfaceArea::Set(Glib::RefPtr<Gdk::Pixbuf> buf)
 {
-	std::cout << "VirtualSurfaceArea::Set(pixbuf)\n";
 	//std::stringstream stm;
 	//struct timeval tv;
 	//struct tm* ptm;

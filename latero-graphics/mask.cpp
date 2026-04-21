@@ -188,7 +188,7 @@ void Mask::LoadXML(const XMLInputNode &root)
 	XMLInputNode maskNode = root.GetChild("mask");
 
 	XMLInputNode node = maskNode.GetChild("imgfile");
-	printf("type: %s\n", node.GetType().c_str());
+	//printf("type: %s\n", node.GetType().c_str());
 	SetImage(node.GetFilename(), (node.GetType()=="alpha"));
 
 	// temporary
