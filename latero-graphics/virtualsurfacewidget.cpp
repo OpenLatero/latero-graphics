@@ -531,6 +531,8 @@ void VirtualSurfaceWidget::OnVisualize()
 		{
 			auto dlg = new VisualizeWidget(gen);
 			dlg->signal_hide().connect([dlg]{ delete dlg; });
+			if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+				dlg->set_transient_for(*win);
 			dlg->present();
 		}
 	}
