@@ -165,6 +165,9 @@ void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int wid
         return;
     }
 
+	if (GetWidth() <= 0 || GetHeight() <= 0)
+		return;
+
     Glib::RefPtr<Gdk::Pixbuf> buf = anim_.GetCurrentFrame();
     if (buf)
     {
