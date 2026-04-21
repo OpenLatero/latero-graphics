@@ -152,23 +152,23 @@ Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 	//timeCtrl->set_sensitive(false);
 
 	auto prevButton = Gtk::manage(new Gtk::Button);
-    prevButton->set_icon_name("media-skip-backward");
+    prevButton->set_icon_name("go-previous-symbolic");
 	prevButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnPrevious));
 
 	auto playButton =  Gtk::manage(new Gtk::Button);
-	playButton->set_icon_name("media-playback-start");
+	playButton->set_icon_name("media-playback-start-symbolic");
 	playButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnPlay));
 
 	auto stopButton = Gtk::manage(new Gtk::Button);
-	stopButton->set_icon_name("media-playback-stop");
+	stopButton->set_icon_name("media-playback-stop-symbolic");
 	stopButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnStop));
 
 	auto nextButton = Gtk::manage(new Gtk::Button);
-	nextButton->set_icon_name("media-skip-forward");
+	nextButton->set_icon_name("go-next-symbolic");
 	nextButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnNext));
 
 	auto refreshButton = Gtk::manage(new Gtk::Button);
-	refreshButton->set_icon_name("view-refresh");
+	refreshButton->set_icon_name("view-refresh-symbolic");
 	refreshButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnApply));
 
 	pBox->append(*prevButton);
