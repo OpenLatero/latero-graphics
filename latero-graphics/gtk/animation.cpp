@@ -250,7 +250,7 @@ void Animation::SaveToFile(std::string file, bool trim)
 	}
 }
 
-void Animation::SaveToFile()
+void Animation::SaveToFile(Gtk::Window* parent)
 {
 	auto dialog = new Gtk::FileChooserDialog("Please select file name.", Gtk::FileChooser::Action::SAVE);
 	std::string dir = std::filesystem::current_path().string();
@@ -259,6 +259,8 @@ void Animation::SaveToFile()
 	dialog->add_button("Save", Gtk::ResponseType::OK);
 	dialog->set_default_response(Gtk::ResponseType::CANCEL);
 	dialog->set_current_name("animation.png");
+	if (parent)
+		dialog->set_transient_for(*parent);
 
 	dialog->signal_response().connect([this, dialog](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)

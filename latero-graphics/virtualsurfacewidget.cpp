@@ -123,7 +123,7 @@ void VirtualSurfaceArea::CreatePopupMenu()
 
 void VirtualSurfaceArea::OnSave()
 {
-	anim_.SaveToFile();
+	anim_.SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
 }
 
 
@@ -519,7 +519,7 @@ void VirtualSurfaceWidget::OnClick(int n_press, double x, double y)
 
 void VirtualSurfaceWidget::OnSave()
 {
-	surface_.GetIllustration().SaveToFile();
+	surface_.GetIllustration().SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
 }
 
 void VirtualSurfaceWidget::OnVisualize()

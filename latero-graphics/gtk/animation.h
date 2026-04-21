@@ -23,6 +23,7 @@
 #define GTKVL_ANIMATION
 
 #include <gdkmm.h>
+#include <gtkmm/window.h>
 
 namespace latero {
 namespace graphics { 
@@ -95,7 +96,7 @@ public:
 	/**
 	 * Interaction version of SaveToFile. Popups a dialog to select the filename.
 	 */
-	void SaveToFile();
+	void SaveToFile(Gtk::Window* parent = nullptr);
 
 	/** @return frame width or 0 if empty */
 	inline int GetWidth() const { return GetNbFrames()?imgs_[0]->get_width():0; }

@@ -222,7 +222,7 @@ void VisualizeWidget::CreateMenu()
 
 void VisualizeWidget::OnSaveAs()
 {
-	map_.SaveToFile();
+	map_.SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
 }
 
 void VisualizeWidget::OnSave()
