@@ -71,8 +71,6 @@ protected:
 	// invalidate the entire window
 	void Invalidate();
 
-	//virtual void on_size_allocate(int width, int height, int baseline);
-
 	/** dots per mm in x */
 	inline double dpmm_x() { return GetWidth() / dev_->GetSurfaceWidth(); }
 
@@ -201,7 +199,6 @@ protected:
 
 	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	bool OnCheckPeer();
-	virtual void on_size_allocate(int width, int height, int baseline);
 
 private:
 	GeneratorPtr peer_;

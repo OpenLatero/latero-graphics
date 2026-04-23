@@ -438,6 +438,8 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 	// TODO: enable these timeouts only when visible?!?
 	// TODO: when that's done, make sure everything 2D uses this version (e.g. Memory game)
 
+	surface_.signal_resize().connect([this](int, int){ RefreshBackground(); });
+
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &VirtualSurfaceWidget::RefreshCursor),
 		(uint)33, // ms
@@ -625,11 +627,6 @@ void VirtualSurfaceWidget::RefreshBackground()
 	}
 }
 
-void VirtualSurfaceWidget::on_size_allocate(int width, int height, int baseline)
-{
-	//Gtk::Widget::on_size_allocate(width, height, baseline); // GTKMM4
-	RefreshBackground();
-}
 
 void VirtualSurfaceWidget::SetGenerator(GeneratorPtr gen)
 {

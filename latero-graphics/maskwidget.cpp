@@ -66,6 +66,7 @@ public:
 		latero::graphics::VirtualSurfaceWidget(dev),
 		peer_(peer)
 	{
+		surface_.signal_resize().connect([this](int, int){ RefreshBackground(); });
 		Glib::signal_timeout().connect(
 			sigc::mem_fun(*this, &MaskSurfaceWidget::OnCheckPeer),
 			(uint)333, Glib::PRIORITY_DEFAULT_IDLE);
@@ -77,12 +78,6 @@ protected:
 	{
 		if (peer_->GetLastModified() > bgUpdateTime_) RefreshBackground();
 		return true;
-	}
-
-	virtual void on_size_allocate(int width, int height, int baseline)
-	{
-		latero::graphics::VirtualSurfaceWidget::on_size_allocate(width, height, baseline);
-		RefreshBackground();
 	}
 
 	void RefreshBackground()
