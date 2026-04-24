@@ -75,7 +75,9 @@ public:
 	PolygonCornerBlendSizeCtrl(PolygonPtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetCornerBlendSize(), 0, 10)), peer_(peer)
 	{
-		append(*Gtk::manage(new latero::graphics::gtk::HNumWidget("blending size", adj_, 1, "mm")));
+		auto widget = Gtk::manage(new latero::graphics::gtk::HNumWidget("blending size", adj_, 1, "mm"));
+		widget->set_vexpand(true);
+		append(*widget);
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendSizeCtrl::OnChanged));
 	}
 	virtual ~PolygonCornerBlendSizeCtrl() {};
@@ -296,7 +298,9 @@ public:
 		box_.append(*Gtk::manage(new PolygonJoinTypeCtrl(peer)));
 		box_.append(*Gtk::manage(new PolygonCornerCtrl(peer)));
 		append(*Gtk::manage(new PolygonVerticesCtrl(peer)));
-		append(*Gtk::manage(new PatternPreview(peer)));
+		auto patternPreview = Gtk::manage(new PatternPreview(peer));
+		patternPreview->set_size_request(200,-1);
+		append(*patternPreview);
 	}
 	virtual ~PolygonPropertiesCtrl() {};
 protected:

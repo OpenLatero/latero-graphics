@@ -80,7 +80,7 @@ uint NumWidgetCombo::GetDigits()
 
 
 
-
+// GTKMM4: change orient_T to Gtk::Orientation and remove ORIENT_H and ORIENT_V
 NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
 	units_(units),
 	spin_(adj)
@@ -134,6 +134,7 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 		box_->append(*comboBox_);
 		box_->append(*scale_);
 		scale_->set_hexpand();
+		scale_->set_vexpand();
 		scale_->set_size_request(150, -1);
 	}
 

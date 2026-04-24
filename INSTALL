@@ -32,6 +32,9 @@ Step 4: Install the latero-graphics library
 >> cmake --build build
 >> sudo cmake --install build 
 
+or all together: 
+>> cmake --preset default && cmake --build build && sudo cmake --install build 
+
 You can run the program latero-demo (another project) to test the latero graphics library.
 
 
