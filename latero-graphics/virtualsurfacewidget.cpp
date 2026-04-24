@@ -149,7 +149,6 @@ void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int wid
 
     if (!anim_.GetNbFrames())
     {
-		//std::cout << "VirtualSurfaceArea::OnDraw(): anim is empty\n";
     	cr->set_source_rgb(1.0, 1.0, 1.0);
     	cr->paint();
         return;

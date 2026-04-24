@@ -27,6 +27,7 @@
 #include "pointwidget.h"
 #include "virtualsurfacewidget.h"
 #include <glibmm/main.h>
+#include <iostream>
 
 namespace latero {
 namespace graphics { 
@@ -135,6 +136,7 @@ public:
 
 		auto *box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 		box->append(fileEntry_);
+		box->set_hexpand();
 		fileEntry_.set_hexpand();
 		box->append(*pOpenButton);
 		box->append(*pReloadButton);
