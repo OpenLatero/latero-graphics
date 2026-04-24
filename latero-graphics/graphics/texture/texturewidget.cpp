@@ -229,13 +229,10 @@ void TextureAdvancedButton::on_clicked()
 TextureWidget::TextureWidget(TexturePtr peer) : 
 	peer_(peer)
 {
-	printf("TextureWidget::TextureWidget\n");
-
 }
 
 TextureWidget::~TextureWidget()
 {
-	printf("TextureWidget::~TextureWidget\n");
 }
 
 

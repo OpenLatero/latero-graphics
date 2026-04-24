@@ -37,7 +37,7 @@ Sound::Sound(const Point &surfaceSize) :
 
 void Sound::SetFile(std::string file)
 {
-	printf("Sound: setting file to %s\n", file.c_str());
+	//printf("Sound: setting file to %s\n", file.c_str());
 	file_ = file;
 	UpdateStream();
 }
