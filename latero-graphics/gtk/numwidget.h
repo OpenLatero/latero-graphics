@@ -29,10 +29,7 @@
 
 namespace latero {
 namespace graphics { 
-
 namespace gtk {
-
-typedef enum {ORIENT_H, ORIENT_V} orient_T;
 
 static const std::string units_default = "";
 static const std::string name_default = "";
@@ -66,7 +63,7 @@ public:
 class NumWidget : public Gtk::Frame
 {
 public:
-	NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name = name_default, std::string units = units_default);
+	NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name = name_default, std::string units = units_default);
 	virtual ~NumWidget() {}
 	void AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits);
 	void SelectUnits(std::string units);

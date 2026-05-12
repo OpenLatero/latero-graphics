@@ -23,7 +23,6 @@
 
 namespace latero {
 namespace graphics { 
-
 namespace gtk {
 
 NumWidgetCombo::NumWidgetCombo()
@@ -76,12 +75,12 @@ uint NumWidgetCombo::GetDigits()
 	return (*get_active())[columns_.digits];
 }
 
-NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
+NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
 	units_(units),
 	spin_(adj)
 {
 	Gtk::Box *box2;
-	if (orient == ORIENT_V)
+	if (orient == Gtk::Orientation::VERTICAL)
 	{
 		scale_ = Gtk::make_managed<Gtk::Scale>(adj, Gtk::Orientation::VERTICAL);
 		scale_->set_inverted();
@@ -108,23 +107,22 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 
 	set_child(*box2);
 	box2->append(*box_);
-	if (orient == ORIENT_V)
+	if (orient == Gtk::Orientation::VERTICAL)
 	{
 		box_->append(*scale_);
-		scale_->set_vexpand();
-		scale_->set_size_request(-1, 150);
 		box_->append(spin_);
 		box_->append(*comboBox_);
+		scale_->set_size_request(-1, 150);
 	}
 	else
 	{
 		box_->append(spin_);
 		box_->append(*comboBox_);
 		box_->append(*scale_);
-		scale_->set_hexpand();
-		scale_->set_vexpand();
 		scale_->set_size_request(150, -1);
 	}
+	scale_->set_hexpand();
+	scale_->set_vexpand();
 
 	scale_->set_format_value_func(sigc::mem_fun(*this, &NumWidget::OnFormat));
 
@@ -183,16 +181,16 @@ Glib::ustring NumWidget::OnFormat(double v)
 
 
 HNumWidget::HNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(ORIENT_H,adj,digits,"",units) {}
+	NumWidget(Gtk::Orientation::HORIZONTAL,adj,digits,"",units) {}
 
 VNumWidget::VNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(ORIENT_V,adj,digits,"",units) {}
+	NumWidget(Gtk::Orientation::VERTICAL,adj,digits,"",units) {}
 
 HNumWidget::HNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(ORIENT_H,adj,digits,name,units) {}
+	NumWidget(Gtk::Orientation::HORIZONTAL,adj,digits,name,units) {}
 
 VNumWidget::VNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(ORIENT_V,adj,digits,name,units) {}
+	NumWidget(Gtk::Orientation::VERTICAL,adj,digits,name,units) {}
 
 } // namespace gtk
 
