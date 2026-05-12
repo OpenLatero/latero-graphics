@@ -64,7 +64,7 @@ public:
 	GroupPtr GetParentGroup(PatternPtr pattern);
 
 	PatternPtr GetCurrentPattern();
-	void OnClick(int n_press, double x, double y); // GTKMM4: replaced on_button_press_event
+	void OnClick(int n_press, double x, double y);
 	void OnPatternRemove();
 	void OnPatternSave();
 	void OnTextureSave();
@@ -78,8 +78,8 @@ public:
 
 	void RebuildMenu(PatternPtr pattern);
 
-	std::unique_ptr<Gtk::PopoverMenu> popupMenu_; // GTKMM4: replaced Gtk::Menu
-	Glib::RefPtr<Gio::SimpleActionGroup> actionGroup_; // GTKMM4
+	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
+	Glib::RefPtr<Gio::SimpleActionGroup> actionGroup_;
 	ListColumns columns_;
 	GroupPtr peer_;
 };
