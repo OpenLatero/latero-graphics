@@ -38,6 +38,7 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 {
 	set_title("Create Pattern");
 	set_modal(true);
+	set_size_request(300, -1);
 
 	combo_.append("load from file");
 	combo_.append("dot");

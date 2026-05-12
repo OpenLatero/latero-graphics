@@ -29,24 +29,41 @@
 namespace latero {
 namespace graphics { 
 
-CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) : 
-	Gtk::Dialog("Create Texture"), txCombo_(dev), dev_(dev)
+CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
+	Gtk::Window(), txCombo_(dev), dev_(dev)
 {
+	set_title("Create Texture");
+	set_modal(true);
+	set_default_size(200,-1);
+
 	combo_.append("load from file");
 	combo_.append("texture");
 	combo_.set_active_text("texture");
 	txCombo_.set_sensitive(false);
 
-	combo_.set_vexpand();
-	txCombo_.set_vexpand();
+	auto okButton     = Gtk::make_managed<Gtk::Button>("OK");
+	auto cancelButton = Gtk::make_managed<Gtk::Button>("Cancel");
+	auto bbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+	bbox->set_halign(Gtk::Align::END);
+	bbox->set_spacing(6);
+	bbox->append(*okButton);
+	bbox->append(*cancelButton);
 
-	get_content_area()->append(combo_);
-	get_content_area()->append(txCombo_);
+	auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	vbox->set_margin(12);
+	vbox->set_spacing(6);
+	vbox->append(combo_);
+	vbox->append(txCombo_);
+	vbox->append(*bbox);
+	set_child(*vbox);
 
-	combo_.signal_changed().connect( sigc::mem_fun(*this, &CreateTextureDlg::OnComboChanged) );
-	
-	add_button("OK", Gtk::ResponseType::OK);
-	add_button("Cancel", Gtk::ResponseType::CANCEL);	
+	combo_.signal_changed().connect(sigc::mem_fun(*this, &CreateTextureDlg::OnComboChanged));
+	okButton->signal_clicked().connect([this]{
+		signalResponse_.emit((int)Gtk::ResponseType::OK);
+	});
+	cancelButton->signal_clicked().connect([this]{
+		signalResponse_.emit((int)Gtk::ResponseType::CANCEL);
+	});
 }
 
 

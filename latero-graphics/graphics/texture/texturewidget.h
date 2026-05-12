@@ -31,18 +31,20 @@
 namespace latero {
 namespace graphics { 
 
-class CreateTextureDlg : public Gtk::Dialog
+class CreateTextureDlg : public Gtk::Window
 {
 public:
 	CreateTextureDlg(const latero::Tactograph *dev);
 	virtual ~CreateTextureDlg() {}
 	void OnComboChanged();
 	TexturePtr CreateTexture();
+	sigc::signal<void(int)>& signal_response() { return signalResponse_; }
 protected:
 	Gtk::ComboBoxText combo_;
 	TextureCombo txCombo_;
 	const latero::Tactograph *dev_;
 	std::string loadedFile_;
+	sigc::signal<void(int)> signalResponse_;
 };
 
 
