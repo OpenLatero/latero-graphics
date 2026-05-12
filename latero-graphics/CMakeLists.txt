@@ -120,9 +120,4 @@ install(EXPORT laterographicsTargets
 
 
 # Treat deprecation in GTKMM as errors
-#target_compile_definitions(laterographics PRIVATE
-#    GLIB_DISABLE_DEPRECATED
-#    GDK_DISABLE_DEPRECATED
-#    GTK_DISABLE_DEPRECATED
-#    GTKMM_DISABLE_DEPRECATED
-#)
+#target_compile_definitions(laterographics PRIVATE GLIB_DISABLE_DEPRECATED GDK_DISABLE_DEPRECATED GTK_DISABLE_DEPRECATED GTKMM_DISABLE_DEPRECATED)

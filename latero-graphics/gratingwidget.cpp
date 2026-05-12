@@ -360,8 +360,10 @@ void GratingWidget::OnEnable() { peer_->SetEnable(GetCheck().get_active()); }
 // AdvancedGratingWidget ////////////////////////////////////////////////////////////////////
 
 AdvancedGratingWidget::AdvancedGratingWidget(GratingPtr peer) :
-	Gtk::Dialog("Advanced Grating Options")
+	Gtk::Window()
 {
+	set_title("Advanced Grating Options");
+	set_modal(true);
 	set_hide_on_close(true);
 	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	auto rhythmWidget = Gtk::make_managed<GratingRhythmWidget>(peer);
@@ -373,7 +375,7 @@ AdvancedGratingWidget::AdvancedGratingWidget(GratingPtr peer) :
 	cycleWidget->set_hexpand();
 	modulatorCtrl->set_hexpand();
 
-	get_content_area()->append(*box);
+	set_child(*box);
 	box->append(*rhythmWidget);
 	box->append(*cycleWidget);
 	box->append(*modulatorCtrl);

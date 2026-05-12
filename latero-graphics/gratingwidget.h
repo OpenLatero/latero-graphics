@@ -204,7 +204,7 @@ protected:
 };
 
 
-class AdvancedGratingWidget : public Gtk::Dialog
+class AdvancedGratingWidget : public Gtk::Window
 {
 public:
 	AdvancedGratingWidget(GratingPtr peer);
