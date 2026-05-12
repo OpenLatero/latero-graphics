@@ -154,6 +154,7 @@ void GroupTreeView::OnPatternAppend()
 	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(parent);
 	if (tx)
 	{
+		std::cout << "GTKMM4 Testing: append texture" << std::endl;
 		auto dlg = new CreateTextureDlg(peer_->Dev()); // GTKMM4: replaced blocking run()
 		if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dlg->set_transient_for(*win);
 		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {

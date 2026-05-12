@@ -65,7 +65,7 @@ void GratingModulator::LoadXML(const XMLInputNode &root)
 	}
 
 	std::string mode = node.GetType();
-	std::cout << mode;
+	//std::cout << mode;
 	SetMode(mode);
 
 	XMLInputNode n = node.GetChild("enable");

@@ -138,7 +138,7 @@ double DottedLine::DoRender_(const ActuatorState &state)
 DottedCircle::DottedCircle(const latero::Tactograph *dev, const Point &c, double r) :
 	Pattern(dev), DotPattern(dev), center_(c), radius_(r)
 {
-	printf("DottedCircle constructor\n");
+	//printf("DottedCircle constructor\n");
 	UpdateDots();
 }
 
@@ -159,7 +159,7 @@ void DottedCircle::UpdateDots()
 
 	// precompute some stuff
 	boost::posix_time::time_duration period = boost::posix_time::microseconds((long)(fabs(2*M_PI*GetRadius() / GetVel())*1E6));
-	printf("DottedCircle::UpdateDots: period = %f ms; n = %d\n", period.total_microseconds()/1000.0, n);
+	//printf("DottedCircle::UpdateDots: period = %f ms; n = %d\n", period.total_microseconds()/1000.0, n);
 	SetPeriod(period);
 }
 

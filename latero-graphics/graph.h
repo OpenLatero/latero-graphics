@@ -29,7 +29,6 @@
 namespace latero {
 namespace graphics { 
 
-// GTKMM4: Gtk::EventBox doesn't exist anymore. Deriving from Gtk::Box instead.
 class Graph : public Gtk::Box
 {
 public:
