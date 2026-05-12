@@ -113,18 +113,17 @@ void GratingRhythmWidget::RemoveCycle()
 	Gtk::Widget *widget = widget_[widget_.size()-1];
 	widget_.pop_back();
 	sliderBox_.remove(*widget);
-	delete widget;
 
 	adjVec_.pop_back();
 }
 
 void GratingRhythmWidget::AppendCycle(double value)
 {
-    Glib::RefPtr<Gtk::Adjustment> adj = Gtk::Adjustment::create(value, 0, 100, 10);
+    auto adj = Gtk::Adjustment::create(value, 0, 100, 10);
 	adjVec_.push_back(adj);
 	adj->signal_value_changed().connect(sigc::mem_fun(*this, &GratingRhythmWidget::OnChanged));
 
-	Gtk::Widget *widget = new latero::graphics::gtk::VNumWidget(adj,0);
+	auto widget = Gtk::make_managed<latero::graphics::gtk::VNumWidget>(adj,0);
 	widget_.push_back(widget);
 	sliderBox_.append(*widget);
 }
