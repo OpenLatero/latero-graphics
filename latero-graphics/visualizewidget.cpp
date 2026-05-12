@@ -37,7 +37,7 @@ namespace graphics {
 #define DEFAULT_WIDTH 500
 
 VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
-	Gtk::Dialog("Visualization"),
+	Gtk::Window(),
 	velMagAdj_(Gtk::Adjustment::create(0,0,10000)),
 	velDirAdj_(Gtk::Adjustment::create(0,0,360)),
 	intervalCtrl_(10, units::msec),
@@ -58,13 +58,16 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	scrolledWindow->set_size_request(5 + widthAdj_->get_value(), 5 + heightAdj_->get_value());
 
 	auto hbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
-	auto dlgArea = get_content_area();
-	dlgArea->append(*scrolledWindow);
+	auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	set_title("Visualization");
+	set_modal(true);
+	set_child(*vbox);
+	vbox->append(*scrolledWindow);
 	scrolledWindow->set_vexpand();
 	auto playbackWidget = GetPlaybackWidget();
-	dlgArea->append(*playbackWidget);
+	vbox->append(*playbackWidget);
 	playbackWidget->set_margin_bottom(18);
-	dlgArea->append(*hbox);
+	vbox->append(*hbox);
 
 	auto animWidget = GetAnimWidget();
 	animWidget->set_margin_start(12);
@@ -253,7 +256,7 @@ latero::graphics::gtk::Animation VisualizeWidget::GetDeflectionMap(uint w, uint 
 
 void VisualizeWidget::on_realize()
 {
-	Gtk::Dialog::on_realize();
+	Gtk::Window::on_realize();
 	ReloadAnimation();		
 
 	map_.Activate(UPDATE_RATE_MS);

@@ -29,7 +29,7 @@
 namespace latero {
 namespace graphics { 
 
-class PatternCreatorDialog : public Gtk::Dialog
+class PatternCreatorDialog : public Gtk::Window
 {
 public:
 	PatternCreatorDialog(const latero::Tactograph *dev);
@@ -37,12 +37,14 @@ public:
 
 	void OnComboChanged();
 	PatternPtr CreatePattern();
+	sigc::signal<void(int)>& signal_response() { return signalResponse_; }
 
 protected:
 	Gtk::ComboBoxText combo_;
 	TextureCombo txCombo_;
 	const latero::Tactograph *dev_;
 	std::string loadedFile_;
+	sigc::signal<void(int)> signalResponse_;
 };
 
 } // namespace graphics

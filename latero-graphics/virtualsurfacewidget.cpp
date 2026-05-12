@@ -534,10 +534,10 @@ void VirtualSurfaceWidget::OnEdit()
 {
 	if (peer_)
 	{
-		auto dlg = new Gtk::Dialog();
+		auto dlg = new Gtk::Window();
 		auto widget = Gtk::manage(peer_->CreateWidget(peer_));
-		dlg->get_content_area()->append(*widget);
-		widget->set_vexpand();
+		dlg->set_child(*widget);
+		dlg->set_modal(true);
 		dlg->signal_hide().connect([dlg]{ delete dlg; });
 		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
 			dlg->set_transient_for(*win);

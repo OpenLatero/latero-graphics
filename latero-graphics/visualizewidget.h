@@ -114,7 +114,7 @@ public:
  *
  * @TODO: rename? use Window instead of dialog?
  */
-class VisualizeWidget : public Gtk::Dialog
+class VisualizeWidget : public Gtk::Window
 {
 public:
 	VisualizeWidget(PositionGenPtr gen);
