@@ -37,7 +37,6 @@ public:
 		Gtk::FileChooserDialog("Please select file name.", Gtk::FileChooser::Action::SAVE),
 		wAdj_(Gtk::Adjustment::create(1000, 0, 1000)), hAdj_(Gtk::Adjustment::create(500, 0, 1000))
 	{
-		// GTKMM4
 		set_current_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
 		add_button("Cancel", Gtk::ResponseType::CANCEL);
 		add_button("Save", Gtk::ResponseType::OK);
@@ -73,7 +72,6 @@ Plot::Plot(const char *fgColor, const char *bgColor) :
 	AddChannel(fgColor);
 	CreatePopupMenu();
 
-	// GTKMM4
     set_draw_func(sigc::mem_fun(*this, &Plot::OnDraw));
 }
 
@@ -107,7 +105,7 @@ void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, int w, int h, bool gtkmode)
 	if (gtkmode)
 		cr->set_source_rgb(1,1,1);
 	else
-		Gdk::Cairo::set_source_rgba(cr, bgColor_); // GTKMM4
+		Gdk::Cairo::set_source_rgba(cr, bgColor_);
 	cr->rectangle(0, 0, w, h);
 	cr->fill();
 
@@ -189,7 +187,7 @@ void Plot::InsertPoint(unsigned int channel, float x, float y)
 
 void Plot::OnSaveAs()
 {
-	auto dialog = new PlotSaveDlg(); // GTKMM4: replaced blocking run() with async signal_response()
+	auto dialog = new PlotSaveDlg();
 	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
 		dialog->set_transient_for(*win);
 	dialog->signal_response().connect([this, dialog](int response_id) {
@@ -225,7 +223,6 @@ void Plot::SaveToFile(std::string filename, uint w, uint h)
 	}
 }
 
-// GTKMM4
 void Plot::OnClick(int n_press, double x, double y)
 {
 	popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));

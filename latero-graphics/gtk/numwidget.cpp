@@ -30,7 +30,6 @@ NumWidgetCombo::NumWidgetCombo()
 {
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	// GTKMM4: replaced append(columns_.units) with cell renderer API
 	Gtk::CellRendererText* cell = Gtk::manage(new Gtk::CellRendererText());
 	pack_start(*cell);
 	add_attribute(*cell, "text", columns_.units);
@@ -77,10 +76,6 @@ uint NumWidgetCombo::GetDigits()
 	return (*get_active())[columns_.digits];
 }
 
-
-
-
-// GTKMM4: change orient_T to Gtk::Orientation and remove ORIENT_H and ORIENT_V
 NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
 	units_(units),
 	spin_(adj)
@@ -138,7 +133,7 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 		scale_->set_size_request(150, -1);
 	}
 
-	scale_->set_format_value_func(sigc::mem_fun(*this, &NumWidget::OnFormat)); // GTKMM4: signal_format_value() replaced by set_format_value_func()
+	scale_->set_format_value_func(sigc::mem_fun(*this, &NumWidget::OnFormat));
 
 	unitsCombo_.Append(units,adj,digits);
 	unitsCombo_.SetActive(units);

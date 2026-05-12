@@ -65,8 +65,6 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 void PatternCreatorDialog::OnComboChanged()
 {
 	txCombo_.set_sensitive(combo_.get_active_text() == "texture");
-
-	// GTKMM4: show file dialog immediately on selection so the path is ready when OK is clicked
 	if (combo_.get_active_text() == "load from file")
 	{
 		loadedFile_.clear();
@@ -102,7 +100,6 @@ PatternPtr PatternCreatorDialog::CreatePattern()
 	else if (type == "group")	return Group::Create(dev_);
 	else if (type == "load from file")
 	{
-		// GTKMM4: file was already selected in OnComboChanged(); path stored in loadedFile_
 		if (!loadedFile_.empty())
 			return Pattern::Create(dev_, loadedFile_);
 		return PatternPtr();

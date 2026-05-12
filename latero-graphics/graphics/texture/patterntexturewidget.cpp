@@ -107,7 +107,7 @@ PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
 
 void PatternTextureWidget::OnLoad()
 {
-	auto dlg = new PatternCreatorDialog(peer_->Dev()); // GTKMM4: replaced blocking run()
+	auto dlg = new PatternCreatorDialog(peer_->Dev());
 	dlg->signal_response().connect([this, dlg](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 		{
@@ -175,7 +175,7 @@ PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr pee
 
 void PatternTextureAdvancedWidget::OnLoad()
 {
-	auto dlg = new PatternCreatorDialog(peer_->Dev()); // GTKMM4: replaced blocking run()
+	auto dlg = new PatternCreatorDialog(peer_->Dev());
 	dlg->signal_response().connect([this, dlg](int response_id) {
 		if (response_id == Gtk::ResponseType::OK)
 		{

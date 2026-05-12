@@ -69,7 +69,7 @@ void BlendTextureWidget::OnModulatorChanged(ModulatorPtr mod)
 	peer_->SetModulator(mod);
 
 	Widget *old = modWidgetHolder_.get_child();
-	modWidgetHolder_.unset_child(); // GTKMM4: Frame::remove() → unset_child()
+	modWidgetHolder_.unset_child();
 	delete old;
 
 	modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));

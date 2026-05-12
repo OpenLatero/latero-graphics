@@ -167,7 +167,7 @@ public:
 		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerTypeCombo::OnChange));
 	};
 	virtual ~PolygonCornerTypeCombo() {};
-	Glib::SignalProxy<void()> signal_changed() { return combo_.signal_changed(); }; // GTKMM4: Glib::SignalProxy0 removed
+	Glib::SignalProxy<void()> signal_changed() { return combo_.signal_changed(); };
 private:
 	Gtk::ComboBoxText combo_;
 	void OnChange() { peer_->SetCornerType(combo_.get_active_text()); };

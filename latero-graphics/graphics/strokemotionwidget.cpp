@@ -143,7 +143,7 @@ void StrokeMotionWidget::OnCueChanged()
 void StrokeMotionWidget::Rebuild()
 {
 	Gtk::Widget *wp = holder_.get_child();
-	holder_.unset_child(); // GTKMM4: Frame::remove() → unset_child()
+	holder_.unset_child();
 	delete wp;
 
 	Stroke::MotionCue cue = peer_->GetMotionCue();

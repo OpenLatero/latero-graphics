@@ -54,7 +54,6 @@ void CreateTextureDlg::OnComboChanged()
 {
 	txCombo_.set_sensitive(combo_.get_active_text() == "texture");
 
-	// GTKMM4: show file dialog immediately on selection so the path is ready when OK is clicked
 	if (combo_.get_active_text() == "load from file")
 	{
 		loadedFile_.clear();
@@ -82,7 +81,6 @@ TexturePtr CreateTextureDlg::CreateTexture()
 	if (type == "texture")	return txCombo_.GetTexture();
 	else if (type == "load from file")
 	{
-		// GTKMM4: file was already selected in OnComboChanged(); path stored in loadedFile_
 		if (!loadedFile_.empty())
 			return Texture::Create(dev_, loadedFile_);
 		return TexturePtr();
@@ -121,7 +119,7 @@ void TextureTDCentricCtrl::OnClick() { point_.set_sensitive(peer_->GetTDCentric(
 void TextureTDCentricCtrl::OnPosChanged() { peer_->SetTDCentricPos(point_.GetValue()); };
 
 TextureAmplitudeCtrl::TextureAmplitudeCtrl(TexturePtr peer) :
-	adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer) // GTKMM4: missing Box orientation?
+	adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
 	auto widget = Gtk::manage(new gtk::VNumWidget(adj_,0, units::percent));
 	append(*widget);
