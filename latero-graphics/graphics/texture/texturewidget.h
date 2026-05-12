@@ -108,12 +108,11 @@ public:
 	virtual ~TextureAdvancedButton() {};
 	sigc::signal<void()> SignalClosed() { return signalClosed_; }
 protected:
-	void OnResponse(int i) { signalClosed_(); }
 	virtual void on_clicked();
 
 	sigc::signal<void()> signalClosed_;
     Gtk::Widget *adv_;
-	Gtk::Dialog dlg_;
+	Gtk::Window dlg_;
 	TexturePtr peer_;	
 };
 

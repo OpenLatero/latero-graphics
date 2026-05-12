@@ -218,26 +218,29 @@ void TextureMotionCtrl::OnClick() { peer_->SetMotionEnable(GetCheck().get_active
 
 TextureAdvancedButton::TextureAdvancedButton(TexturePtr peer) :
 	Gtk::Button("advanced"),
-	adv_(NULL),
-	dlg_("advanced texture settings"), peer_(peer)
+	adv_(nullptr),
+	peer_(peer)
 {
-	dlg_.signal_response().connect(sigc::mem_fun(*this, &TextureAdvancedButton::OnResponse));
+	dlg_.set_title("advanced texture settings");
+	dlg_.set_modal(true);
+	dlg_.set_hide_on_close(true);
+	dlg_.signal_hide().connect([this]{ signalClosed_(); });
 }
 
 void TextureAdvancedButton::on_clicked()
-{ 
+{
 	if (adv_)
 	{
-		dlg_.get_content_area()->remove(*adv_);
+		dlg_.unset_child();
 		delete adv_;
 	}
-	adv_ = Gtk::manage(peer_->CreateAdvancedWidget(peer_));
-	dlg_.get_content_area()->append(*adv_);
+	adv_ = peer_->CreateAdvancedWidget(peer_);
+	dlg_.set_child(*adv_);
 	adv_->set_vexpand();
 	if (auto win = dynamic_cast<Gtk::Window*>(get_root()))
 		dlg_.set_transient_for(*win);
 	dlg_.show();
-	Gtk::Button::on_clicked(); 
+	Gtk::Button::on_clicked();
 }
 
 
