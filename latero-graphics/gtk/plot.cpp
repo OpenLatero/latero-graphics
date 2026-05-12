@@ -43,8 +43,8 @@ public:
 		set_default_response(Gtk::ResponseType::CANCEL);
 		set_current_name("plot.svg");
 
-		auto xSpin = Gtk::manage(new Gtk::SpinButton(wAdj_));
-		auto ySpin = Gtk::manage(new Gtk::SpinButton(hAdj_));
+		auto xSpin = Gtk::make_managed<Gtk::SpinButton>(wAdj_);
+		auto ySpin = Gtk::make_managed<Gtk::SpinButton>(hAdj_);
 
 		get_content_area()->append(*xSpin);
 		get_content_area()->append(*ySpin);

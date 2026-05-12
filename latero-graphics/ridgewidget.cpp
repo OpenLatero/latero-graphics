@@ -32,7 +32,7 @@ RidgeEdgeWidthScale::RidgeEdgeWidthScale(RidgePtr peer) :
 	peer_(peer),
 	adj_(Gtk::Adjustment::create(peer->GetEdgeWidth(), Ridge::edgeWidth_min, 10, 10, 50))
 {
-	append(*Gtk::manage(new gtk::HNumWidget("edge width", adj_, 2, "mm")));
+	append(*Gtk::make_managed<gtk::HNumWidget>("edge width", adj_, 2, "mm"));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeEdgeWidthScale::OnChange));
 }
 void RidgeEdgeWidthScale::OnChange() { peer_->SetEdgeWidth(adj_->get_value()); }
@@ -46,7 +46,7 @@ public:
 	RidgeTxAmpScale(RidgePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer), adj_(Gtk::Adjustment::create(100*peer->GetTxAmp(), 0, 100, 10, 50))
 	{
-		append(*Gtk::manage(new gtk::HNumWidget(adj_, 0, "%")));
+		append(*Gtk::make_managed<gtk::HNumWidget>(adj_, 0, "%"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxAmpScale::OnChange));
 	}
 	virtual ~RidgeTxAmpScale() {};
@@ -62,7 +62,7 @@ public:
 	RidgeTxNbCyclesScale(RidgePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer), adj_(Gtk::Adjustment::create(peer->GetTxNbCycles(),1,20.0))
 	{
-		append(*Gtk::manage(new gtk::HNumWidget(adj_, 0)));
+		append(*Gtk::make_managed<gtk::HNumWidget>(adj_, 0));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxNbCyclesScale::OnChange));
 	}
 	virtual ~RidgeTxNbCyclesScale() {};
@@ -76,8 +76,8 @@ private:
 RidgeTextureCtrl::RidgeTextureCtrl(RidgePtr peer) :
 	gtk::CheckFrame(peer->GetTxEnable(), "texture"), peer_(peer)
 {
-	auto ridgeTxAmpScale = Gtk::manage(new RidgeTxAmpScale(peer));
-	auto ridgeTxNbCyclesScale = Gtk::manage(new RidgeTxNbCyclesScale(peer));
+	auto ridgeTxAmpScale = Gtk::make_managed<RidgeTxAmpScale>(peer);
+	auto ridgeTxNbCyclesScale = Gtk::make_managed<RidgeTxNbCyclesScale>(peer);
 
 	GetBox().append(*ridgeTxAmpScale);
 	GetBox().append(*ridgeTxNbCyclesScale);
@@ -113,7 +113,7 @@ RidgeWidget::RidgeWidget(RidgePtr peer) :
 	controls_(peer),
     peer_(peer)
 {
-	graph_ = Gtk::manage(new RidgeGraph(peer));
+	graph_ = Gtk::make_managed<RidgeGraph>(peer);
 	append(controls_);
 	append(*graph_);
 

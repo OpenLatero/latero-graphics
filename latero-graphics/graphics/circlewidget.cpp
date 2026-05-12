@@ -57,7 +57,7 @@ public:
 	CircleRadiusCtrl(CirclePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetRadius(), 0.1, 100.0)), peer_(peer)
 	{
-		append(*Gtk::manage(new latero::graphics::gtk::HNumWidget("radius", adj_, 1, "mm")));
+		append(*Gtk::make_managed<latero::graphics::gtk::HNumWidget>("radius", adj_, 1, "mm"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &CircleRadiusCtrl::OnChanged));
 	}
 	virtual ~CircleRadiusCtrl() {};
@@ -74,14 +74,14 @@ public:
 	CirclePropsWidget(CirclePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL)
 	{
-		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-		box->append(*Gtk::manage(new CircleCenterCtrl(peer)));
-		box->append(*Gtk::manage(new CircleRadiusCtrl(peer)));
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+		box->append(*Gtk::make_managed<CircleCenterCtrl>(peer));
+		box->append(*Gtk::make_managed<CircleRadiusCtrl>(peer));
 
 		box->set_hexpand();
 
 		append(*box);
-		append(*Gtk::manage(new PatternPreview(peer)));
+		append(*Gtk::make_managed<PatternPreview>(peer));
 
 	}
 	virtual ~CirclePropsWidget() {};
@@ -90,12 +90,12 @@ public:
 
 CircleWidget::CircleWidget(CirclePtr peer)
 {
-	append_page(*Gtk::manage(new CirclePropsWidget(peer)),"properties");
-	append_page(*Gtk::manage(new StrokeProfileWidget(peer->GetStroke())),"stroke");
-	append_page(*Gtk::manage(new StrokeFillWidget(peer->GetStroke())),"fill");
-	append_page(*Gtk::manage(new StrokeMotionWidget(peer->GetStroke())),"motion");
-	append_page(*Gtk::manage(new StrokeDottedWidget(peer->GetStroke())),"dots");
-	append_page(*Gtk::manage(new ClosedPatternFillTextureWidget(peer)),"texture");
+	append_page(*Gtk::make_managed<CirclePropsWidget>(peer),"properties");
+	append_page(*Gtk::make_managed<StrokeProfileWidget>(peer->GetStroke()),"stroke");
+	append_page(*Gtk::make_managed<StrokeFillWidget>(peer->GetStroke()),"fill");
+	append_page(*Gtk::make_managed<StrokeMotionWidget>(peer->GetStroke()),"motion");
+	append_page(*Gtk::make_managed<StrokeDottedWidget>(peer->GetStroke()),"dots");
+	append_page(*Gtk::make_managed<ClosedPatternFillTextureWidget>(peer),"texture");
 }
 
 } // namespace graphics

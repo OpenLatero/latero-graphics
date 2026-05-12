@@ -63,7 +63,7 @@ public:
 	DirectionCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), MotionTextureCtrl(peer),
 		adj_(Gtk::Adjustment::create(peer->GetDirection(),0,360))
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("direction", adj_, 0, units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirectionCtrl::OnChanged));
 	}
 	virtual ~DirectionCtrl() {};
@@ -78,7 +78,7 @@ public:
 	VelocityCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), MotionTextureCtrl(peer),
 		adj_(Gtk::Adjustment::create(peer->GetVelocity(),0,100))
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("velocity", adj_, 1, units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelocityCtrl::OnChanged));
 	}
 	virtual ~VelocityCtrl() {};
@@ -95,14 +95,14 @@ MotionTextureWidget::MotionTextureWidget(MotionTexturePtr peer) :
 	txWidget_(peer->GetTexture())
 {
 	using namespace MotionTextureCtrls;
-	auto motionPage = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	box->append(*Gtk::manage(new CueTypeCombo(peer)));
-	box->append(*Gtk::manage(new DirectionCtrl(peer)));
-	box->append(*Gtk::manage(new VelocityCtrl(peer)));
+	auto motionPage = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	box->append(*Gtk::make_managed<CueTypeCombo>(peer));
+	box->append(*Gtk::make_managed<DirectionCtrl>(peer));
+	box->append(*Gtk::make_managed<VelocityCtrl>(peer));
 	motionPage->append(*box);
 	box->set_hexpand();
-	motionPage->append(*Gtk::manage(new PatternPreview(peer->GetMotionTexture())));
+	motionPage->append(*Gtk::make_managed<PatternPreview>(peer->GetMotionTexture()));
 
 	append_page(txWidget_, "texture");
 	append_page(*motionPage, "motion cue");

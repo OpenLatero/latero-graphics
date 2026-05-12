@@ -31,13 +31,13 @@ ImageWidget::ImageWidget(ImagePtr peer, bool showMaskWidget) :
 	maskWidget_(peer->GetMask(),peer->Dev()),
 	peer_(peer)
 {
-	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	append(*box);
 	box->set_vexpand();
 	
 	if (showMaskWidget)
 	{
-		Gtk::Notebook *notebook = Gtk::manage(new Gtk::Notebook);
+		Gtk::Notebook *notebook = Gtk::make_managed<Gtk::Notebook>();
 		notebook->append_page(maskWidget_, "mask");
 		notebook->append_page(txWidget_, "texture");
 		box->append(*notebook);

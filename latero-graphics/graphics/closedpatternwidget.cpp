@@ -32,7 +32,7 @@ public:
 	ClosedPatternFillTextureGapCtrl(ClosedPatternPtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFillTextureGap(), -1, 50)), peer_(peer)
 	{
-		append(*Gtk::manage(new latero::graphics::gtk::HNumWidget("gap", adj_, 1, "mm")));
+		append(*Gtk::make_managed<latero::graphics::gtk::HNumWidget>("gap", adj_, 1, "mm"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureGapCtrl::OnChanged));
 	}
 	virtual ~ClosedPatternFillTextureGapCtrl() {};
@@ -48,7 +48,7 @@ public:
 	ClosedPatternFillTextureEdgeSizeCtrl(ClosedPatternPtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFillTextureEdgeSize(), 0, 50)), peer_(peer)
 	{
-		append(*Gtk::manage(new latero::graphics::gtk::HNumWidget("edge size", adj_, 1, "mm")));
+		append(*Gtk::make_managed<latero::graphics::gtk::HNumWidget>("edge size", adj_, 1, "mm"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureEdgeSizeCtrl::OnChanged));
 	}
 	virtual ~ClosedPatternFillTextureEdgeSizeCtrl() {};
@@ -65,9 +65,9 @@ protected:
 ClosedPatternFillTextureWidget::ClosedPatternFillTextureWidget(ClosedPatternPtr peer) :
 	gtk::CheckFrame(peer->GetFillTextureEnable()), txWidget_(peer->GetFillTexture()), peer_(peer)
 {
-	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	auto gapCtrl = Gtk::manage(new ClosedPatternFillTextureGapCtrl(peer));
-	auto edgeSizeCtrl = Gtk::manage(new ClosedPatternFillTextureEdgeSizeCtrl(peer));
+	auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	auto gapCtrl = Gtk::make_managed<ClosedPatternFillTextureGapCtrl>(peer);
+	auto edgeSizeCtrl = Gtk::make_managed<ClosedPatternFillTextureEdgeSizeCtrl>(peer);
 
 	vbox->set_hexpand();
 	gapCtrl->set_hexpand();
@@ -75,7 +75,7 @@ ClosedPatternFillTextureWidget::ClosedPatternFillTextureWidget(ClosedPatternPtr 
 	txWidget_.set_vexpand();
 
 	GetBox().append(*vbox);
-	auto hbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+	auto hbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	hbox->append(*gapCtrl);	
 	hbox->append(*edgeSizeCtrl);
 	vbox->append(*hbox);

@@ -56,7 +56,7 @@ public:
 	AngleWidget(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("orientation", adj_, 0, units::degree)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("orientation", adj_, 0, units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &AngleWidget::OnChanged));
 	}
 	virtual ~AngleWidget() {};
@@ -72,7 +72,7 @@ public:
 	PrimRidgeSizeWidget(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetPrimaryRidgeSize(),0,100)), peer_(peer)
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("primary ridge size", adj_, 1, units::mm)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("primary ridge size", adj_, 1, units::mm));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PrimRidgeSizeWidget::OnChanged));
 	}
 	virtual ~PrimRidgeSizeWidget() {};
@@ -88,7 +88,7 @@ public:
 	SecondaryScaleWidget(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetSecondaryScale(),0,10)), peer_(peer)
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("secondary scale", adj_, 1)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("secondary scale", adj_, 1));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &SecondaryScaleWidget::OnChanged));
 	}
 	virtual ~SecondaryScaleWidget() {};
@@ -104,7 +104,7 @@ public:
 	PrimGapSizeWidget(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetPrimaryGapSize(),0,100)), peer_(peer)
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("primary gap size", adj_, 1, units::mm)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("primary gap size", adj_, 1, units::mm));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PrimGapSizeWidget::OnChanged));
 	}
 	virtual ~PrimGapSizeWidget() {};
@@ -166,10 +166,10 @@ public:
 		adj1_(Gtk::Adjustment::create(peer->GetSecondaryAmplitude()*100,0,100)),
         peer_(peer)
 	{
-		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 		set_child(*box);
-		box->append(*Gtk::manage(new gtk::VNumWidget(adj0_,0, units::percent)));
-		box->append(*Gtk::manage(new gtk::VNumWidget(adj1_,0, units::percent)));
+		box->append(*Gtk::make_managed<gtk::VNumWidget>(adj0_,0, units::percent));
+		box->append(*Gtk::make_managed<gtk::VNumWidget>(adj1_,0, units::percent));
 		adj0_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged0));
 		adj1_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged1));
 	}
@@ -187,15 +187,15 @@ protected:
 void DoubleLinearGratingTextureWidget::Create()
 {
 	using namespace DoubleLinearGratingTextureWidgets;
-	auto grid = Gtk::manage(new Gtk::Grid());
+	auto grid = Gtk::make_managed<Gtk::Grid>();
 
-	auto amplitudeCtrl = Gtk::manage(new AmplitudeCtrl(peer_));
-	auto angleWidget = Gtk::manage(new AngleWidget(peer_));
-	auto operationWidget = Gtk::manage(new OperationWidget(peer_));
-	auto constraintWidget = Gtk::manage(new ConstraintWidget(peer_));
-	auto primRidgeSizeWidget = Gtk::manage(new PrimRidgeSizeWidget(peer_));
-	auto primGapSizeWidget = Gtk::manage(new PrimGapSizeWidget(peer_));
-	auto secondaryScaleWidget = Gtk::manage(new SecondaryScaleWidget(peer_));
+	auto amplitudeCtrl = Gtk::make_managed<AmplitudeCtrl>(peer_);
+	auto angleWidget = Gtk::make_managed<AngleWidget>(peer_);
+	auto operationWidget = Gtk::make_managed<OperationWidget>(peer_);
+	auto constraintWidget = Gtk::make_managed<ConstraintWidget>(peer_);
+	auto primRidgeSizeWidget = Gtk::make_managed<PrimRidgeSizeWidget>(peer_);
+	auto primGapSizeWidget = Gtk::make_managed<PrimGapSizeWidget>(peer_);
+	auto secondaryScaleWidget = Gtk::make_managed<SecondaryScaleWidget>(peer_);
 	auto vibCheck = CreateVibCheck();
 	auto tDCentricCheck = CreateTDCentricCheck();
 	auto motionWidget = CreateMotionWidget();
@@ -222,7 +222,7 @@ void DoubleLinearGratingTextureWidget::Create()
 	vibCheck->set_hexpand();
 	tDCentricCheck->set_hexpand();
 
-	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	box->append(*vibCheck);
 	box->append(*tDCentricCheck);
 	grid->attach(*box,1,2,1,1);
@@ -239,17 +239,17 @@ DoubleLinearGratingTextureAdvancedWidget::DoubleLinearGratingTextureAdvancedWidg
 	set_hexpand();
 	set_vexpand();
 
-	auto amplitudeCtrl = Gtk::manage(new AmplitudeCtrl(peer));
-	auto angleWidget = Gtk::manage(new AngleWidget(peer));
-	auto operationWidget = Gtk::manage(new OperationWidget(peer));
-	auto constraintWidget = Gtk::manage(new ConstraintWidget(peer));
-	auto primRidgeSizeWidget = Gtk::manage(new PrimRidgeSizeWidget(peer));
-	auto primGapSizeWidget = Gtk::manage(new PrimGapSizeWidget(peer));
-	auto secondaryScaleWidget = Gtk::manage(new SecondaryScaleWidget(peer));
-	auto seedCtrl = Gtk::manage(new SeedCtrl(peer));
-	auto oscillatorWidget = Gtk::manage(new OscillatorWidget(peer->GetOscillator(),true));
-	auto textureMotionCtrl = Gtk::manage(new TextureMotionCtrl(peer));
-	auto patternPreview = Gtk::manage(new PatternPreview(peer));
+	auto amplitudeCtrl = Gtk::make_managed<AmplitudeCtrl>(peer);
+	auto angleWidget = Gtk::make_managed<AngleWidget>(peer);
+	auto operationWidget = Gtk::make_managed<OperationWidget>(peer);
+	auto constraintWidget = Gtk::make_managed<ConstraintWidget>(peer);
+	auto primRidgeSizeWidget = Gtk::make_managed<PrimRidgeSizeWidget>(peer);
+	auto primGapSizeWidget = Gtk::make_managed<PrimGapSizeWidget>(peer);
+	auto secondaryScaleWidget = Gtk::make_managed<SecondaryScaleWidget>(peer);
+	auto seedCtrl = Gtk::make_managed<SeedCtrl>(peer);
+	auto oscillatorWidget = Gtk::make_managed<OscillatorWidget>(peer->GetOscillator(),true);
+	auto textureMotionCtrl = Gtk::make_managed<TextureMotionCtrl>(peer);
+	auto patternPreview = Gtk::make_managed<PatternPreview>(peer);
 
 	amplitudeCtrl->set_hexpand(false);
 	angleWidget->set_hexpand();

@@ -114,7 +114,7 @@ TextureCombo::TextureCombo(TexturePtr tx, std::vector<std::string> textures) :
 
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	Gtk::CellRendererPixbuf* cell = Gtk::manage(new Gtk::CellRendererPixbuf());
+	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
 	pack_start(*cell);
 	add_attribute(*cell, "pixbuf", columns_.img);
 
@@ -133,7 +133,7 @@ TextureCombo::TextureCombo(const latero::Tactograph *dev, std::vector<std::strin
 
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	Gtk::CellRendererPixbuf* cell = Gtk::manage(new Gtk::CellRendererPixbuf());
+	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
 	pack_start(*cell);
 	add_attribute(*cell, "pixbuf", columns_.img);
 

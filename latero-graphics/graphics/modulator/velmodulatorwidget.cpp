@@ -43,7 +43,7 @@ class LimitCtrl : public Ctrl
 public:
 	LimitCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetLimit(), 0, 100))
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("lower limit", adj_, 0, units::mm_per_sec)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("lower limit", adj_, 0, units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &LimitCtrl::OnChanged));
 	}
 protected:
@@ -56,7 +56,7 @@ class TransitionCtrl : public Ctrl
 public:
 	TransitionCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetTransition(), 0, 100))
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("transition rate", adj_, 0, units::mm_per_sec)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("transition rate", adj_, 0, units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TransitionCtrl::OnChanged));
 	}
 protected:
@@ -69,7 +69,7 @@ class DelayCtrl : public Ctrl
 public:
 	DelayCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDelay(), 0, 2000))
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("delayed onset", adj_, 0, units::ms)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("delayed onset", adj_, 0, units::ms));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DelayCtrl::OnChanged));
 	}
 protected:
@@ -86,11 +86,11 @@ VelModulatorWidget::VelModulatorWidget(VelModulatorPtr peer) :
 {
 	using namespace vel_modulator_ctrls;
 
-	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	auto limitCtrl = Gtk::manage(new LimitCtrl(peer));
-	auto transitionCtrl = Gtk::manage(new TransitionCtrl(peer));
-	auto delayCtrl = Gtk::manage(new DelayCtrl(peer));
-	auto previewCtrl = Gtk::manage(new ModulatorPreview(peer));
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	auto limitCtrl = Gtk::make_managed<LimitCtrl>(peer);
+	auto transitionCtrl = Gtk::make_managed<TransitionCtrl>(peer);
+	auto delayCtrl = Gtk::make_managed<DelayCtrl>(peer);
+	auto previewCtrl = Gtk::make_managed<ModulatorPreview>(peer);
 
 	limitCtrl->set_vexpand();
 	transitionCtrl->set_vexpand();

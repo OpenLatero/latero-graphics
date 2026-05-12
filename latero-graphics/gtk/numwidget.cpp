@@ -30,7 +30,7 @@ NumWidgetCombo::NumWidgetCombo()
 {
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
-	Gtk::CellRendererText* cell = Gtk::manage(new Gtk::CellRendererText());
+	Gtk::CellRendererText* cell = Gtk::make_managed<Gtk::CellRendererText>();
 	pack_start(*cell);
 	add_attribute(*cell, "text", columns_.units);
 }
@@ -83,18 +83,18 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	Gtk::Box *box2;
 	if (orient == ORIENT_V)
 	{
-		scale_ = Gtk::manage(new Gtk::Scale(adj, Gtk::Orientation::VERTICAL));
+		scale_ = Gtk::make_managed<Gtk::Scale>(adj, Gtk::Orientation::VERTICAL);
 		scale_->set_inverted();
-		box2 = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-		box_ = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-		comboBox_ = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+		box2 = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+		box_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+		comboBox_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	}
 	else
 	{
-		scale_ = Gtk::manage(new Gtk::Scale(adj, Gtk::Orientation::HORIZONTAL));
-		box2 = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-		box_ = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-		comboBox_ = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
+		scale_ = Gtk::make_managed<Gtk::Scale>(adj, Gtk::Orientation::HORIZONTAL);
+		box2 = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+		box_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+		comboBox_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	}
 
 	if (name=="")

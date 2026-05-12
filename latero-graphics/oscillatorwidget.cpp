@@ -55,7 +55,7 @@ OscillatorEnableCheck::OscillatorEnableCheck(OscillatorPtr peer) :
 OscillatorAmplitudeCtrl::OscillatorAmplitudeCtrl(OscillatorPtr peer) :
     Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
-	auto widget = Gtk::manage(new gtk::HNumWidget(adj_,0, units::percent));
+	auto widget = Gtk::make_managed<gtk::HNumWidget>(adj_,0, units::percent);
 	append(*widget);
 	widget->set_vexpand();
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &OscillatorAmplitudeCtrl::OnChanged));
@@ -66,7 +66,7 @@ void OscillatorAmplitudeCtrl::OnChanged() { peer_->SetAmplitude(adj_->get_value(
 OscillatorFreqCtrl::OscillatorFreqCtrl(OscillatorPtr peer) :
     Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),0.1,50)), peer_(peer)
 {
-	auto widget = Gtk::manage(new gtk::HNumWidget(adj_,0, units::hz));
+	auto widget = Gtk::make_managed<gtk::HNumWidget>(adj_,0, units::hz);
 	append(*widget);
 	widget->set_vexpand();
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &OscillatorFreqCtrl::OnChanged));
@@ -77,8 +77,8 @@ void OscillatorFreqCtrl::OnChanged() { peer_->SetFreq(adj_->get_value()); };
 OscillatorWidget::OscillatorWidget(OscillatorPtr peer, bool showBlendBode) :
 	gtk::CheckFrame(peer->GetEnable(), "vibration"), peer_(peer)
 {
-	auto amplitudeCtrl = Gtk::manage(new OscillatorAmplitudeCtrl(peer));
-	auto freqCtrl = Gtk::manage(new OscillatorFreqCtrl(peer));
+	auto amplitudeCtrl = Gtk::make_managed<OscillatorAmplitudeCtrl>(peer);
+	auto freqCtrl = Gtk::make_managed<OscillatorFreqCtrl>(peer);
 
 	amplitudeCtrl->set_hexpand();
 	freqCtrl->set_hexpand();
@@ -86,7 +86,7 @@ OscillatorWidget::OscillatorWidget(OscillatorPtr peer, bool showBlendBode) :
 	GetBox().append(*amplitudeCtrl);
 	GetBox().append(*freqCtrl);
 
-	if (showBlendBode) GetBox().append(*Gtk::manage(new OscillatorBlendModeCombo(peer)));
+	if (showBlendBode) GetBox().append(*Gtk::make_managed<OscillatorBlendModeCombo>(peer));
 	GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &OscillatorWidget::OnClick));
 }
 void OscillatorWidget::OnClick() { peer_->SetEnable(GetCheck().get_active()); }

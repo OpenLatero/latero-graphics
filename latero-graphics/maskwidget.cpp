@@ -128,19 +128,19 @@ public:
 	{
 		fileEntry_.set_text(peer->GetImgFile());
 
-		auto pOpenButton = Gtk::manage(new Gtk::Button());
+		auto pOpenButton = Gtk::make_managed<Gtk::Button>();
 		pOpenButton->set_icon_name("document-open");
 
-		auto pReloadButton = Gtk::manage(new Gtk::Button());
+		auto pReloadButton = Gtk::make_managed<Gtk::Button>();
 		pReloadButton->set_icon_name("view-refresh");
 
-		auto *box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+		auto *box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 		box->append(fileEntry_);
 		box->set_hexpand();
 		fileEntry_.set_hexpand();
 		box->append(*pOpenButton);
 		box->append(*pReloadButton);
-		box->append(*Gtk::manage(new MaskSrcTypeCheck(peer)));
+		box->append(*Gtk::make_managed<MaskSrcTypeCheck>(peer));
 		set_child(*box);
  
 		pOpenButton->signal_clicked().connect(sigc::mem_fun(*this, &MaskImageWidget::OnOpen));
@@ -210,7 +210,7 @@ public:
 		wAbsAdj_(Gtk::Adjustment::create(peer->GetWidth(units::mm),1,2000)),
 		hAbsAdj_(Gtk::Adjustment::create(peer->GetHeight(units::mm),1,2000))
 	{
-		gtk::HNumWidget *wWidget = Gtk::manage(new gtk::HNumWidget("width",wRelAdj_,0, units::percent));
+		gtk::HNumWidget *wWidget = Gtk::make_managed<gtk::HNumWidget>("width",wRelAdj_,0, units::percent);
 		wWidget->AddUnits(units::mm, wAbsAdj_, 0);
 		wWidget->SelectUnits(peer->GetWidthUnits());
 		append(*wWidget);
@@ -218,7 +218,7 @@ public:
 		wAbsAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnAbsWidthChanged));
 		wWidget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnWidthUnitsChanged));
 
-		gtk::HNumWidget *hWidget = Gtk::manage(new gtk::HNumWidget("height",hRelAdj_,0, units::percent));
+		gtk::HNumWidget *hWidget = Gtk::make_managed<gtk::HNumWidget>("height",hRelAdj_,0, units::percent);
 		hWidget->AddUnits(units::mm, hAbsAdj_, 0);
 		hWidget->SelectUnits(peer->GetHeightUnits());
 		append(*hWidget);
@@ -296,7 +296,7 @@ public:
 
 		centeredRadio_.signal_toggled().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnModeChanged));
 		
-		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 		box->append(centeredRadio_);
 		box->append(freeRadio_);
 		box->append(posWidget_);
@@ -347,9 +347,9 @@ public:
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), MaskWidgetCtrl(peer),
 		adj_(Gtk::Adjustment::create(100*peer->GetDefaultAlpha(),0,100))
 	{
-		append(*Gtk::manage(new Gtk::Label("Default ")));
-		append(*Gtk::manage(new Gtk::SpinButton(adj_)));
-		append(*Gtk::manage(new Gtk::Label("%")));
+		append(*Gtk::make_managed<Gtk::Label>("Default "));
+		append(*Gtk::make_managed<Gtk::SpinButton>(adj_));
+		append(*Gtk::make_managed<Gtk::Label>("%"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskDefaultCtrl::OnChanged));
 	}
 	virtual ~MaskDefaultCtrl() {}
@@ -361,19 +361,19 @@ protected:
 MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
-	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	auto checkbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));	
-	auto maskImageWidget = Gtk::manage(new MaskImageWidget(peer));
-	auto maskBlurCheck = Gtk::manage(new MaskBlurCheck(peer));
-	auto maskLockAspectRatioCheck = Gtk::manage(new MaskLockAspectRatioCheck(peer));
-	auto refMaxWidget = Gtk::manage(new MaskRefMaximizedCheck(peer));
-	auto maskDefaultCtrl = Gtk::manage(new MaskDefaultCtrl(peer));
-	auto maskSurfaceWidget = Gtk::manage(new MaskSurfaceWidget(dev,peer));
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	auto checkbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);	
+	auto maskImageWidget = Gtk::make_managed<MaskImageWidget>(peer);
+	auto maskBlurCheck = Gtk::make_managed<MaskBlurCheck>(peer);
+	auto maskLockAspectRatioCheck = Gtk::make_managed<MaskLockAspectRatioCheck>(peer);
+	auto refMaxWidget = Gtk::make_managed<MaskRefMaximizedCheck>(peer);
+	auto maskDefaultCtrl = Gtk::make_managed<MaskDefaultCtrl>(peer);
+	auto maskSurfaceWidget = Gtk::make_managed<MaskSurfaceWidget>(dev,peer);
 
-	MaskSizeCtrl *sizeWidget = Gtk::manage(new MaskSizeCtrl(peer));
+	MaskSizeCtrl *sizeWidget = Gtk::make_managed<MaskSizeCtrl>(peer);
 	ctrls_.push_back(sizeWidget);
 
-	MaskPositionCtrl *posWidget = Gtk::manage(new MaskPositionCtrl(peer));
+	MaskPositionCtrl *posWidget = Gtk::make_managed<MaskPositionCtrl>(peer);
 	ctrls_.push_back(posWidget);
 
 	maskImageWidget->set_vexpand();

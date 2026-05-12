@@ -73,24 +73,24 @@ public:
 	LinePropertiesCtrl(LinePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL)
 	{
-		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-		box->append(*Gtk::manage(new LineStartCtrl(peer)));
-		box->append(*Gtk::manage(new LineEndCtrl(peer)));
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+		box->append(*Gtk::make_managed<LineStartCtrl>(peer));
+		box->append(*Gtk::make_managed<LineEndCtrl>(peer));
 
 		append(*box);
 		box->set_hexpand();
-		append(*Gtk::manage(new PatternPreview(peer)));
+		append(*Gtk::make_managed<PatternPreview>(peer));
 	}
 	virtual ~LinePropertiesCtrl() {};
 };
 
 LineWidget::LineWidget(LinePtr peer)
 {
-	append_page(*Gtk::manage(new LinePropertiesCtrl(peer)), "properties");
-	append_page(*Gtk::manage(new StrokeProfileWidget(peer->GetStroke())), "stroke");
-	append_page(*Gtk::manage(new StrokeFillWidget(peer->GetStroke())), "fill");
-	append_page(*Gtk::manage(new StrokeMotionWidget(peer->GetStroke())),"motion");
-	append_page(*Gtk::manage(new StrokeDottedWidget(peer->GetStroke())),"dots");
+	append_page(*Gtk::make_managed<LinePropertiesCtrl>(peer), "properties");
+	append_page(*Gtk::make_managed<StrokeProfileWidget>(peer->GetStroke()), "stroke");
+	append_page(*Gtk::make_managed<StrokeFillWidget>(peer->GetStroke()), "fill");
+	append_page(*Gtk::make_managed<StrokeMotionWidget>(peer->GetStroke()),"motion");
+	append_page(*Gtk::make_managed<StrokeDottedWidget>(peer->GetStroke()),"dots");
 }
 
 

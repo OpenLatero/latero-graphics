@@ -53,7 +53,7 @@ public:
 	GratingModulatorFactorWidget(GratingModulatorPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetFactor(),0.1,10)), peer_(peer)
 	{
-		append(*Gtk::manage(new gtk::HNumWidget(adj_, 1)));
+		append(*Gtk::make_managed<gtk::HNumWidget>(adj_, 1));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorFactorWidget::OnChanged));
 	}
@@ -70,7 +70,7 @@ public:
 	GratingModulatorLengthWidget(GratingModulatorPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetLength(),1,300)), peer_(peer)
 	{
-		append(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
+		append(*Gtk::make_managed<gtk::HNumWidget>(adj_,0,peer->GetUnits()));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorLengthWidget::OnChanged));
 	}
@@ -87,7 +87,7 @@ public:
 	GratingModulatorPosWidget(GratingModulatorPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetPosition(),0,360)), peer_(peer)
 	{
-		append(*Gtk::manage(new gtk::HNumWidget(adj_,0,peer->GetUnits())));
+		append(*Gtk::make_managed<gtk::HNumWidget>(adj_,0,peer->GetUnits()));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorPosWidget::OnChanged));
 	}
@@ -102,12 +102,12 @@ protected:
 GratingModulatorCtrl::GratingModulatorCtrl(GratingModulatorPtr peer) :
 	widgetbox_(Gtk::Orientation::HORIZONTAL), Gtk::Frame("pitch modulation"), peer_(peer)
 {
-	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	
-	auto modeCombo = Gtk::manage(new GratingModulatorModeCombo(peer));
-	auto factorWidget = Gtk::manage(new GratingModulatorFactorWidget(peer));
-	auto posWidget = Gtk::manage(new GratingModulatorPosWidget(peer));
-	auto lengthWidget = Gtk::manage(new GratingModulatorLengthWidget(peer));
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+
+	auto modeCombo = Gtk::make_managed<GratingModulatorModeCombo>(peer);
+	auto factorWidget = Gtk::make_managed<GratingModulatorFactorWidget>(peer);
+	auto posWidget = Gtk::make_managed<GratingModulatorPosWidget>(peer);
+	auto lengthWidget = Gtk::make_managed<GratingModulatorLengthWidget>(peer);
 
 	widgetbox_.set_hexpand();
 	factorWidget->set_hexpand();

@@ -31,15 +31,15 @@ BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 	peer_(peer),
 	modCombo_(peer->GetModulator())
 {
-	txWidgets_[0] = Gtk::manage(new TextureSelectorWidget(peer->GetFirstTexture()));
-	txWidgets_[1] = Gtk::manage(new TextureSelectorWidget(peer->GetSecondTexture()));
+	txWidgets_[0] = Gtk::make_managed<TextureSelectorWidget>(peer->GetFirstTexture());
+	txWidgets_[1] = Gtk::make_managed<TextureSelectorWidget>(peer->GetSecondTexture());
 	ModulatorPtr mod = peer->GetModulator();
 
-	auto optionBox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+	auto optionBox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	optionBox->append(modCombo_);
 	optionBox->append(modWidgetHolder_);
 	modWidgetHolder_.set_hexpand();
-	optionBox->append(*Gtk::manage(new PatternPreview(peer)));
+	optionBox->append(*Gtk::make_managed<PatternPreview>(peer));
 	modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
 
 	append_page(*optionBox,"options");

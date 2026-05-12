@@ -53,7 +53,7 @@ DotsRadiusCtrl::DotsRadiusCtrl(DotsPtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetDotRadius(), 0.01, 20.0))
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotsRadiusCtrl::OnChanged));
-	append(*Gtk::manage(new gtk::HNumWidget("radius",adj_,1,"mm")));
+	append(*Gtk::make_managed<gtk::HNumWidget>("radius",adj_,1,"mm"));
 }
 void DotsRadiusCtrl::OnChanged() { peer_->SetDotRadius(adj_->get_value()); }
 
@@ -64,7 +64,7 @@ DotsHeightCtrl::DotsHeightCtrl(DotsPtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetHeight()*100, 1, 100))
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotsHeightCtrl::OnChanged));
-	append(*Gtk::manage(new gtk::HNumWidget("height",adj_,0,"%")));
+	append(*Gtk::make_managed<gtk::HNumWidget>("height",adj_,0,"%"));
 }
 void DotsHeightCtrl::OnChanged() { peer_->SetHeight(adj_->get_value()/100); };
 
@@ -72,18 +72,18 @@ void DotsHeightCtrl::OnChanged() { peer_->SetHeight(adj_->get_value()/100); };
 DotsWidget::DotsWidget(DotsPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
-	auto grid = Gtk::manage(new Gtk::Grid());
-	grid->attach(*Gtk::manage(new DotsRadiusCtrl(peer)),0,0,2,1);
-	grid->attach(*Gtk::manage(new DotsHeightCtrl(peer)),0,1,1,1);
-	grid->attach(*Gtk::manage(new RidgeEdgeWidthScale(peer->GetProfile())),1,1,1,1);
-	grid->attach(*Gtk::manage(new RidgeTextureCtrl(peer->GetProfile())),0,2,2,1);
-	grid->attach(*Gtk::manage(new OscillatorWidget(peer->GetOscillator())),0,3,2,1);
-	grid->attach(*Gtk::manage(new DotsPointsWidget(peer)),2,0,1,4);
+	auto grid = Gtk::make_managed<Gtk::Grid>();
+	grid->attach(*Gtk::make_managed<DotsRadiusCtrl>(peer),0,0,2,1);
+	grid->attach(*Gtk::make_managed<DotsHeightCtrl>(peer),0,1,1,1);
+	grid->attach(*Gtk::make_managed<RidgeEdgeWidthScale>(peer->GetProfile()),1,1,1,1);
+	grid->attach(*Gtk::make_managed<RidgeTextureCtrl>(peer->GetProfile()),0,2,2,1);
+	grid->attach(*Gtk::make_managed<OscillatorWidget>(peer->GetOscillator()),0,3,2,1);
+	grid->attach(*Gtk::make_managed<DotsPointsWidget>(peer),2,0,1,4);
 
 	grid->set_hexpand();
 
 	append(*grid);
-	append(*Gtk::manage(new RidgeGraph(peer->GetProfile(),300)));
+	append(*Gtk::make_managed<RidgeGraph>(peer->GetProfile(),300));
 }
 
 } // namespace graphics

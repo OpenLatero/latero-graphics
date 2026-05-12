@@ -35,7 +35,7 @@ public:
 	VibroTextureFreqCtrl(VibroTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),Oscillator::freq_min,Oscillator::freq_max)), peer_(peer)
 	{
-		auto widget = Gtk::manage(new gtk::HNumWidget("frequency", adj_,1, units::hz));
+		auto widget = Gtk::make_managed<gtk::HNumWidget>("frequency", adj_,1, units::hz);
 		append(*widget);
 		widget->set_vexpand();
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VibroTextureFreqCtrl::OnChanged));
@@ -50,11 +50,11 @@ protected:
 VibroTextureWidget::VibroTextureWidget(VibroTexturePtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
-	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	auto textureInvertCtrl = Gtk::manage(new TextureInvertCtrl(peer));
-	auto textureAmplitudeCtrl = Gtk::manage(new TextureAmplitudeCtrl(peer));
-	auto vibroTextureFreqCtrl = Gtk::manage(new VibroTextureFreqCtrl(peer));
-	auto patternPreview = Gtk::manage(new PatternPreview(peer));
+	auto sidebox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	auto textureInvertCtrl = Gtk::make_managed<TextureInvertCtrl>(peer);
+	auto textureAmplitudeCtrl = Gtk::make_managed<TextureAmplitudeCtrl>(peer);
+	auto vibroTextureFreqCtrl = Gtk::make_managed<VibroTextureFreqCtrl>(peer);
+	auto patternPreview = Gtk::make_managed<PatternPreview>(peer);
 
 	textureAmplitudeCtrl->set_vexpand();
 	vibroTextureFreqCtrl->set_hexpand();

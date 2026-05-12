@@ -102,11 +102,11 @@ TextureTDCentricCtrl::TextureTDCentricCtrl(TexturePtr peer) :
 	point_(peer->GetTDCentricPos(), 0, peer->Dev()->GetSurfaceWidth(), 0, peer->Dev()->GetSurfaceHeight()),
     peer_(peer)
 {
-	TextureTDCentricCheck *check = Gtk::manage(new TextureTDCentricCheck(peer));
+	TextureTDCentricCheck *check = Gtk::make_managed<TextureTDCentricCheck>(peer);
 	check->set_label("");
 	
 	// TODO: use Check above instead...
-	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	set_child(*box);
 	box->append(*check);
 	box->append(point_);
@@ -121,7 +121,7 @@ void TextureTDCentricCtrl::OnPosChanged() { peer_->SetTDCentricPos(point_.GetVal
 TextureAmplitudeCtrl::TextureAmplitudeCtrl(TexturePtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
-	auto widget = Gtk::manage(new gtk::VNumWidget(adj_,0, units::percent));
+	auto widget = Gtk::make_managed<gtk::VNumWidget>(adj_,0, units::percent);
 	append(*widget);
 	widget->set_hexpand();
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureAmplitudeCtrl::OnChanged));
@@ -147,7 +147,7 @@ public:
 	TextureMotionDirectionCtrl(TexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionDirection(),0,360)), peer_(peer)
 	{
-		auto widget = Gtk::manage(new gtk::HNumWidget(adj_,0, units::degree));
+		auto widget = Gtk::make_managed<gtk::HNumWidget>(adj_,0, units::degree);
 		append(*widget);
 		widget->set_vexpand();
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionDirectionCtrl::OnChanged));
@@ -167,7 +167,7 @@ public:
 	TextureMotionVelocityCtrl(TexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),0,100)), peer_(peer)
 	{
-		auto widget = Gtk::manage(new gtk::HNumWidget(adj_,1, units::mm_per_sec));
+		auto widget = Gtk::make_managed<gtk::HNumWidget>(adj_,1, units::mm_per_sec);
 		append(*widget);
 		widget->set_vexpand();
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionVelocityCtrl::OnChanged));
@@ -184,8 +184,8 @@ protected:
 TextureMotionCtrl::TextureMotionCtrl(TexturePtr peer) :
 	gtk::CheckFrame(peer->GetMotionEnable(), "motion"), peer_(peer)
 {
-	auto dirCtrl = Gtk::manage(new TextureMotionDirectionCtrl(peer));
-	auto velCtrl = Gtk::manage(new TextureMotionVelocityCtrl(peer));
+	auto dirCtrl = Gtk::make_managed<TextureMotionDirectionCtrl>(peer);
+	auto velCtrl = Gtk::make_managed<TextureMotionVelocityCtrl>(peer);
 
 	GetBox().append(*dirCtrl);
 	GetBox().append(*velCtrl);
@@ -238,8 +238,8 @@ Gtk::Widget *TextureWidget::CreateLeftPanel()
 {
 	auto lbox = new Gtk::Box(Gtk::Orientation::VERTICAL);
 	
-	auto invertCtrl = Gtk::manage(new TextureInvertCtrl(peer_));
-	auto ampCtrl = Gtk::manage(new TextureAmplitudeCtrl(peer_));
+	auto invertCtrl = Gtk::make_managed<TextureInvertCtrl>(peer_);
+	auto ampCtrl = Gtk::make_managed<TextureAmplitudeCtrl>(peer_);
 
 	lbox->append(*invertCtrl);
 	lbox->append(*ampCtrl);
@@ -264,14 +264,14 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 {
 	unset_child();
 
-	TextureAdvancedButton *advancedButton = Gtk::manage(new TextureAdvancedButton(peer_));
+	TextureAdvancedButton *advancedButton = Gtk::make_managed<TextureAdvancedButton>(peer_);
 	advancedButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureWidget::OnAdvanced));
 	advancedButton->SignalClosed().connect(sigc::mem_fun(*this, &TextureWidget::OnAdvancedClosed));
 
-	auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	set_child(*box);
 
-	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
+	auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 
 	widget->set_vexpand();
 	widget->set_valign(Gtk::Align::FILL);
@@ -288,7 +288,7 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 		vbox->append(*advancedButton);
 	if (showPreview) 
 	{
-		auto preview = Gtk::manage(new PatternPreview(peer_));
+		auto preview = Gtk::make_managed<PatternPreview>(peer_);
 		box->append(*preview);
 		preview->set_size_request(200, -1);
 		preview->set_vexpand();
@@ -298,13 +298,13 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 
 
 TextureTDCentricCheck* TextureWidget::CreateTDCentricCheck()
-{ return Gtk::manage(new TextureTDCentricCheck(peer_)); }
+{ return Gtk::make_managed<TextureTDCentricCheck>(peer_); }
 
 OscillatorEnableCheck* TextureWidget::CreateVibCheck()
-{ return Gtk::manage(new OscillatorEnableCheck(peer_->GetOscillator())); }
+{ return Gtk::make_managed<OscillatorEnableCheck>(peer_->GetOscillator()); }
 
 TextureMotionCtrl* TextureWidget::CreateMotionWidget()
-{ return Gtk::manage(new TextureMotionCtrl(peer_)); }
+{ return Gtk::make_managed<TextureMotionCtrl>(peer_); }
 
 } // namespace graphics
 } // namespace latero

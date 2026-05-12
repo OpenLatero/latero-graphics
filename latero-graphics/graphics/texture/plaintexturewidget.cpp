@@ -33,11 +33,11 @@ namespace graphics {
 PlainTextureWidget::PlainTextureWidget(PlainTexturePtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
-	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	auto textureInvertCtrl = Gtk::manage(new TextureInvertCtrl(peer));
-	auto textureAmplitudeCtrl = Gtk::manage(new TextureAmplitudeCtrl(peer));
-	auto oscillatorWidget = Gtk::manage(new OscillatorWidget(peer->GetOscillator()));
-	auto patternPreview = Gtk::manage(new PatternPreview(peer));
+	auto sidebox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	auto textureInvertCtrl = Gtk::make_managed<TextureInvertCtrl>(peer);
+	auto textureAmplitudeCtrl = Gtk::make_managed<TextureAmplitudeCtrl>(peer);
+	auto oscillatorWidget = Gtk::make_managed<OscillatorWidget>(peer->GetOscillator());
+	auto patternPreview = Gtk::make_managed<PatternPreview>(peer);
 
 	textureAmplitudeCtrl->set_vexpand();
 	oscillatorWidget->set_hexpand();

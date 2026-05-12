@@ -54,19 +54,19 @@ GratingTextureWidgetSet::GratingTextureWidgetSet(GratingTexturePtr peer) :
 }
 
 GratingRidgeSizeWidget* GratingTextureWidget::CreateRidgeSizeWidget()
-{ return Gtk::manage(new GratingRidgeSizeWidget(peer_->GetGrating())); }
+{ return Gtk::make_managed<GratingRidgeSizeWidget>(peer_->GetGrating()); }
 
 GratingGapSizeWidget* GratingTextureWidget::CreateGapSizeWidget()
-{ return Gtk::manage(new GratingGapSizeWidget(peer_->GetGrating())); }
+{ return Gtk::make_managed<GratingGapSizeWidget>(peer_->GetGrating()); }
 
 GratingVelocityWidget* GratingTextureWidget::CreateGratingVelocityWidget()
-{ return Gtk::manage(new GratingVelocityWidget(peer_->GetGrating())); }
+{ return Gtk::make_managed<GratingVelocityWidget>(peer_->GetGrating()); }
 
 GratingTextureSeedCtrl* GratingTextureWidget::CreateSeedWidget()
-{ return Gtk::manage(new GratingTextureSeedCtrl(peer_)); }
+{ return Gtk::make_managed<GratingTextureSeedCtrl>(peer_); }
 
 GratingRegularizeButton *GratingTextureWidget::CreateRegularizeButton()
-{ return Gtk::manage(new GratingRegularizeButton(peer_->GetGrating())); }
+{ return Gtk::make_managed<GratingRegularizeButton>(peer_->GetGrating()); }
 
 
 } // namespace graphics

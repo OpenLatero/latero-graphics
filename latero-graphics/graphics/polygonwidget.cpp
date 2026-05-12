@@ -59,7 +59,7 @@ public:
 	PolygonRoundingOffsetCtrl(PolygonPtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetRoundingOffset(), 0, 50)), peer_(peer)
 	{
-		append(*Gtk::manage(new latero::graphics::gtk::HNumWidget("rounding offset", adj_, 1, "mm")));
+		append(*Gtk::make_managed<latero::graphics::gtk::HNumWidget>("rounding offset", adj_, 1, "mm"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonRoundingOffsetCtrl::OnChanged));
 	}
 	virtual ~PolygonRoundingOffsetCtrl() {};
@@ -75,7 +75,7 @@ public:
 	PolygonCornerBlendSizeCtrl(PolygonPtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetCornerBlendSize(), 0, 10)), peer_(peer)
 	{
-		auto widget = Gtk::manage(new latero::graphics::gtk::HNumWidget("blending size", adj_, 1, "mm"));
+		auto widget = Gtk::make_managed<latero::graphics::gtk::HNumWidget>("blending size", adj_, 1, "mm");
 		widget->set_vexpand(true);
 		append(*widget);
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendSizeCtrl::OnChanged));
@@ -186,7 +186,7 @@ public:
         peer_(peer)
 	{
 		angleCtrl_.set_sensitive(peer->GetCornerSpan()==Polygon::corner_span_user );
-		auto box = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 		box->append(combo_);
 		angleCtrl_.set_hexpand();
 		box->append(angleCtrl_);
@@ -230,9 +230,9 @@ public:
 	{
 		vibWidget_.set_sensitive(peer_->GetCornerType()==Polygon::corner_type_solid);
 
-		auto blendCombo = Gtk::manage(new PolygonCornerBlendCombo(peer));
-		auto blendSizeCtrl = Gtk::manage(new PolygonCornerBlendSizeCtrl(peer));
-		auto motionCheck = Gtk::manage(new PolygonCornerMotionCheck(peer));
+		auto blendCombo = Gtk::make_managed<PolygonCornerBlendCombo>(peer);
+		auto blendSizeCtrl = Gtk::make_managed<PolygonCornerBlendSizeCtrl>(peer);
+		auto motionCheck = Gtk::make_managed<PolygonCornerMotionCheck>(peer);
 
 		mainbox_.set_hexpand();
 		upperbox_.set_vexpand();
@@ -295,10 +295,10 @@ public:
 	{
 		append(box_);
 		box_.set_hexpand();
-		box_.append(*Gtk::manage(new PolygonJoinTypeCtrl(peer)));
-		box_.append(*Gtk::manage(new PolygonCornerCtrl(peer)));
-		append(*Gtk::manage(new PolygonVerticesCtrl(peer)));
-		auto patternPreview = Gtk::manage(new PatternPreview(peer));
+		box_.append(*Gtk::make_managed<PolygonJoinTypeCtrl>(peer));
+		box_.append(*Gtk::make_managed<PolygonCornerCtrl>(peer));
+		append(*Gtk::make_managed<PolygonVerticesCtrl>(peer));
+		auto patternPreview = Gtk::make_managed<PatternPreview>(peer);
 		patternPreview->set_size_request(200,-1);
 		append(*patternPreview);
 	}
@@ -310,12 +310,12 @@ protected:
 
 PolygonWidget::PolygonWidget(PolygonPtr peer)
 {
-	append_page(*Gtk::manage(new PolygonPropertiesCtrl(peer)), "properties");
-	append_page(*Gtk::manage(new StrokeProfileWidget(peer->GetStroke())), "stroke");
-	append_page(*Gtk::manage(new StrokeFillWidget(peer->GetStroke())), "fill");
-	append_page(*Gtk::manage(new StrokeMotionWidget(peer->GetStroke())),"motion");
-	append_page(*Gtk::manage(new StrokeDottedWidget(peer->GetStroke())),"dots");
-	append_page(*Gtk::manage(new ClosedPatternFillTextureWidget(peer)),"texture");
+	append_page(*Gtk::make_managed<PolygonPropertiesCtrl>(peer), "properties");
+	append_page(*Gtk::make_managed<StrokeProfileWidget>(peer->GetStroke()), "stroke");
+	append_page(*Gtk::make_managed<StrokeFillWidget>(peer->GetStroke()), "fill");
+	append_page(*Gtk::make_managed<StrokeMotionWidget>(peer->GetStroke()),"motion");
+	append_page(*Gtk::make_managed<StrokeDottedWidget>(peer->GetStroke()),"dots");
+	append_page(*Gtk::make_managed<ClosedPatternFillTextureWidget>(peer),"texture");
 }
 
 } // namespace graphics

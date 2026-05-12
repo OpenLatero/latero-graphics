@@ -37,7 +37,7 @@ public:
 	AngleWidget(LinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("orientation", adj_, 1, units::degree)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("orientation", adj_, 1, units::degree));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &AngleWidget::OnChanged));
 	}
@@ -58,7 +58,7 @@ void LinearGratingTextureWidget::Create()
 {
 	using namespace LinearGratingTextureCtrls;
 
-	auto grid = Gtk::manage(new Gtk::Grid());
+	auto grid = Gtk::make_managed<Gtk::Grid>();
 	grid->set_hexpand();
 	grid->set_vexpand();
 	grid->set_valign(Gtk::Align::CENTER);
@@ -68,7 +68,7 @@ void LinearGratingTextureWidget::Create()
 	ridgeSizeWidget->set_vexpand();
 	auto gapSizeWidget = CreateGapSizeWidget();
 	gapSizeWidget->set_vexpand();
-	auto angleWidget = Gtk::manage(new AngleWidget(peer_));
+	auto angleWidget = Gtk::make_managed<AngleWidget>(peer_);
 	angleWidget->set_vexpand();
 	auto gratingVelocityWidget = CreateGratingVelocityWidget();
 	gratingVelocityWidget->set_vexpand();
@@ -94,9 +94,9 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 {
 	using namespace LinearGratingTextureCtrls;
 
-	auto gratingPitchWidget = Gtk::manage(new GratingPitchWidget(peer->GetGrating()));
-	auto angleWidget = Gtk::manage(new AngleWidget(peer));
-	auto grid = Gtk::manage(new Gtk::Grid());
+	auto gratingPitchWidget = Gtk::make_managed<GratingPitchWidget>(peer->GetGrating());
+	auto angleWidget = Gtk::make_managed<AngleWidget>(peer);
+	auto grid = Gtk::make_managed<Gtk::Grid>();
 
 	seedCtrl_.set_hexpand();
 	gratingPitchWidget->set_hexpand();
@@ -126,7 +126,7 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	grid->attach(vibCtrl_,0,5,2,1);
 	grid->attach(gratingCtrls_.advButton_,0,6,2,1);
 
-	auto lbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
+	auto lbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	lbox->append(invertCtrl_);
 	lbox->append(ampCtrl_);
 

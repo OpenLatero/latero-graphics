@@ -34,8 +34,8 @@ void RadialGratingTextureWidget::Create()
 	auto ridgeSizeWidget = CreateRidgeSizeWidget();
 	auto gapSizeWidget = CreateGapSizeWidget();
 	auto gratingVelocityWidget = CreateGratingVelocityWidget();
-	auto checks = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	auto grid = Gtk::manage(new Gtk::Grid());
+	auto checks = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+	auto grid = Gtk::make_managed<Gtk::Grid>();
 
 	vibCheck->set_hexpand();
 	tdCentricCheck->set_hexpand();
@@ -61,11 +61,11 @@ RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGra
 	GratingTextureWidgetSet(peer),
 	peer_(peer)
 {
-	auto gratingPitchWidget = Gtk::manage(new GratingPitchWidget(peer->GetGrating()));
-	auto gratingVelocityWidget = Gtk::manage(new GratingVelocityWidget(peer->GetGrating()));
-	auto gratingAdvancedButton = Gtk::manage(new GratingAdvancedButton(peer->GetGrating()));
-	auto textureMotionCtrl = Gtk::manage(new TextureMotionCtrl(peer));
-	auto vbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
+	auto gratingPitchWidget = Gtk::make_managed<GratingPitchWidget>(peer->GetGrating());
+	auto gratingVelocityWidget = Gtk::make_managed<GratingVelocityWidget>(peer->GetGrating());
+	auto gratingAdvancedButton = Gtk::make_managed<GratingAdvancedButton>(peer->GetGrating());
+	auto textureMotionCtrl = Gtk::make_managed<TextureMotionCtrl>(peer);
+	auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 
 	gratingPitchWidget->set_vexpand();
 	gratingVelocityWidget->set_vexpand();
@@ -84,11 +84,11 @@ RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGra
 	vbox->append(vibCtrl_);
 	vbox->append(*textureMotionCtrl);
 
-	auto lbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
+	auto lbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	lbox->append(invertCtrl_);
 	lbox->append(ampCtrl_);
 
-	auto hbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+	auto hbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	append(*hbox);
 	hbox->append(*lbox);
 	hbox->append(*vbox);

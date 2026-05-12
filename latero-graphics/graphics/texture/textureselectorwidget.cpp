@@ -31,10 +31,10 @@ namespace graphics {
 TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
 	Gtk::Box(Gtk::Orientation::VERTICAL), modeCombo_(texture), texture_(texture)
 {
-	auto saveButton = Gtk::manage(new Gtk::Button());
+	auto saveButton = Gtk::make_managed<Gtk::Button>();
 	saveButton->set_icon_name("document-save");
 
-	auto loadButton = Gtk::manage(new Gtk::Button());
+	auto loadButton = Gtk::make_managed<Gtk::Button>();
 	loadButton->set_icon_name("document-open");
 
 	append(*saveButton);

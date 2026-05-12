@@ -72,7 +72,7 @@ class StartTimeWidget : public Gtk::Box
 public:
 	StartTimeWidget() : Gtk::Box(Gtk::Orientation::HORIZONTAL), currentRadio_("now"), timeCtrl_(0, units::min)
 	{
-		auto pTimeBox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+		auto pTimeBox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 
 		currentRadio_.set_group(timeRadio_);
 		timeRadio_.set_active();

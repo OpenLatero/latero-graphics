@@ -35,7 +35,7 @@ public:
 	SeedAngleCtrl(AxialGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetSeedAngle(),0,360)), peer_(peer)
 	{
-		append(*Gtk::manage(new gtk::HNumWidget("seed angle", adj_, 0, units::degree)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("seed angle", adj_, 0, units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &SeedAngleCtrl::OnChanged));
 	}
 	virtual ~SeedAngleCtrl() {};
@@ -53,8 +53,8 @@ void AxialGratingTextureWidget::Create()
 	using namespace AxialGratingTextureCtrls;
 
 	auto seedWidget = CreateSeedWidget();
-	auto seedAngleCtrl = Gtk::manage(new SeedAngleCtrl(peer_));
-	auto gratingPitchWidget = Gtk::manage(new GratingPitchWidget(peer_->GetGrating()));
+	auto seedAngleCtrl = Gtk::make_managed<SeedAngleCtrl>(peer_);
+	auto gratingPitchWidget = Gtk::make_managed<GratingPitchWidget>(peer_->GetGrating());
 	auto vibCheck = CreateVibCheck();
 	auto tdCenticCheck = CreateTDCentricCheck();
 	auto gratingVelocityWidget = CreateGratingVelocityWidget();
@@ -66,7 +66,7 @@ void AxialGratingTextureWidget::Create()
 	tdCenticCheck->set_hexpand();
 	gratingVelocityWidget->set_hexpand();
 
-	auto grid = Gtk::manage(new Gtk::Grid());
+	auto grid = Gtk::make_managed<Gtk::Grid>();
 	grid->attach(*seedWidget,0,0,2,1);
 	grid->attach(*seedAngleCtrl,2,0,1,1);
 	grid->attach(*gratingPitchWidget,0,1,3,1);
@@ -83,12 +83,12 @@ AxialGratingTextureAdvancedWidget::AxialGratingTextureAdvancedWidget(AxialGratin
 {
 	using namespace AxialGratingTextureCtrls;
 
-	auto rbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
-	auto seedBox  = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
-	auto gratingPitchWidget = Gtk::manage(new GratingPitchWidget(peer->GetGrating()));
-	auto gratingVelocityWidget = Gtk::manage(new GratingVelocityWidget(peer->GetGrating()));
-	auto gratingAdvancedButton = Gtk::manage(new GratingAdvancedButton(peer->GetGrating()));
-	auto seedAngleCtrl = Gtk::manage(new SeedAngleCtrl(peer));
+	auto rbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	auto seedBox  = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+	auto gratingPitchWidget = Gtk::make_managed<GratingPitchWidget>(peer->GetGrating());
+	auto gratingVelocityWidget = Gtk::make_managed<GratingVelocityWidget>(peer->GetGrating());
+	auto gratingAdvancedButton = Gtk::make_managed<GratingAdvancedButton>(peer->GetGrating());
+	auto seedAngleCtrl = Gtk::make_managed<SeedAngleCtrl>(peer);
 
 	seedBox->set_vexpand();
 	gratingPitchWidget->set_vexpand();
@@ -107,12 +107,12 @@ AxialGratingTextureAdvancedWidget::AxialGratingTextureAdvancedWidget(AxialGratin
 	rbox->append(tdCentricCtrl_);
 	rbox->append(vibCtrl_);
 
-	auto lbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::VERTICAL));
+	auto lbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	lbox->append(invertCtrl_);
 	lbox->append(ampCtrl_);
 	ampCtrl_.set_vexpand();
 
-	auto hbox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
+	auto hbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	append(*hbox);
 	hbox->append(*lbox);
 	hbox->append(*rbox);
