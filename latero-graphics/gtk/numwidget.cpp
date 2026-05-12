@@ -97,14 +97,7 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 		comboBox_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	}
 
-	if (name=="")
-	{
-
-	}
-	else
-	{
-		if (name!="") set_label(name);
-	}
+	if (name != "") set_label(name);
 
 	SetDigits(digits);
     
