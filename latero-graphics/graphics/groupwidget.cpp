@@ -151,12 +151,18 @@ void GroupTreeView::OnPatternAppend()
 	GroupPtr parent = GetParentGroup(curPattern);
 	if (!curPattern || !parent) return;
 
+	// TODO: try to reduce duplication of code below
 	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(parent);
 	if (tx)
 	{
-		std::cout << "GTKMM4 Testing: append texture" << std::endl;
-		auto dlg = new CreateTextureDlg(peer_->Dev()); // GTKMM4: replaced blocking run()
-		if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dlg->set_transient_for(*win);
+		// TODO: Consider making CreateTextureDlg a PatternCreatorDialog (or derive both from the same class) so that we don't need to duplicate the code below. This is needed
+		// so that we have a single method to call to create the texture/pattern based.
+		auto dlg = new CreateTextureDlg(peer_->Dev());
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+		{
+			dlg->set_transient_for(*win);
+			dlg->set_modal(true);
+		}
 		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {
 			if (response_id == Gtk::ResponseType::OK)
 			{
@@ -169,8 +175,12 @@ void GroupTreeView::OnPatternAppend()
 	}
 	else
 	{
-		auto dlg = new PatternCreatorDialog(peer_->Dev()); // GTKMM4
-		if (auto* win = dynamic_cast<Gtk::Window*>(get_root())) dlg->set_transient_for(*win);
+		auto dlg = new PatternCreatorDialog(peer_->Dev());
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+		{
+			dlg->set_transient_for(*win);
+			dlg->set_modal(true);
+		}
 		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {
 			if (response_id == Gtk::ResponseType::OK)
 			{

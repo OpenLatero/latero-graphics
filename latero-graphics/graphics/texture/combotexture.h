@@ -51,7 +51,7 @@ public:
 
 	virtual double DoRender_(const ActuatorState &state) { return Texture::DoRender_(state); }
 	virtual double DoRenderShadow_(const ActuatorState &state) { return Texture::DoRenderShadow_(state); }
-	virtual std::string GetName() { return "Composite Texture"; }
+	virtual std::string GetName() { return "Composite Texture"; } // TODO: make this name match the class name?
 
 	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
 	{ return Texture::GetDrawingPattern(mmContext, t); }
