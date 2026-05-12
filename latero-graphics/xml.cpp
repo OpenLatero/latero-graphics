@@ -197,7 +197,7 @@ std::vector<XMLInputNode> XMLInputNode::GetChildren(std::string name) const
 		const xmlpp::Node* node = *iter;
 		if (node->get_children().size())
 		{
-			if (std::string(node->get_name()) == name) // GTKMM4
+			if (std::string(node->get_name()) == name)
 			{
 				XMLInputNode n = node;
 				n.SetPath(GetPath());

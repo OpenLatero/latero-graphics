@@ -74,7 +74,6 @@ public:
 	{
 		auto pTimeBox = Gtk::manage(new Gtk::Box(Gtk::Orientation::HORIZONTAL));
 
-		//GTKMM4
 		currentRadio_.set_group(timeRadio_);
 		timeRadio_.set_active();
 	

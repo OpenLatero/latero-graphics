@@ -26,7 +26,6 @@
 namespace latero {
 namespace graphics { 
 
-// GTKMM4 Should this be a horizontal or vertical box?
 Graph::Graph(uint nbPoints, const char *fgColor, const char *bgColor) :
 	refreshTime_(boost::posix_time::min_date_time),
 	nbPoints_(nbPoints),
