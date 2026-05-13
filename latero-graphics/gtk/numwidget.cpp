@@ -20,12 +20,13 @@
 // -----------------------------------------------------------
 
 #include "numwidget.h"
+#include <iostream>
 
 namespace latero {
 namespace graphics { 
 namespace gtk {
 
-NumWidgetCombo::NumWidgetCombo()
+NumWidgetUnitsCombo::NumWidgetUnitsCombo()
 {
 	model_ = Gtk::ListStore::create(columns_);
 	set_model(model_);
@@ -34,20 +35,21 @@ NumWidgetCombo::NumWidgetCombo()
 	add_attribute(*cell, "text", columns_.units);
 }
 
-void NumWidgetCombo::Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
+void NumWidgetUnitsCombo::Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
 {
 	Gtk::TreeModel::Row row = *(model_->append());
 	row[columns_.units] = units;
-	row[columns_.adj] = adj;
-	row[columns_.digits] = digits;
+
+	adjMap_[units] = adj;
+	digitsMap_[units] = digits;
 }
 
-int NumWidgetCombo::GetSize()
+int NumWidgetUnitsCombo::GetSize()
 {
 	return get_model()->children().size();
 }
 
-void NumWidgetCombo::SetActive(std::string units)
+void NumWidgetUnitsCombo::SetActive(std::string units)
 {
 	Gtk::TreeModel::Children::iterator iter;
 	for (iter = model_->children().begin(); iter != model_->children().end(); iter++)
@@ -60,19 +62,19 @@ void NumWidgetCombo::SetActive(std::string units)
 	}
 }
 
-std::string NumWidgetCombo::GetUnits()
+std::string NumWidgetUnitsCombo::GetUnits()
 {
 	return (*get_active())[columns_.units];
 }
 
-Glib::RefPtr<Gtk::Adjustment> NumWidgetCombo::GetAdj()
+Glib::RefPtr<Gtk::Adjustment> NumWidgetUnitsCombo::GetAdj()
 {
-	return (*get_active())[columns_.adj];
+	return adjMap_[GetUnits()];
 }
 
-uint NumWidgetCombo::GetDigits()
+uint NumWidgetUnitsCombo::GetDigits()
 {
-	return (*get_active())[columns_.digits];
+	return digitsMap_[GetUnits()];
 }
 
 NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :

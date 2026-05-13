@@ -34,11 +34,11 @@ namespace gtk {
 static const std::string units_default = "";
 static const std::string name_default = "";
 
-class NumWidgetCombo : public Gtk::ComboBox
+class NumWidgetUnitsCombo : public Gtk::ComboBox
 {
 public:
-	NumWidgetCombo();
-	virtual ~NumWidgetCombo() {};
+	NumWidgetUnitsCombo();
+	virtual ~NumWidgetUnitsCombo() {};
 
 	void Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits);
 	void SetActive(std::string units);
@@ -51,13 +51,14 @@ public:
 	class ModelColumns : public Gtk::TreeModel::ColumnRecord
 	{
 	public:
-		ModelColumns() { add(units); add(adj); add(digits);}
+		ModelColumns() { add(units); }
 		Gtk::TreeModelColumn<std::string> units;
-		Gtk::TreeModelColumn<Glib::RefPtr<Gtk::Adjustment>> adj;
-		Gtk::TreeModelColumn<uint> digits;
 	};
 	ModelColumns columns_;
 	Glib::RefPtr<Gtk::ListStore> model_;
+
+	std::map<std::string, uint> digitsMap_;
+	std::map<std::string, Glib::RefPtr<Gtk::Adjustment>> adjMap_;
 };
 
 class NumWidget : public Gtk::Frame
@@ -77,7 +78,7 @@ protected:
 	void OnUnitsChanged();
 
  	std::string units_;
-	NumWidgetCombo unitsCombo_;
+	NumWidgetUnitsCombo unitsCombo_;
 	Gtk::SpinButton spin_;
 	Gtk::Box *box_, *comboBox_;
 	Gtk::Scale *scale_;
@@ -101,7 +102,6 @@ public:
 
 
 } // namespace gtk
-
 } // namespace graphics
 } // namespace latero
 
