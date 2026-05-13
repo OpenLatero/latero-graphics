@@ -26,57 +26,6 @@ namespace latero {
 namespace graphics { 
 namespace gtk {
 
-NumWidgetUnitsCombo::NumWidgetUnitsCombo()
-{
-	model_ = Gtk::ListStore::create(columns_);
-	set_model(model_);
-	Gtk::CellRendererText* cell = Gtk::make_managed<Gtk::CellRendererText>();
-	pack_start(*cell);
-	add_attribute(*cell, "text", columns_.units);
-}
-
-void NumWidgetUnitsCombo::Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
-{
-	Gtk::TreeModel::Row row = *(model_->append());
-	row[columns_.units] = units;
-
-	adjMap_[units] = adj;
-	digitsMap_[units] = digits;
-}
-
-int NumWidgetUnitsCombo::GetSize()
-{
-	return get_model()->children().size();
-}
-
-void NumWidgetUnitsCombo::SetActive(std::string units)
-{
-	Gtk::TreeModel::Children::iterator iter;
-	for (iter = model_->children().begin(); iter != model_->children().end(); iter++)
-	{
-		std::string curunits = (*iter)[columns_.units];
-		if (curunits == units)
-		{
-			set_active(iter);
-		}
-	}
-}
-
-std::string NumWidgetUnitsCombo::GetUnits()
-{
-	return (*get_active())[columns_.units];
-}
-
-Glib::RefPtr<Gtk::Adjustment> NumWidgetUnitsCombo::GetAdj()
-{
-	return adjMap_[GetUnits()];
-}
-
-uint NumWidgetUnitsCombo::GetDigits()
-{
-	return digitsMap_[GetUnits()];
-}
-
 NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
 	units_(units),
 	spin_(adj)
@@ -128,15 +77,19 @@ NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj,
 
 	scale_->set_format_value_func(sigc::mem_fun(*this, &NumWidget::OnFormat));
 
-	unitsCombo_.Append(units,adj,digits);
-	unitsCombo_.SetActive(units);
+	unitsCombo_.append(units);
+	unitsToDigitsMap_[units] = digits;
+	unitsToAdjMap_[units] = adj;
+	unitsCombo_.set_active_text(units);
 	unitsCombo_.signal_changed().connect( sigc::mem_fun(*this, &NumWidget::OnUnitsChanged) );
 };
 
 void NumWidget::AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
 {
-	unitsCombo_.Append(units,adj,digits);
-	if (unitsCombo_.GetSize())
+	unitsCombo_.append(units);
+	unitsToDigitsMap_[units] = digits;
+	unitsToAdjMap_[units] = adj;
+	if (unitsCombo_.get_model()->children().size())
 		comboBox_->append(unitsCombo_);
 }
 
@@ -154,16 +107,16 @@ void NumWidget::SetAdjustment(Glib::RefPtr<Gtk::Adjustment> adj)
 
 void NumWidget::OnUnitsChanged()
 {
-	units_ = unitsCombo_.GetUnits();
+	units_ = unitsCombo_.get_active_text();
 	SetDigits(10);
-	SetAdjustment(unitsCombo_.GetAdj());
-	SetDigits(unitsCombo_.GetDigits());
+	SetAdjustment(unitsToAdjMap_[units_]);
+	SetDigits(unitsToDigitsMap_[units_]);
 	SignalUnitsChanged()(units_);
 }
 
 void NumWidget::SelectUnits(std::string units)
 {
-	unitsCombo_.SetActive(units);
+	unitsCombo_.set_active_text(units);
 }
 
 Glib::ustring NumWidget::OnFormat(double v)
