@@ -121,25 +121,26 @@ public:
 		Gtk::Frame("constraint"),
 		peer_(peer)
 	{
-		set_child(combo_);
-		combo_.append("orthogonal");
-		combo_.append("parallel");
-		if (peer->GetConstraint() == DoubleLinearGratingTexture::constraint_ortho)
-			combo_.set_active_text("orthogonal");
-		else
-			combo_.set_active_text("parallel");
-		combo_.signal_changed().connect(sigc::mem_fun(*this, &ConstraintWidget::OnChange));
+		list_ = Gtk::StringList::create({});
+		list_->append("orthogonal");
+		list_->append("parallel");
+		dropDown_ = Gtk::make_managed<Gtk::DropDown>(list_);
+		dropDown_->set_selected(peer->GetConstraint() == DoubleLinearGratingTexture::constraint_ortho ? 0 : 1);
+		dropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &ConstraintWidget::OnChange));
+		set_child(*dropDown_);
 	}
 	virtual ~ConstraintWidget() {};
 protected:
 	void OnChange()
 	{
-		if (combo_.get_active_text() == "orthogonal")
+		auto idx = dropDown_->get_selected();
+		if (std::string(list_->get_string(idx)) == "orthogonal")
 			peer_->SetConstraint(DoubleLinearGratingTexture::constraint_ortho);
 		else
 			peer_->SetConstraint(DoubleLinearGratingTexture::constraint_parallel);
 	};
-	Gtk::ComboBoxText combo_;
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown* dropDown_;
 	DoubleLinearGratingTexturePtr peer_;
 };
 

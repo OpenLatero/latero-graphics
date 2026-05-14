@@ -45,19 +45,24 @@ public:
 	{
 		Gtk::Frame *frame = Gtk::make_managed<Gtk::Frame>("low velocity mode");
 		append(*frame);
-		frame->set_child(combo_);
+		modeList_ = Gtk::StringList::create({});
 		std::vector<std::string> labels = peer->GetLowVelModeLabels();
 		for (unsigned int i=0; i<labels.size(); ++i)
-			combo_.append(labels[i]);
-		combo_.set_active_text(peer->GetLowVelModeLabel());
-		combo_.signal_changed().connect(sigc::mem_fun(*this, &LowVelModeCombo::OnChange));
+			modeList_->append(labels[i]);
+		modeDropDown_ = Gtk::make_managed<Gtk::DropDown>(modeList_);
+		Glib::ustring target = peer->GetLowVelModeLabel();
+		for (guint i = 0; i < modeList_->get_n_items(); ++i)
+			if (modeList_->get_string(i) == target) { modeDropDown_->set_selected(i); break; }
+		modeDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &LowVelModeCombo::OnChange));
+		frame->set_child(*modeDropDown_);
 	}
 	virtual ~LowVelModeCombo() {};
 	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 private:
 	sigc::signal<void()> signalChanged_;
-	void OnChange() { peer_->SetLowVelModeLabel(combo_.get_active_text()); signalChanged_(); }
-	Gtk::ComboBoxText combo_;
+	void OnChange() { peer_->SetLowVelModeLabel(std::string(modeList_->get_string(modeDropDown_->get_selected()))); signalChanged_(); }
+	Glib::RefPtr<Gtk::StringList> modeList_;
+	Gtk::DropDown* modeDropDown_;
 };
 
 
