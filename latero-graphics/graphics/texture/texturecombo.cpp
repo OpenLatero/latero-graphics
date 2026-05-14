@@ -77,15 +77,17 @@ TextureCombo::TextureCombo(const latero::Tactograph *dev, std::vector<std::strin
 void TextureCombo::Append(std::string txfile)
 {
 	TexturePtr tx = Texture::Create(dev_,txfile);
-	Gtk::TreeModel::Row row = *(model_->append());
-	row[columns_.imgfile] = tx->GetIconFile();
+	std::string imgFile = tx->GetIconFile();
 
-	Glib::RefPtr<Gdk::Pixbuf> img  = Gdk::Pixbuf::create_from_file(row[columns_.imgfile]);
+	Gtk::TreeModel::Row row = *(model_->append());
+	txFileList_.push_back(txfile);
+	imgFileList_.push_back(imgFile);
+
+	Glib::RefPtr<Gdk::Pixbuf> img  = Gdk::Pixbuf::create_from_file(imgFile);
 	if ((img->get_width() != 50) || (img->get_height() != 50))
 		img = img->scale_simple(50,50,Gdk::InterpType::BILINEAR);
 	row[columns_.img] = img;
 
-	txFileList_.push_back(txfile);
 }
 
 void TextureCombo::SetActive(TexturePtr tx)
@@ -108,14 +110,13 @@ void TextureCombo::SetActive(TexturePtr tx)
 
 	// Try to find a matching icon file
 	std::string iconfile = tx->GetDefaultIconFile();
-	Gtk::TreeModel::Children::iterator iter;
-	for (iter = model_->children().begin(); iter != model_->children().end(); iter++)
+	for (unsigned int i=0; i<imgFileList_.size(); ++i)
 	{
-		std::string imgfile = (*iter)[columns_.imgfile];
+		std::string imgfile = imgFileList_[i];
 		if (imgfile == iconfile)
 		{
 			signalEnable_ = false;
-			combo_.set_active(iter); //  don't reload!
+			combo_.set_active(i); //  don't reload!
 			signalEnable_ = true;
 			return;
 		}
