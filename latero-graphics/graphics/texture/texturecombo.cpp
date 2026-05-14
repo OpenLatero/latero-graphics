@@ -32,62 +32,65 @@
 namespace latero {
 namespace graphics { 
 
+void TextureCombo::Init()
+{
+	auto factory = Gtk::SignalListItemFactory::create();
+	factory->signal_setup().connect([](const Glib::RefPtr<Gtk::ListItem>& item) {
+		item->set_child(*Gtk::make_managed<Gtk::Image>());
+	});
+	factory->signal_bind().connect([this](const Glib::RefPtr<Gtk::ListItem>& item) {
+		auto pos = item->get_position();
+		if (pos < pixbufList_.size())
+			if (auto image = dynamic_cast<Gtk::Image*>(item->get_child()))
+				image->set(pixbufList_[pos]);
+	});
+	dropDown_.set_factory(factory);
+	dropDown_.set_list_factory(factory);
+	append(dropDown_);
+	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &TextureCombo::OnComboChanged));
+}
+
 TextureCombo::TextureCombo(TexturePtr tx, std::vector<std::string> textures) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),
-	signalEnable_(true), textures_(textures), dev_(tx->Dev())
+	countingList_(Gtk::StringList::create({})),
+	dropDown_(countingList_),
+	signalEnable_(true), textureList_(textures), dev_(tx->Dev())
 {
-	if (textures_.size()==0) textures_ = GetStockTextures();
-
-	model_ = Gtk::ListStore::create(columns_);
-	combo_.set_model(model_);
-	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
-	combo_.pack_start(*cell);
-	combo_.add_attribute(*cell, "pixbuf", columns_.img);
-	append(combo_);
-
-	for (unsigned int i=0; i<textures_.size(); ++i)
-		Append(textures_[i]);
-
+	if (textureList_.size()==0) 
+		textureList_ = GetStockTextures();
+	Init();
+	for (unsigned int i=0; i<textureList_.size(); ++i)
+		Append(textureList_[i]);
 	SetActive(tx);
-
-	combo_.signal_changed().connect( sigc::mem_fun(*this, &TextureCombo::OnComboChanged) );
 }
 
 TextureCombo::TextureCombo(const latero::Tactograph *dev, std::vector<std::string> textures) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),
-	signalEnable_(true), textures_(textures), dev_(dev)
+	countingList_(Gtk::StringList::create({})),
+	dropDown_(countingList_),
+	signalEnable_(true), textureList_(textures), dev_(dev)
 {
-	if (textures_.size()==0) textures_ = GetStockTextures();
-
-	model_ = Gtk::ListStore::create(columns_);
-	combo_.set_model(model_);
-	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
-	combo_.pack_start(*cell);
-	combo_.add_attribute(*cell, "pixbuf", columns_.img);
-	append(combo_);
-
-	for (unsigned int i=0; i<textures_.size(); ++i)
-		Append(textures_[i]);
-
-	SetActive(Texture::Create(dev,tx_grating_vertical));
-
-	combo_.signal_changed().connect( sigc::mem_fun(*this, &TextureCombo::OnComboChanged) );
+	if (textureList_.size()==0) 
+		textureList_ = GetStockTextures();
+	Init();
+	for (unsigned int i=0; i<textureList_.size(); ++i)
+		Append(textureList_[i]);
+	SetActive(Texture::Create(dev, tx_grating_vertical));
 }
 
 void TextureCombo::Append(std::string txfile)
 {
-	TexturePtr tx = Texture::Create(dev_,txfile);
+	TexturePtr tx = Texture::Create(dev_, txfile);
 	std::string imgFile = tx->GetIconFile();
 
-	Gtk::TreeModel::Row row = *(model_->append());
 	txFileList_.push_back(txfile);
 	imgFileList_.push_back(imgFile);
 
-	Glib::RefPtr<Gdk::Pixbuf> img  = Gdk::Pixbuf::create_from_file(imgFile);
+	auto img = Gdk::Pixbuf::create_from_file(imgFile);
 	if ((img->get_width() != 50) || (img->get_height() != 50))
-		img = img->scale_simple(50,50,Gdk::InterpType::BILINEAR);
-	row[columns_.img] = img;
-
+		img = img->scale_simple(50, 50, Gdk::InterpType::BILINEAR);
+	pixbufList_.push_back(img);
+	countingList_->append("");
 }
 
 void TextureCombo::SetActive(TexturePtr tx)
@@ -102,7 +105,7 @@ void TextureCombo::SetActive(TexturePtr tx)
 		if (txFileList_[i] == txfile)
 		{
 			signalEnable_ = false;
-			combo_.set_active(i); //  don't reload!
+			dropDown_.set_selected(i); //  don't reload!
 			signalEnable_ = true;
 			return;
 		}
@@ -116,7 +119,7 @@ void TextureCombo::SetActive(TexturePtr tx)
 		if (imgfile == iconfile)
 		{
 			signalEnable_ = false;
-			combo_.set_active(i); //  don't reload!
+			dropDown_.set_selected(i); //  don't reload!
 			signalEnable_ = true;
 			return;
 		}
@@ -138,7 +141,8 @@ void TextureCombo::SetActive(TexturePtr tx)
 
 void TextureCombo::OnComboChanged()
 {
-	int curIndex = combo_.get_active_row_number();
+	guint curIndex = dropDown_.get_selected();
+	if (curIndex >= txFileList_.size()) return;
 	tx_ = Texture::Create(dev_, txFileList_[curIndex]);
 	if (signalEnable_)
 		signalTextureChanged_(tx_);
