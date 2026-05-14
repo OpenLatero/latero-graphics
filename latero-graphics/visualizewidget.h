@@ -38,33 +38,38 @@ public:
 	TimeWidget(int init=0, std::string units=units::nsec) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(init, 0, 1000000)), spin_(adj_)
 	{
-		combo_.append(units::day);
-		combo_.append(units::hour);
-		combo_.append(units::min);
-		combo_.append(units::sec);
-		combo_.append(units::msec);
-		combo_.append(units::usec);
-		combo_.append(units::nsec);
-		combo_.set_active_text(units);
+		unitsList_ = Gtk::StringList::create({});
+		unitsList_->append(units::day);
+		unitsList_->append(units::hour);
+		unitsList_->append(units::min);
+		unitsList_->append(units::sec);
+		unitsList_->append(units::msec);
+		unitsList_->append(units::usec);
+		unitsList_->append(units::nsec);
+		unitsDropDown_ = Gtk::make_managed<Gtk::DropDown>(unitsList_);
+		for (guint i = 0; i < unitsList_->get_n_items(); ++i)
+			if (unitsList_->get_string(i) == units) { unitsDropDown_->set_selected(i); break; }
 
 		append(spin_);
 		spin_.set_hexpand();
 		spin_.set_margin_end(6);
-		append(combo_);
+		append(*unitsDropDown_);
 	};
 
 	virtual ~TimeWidget() {};
 
 	boost::posix_time::time_duration GetTime()
 	{
-		return units::ConvertTime(adj_->get_value(), combo_.get_active_text());
+		auto idx = unitsDropDown_->get_selected();
+		return units::ConvertTime(adj_->get_value(), std::string(unitsList_->get_string(idx)));
 	}
 
 protected:
 
     Glib::RefPtr<Gtk::Adjustment> adj_;
 	Gtk::SpinButton spin_;
-	Gtk::ComboBoxText combo_;
+	Glib::RefPtr<Gtk::StringList> unitsList_;
+	Gtk::DropDown* unitsDropDown_;
 };
 
 class StartTimeWidget : public Gtk::Box
