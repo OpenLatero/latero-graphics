@@ -30,24 +30,22 @@ NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj,
 	units_(units),
 	spin_(adj)
 {
-	Gtk::Box *box2;
+	if (name != "") set_label(name);
+
+	auto mainBox = Gtk::make_managed<Gtk::Box>(orient);
+	set_child(*mainBox);
+
 	if (orient == Gtk::Orientation::VERTICAL)
 	{
 		scale_ = Gtk::make_managed<Gtk::Scale>(adj, Gtk::Orientation::VERTICAL);
 		scale_->set_inverted();
-		box2 = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
-		box_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
-		comboBox_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+		unitsDropDownBox_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	}
 	else
 	{
 		scale_ = Gtk::make_managed<Gtk::Scale>(adj, Gtk::Orientation::HORIZONTAL);
-		box2 = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
-		box_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
-		comboBox_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+		unitsDropDownBox_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	}
-
-	if (name != "") set_label(name);
 
 	SetDigits(digits);
     
@@ -56,20 +54,18 @@ NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj,
 	// in which case the policy should be emulated by not handling all updates the same.
     //scale_->set_update_policy(Gtk::UPDATE_DISCONTINUOUS);
 
-	set_child(*box2);
-	box2->append(*box_);
 	if (orient == Gtk::Orientation::VERTICAL)
 	{
-		box_->append(*scale_);
-		box_->append(spin_);
-		box_->append(*comboBox_);
+		mainBox->append(*scale_);
+		mainBox->append(spin_);
+		mainBox->append(*unitsDropDownBox_);
 		scale_->set_size_request(-1, 150);
 	}
 	else
 	{
-		box_->append(spin_);
-		box_->append(*comboBox_);
-		box_->append(*scale_);
+		mainBox->append(spin_);
+		mainBox->append(*unitsDropDownBox_);
+		mainBox->append(*scale_);
 		scale_->set_size_request(150, -1);
 	}
 	scale_->set_hexpand();
@@ -77,20 +73,22 @@ NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj,
 
 	scale_->set_format_value_func(sigc::mem_fun(*this, &NumWidget::OnFormat));
 
-	unitsCombo_.append(units);
+	unitsStringList_ = Gtk::StringList::create({});
+	unitsDropDown_ = Gtk::make_managed<Gtk::DropDown>(unitsStringList_);
+	unitsStringList_->append(units);
 	unitsToDigitsMap_[units] = digits;
 	unitsToAdjMap_[units] = adj;
-	unitsCombo_.set_active_text(units);
-	unitsCombo_.signal_changed().connect( sigc::mem_fun(*this, &NumWidget::OnUnitsChanged) );
+	SelectUnits(units);
+	unitsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &NumWidget::OnUnitsChanged));
 };
 
 void NumWidget::AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
 {
-	unitsCombo_.append(units);
+	unitsStringList_->append(units);
 	unitsToDigitsMap_[units] = digits;
 	unitsToAdjMap_[units] = adj;
-	if (unitsCombo_.get_model()->children().size())
-		comboBox_->append(unitsCombo_);
+	if (unitsStringList_->get_n_items() > 1)
+		unitsDropDownBox_->append(*unitsDropDown_);
 }
 
 void NumWidget::SetDigits(uint n)
@@ -107,7 +105,9 @@ void NumWidget::SetAdjustment(Glib::RefPtr<Gtk::Adjustment> adj)
 
 void NumWidget::OnUnitsChanged()
 {
-	units_ = unitsCombo_.get_active_text();
+	auto idx = unitsDropDown_->get_selected();
+	if (idx == GTK_INVALID_LIST_POSITION) return;
+	units_ = std::string(unitsStringList_->get_string(idx));
 	SetDigits(10);
 	SetAdjustment(unitsToAdjMap_[units_]);
 	SetDigits(unitsToDigitsMap_[units_]);
@@ -116,7 +116,14 @@ void NumWidget::OnUnitsChanged()
 
 void NumWidget::SelectUnits(std::string units)
 {
-	unitsCombo_.set_active_text(units);
+	for (guint i = 0; i < unitsStringList_->get_n_items(); ++i)
+	{
+		if (unitsStringList_->get_string(i) == units)
+		{
+			unitsDropDown_->set_selected(i);
+			return;
+		}
+	}
 }
 
 Glib::ustring NumWidget::OnFormat(double v)
@@ -148,7 +155,6 @@ VNumWidget::VNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint
 	NumWidget(Gtk::Orientation::VERTICAL,adj,digits,name,units) {}
 
 } // namespace gtk
-
 } // namespace graphics
 } // namespace latero
 

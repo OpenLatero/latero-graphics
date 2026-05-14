@@ -51,12 +51,13 @@ protected:
 	Glib::ustring OnFormat(double v);
 	void OnUnitsChanged();
 
- 	std::string units_;
-	Gtk::ComboBoxText unitsCombo_;
+	Gtk::Box *unitsDropDownBox_;
+	Gtk::DropDown *unitsDropDown_;
+	Glib::RefPtr<Gtk::StringList> unitsStringList_;
 	Gtk::SpinButton spin_;
-	Gtk::Box *box_, *comboBox_;
 	Gtk::Scale *scale_;
 
+	std::string units_;
 	std::map<std::string, uint> unitsToDigitsMap_;
 	std::map<std::string, Glib::RefPtr<Gtk::Adjustment>> unitsToAdjMap_;
 
