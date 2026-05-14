@@ -32,7 +32,7 @@
 #include "polygon.h"
 #include "image.h"
 #include "texture/texturewidget.h"
-#include "texture/texturecombo.h"
+#include "texture/texturedropdown.h"
 #include "texture/texture.h"
 #include "texture/doublelineargratingtexture.h"
 #include "texture/motiontexture.h"

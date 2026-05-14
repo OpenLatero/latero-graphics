@@ -24,7 +24,7 @@
 
 #include "pattern.h"
 #include <gtkmm.h>
-#include "texture/texturecombo.h"
+#include "texture/texturedropdown.h"
 
 namespace latero {
 namespace graphics { 

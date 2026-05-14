@@ -19,7 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#include "texturecombo.h"
+#include "texturedropdown.h"
 #include "stock.h"
 #include "texture.h"
 #include "lineargratingtexture.h"

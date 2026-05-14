@@ -22,7 +22,7 @@
 #ifndef LATERO_GRAPHICS_PLANAR_TEXTURE_WIDGET
 #define LATERO_GRAPHICS_PLANAR_TEXTURE_WIDGET
 
-#include "texturecombo.h"
+#include "texturedropdown.h"
 #include "texturefwd.h"
 #include <gtkmm.h>
 #include "../../pointwidget.h"
