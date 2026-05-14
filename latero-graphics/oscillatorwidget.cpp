@@ -26,20 +26,28 @@
 namespace latero {
 namespace graphics { 
 
-class OscillatorBlendModeCombo : public Gtk::ComboBoxText
+class OscillatorBlendModeDropDown : public Gtk::Box
 {
 public:
-	OscillatorBlendModeCombo(OscillatorPtr peer) : peer_(peer)
+	OscillatorBlendModeDropDown(OscillatorPtr peer) :
+		Gtk::Box(Gtk::Orientation::HORIZONTAL),
+		list_(Gtk::StringList::create({})),
+		dropDown_(list_),
+		peer_(peer)
 	{
-		Oscillator::BlendModeSet ops = peer->GetBlendModes();
-		for (unsigned int i=0; i<ops.size(); ++i)
-			append(ops[i].label);
-		set_active_text(peer->GetBlendMode().label);
-		signal_changed().connect(sigc::mem_fun(*this, &OscillatorBlendModeCombo::OnChange));
+		for (const auto& op : peer->GetBlendModes())
+			list_->append(op.label);
+		Glib::ustring target = peer->GetBlendMode().label;
+		for (guint i = 0; i < list_->get_n_items(); ++i)
+			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &OscillatorBlendModeDropDown::OnChange));
+		append(dropDown_);
 	};
-	virtual ~OscillatorBlendModeCombo() {};
+	virtual ~OscillatorBlendModeDropDown() {};
 private:
-	void OnChange() { peer_->SetBlendMode(get_active_text()); };
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
+	void OnChange() { peer_->SetBlendMode(std::string(list_->get_string(dropDown_.get_selected()))); };
 	OscillatorPtr peer_;
 };
 
@@ -86,7 +94,7 @@ OscillatorWidget::OscillatorWidget(OscillatorPtr peer, bool showBlendBode) :
 	GetBox().append(*amplitudeCtrl);
 	GetBox().append(*freqCtrl);
 
-	if (showBlendBode) GetBox().append(*Gtk::make_managed<OscillatorBlendModeCombo>(peer));
+	if (showBlendBode) GetBox().append(*Gtk::make_managed<OscillatorBlendModeDropDown>(peer));
 	GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &OscillatorWidget::OnClick));
 }
 void OscillatorWidget::OnClick() { peer_->SetEnable(GetCheck().get_active()); }

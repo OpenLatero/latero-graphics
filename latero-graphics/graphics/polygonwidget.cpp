@@ -35,20 +35,30 @@
 namespace latero {
 namespace graphics { 
 
-class PolygonJoinTypeCombo : public Gtk::ComboBoxText
+class PolygonJoinTypeCombo : public Gtk::Box
 {
 public:
-	PolygonJoinTypeCombo(PolygonPtr peer) : peer_(peer)
+	PolygonJoinTypeCombo(PolygonPtr peer) :
+		Gtk::Box(Gtk::Orientation::HORIZONTAL),
+		list_(Gtk::StringList::create({})),
+		dropDown_(list_),
+		peer_(peer)
 	{
-		Polygon::JoinTypeSet ops = peer->GetJoinTypes();
-		for (unsigned int i=0; i<ops.size(); ++i)
-			append(ops[i].label);
-		set_active_text(peer->GetJoinType().label);
-		signal_changed().connect(sigc::mem_fun(*this, &PolygonJoinTypeCombo::OnChange));
+		for (const auto& op : peer->GetJoinTypes())
+			list_->append(op.label);
+		Glib::ustring target = peer->GetJoinType().label;
+		for (guint i = 0; i < list_->get_n_items(); ++i)
+			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonJoinTypeCombo::OnChange));
+		append(dropDown_);
 	};
 	virtual ~PolygonJoinTypeCombo() {};
+	sigc::signal<void()>& SignalChanged() { return signalChanged_; };
 private:
-	void OnChange() { peer_->SetJoinType(get_active_text()); };
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
+	sigc::signal<void()> signalChanged_;
+	void OnChange() { peer_->SetJoinType(std::string(list_->get_string(dropDown_.get_selected()))); signalChanged_(); };
 	PolygonPtr peer_;
 };
 
@@ -101,7 +111,7 @@ public:
 		offsetCtrl_.set_hexpand();
 		box_.append(offsetCtrl_);
 		OnChange();
-		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonJoinTypeCtrl::OnChange));
+		combo_.SignalChanged().connect(sigc::mem_fun(*this, &PolygonJoinTypeCtrl::OnChange));
 	}
 	virtual ~PolygonJoinTypeCtrl() {}
 protected:
@@ -118,20 +128,30 @@ protected:
 
 
 
-class PolygonCornerSpanCombo : public Gtk::ComboBoxText
+class PolygonCornerSpanCombo : public Gtk::Box
 {
 public:
-	PolygonCornerSpanCombo(PolygonPtr peer) : peer_(peer)
+	PolygonCornerSpanCombo(PolygonPtr peer) :
+		Gtk::Box(Gtk::Orientation::HORIZONTAL),
+		list_(Gtk::StringList::create({})),
+		dropDown_(list_),
+		peer_(peer)
 	{
-		Polygon::CornerSpanSet ops = peer->GetCornerSpans();
-		for (unsigned int i=0; i<ops.size(); ++i)
-			append(ops[i].label);
-		set_active_text(peer->GetCornerSpan().label);
-		signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerSpanCombo::OnChange));
+		for (const auto& op : peer->GetCornerSpans())
+			list_->append(op.label);
+		Glib::ustring target = peer->GetCornerSpan().label;
+		for (guint i = 0; i < list_->get_n_items(); ++i)
+			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerSpanCombo::OnChange));
+		append(dropDown_);
 	};
 	virtual ~PolygonCornerSpanCombo() {};
+	sigc::signal<void()>& signal_changed() { return signalChanged_; };
 private:
-	void OnChange() { peer_->SetCornerSpan(get_active_text()); };
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
+	sigc::signal<void()> signalChanged_;
+	void OnChange() { peer_->SetCornerSpan(std::string(list_->get_string(dropDown_.get_selected()))); signalChanged_(); };
 	PolygonPtr peer_;
 };
 
