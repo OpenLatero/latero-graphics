@@ -32,6 +32,48 @@
 namespace latero {
 namespace graphics { 
 
+TextureCombo::TextureCombo(TexturePtr tx, std::vector<std::string> textures) :
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
+	signalEnable_(true), textures_(textures), dev_(tx->Dev())
+{
+	if (textures_.size()==0) textures_ = GetStockTextures();
+
+	model_ = Gtk::ListStore::create(columns_);
+	combo_.set_model(model_);
+	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
+	combo_.pack_start(*cell);
+	combo_.add_attribute(*cell, "pixbuf", columns_.img);
+	append(combo_);
+
+	for (unsigned int i=0; i<textures_.size(); ++i)
+		Append(textures_[i]);
+
+	SetActive(tx);
+
+	combo_.signal_changed().connect( sigc::mem_fun(*this, &TextureCombo::OnComboChanged) );
+}
+
+TextureCombo::TextureCombo(const latero::Tactograph *dev, std::vector<std::string> textures) :
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
+	signalEnable_(true), textures_(textures), dev_(dev)
+{
+	if (textures_.size()==0) textures_ = GetStockTextures();
+
+	model_ = Gtk::ListStore::create(columns_);
+	combo_.set_model(model_);
+	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
+	combo_.pack_start(*cell);
+	combo_.add_attribute(*cell, "pixbuf", columns_.img);
+	append(combo_);
+
+	for (unsigned int i=0; i<textures_.size(); ++i)
+		Append(textures_[i]);
+
+	SetActive(Texture::Create(dev,tx_grating_vertical));
+
+	combo_.signal_changed().connect( sigc::mem_fun(*this, &TextureCombo::OnComboChanged) );
+}
+
 void TextureCombo::Append(std::string txfile)
 {
 	TexturePtr tx = Texture::Create(dev_,txfile);
@@ -107,47 +149,7 @@ void TextureCombo::OnComboChanged()
 		signalTextureChanged_(tx_);
 }
 
-TextureCombo::TextureCombo(TexturePtr tx, std::vector<std::string> textures) :
-	Gtk::Box(Gtk::Orientation::HORIZONTAL),
-	signalEnable_(true), textures_(textures), dev_(tx->Dev())
-{
-	if (textures_.size()==0) textures_ = GetStockTextures();
 
-	model_ = Gtk::ListStore::create(columns_);
-	combo_.set_model(model_);
-	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
-	combo_.pack_start(*cell);
-	combo_.add_attribute(*cell, "pixbuf", columns_.img);
-	append(combo_);
-
-	for (unsigned int i=0; i<textures_.size(); ++i)
-		Append(textures_[i]);
-
-	SetActive(tx);
-
-	combo_.signal_changed().connect( sigc::mem_fun(*this, &TextureCombo::OnComboChanged) );
-}
-
-TextureCombo::TextureCombo(const latero::Tactograph *dev, std::vector<std::string> textures) :
-	Gtk::Box(Gtk::Orientation::HORIZONTAL),
-	signalEnable_(true), textures_(textures), dev_(dev)
-{
-	if (textures_.size()==0) textures_ = GetStockTextures();
-
-	model_ = Gtk::ListStore::create(columns_);
-	combo_.set_model(model_);
-	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
-	combo_.pack_start(*cell);
-	combo_.add_attribute(*cell, "pixbuf", columns_.img);
-	append(combo_);
-
-	for (unsigned int i=0; i<textures_.size(); ++i)
-		Append(textures_[i]);
-
-	SetActive(Texture::Create(dev,tx_grating_vertical));
-
-	combo_.signal_changed().connect( sigc::mem_fun(*this, &TextureCombo::OnComboChanged) );
-}
 
 } // namespace graphics
 } // namespace latero
