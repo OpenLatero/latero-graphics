@@ -55,17 +55,9 @@ protected:
 
 	void OnComboChanged();
 
-	class ModelColumns : public Gtk::TreeModel::ColumnRecord
-	{
-	public:
-		ModelColumns() { add(id_); add(img_);}
-		Gtk::TreeModelColumn<int> id_;
-		Gtk::TreeModelColumn< Glib::RefPtr<Gdk::Pixbuf> > img_;
-	};
-
-	ModelColumns columns_;
-	Gtk::ComboBox combo_;
-	Glib::RefPtr<Gtk::ListStore> model_;
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
+	std::vector<std::pair<int, Glib::RefPtr<Gdk::Pixbuf>>> items_;
 	sigc::signal<void(int)> signalChanged_;
 };
 

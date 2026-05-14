@@ -28,15 +28,24 @@ namespace graphics {
 namespace gtk {
 
 ImageCombo::ImageCombo() :
-	Gtk::Box(Gtk::Orientation::HORIZONTAL)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
+	list_(Gtk::StringList::create({})),
+	dropDown_(list_)
 {
-	model_ = Gtk::ListStore::create(columns_);
-	combo_.set_model(model_);
-	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
-	combo_.pack_start(*cell);
-	combo_.add_attribute(*cell, "pixbuf", columns_.img_);
-	append(combo_);
-	combo_.signal_changed().connect( sigc::mem_fun(*this, &ImageCombo::OnComboChanged) );
+	auto factory = Gtk::SignalListItemFactory::create();
+	factory->signal_setup().connect([](const Glib::RefPtr<Gtk::ListItem>& item) {
+		item->set_child(*Gtk::make_managed<Gtk::Image>());
+	});
+	factory->signal_bind().connect([this](const Glib::RefPtr<Gtk::ListItem>& item) {
+		auto pos = item->get_position();
+		if (pos < items_.size())
+			if (auto image = dynamic_cast<Gtk::Image*>(item->get_child()))
+				image->set(items_[pos].second);
+	});
+	dropDown_.set_factory(factory);
+	dropDown_.set_list_factory(factory);
+	append(dropDown_);
+	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &ImageCombo::OnComboChanged));
 }
 
 ImageCombo::~ImageCombo()
@@ -47,9 +56,8 @@ void ImageCombo::Append(int id, std::string imgfile)
 {
 	try
 	{
-		Gtk::TreeModel::Row row = *(model_->append());
-		row[columns_.id_] = id;
-		row[columns_.img_] = Gdk::Pixbuf::create_from_file(imgfile);
+		items_.push_back({id, Gdk::Pixbuf::create_from_file(imgfile)});
+		list_->append("");
 	}
 	catch (Glib::Error &e)
 	{
@@ -59,27 +67,15 @@ void ImageCombo::Append(int id, std::string imgfile)
 
 void ImageCombo::SetActive(int id)
 {
-	Gtk::TreeModel::Children::iterator iter;
-	for (iter = model_->children().begin(); iter != model_->children().end(); iter++)
-	{
-		if ((*iter)[columns_.id_] == id)
-		{
-			combo_.set_active(iter);
-		}
-	}
+	for (guint i = 0; i < items_.size(); ++i)
+		if (items_[i].first == id) { dropDown_.set_selected(i); return; }
 }
 
 void ImageCombo::OnComboChanged()
 {
-	Gtk::TreeModel::iterator iter = combo_.get_active();
-	if(iter)
-	{
-		Gtk::TreeModel::Row row = *iter;
-		if(row)
-		{
-			SignalChanged()(row[columns_.id_]);
-		}
-	}
+	guint pos = dropDown_.get_selected();
+	if (pos < items_.size())
+		signalChanged_(items_[pos].first);
 }
 
 sigc::signal<void(int)> ImageCombo::SignalChanged()
