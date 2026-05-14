@@ -59,7 +59,7 @@ void TextureCombo::SetActive(TexturePtr tx)
 		if (curfile == txfile)
 		{
 			signalEnable_ = false;
-			set_active(iter); //  don't reload!
+			combo_.set_active(iter); //  don't reload!
 			signalEnable_ = true;
 			return;
 		}
@@ -74,7 +74,7 @@ void TextureCombo::SetActive(TexturePtr tx)
 		if (imgfile == iconfile)
 		{
 			signalEnable_ = false;
-			set_active(iter); //  don't reload!
+			combo_.set_active(iter); //  don't reload!
 			signalEnable_ = true;
 			return;
 		}
@@ -96,7 +96,7 @@ void TextureCombo::SetActive(TexturePtr tx)
 
 void TextureCombo::OnComboChanged()
 {
-	Gtk::TreeModel::iterator iter = get_active();
+	Gtk::TreeModel::iterator iter = combo_.get_active();
 	if (!iter) return;
 
 	Gtk::TreeModel::Row row = *iter;
@@ -108,41 +108,45 @@ void TextureCombo::OnComboChanged()
 }
 
 TextureCombo::TextureCombo(TexturePtr tx, std::vector<std::string> textures) :
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	signalEnable_(true), textures_(textures), dev_(tx->Dev())
 {
 	if (textures_.size()==0) textures_ = GetStockTextures();
 
 	model_ = Gtk::ListStore::create(columns_);
-	set_model(model_);
+	combo_.set_model(model_);
 	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
-	pack_start(*cell);
-	add_attribute(*cell, "pixbuf", columns_.img);
+	combo_.pack_start(*cell);
+	combo_.add_attribute(*cell, "pixbuf", columns_.img);
+	append(combo_);
 
 	for (unsigned int i=0; i<textures_.size(); ++i)
 		Append(textures_[i]);
 
 	SetActive(tx);
 
-	signal_changed().connect( sigc::mem_fun(*this, &TextureCombo::OnComboChanged) );
+	combo_.signal_changed().connect( sigc::mem_fun(*this, &TextureCombo::OnComboChanged) );
 }
 
 TextureCombo::TextureCombo(const latero::Tactograph *dev, std::vector<std::string> textures) :
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	signalEnable_(true), textures_(textures), dev_(dev)
 {
 	if (textures_.size()==0) textures_ = GetStockTextures();
 
 	model_ = Gtk::ListStore::create(columns_);
-	set_model(model_);
+	combo_.set_model(model_);
 	Gtk::CellRendererPixbuf* cell = Gtk::make_managed<Gtk::CellRendererPixbuf>();
-	pack_start(*cell);
-	add_attribute(*cell, "pixbuf", columns_.img);
+	combo_.pack_start(*cell);
+	combo_.add_attribute(*cell, "pixbuf", columns_.img);
+	append(combo_);
 
 	for (unsigned int i=0; i<textures_.size(); ++i)
 		Append(textures_[i]);
 
 	SetActive(Texture::Create(dev,tx_grating_vertical));
 
-	signal_changed().connect( sigc::mem_fun(*this, &TextureCombo::OnComboChanged) );
+	combo_.signal_changed().connect( sigc::mem_fun(*this, &TextureCombo::OnComboChanged) );
 }
 
 } // namespace graphics

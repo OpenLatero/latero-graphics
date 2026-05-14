@@ -29,7 +29,7 @@
 namespace latero {
 namespace graphics { 
 
-class TextureCombo : public Gtk::ComboBox
+class TextureCombo : public Gtk::Box
 {
 public:
 	TextureCombo(TexturePtr tx, std::vector<std::string> textures = std::vector<std::string>());
@@ -59,6 +59,7 @@ protected:
 	TexturePtr tx_;
 	Columns columns_;
 	Glib::RefPtr<Gtk::ListStore> model_;
+	Gtk::ComboBox combo_;
     const latero::Tactograph *dev_; // tmp?
 };
 
