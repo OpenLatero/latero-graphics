@@ -40,17 +40,18 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 	set_modal(true);
 	set_size_request(300, -1);
 
-	combo_.append("load from file");
-	combo_.append("dot");
-	combo_.append("dot set");
-	combo_.append("line");
-	combo_.append("circle");
-	combo_.append("polygon");
-	combo_.append("image");
-	combo_.append("texture");
-	combo_.append("group");
-
-	combo_.set_active_text("line");
+	typeList_ = Gtk::StringList::create({});
+	typeList_->append("load from file");
+	typeList_->append("dot");
+	typeList_->append("dot set");
+	typeList_->append("line");
+	typeList_->append("circle");
+	typeList_->append("polygon");
+	typeList_->append("image");
+	typeList_->append("texture");
+	typeList_->append("group");
+	typeDropDown_ = Gtk::make_managed<Gtk::DropDown>(typeList_);
+	typeDropDown_->set_selected(3); // "line"
 	txCombo_.set_sensitive(false);
 
 	auto okButton     = Gtk::make_managed<Gtk::Button>("Ok");
@@ -64,12 +65,12 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 	auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	vbox->set_margin(12);
 	vbox->set_spacing(6);
-	vbox->append(combo_);
+	vbox->append(*typeDropDown_);
 	vbox->append(txCombo_);
 	vbox->append(*bbox);
 	set_child(*vbox);
 
-	combo_.signal_changed().connect(sigc::mem_fun(*this, &PatternCreatorDialog::OnComboChanged));
+	typeDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &PatternCreatorDialog::OnComboChanged));
 	okButton->signal_clicked().connect([this]{
 		signalResponse_.emit((int)Gtk::ResponseType::OK);
 	});
@@ -81,8 +82,9 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 
 void PatternCreatorDialog::OnComboChanged()
 {
-	txCombo_.set_sensitive(combo_.get_active_text() == "texture");
-	if (combo_.get_active_text() == "load from file")
+	auto activeText = std::string(typeList_->get_string(typeDropDown_->get_selected()));
+	txCombo_.set_sensitive(activeText == "texture");
+	if (activeText == "load from file")
 	{
 		loadedFile_.clear();
 		auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::OPEN);
@@ -106,7 +108,7 @@ void PatternCreatorDialog::OnComboChanged()
 
 PatternPtr PatternCreatorDialog::CreatePattern()
 {
-	std::string type = combo_.get_active_text();
+	std::string type = std::string(typeList_->get_string(typeDropDown_->get_selected()));
 	if (type == "dot")		return Dot::Create(dev_);
 	else if (type == "dot set")	return Dots::Create(dev_);
 	else if (type == "line")	return Line::Create(dev_);

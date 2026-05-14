@@ -40,7 +40,8 @@ public:
 	sigc::signal<void(int)>& signal_response() { return signalResponse_; }
 
 protected:
-	Gtk::ComboBoxText combo_;
+	Glib::RefPtr<Gtk::StringList> typeList_;
+	Gtk::DropDown* typeDropDown_;
 	TextureCombo txCombo_;
 	const latero::Tactograph *dev_;
 	std::string loadedFile_;
