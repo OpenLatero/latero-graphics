@@ -32,21 +32,30 @@ namespace latero {
 namespace graphics { 
 
 
-class StrokeMotionCueCombo : public Gtk::ComboBoxText
+class StrokeMotionCueDropDown : public Gtk::Box
 {
 public:
-	StrokeMotionCueCombo(StrokePtr peer) : peer_(peer)
+	StrokeMotionCueDropDown(StrokePtr peer) :
+		Gtk::Box(Gtk::Orientation::HORIZONTAL),
+		list_(Gtk::StringList::create({})),
+		dropDown_(list_),
+		peer_(peer)
 	{
-		Stroke::MotionCueSet ops = peer->GetMotionCues();
-		for (unsigned int i=0; i<ops.size(); ++i)
-			append(ops[i].label);
-		set_active_text(peer->GetMotionCue().label);
-		signal_changed().connect(sigc::mem_fun(*this, &StrokeMotionCueCombo::OnChange));
+		for (const auto& op : peer->GetMotionCues())
+			list_->append(op.label);
+		Glib::ustring target = peer->GetMotionCue().label;
+		for (guint i = 0; i < list_->get_n_items(); ++i)
+			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &StrokeMotionCueDropDown::OnChange));
+		append(dropDown_);
 	};
-	virtual ~StrokeMotionCueCombo() {};
+	virtual ~StrokeMotionCueDropDown() {};
+	Glib::PropertyProxy<guint> property_selected() { return dropDown_.property_selected(); }
 private:
-	void OnChange() { peer_->SetMotionCue(get_active_text()); };
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
 	StrokePtr peer_;
+	void OnChange() { peer_->SetMotionCue(std::string(list_->get_string(dropDown_.get_selected()))); };
 };
 
 
@@ -119,7 +128,7 @@ protected:
 StrokeMotionWidget::StrokeMotionWidget(StrokePtr peer) : Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer)
 {
 	velWidget_ = Gtk::make_managed<StrokeMotionVelCtrl>(peer);
-	StrokeMotionCueCombo *wCue = Gtk::make_managed<StrokeMotionCueCombo>(peer);
+	auto wCue = Gtk::make_managed<StrokeMotionCueDropDown>(peer);
 	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 
 	velWidget_->set_hexpand();
@@ -132,7 +141,7 @@ StrokeMotionWidget::StrokeMotionWidget(StrokePtr peer) : Gtk::Box(Gtk::Orientati
 	
 	Rebuild();
 
-	wCue->signal_changed().connect(sigc::mem_fun(*this, &StrokeMotionWidget::OnCueChanged));
+	wCue->property_selected().signal_changed().connect(sigc::mem_fun(*this, &StrokeMotionWidget::OnCueChanged));
 };
 
 void StrokeMotionWidget::OnCueChanged()
@@ -142,9 +151,7 @@ void StrokeMotionWidget::OnCueChanged()
 
 void StrokeMotionWidget::Rebuild()
 {
-	Gtk::Widget *wp = holder_.get_child();
 	holder_.unset_child();
-	delete wp;
 
 	Stroke::MotionCue cue = peer_->GetMotionCue();
 
