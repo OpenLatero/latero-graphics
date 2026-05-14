@@ -39,22 +39,31 @@ protected:
 	MotionTexturePtr peer_;
 };
 
-class CueTypeCombo : public Gtk::ComboBoxText, MotionTextureCtrl
+class CueTypeDropDown : public Gtk::DropDown, MotionTextureCtrl
 {
+	static Glib::RefPtr<Gtk::StringList> makeList(MotionTexturePtr peer) {
+		auto list = Gtk::StringList::create({});
+		for (const auto& op : peer->GetCueTypes())
+			list->append(op.label);
+		return list;
+	}
+	Glib::RefPtr<Gtk::StringList> list() {
+		return std::dynamic_pointer_cast<Gtk::StringList>(get_model());
+	}
 public:
-	CueTypeCombo(MotionTexturePtr peer) : MotionTextureCtrl(peer)
+	CueTypeDropDown(MotionTexturePtr peer) : Gtk::DropDown(makeList(peer)), MotionTextureCtrl(peer)
 	{
-		MotionTexture::CueTypeSet ops = peer->GetCueTypes();
-		for (unsigned int i=0; i<ops.size(); ++i)
-			append(ops[i].label);
-		set_active_text(peer->GetCueType().label);
-		signal_changed().connect(sigc::mem_fun(*this, &CueTypeCombo::OnChange));
+		Glib::ustring target = peer->GetCueType().label;
+		auto l = list();
+		for (guint i = 0; i < l->get_n_items(); ++i)
+			if (l->get_string(i) == target) { set_selected(i); break; }
+		property_selected().signal_changed().connect(sigc::mem_fun(*this, &CueTypeDropDown::OnChange));
 	};
-	virtual ~CueTypeCombo() {};
-	sigc::signal<void()> SignalChanged() { return signalChanged_; };
+	virtual ~CueTypeDropDown() {};
+	sigc::signal<void()>& SignalChanged() { return signalChanged_; };
 private:
 	sigc::signal<void()> signalChanged_;
-	void OnChange() { peer_->SetCueType(get_active_text()); signalChanged_(); };
+	void OnChange() { peer_->SetCueType(std::string(list()->get_string(get_selected()))); signalChanged_(); };
 };
 
 class DirectionCtrl : public Gtk::Box, MotionTextureCtrl
@@ -97,7 +106,7 @@ MotionTextureWidget::MotionTextureWidget(MotionTexturePtr peer) :
 	using namespace MotionTextureCtrls;
 	auto motionPage = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
-	box->append(*Gtk::make_managed<CueTypeCombo>(peer));
+	box->append(*Gtk::make_managed<CueTypeDropDown>(peer));
 	box->append(*Gtk::make_managed<DirectionCtrl>(peer));
 	box->append(*Gtk::make_managed<VelocityCtrl>(peer));
 	motionPage->append(*box);

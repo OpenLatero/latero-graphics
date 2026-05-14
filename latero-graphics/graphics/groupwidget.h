@@ -30,13 +30,17 @@
 namespace latero {
 namespace graphics { 
 
-class GroupOpCombo : public Gtk::ComboBoxText
+class GroupOpDropDown : public Gtk::DropDown
 {
 public:
-	GroupOpCombo(GroupPtr peer);
-	virtual ~GroupOpCombo() {};
-	sigc::signal<void()> SignalChanged() { return signalChanged_; };
+	GroupOpDropDown(GroupPtr peer);
+	virtual ~GroupOpDropDown() {};
+	sigc::signal<void()>& SignalChanged() { return signalChanged_; };
 private:
+	static Glib::RefPtr<Gtk::StringList> makeList(GroupPtr peer);
+	Glib::RefPtr<Gtk::StringList> list() {
+		return std::dynamic_pointer_cast<Gtk::StringList>(get_model());
+	}
 	sigc::signal<void()> signalChanged_;
 	void OnChange();
 	GroupPtr peer_;

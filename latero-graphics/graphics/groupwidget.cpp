@@ -46,16 +46,26 @@ namespace latero {
 namespace graphics { 
 
 
-GroupOpCombo::GroupOpCombo(GroupPtr peer) :
+Glib::RefPtr<Gtk::StringList> GroupOpDropDown::makeList(GroupPtr peer)
+{
+	auto list = Gtk::StringList::create({});
+	for (const auto& op : peer->GetOperations())
+		list->append(op.label);
+	return list;
+}
+
+GroupOpDropDown::GroupOpDropDown(GroupPtr peer) :
+	Gtk::DropDown(makeList(peer)),
 	peer_(peer)
 {
-	Group::OperationSet ops = peer->GetOperations();
-	for (unsigned int i=0; i<ops.size(); ++i)
-		append(ops[i].label);
-	set_active_text(peer->GetOperation().label);
-	signal_changed().connect(sigc::mem_fun(*this, &GroupOpCombo::OnChange));
+	Glib::ustring target = peer->GetOperation().label;
+	auto l = list();
+	for (guint i = 0; i < l->get_n_items(); ++i)
+		if (l->get_string(i) == target) { set_selected(i); break; }
+	property_selected().signal_changed().connect(sigc::mem_fun(*this, &GroupOpDropDown::OnChange));
 }
-void GroupOpCombo::OnChange() { peer_->SetOperation(get_active_text()); signalChanged_(); }
+
+void GroupOpDropDown::OnChange() { peer_->SetOperation(std::string(list()->get_string(get_selected()))); signalChanged_(); }
 
 
 
@@ -526,7 +536,7 @@ public:
 	GroupPanel(GroupPtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 	{
 		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
-		auto opCombo = Gtk::make_managed<GroupOpCombo>(peer);
+		auto opCombo = Gtk::make_managed<GroupOpDropDown>(peer);
 		auto patternPreview = Gtk::make_managed<PatternPreview>(peer);
 
 		box->append(*opCombo);
@@ -613,7 +623,7 @@ public:
 		lbox->append(*textureAmplitudeCtrl);
 
 		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
-		box->append(*Gtk::make_managed<GroupOpCombo>(peer));
+		box->append(*Gtk::make_managed<GroupOpDropDown>(peer));
 		box->append(*Gtk::make_managed<OscillatorWidget>(peer->GetOscillator(),true));
 
 		if (showSelector)

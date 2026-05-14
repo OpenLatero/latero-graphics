@@ -149,13 +149,13 @@ class OperationWidget : public Gtk::Frame
 public:
 	OperationWidget(DoubleLinearGratingTexturePtr peer) :
 		Gtk::Frame("operation"),
-		combo_(peer)
+		dropDown_(peer)
 	{
-		set_child(combo_);
+		set_child(dropDown_);
 	}
 	virtual ~OperationWidget() {};
 protected:
-	GroupOpCombo combo_;
+	GroupOpDropDown dropDown_;
 };
 
 class AmplitudeCtrl : public Gtk::Frame
