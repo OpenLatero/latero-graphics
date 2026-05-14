@@ -34,11 +34,13 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 {
 	set_title("Create Texture");
 	set_modal(true);
-	set_default_size(200,-1);
+	set_default_size(300,-1);
 
-	combo_.append("load from file");
-	combo_.append("texture");
-	combo_.set_active_text("texture");
+	optionsList_ = Gtk::StringList::create({});
+	optionsList_->append("load from file");
+	optionsList_->append("texture");
+	optionsDropDown_ = Gtk::make_managed<Gtk::DropDown>(optionsList_);
+	optionsDropDown_->set_selected(1); // "texture"
 	txCombo_.set_sensitive(false);
 
 	auto okButton     = Gtk::make_managed<Gtk::Button>("OK");
@@ -52,12 +54,12 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 	auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	vbox->set_margin(12);
 	vbox->set_spacing(6);
-	vbox->append(combo_);
+	vbox->append(*optionsDropDown_);
 	vbox->append(txCombo_);
 	vbox->append(*bbox);
 	set_child(*vbox);
 
-	combo_.signal_changed().connect(sigc::mem_fun(*this, &CreateTextureDlg::OnComboChanged));
+	optionsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &CreateTextureDlg::OnComboChanged));
 	okButton->signal_clicked().connect([this]{
 		signalResponse_.emit((int)Gtk::ResponseType::OK);
 	});
@@ -69,9 +71,10 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 
 void CreateTextureDlg::OnComboChanged()
 {
-	txCombo_.set_sensitive(combo_.get_active_text() == "texture");
+	auto activeText = std::string(optionsList_->get_string(optionsDropDown_->get_selected()));
+	txCombo_.set_sensitive(activeText == "texture");
 
-	if (combo_.get_active_text() == "load from file")
+	if (activeText == "load from file")
 	{
 		loadedFile_.clear();
 		auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::OPEN);
@@ -94,7 +97,7 @@ void CreateTextureDlg::OnComboChanged()
 
 TexturePtr CreateTextureDlg::CreateTexture()
 {
-	std::string type = combo_.get_active_text();
+	std::string type = std::string(optionsList_->get_string(optionsDropDown_->get_selected()));
 	if (type == "texture")	return txCombo_.GetTexture();
 	else if (type == "load from file")
 	{
