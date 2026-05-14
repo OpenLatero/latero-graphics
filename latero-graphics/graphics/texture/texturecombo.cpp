@@ -32,7 +32,7 @@
 namespace latero {
 namespace graphics { 
 
-void TextureCombo::Init()
+void TextureDropDown::Init()
 {
 	auto factory = Gtk::SignalListItemFactory::create();
 	factory->signal_setup().connect([](const Glib::RefPtr<Gtk::ListItem>& item) {
@@ -47,10 +47,10 @@ void TextureCombo::Init()
 	dropDown_.set_factory(factory);
 	dropDown_.set_list_factory(factory);
 	append(dropDown_);
-	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &TextureCombo::OnComboChanged));
+	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &TextureDropDown::OnComboChanged));
 }
 
-TextureCombo::TextureCombo(TexturePtr tx, std::vector<std::string> textures) :
+TextureDropDown::TextureDropDown(TexturePtr tx, std::vector<std::string> textures) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	countingList_(Gtk::StringList::create({})),
 	dropDown_(countingList_),
@@ -64,7 +64,7 @@ TextureCombo::TextureCombo(TexturePtr tx, std::vector<std::string> textures) :
 	SetActive(tx);
 }
 
-TextureCombo::TextureCombo(const latero::Tactograph *dev, std::vector<std::string> textures) :
+TextureDropDown::TextureDropDown(const latero::Tactograph *dev, std::vector<std::string> textures) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	countingList_(Gtk::StringList::create({})),
 	dropDown_(countingList_),
@@ -78,7 +78,7 @@ TextureCombo::TextureCombo(const latero::Tactograph *dev, std::vector<std::strin
 	SetActive(Texture::Create(dev, tx_grating_vertical));
 }
 
-void TextureCombo::Append(std::string txfile)
+void TextureDropDown::Append(std::string txfile)
 {
 	TexturePtr tx = Texture::Create(dev_, txfile);
 	std::string imgFile = tx->GetIconFile();
@@ -93,7 +93,7 @@ void TextureCombo::Append(std::string txfile)
 	countingList_->append("");
 }
 
-void TextureCombo::SetActive(TexturePtr tx)
+void TextureDropDown::SetActive(TexturePtr tx)
 {
 	if (!tx) return;
 	tx_ = tx;
@@ -139,7 +139,7 @@ void TextureCombo::SetActive(TexturePtr tx)
 
 
 
-void TextureCombo::OnComboChanged()
+void TextureDropDown::OnComboChanged()
 {
 	guint curIndex = dropDown_.get_selected();
 	if (curIndex >= txFileList_.size()) return;

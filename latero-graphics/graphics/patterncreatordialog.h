@@ -42,7 +42,7 @@ public:
 protected:
 	Glib::RefPtr<Gtk::StringList> typeList_;
 	Gtk::DropDown* typeDropDown_;
-	TextureCombo txCombo_;
+	TextureDropDown txCombo_;
 	const latero::Tactograph *dev_;
 	std::string loadedFile_;
 	sigc::signal<void(int)> signalResponse_;

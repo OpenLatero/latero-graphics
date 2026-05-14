@@ -29,13 +29,13 @@
 namespace latero {
 namespace graphics { 
 
-class TextureCombo : public Gtk::Box
+class TextureDropDown : public Gtk::Box
 {
 public:
-	TextureCombo(TexturePtr tx, std::vector<std::string> textures = std::vector<std::string>());
-	TextureCombo(const latero::Tactograph *dev, std::vector<std::string> textures = std::vector<std::string>());
+	TextureDropDown(TexturePtr tx, std::vector<std::string> textures = std::vector<std::string>());
+	TextureDropDown(const latero::Tactograph *dev, std::vector<std::string> textures = std::vector<std::string>());
 
-	virtual ~TextureCombo() {};
+	virtual ~TextureDropDown() {};
 	void Append(std::string txfile);
 	void SetActive(TexturePtr tx);
 	sigc::signal<void(TexturePtr)> SignalTextureChanged() { return signalTextureChanged_; }
