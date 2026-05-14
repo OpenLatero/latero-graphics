@@ -305,6 +305,7 @@ double Polygon::DoRender_(const ActuatorState &state)
 double Polygon::RenderCorner_(const StrokeState &state, const Point &pos, Edge &edge)
 {
 	if (!cornerEnable_) return 0;
+	if (corners_.empty()) return 0;
 	if (state.dWidth > stroke_->GetWidth_()/2) return 0;
 
 	Corner corner = GetClosestCorner_(pos);

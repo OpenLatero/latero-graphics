@@ -140,17 +140,22 @@ class PolygonCornerBlendCombo : public Gtk::Frame
 public:
 	PolygonCornerBlendCombo(PolygonPtr peer) : Gtk::Frame("blend"), peer_(peer)
 	{
-		set_child(combo_);
+		opsList_ = Gtk::StringList::create({});
 		Polygon::CornerBlendSet ops = peer->GetCornerBlends();
 		for (unsigned int i=0; i<ops.size(); ++i)
-			combo_.append(ops[i].label);
-		combo_.set_active_text(peer->GetCornerBlend().label);
-		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendCombo::OnChange));
+			opsList_->append(ops[i].label);
+		opsDropDown_ = Gtk::make_managed<Gtk::DropDown>(opsList_);
+		Glib::ustring target = peer->GetCornerBlend().label;
+		for (guint i = 0; i < opsList_->get_n_items(); ++i)
+			if (opsList_->get_string(i) == target) { opsDropDown_->set_selected(i); break; }
+		opsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendCombo::OnChange));
+		set_child(*opsDropDown_);
 	};
 	virtual ~PolygonCornerBlendCombo() {};
 private:
-	Gtk::ComboBoxText combo_;
-	void OnChange() { peer_->SetCornerBlend(combo_.get_active_text()); };
+	Glib::RefPtr<Gtk::StringList> opsList_;
+	Gtk::DropDown* opsDropDown_;
+	void OnChange() { peer_->SetCornerBlend(std::string(opsList_->get_string(opsDropDown_->get_selected()))); };
 	PolygonPtr peer_;
 };
 
