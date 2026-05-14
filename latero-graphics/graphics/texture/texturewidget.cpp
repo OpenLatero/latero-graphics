@@ -41,7 +41,7 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 	optionsList_->append("texture");
 	optionsDropDown_ = Gtk::make_managed<Gtk::DropDown>(optionsList_);
 	optionsDropDown_->set_selected(1); // "texture"
-	txCombo_.set_sensitive(false);
+	txCombo_.set_sensitive(true); // as long as texture is the default
 
 	auto okButton     = Gtk::make_managed<Gtk::Button>("OK");
 	auto cancelButton = Gtk::make_managed<Gtk::Button>("Cancel");
