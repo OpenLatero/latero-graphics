@@ -48,10 +48,9 @@ protected:
 	class Columns : public Gtk::TreeModel::ColumnRecord
 	{
 	public:
-		Columns() { add(txfile); add(img); add(imgfile); }
+		Columns() { add(img); add(imgfile); }
 		Gtk::TreeModelColumn<std::string> imgfile;
 		Gtk::TreeModelColumn< Glib::RefPtr<Gdk::Pixbuf> > img;
-		Gtk::TreeModelColumn<std::string> txfile;
 	};
 
     bool signalEnable_;
@@ -61,6 +60,8 @@ protected:
 	Glib::RefPtr<Gtk::ListStore> model_;
 	Gtk::ComboBox combo_;
     const latero::Tactograph *dev_; // tmp?
+
+	std::vector<std::string> txFileList_;
 };
 
 } // namespace graphics

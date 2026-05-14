@@ -78,13 +78,14 @@ void TextureCombo::Append(std::string txfile)
 {
 	TexturePtr tx = Texture::Create(dev_,txfile);
 	Gtk::TreeModel::Row row = *(model_->append());
-	row[columns_.txfile] = txfile;
 	row[columns_.imgfile] = tx->GetIconFile();
 
 	Glib::RefPtr<Gdk::Pixbuf> img  = Gdk::Pixbuf::create_from_file(row[columns_.imgfile]);
 	if ((img->get_width() != 50) || (img->get_height() != 50))
 		img = img->scale_simple(50,50,Gdk::InterpType::BILINEAR);
 	row[columns_.img] = img;
+
+	txFileList_.push_back(txfile);
 }
 
 void TextureCombo::SetActive(TexturePtr tx)
@@ -94,14 +95,12 @@ void TextureCombo::SetActive(TexturePtr tx)
 	std::string txfile = tx->GetXMLFile();
 
 	// check if the txfile is already in the tree
-	//bool found = false;
-	for (Gtk::TreeModel::Children::iterator iter = model_->children().begin(); iter != model_->children().end(); iter++)
+	for (unsigned int i=0; i<txFileList_.size(); ++i)
 	{
-		std::string curfile = (*iter)[columns_.txfile];
-		if (curfile == txfile)
+		if (txFileList_[i] == txfile)
 		{
 			signalEnable_ = false;
-			combo_.set_active(iter); //  don't reload!
+			combo_.set_active(i); //  don't reload!
 			signalEnable_ = true;
 			return;
 		}
@@ -138,13 +137,8 @@ void TextureCombo::SetActive(TexturePtr tx)
 
 void TextureCombo::OnComboChanged()
 {
-	Gtk::TreeModel::iterator iter = combo_.get_active();
-	if (!iter) return;
-
-	Gtk::TreeModel::Row row = *iter;
-	if (!row) return;
-
-	tx_ = Texture::Create(dev_,row[columns_.txfile]);
+	int curIndex = combo_.get_active_row_number();
+	tx_ = Texture::Create(dev_, txFileList_[curIndex]);
 	if (signalEnable_)
 		signalTextureChanged_(tx_);
 }
