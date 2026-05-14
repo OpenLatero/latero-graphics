@@ -116,8 +116,6 @@ public:
  * This widget takes care of showing a low-level visualization image
  * for PositionGen generator. In order to work properly, the PositionGen 
  * must not depend on time.
- *
- * @TODO: rename? use Window instead of dialog?
  */
 class VisualizeWidget : public Gtk::Window
 {
@@ -153,7 +151,8 @@ protected:
 	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	Gtk::Image img_;
 	latero::graphics::gtk::Animation map_;
-	Gtk::ComboBoxText modeCombo_;
+	Glib::RefPtr<Gtk::StringList> modeList_;
+	Gtk::DropDown* modeDropDown_;
 	PositionGenPtr gen_;
 };
 

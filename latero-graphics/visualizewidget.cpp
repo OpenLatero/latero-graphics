@@ -47,10 +47,12 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	heightAdj_(Gtk::Adjustment::create(DEFAULT_WIDTH*gen->Dev()->GetSurfaceHeight()/gen->Dev()->GetSurfaceWidth(),50,4000)),
     gen_(gen)
 {
-	modeCombo_.append(mode_abstract);
-	modeCombo_.append(mode_vib_as_deflection);
-	modeCombo_.append(mode_vib_as_noise);
-	modeCombo_.set_active_text(mode_vib_as_noise);
+	modeList_ = Gtk::StringList::create({});
+	modeList_->append(mode_abstract);
+	modeList_->append(mode_vib_as_deflection);
+	modeList_->append(mode_vib_as_noise);
+	modeDropDown_ = Gtk::make_managed<Gtk::DropDown>(modeList_);
+	modeDropDown_->set_selected(2); // mode_vib_as_noise
 
 	Gtk::ScrolledWindow *scrolledWindow = Gtk::make_managed<Gtk::ScrolledWindow>();
 	scrolledWindow->set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
@@ -106,7 +108,7 @@ Gtk::Widget *VisualizeWidget::GetAnimWidget()
 	grid->attach(*Gtk::make_managed<Gtk::Label>("      Width:", Gtk::Align::START),2,1,1,1); // 2,3, 1,2, Gtk::FILL);
 	grid->attach(*Gtk::make_managed<Gtk::Label>("      Velocity:   ", Gtk::Align::START),2,2,1,1); // 2,3, 2,3, Gtk::FILL);
 
-	grid->attach(modeCombo_,3,0,4,1); // 3,7, 0,1);
+	grid->attach(*modeDropDown_,3,0,4,1); // 3,7, 0,1);
 	grid->attach(*Gtk::make_managed<Gtk::SpinButton>(widthAdj_),3,1,1,1); // 3,4, 1,2);
 	grid->attach(*Gtk::make_managed<Gtk::SpinButton>(velMagAdj_),3,2,1,1); // 3,4, 2,3);
 
@@ -241,9 +243,10 @@ latero::graphics::gtk::Animation VisualizeWidget::GetDeflectionMap(uint w, uint 
 	for (unsigned int i=0; i<n; ++i)
 	{
 		Glib::RefPtr<Gdk::Pixbuf> buf;
-		if (modeCombo_.get_active_text() == mode_vib_as_deflection)
+		auto modeText = std::string(modeList_->get_string(modeDropDown_->get_selected()));
+		if (modeText == mode_vib_as_deflection)
 			buf = gen_->GetDeflectionMap(w,timeElapsed,velMag,velDir,RenderMode(true,false,false));
-		else if (modeCombo_.get_active_text() == mode_vib_as_noise)
+		else if (modeText == mode_vib_as_noise)
 			buf = gen_->GetDeflectionMap(w,timeElapsed,velMag,velDir,RenderMode(true,true,false));
 		else
 			buf = gen_->GetIllustration(w,timeElapsed);
