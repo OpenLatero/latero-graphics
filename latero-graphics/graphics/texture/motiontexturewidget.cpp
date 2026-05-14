@@ -39,31 +39,30 @@ protected:
 	MotionTexturePtr peer_;
 };
 
-class CueTypeDropDown : public Gtk::DropDown, MotionTextureCtrl
+class CueTypeDropDown : public Gtk::Box, MotionTextureCtrl
 {
-	static Glib::RefPtr<Gtk::StringList> makeList(MotionTexturePtr peer) {
-		auto list = Gtk::StringList::create({});
-		for (const auto& op : peer->GetCueTypes())
-			list->append(op.label);
-		return list;
-	}
-	Glib::RefPtr<Gtk::StringList> list() {
-		return std::dynamic_pointer_cast<Gtk::StringList>(get_model());
-	}
 public:
-	CueTypeDropDown(MotionTexturePtr peer) : Gtk::DropDown(makeList(peer)), MotionTextureCtrl(peer)
+	CueTypeDropDown(MotionTexturePtr peer) :
+		Gtk::Box(Gtk::Orientation::HORIZONTAL),
+		MotionTextureCtrl(peer),
+		list_(Gtk::StringList::create({})),
+		dropDown_(list_)
 	{
+		for (const auto& op : peer->GetCueTypes())
+			list_->append(op.label);
 		Glib::ustring target = peer->GetCueType().label;
-		auto l = list();
-		for (guint i = 0; i < l->get_n_items(); ++i)
-			if (l->get_string(i) == target) { set_selected(i); break; }
-		property_selected().signal_changed().connect(sigc::mem_fun(*this, &CueTypeDropDown::OnChange));
+		for (guint i = 0; i < list_->get_n_items(); ++i)
+			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &CueTypeDropDown::OnChange));
+		append(dropDown_);
 	};
 	virtual ~CueTypeDropDown() {};
 	sigc::signal<void()>& SignalChanged() { return signalChanged_; };
 private:
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
 	sigc::signal<void()> signalChanged_;
-	void OnChange() { peer_->SetCueType(std::string(list()->get_string(get_selected()))); signalChanged_(); };
+	void OnChange() { peer_->SetCueType(std::string(list_->get_string(dropDown_.get_selected()))); signalChanged_(); };
 };
 
 class DirectionCtrl : public Gtk::Box, MotionTextureCtrl

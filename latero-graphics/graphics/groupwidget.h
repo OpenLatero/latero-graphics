@@ -30,17 +30,15 @@
 namespace latero {
 namespace graphics { 
 
-class GroupOpDropDown : public Gtk::DropDown
+class GroupOpDropDown : public Gtk::Box
 {
 public:
 	GroupOpDropDown(GroupPtr peer);
 	virtual ~GroupOpDropDown() {};
 	sigc::signal<void()>& SignalChanged() { return signalChanged_; };
 private:
-	static Glib::RefPtr<Gtk::StringList> makeList(GroupPtr peer);
-	Glib::RefPtr<Gtk::StringList> list() {
-		return std::dynamic_pointer_cast<Gtk::StringList>(get_model());
-	}
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
 	sigc::signal<void()> signalChanged_;
 	void OnChange();
 	GroupPtr peer_;

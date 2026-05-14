@@ -26,23 +26,30 @@
 namespace latero {
 namespace graphics { 
 
-class GratingModulatorModeCombo : public Gtk::ComboBoxText
+class GratingModulatorModeCombo : public Gtk::Box
 {
 public:
 	GratingModulatorModeCombo(GratingModulatorPtr peer) :
+		Gtk::Box(Gtk::Orientation::HORIZONTAL),
+		list_(Gtk::StringList::create({})),
+		dropDown_(list_),
 		peer_(peer)
 	{
-		GratingModulator::ModeSet ops = peer->GetModes();
-		for (unsigned int i=0; i<ops.size(); ++i)
-			append(ops[i].label);
-		set_active_text(peer->GetMode().label);
-		signal_changed().connect(sigc::mem_fun(*this, &GratingModulatorModeCombo::OnChange));
+		for (const auto& op : peer->GetModes())
+			list_->append(op.label);
+		Glib::ustring target = peer->GetMode().label;
+		for (guint i = 0; i < list_->get_n_items(); ++i)
+			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &GratingModulatorModeCombo::OnChange));
+		append(dropDown_);
 	}
 	virtual ~GratingModulatorModeCombo() {};
 	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 private:
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
 	sigc::signal<void()> signalChanged_;
-	void OnChange()  { peer_->SetMode(get_active_text()); signalChanged_(); };
+	void OnChange() { peer_->SetMode(std::string(list_->get_string(dropDown_.get_selected()))); signalChanged_(); };
 	GratingModulatorPtr peer_;
 };
 

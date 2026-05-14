@@ -46,26 +46,22 @@ namespace latero {
 namespace graphics { 
 
 
-Glib::RefPtr<Gtk::StringList> GroupOpDropDown::makeList(GroupPtr peer)
-{
-	auto list = Gtk::StringList::create({});
-	for (const auto& op : peer->GetOperations())
-		list->append(op.label);
-	return list;
-}
-
 GroupOpDropDown::GroupOpDropDown(GroupPtr peer) :
-	Gtk::DropDown(makeList(peer)),
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
+	list_(Gtk::StringList::create({})),
+	dropDown_(list_),
 	peer_(peer)
 {
+	for (const auto& op : peer->GetOperations())
+		list_->append(op.label);
 	Glib::ustring target = peer->GetOperation().label;
-	auto l = list();
-	for (guint i = 0; i < l->get_n_items(); ++i)
-		if (l->get_string(i) == target) { set_selected(i); break; }
-	property_selected().signal_changed().connect(sigc::mem_fun(*this, &GroupOpDropDown::OnChange));
+	for (guint i = 0; i < list_->get_n_items(); ++i)
+		if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &GroupOpDropDown::OnChange));
+	append(dropDown_);
 }
 
-void GroupOpDropDown::OnChange() { peer_->SetOperation(std::string(list()->get_string(get_selected()))); signalChanged_(); }
+void GroupOpDropDown::OnChange() { peer_->SetOperation(std::string(list_->get_string(dropDown_.get_selected()))); signalChanged_(); }
 
 
 
