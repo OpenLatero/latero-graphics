@@ -87,22 +87,23 @@ void PatternCreatorDialog::OnDropDownChanged()
 	if (activeText == "load from file")
 	{
 		loadedFile_.clear();
-		auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::OPEN);
 		auto filter = Gtk::FileFilter::create();
-		filter->add_pattern("*.pattern");
-		filter->add_pattern("*.tx");
-		dialog->set_current_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
-		dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
-		dialog->add_button("Open", Gtk::ResponseType::OK);
-		dialog->set_default_response(Gtk::ResponseType::CANCEL);
-		dialog->add_filter(filter);
-		dialog->set_transient_for(*this);
-		dialog->signal_response().connect([this, dialog](int response_id) {
-			if (response_id == Gtk::ResponseType::OK)
-				loadedFile_ = dialog->get_file()->get_path();
-			delete dialog;
+		filter->set_name("pattern files");
+		filter->add_suffix("pattern");
+		filter->add_suffix("tx");
+		auto filters = Gio::ListStore<Gtk::FileFilter>::create();
+		filters->append(filter);
+		auto dialog = Gtk::FileDialog::create();
+		dialog->set_title("Please select a file...");
+		dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+		dialog->set_filters(filters);
+		dialog->set_default_filter(filter);
+		dialog->open(*this, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+			try {
+				auto file = dialog->open_finish(result);
+				loadedFile_ = file->get_path();
+			} catch (const Gtk::DialogError&) {}
 		});
-		dialog->show();
 	}
 }
 

@@ -77,25 +77,17 @@ void ModulatorPreview::CreatePopupMenu()
 
 void ModulatorPreview::OnSaveAs()
 {
-	auto dialog = new Gtk::FileChooserDialog("Please select file name.", Gtk::FileChooser::Action::SAVE);
-	std::string dir = std::filesystem::current_path().string();
-	dialog->set_current_folder(Gio::File::create_for_path(dir));
-	dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
-	dialog->add_button("Save", Gtk::ResponseType::OK);
-	dialog->set_default_response(Gtk::ResponseType::CANCEL);
-	dialog->set_current_name("modulation.png");
-	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
-		dialog->set_transient_for(*win);
-	dialog->signal_response().connect([this, dialog](int response_id) {
-		if (response_id == Gtk::ResponseType::OK)
-		{
-			auto filename = dialog->get_file()->get_path();
-			printf("saving %s\n", filename.c_str());
-			peer_->GetIllustration(1000,50)->save(filename,"png");
-		}
-		delete dialog;
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select file name.");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name("modulation.png");
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->save(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto file = dialog->save_finish(result);
+			peer_->GetIllustration(1000,50)->save(file->get_path(),"png");
+		} catch (const Gtk::DialogError&) {}
 	});
-	dialog->show();
 }
 
 void ModulatorPreview::OnSave()
