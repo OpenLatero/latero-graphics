@@ -26,8 +26,7 @@
 #include "pattern.h"
 #include "texture/texturefwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class ClosedPattern : public Pattern
 {
@@ -70,7 +69,6 @@ private:
 	TexturePtr texture_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

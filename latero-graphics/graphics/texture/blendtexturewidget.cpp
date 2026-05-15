@@ -24,8 +24,7 @@
 #include "../patternpreview.h"
 #include "../modulator/modulator.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 	peer_(peer),
@@ -72,5 +71,4 @@ void BlendTextureWidget::OnModulatorChanged(ModulatorPtr mod)
 	modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

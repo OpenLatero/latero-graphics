@@ -25,8 +25,7 @@
 #include <gtkmm.h>
 #include "velmodulatorfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class VelModulatorWidget : public Gtk::Box
 {
@@ -37,8 +36,7 @@ protected:
 	VelModulatorPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

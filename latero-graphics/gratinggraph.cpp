@@ -23,8 +23,7 @@
 #include "grating.h"
 #include <math.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 GratingGraph::GratingGraph(GratingPtr peer) :
 	peer_(peer)
@@ -61,5 +60,4 @@ bool GratingGraph::OnCheckPeer()
 	return true;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

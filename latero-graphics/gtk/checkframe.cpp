@@ -21,9 +21,7 @@
 
 #include "checkframe.h"
 
-namespace latero {
-namespace graphics {
-namespace gtk {
+namespace latero::graphics::gtk {
 
 CheckFrame::CheckFrame(bool checkState, std::string label, bool check_in_label) :
 	Gtk::Frame(label), 	mainBox_(Gtk::Orientation::HORIZONTAL), innerBox_(Gtk::Orientation::HORIZONTAL)
@@ -45,7 +43,5 @@ CheckFrame::CheckFrame(bool checkState, std::string label, bool check_in_label) 
 }
 
 
-} // namespace gtk
-} // namespace graphics
-} // namespace latero
+} // namespace
 

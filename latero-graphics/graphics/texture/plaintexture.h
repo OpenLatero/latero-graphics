@@ -25,8 +25,7 @@
 #include "texture.h"
 #include "plaintexturefwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PlainTexture : public Texture
 {
@@ -57,8 +56,7 @@ protected:
 	PlainTexture(const latero::Tactograph *dev, const XMLInputNode &node);
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

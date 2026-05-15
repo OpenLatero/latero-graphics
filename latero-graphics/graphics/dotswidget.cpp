@@ -28,8 +28,7 @@
 #include "../oscillatorwidget.h"
 #include "../pointlistwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class DotsPointsWidget : public Gtk::Frame
 {
@@ -86,6 +85,5 @@ DotsWidget::DotsWidget(DotsPtr peer) :
 	append(*Gtk::make_managed<RidgeGraph>(peer->GetProfile(),300));
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

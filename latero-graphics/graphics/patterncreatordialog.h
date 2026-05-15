@@ -26,8 +26,7 @@
 #include <gtkmm.h>
 #include "texture/texturedropdown.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PatternCreatorDialog : public Gtk::Window
 {
@@ -48,7 +47,6 @@ protected:
 	sigc::signal<void(int)> signalResponse_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

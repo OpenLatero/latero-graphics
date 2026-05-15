@@ -25,8 +25,7 @@
 #include "texture.h"
 #include "patterntexturefwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PatternTexture : public Texture
 {
@@ -73,8 +72,7 @@ protected:
 	double gridWidth_, gridHeight_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

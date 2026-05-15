@@ -24,13 +24,11 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Mask;
 typedef boost::shared_ptr<Mask> MaskPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

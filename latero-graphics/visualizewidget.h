@@ -29,8 +29,7 @@
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class TimeWidget : public Gtk::Box
 {
@@ -156,7 +155,6 @@ protected:
 	PositionGenPtr gen_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

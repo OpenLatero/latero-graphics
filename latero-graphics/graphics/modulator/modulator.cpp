@@ -23,8 +23,7 @@
 #include "dirmodulator.h"
 #include "velmodulator.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 ModulatorPtr Modulator::Create(const latero::Tactograph *dev, const XMLInputNode &node)
 {
@@ -75,8 +74,7 @@ Glib::RefPtr<Gdk::Pixbuf> Modulator::GetIllustration(uint size, double maxVel)
 	return rv;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

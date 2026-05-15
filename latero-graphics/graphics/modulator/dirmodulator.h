@@ -27,8 +27,7 @@
 #include "../../units.h"
 #include <string>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /**
  * Modulates based on the direction of the exloration velocity (and to some extend the magnitude).
@@ -98,8 +97,7 @@ protected:
 	bool toggleLowVelHigh_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

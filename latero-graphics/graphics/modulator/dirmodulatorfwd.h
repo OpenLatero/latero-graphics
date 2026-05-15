@@ -24,13 +24,11 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class DirModulator;
 typedef boost::shared_ptr<DirModulator> DirModulatorPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

@@ -24,9 +24,7 @@
 
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
-namespace gtk {
+namespace latero::graphics::gtk {
 
 class CheckFrame : public Gtk::Frame
 {
@@ -45,9 +43,6 @@ protected:
 	Gtk::CheckButton check_;
 };
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

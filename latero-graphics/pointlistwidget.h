@@ -25,8 +25,7 @@
 #include <gtkmm.h>
 #include "point.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PointListWidget : public Gtk::ScrolledWindow
 {
@@ -48,7 +47,6 @@ protected:
 	Gtk::Button insertButton_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

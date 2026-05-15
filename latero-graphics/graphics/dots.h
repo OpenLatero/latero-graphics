@@ -28,8 +28,7 @@
 #include "../oscillator.h"
 #include "dot.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /** Set of dots with all the same properties (except location). */
 class Dots : public Group
@@ -112,7 +111,6 @@ protected:
 	Dots(const latero::Tactograph *dev, const XMLInputNode &root);
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

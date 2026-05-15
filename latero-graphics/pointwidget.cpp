@@ -22,8 +22,7 @@
 #include "pointwidget.h"
 #include "gtk/numwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 PointWidget::PointWidget(const Point &init, double xlim_min, double xlim_max, double ylim_min, double ylim_max, bool showSliders)  :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),
@@ -73,5 +72,4 @@ sigc::signal<void()> PointWidget::SignalValueChanged()
 	return signalValueChanged_;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -30,8 +30,7 @@
 #include "units.h"
 #include "namedid.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class GratingModulator : public Modifiable
 {
@@ -89,7 +88,6 @@ protected:
 	ModeSet modeSet_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

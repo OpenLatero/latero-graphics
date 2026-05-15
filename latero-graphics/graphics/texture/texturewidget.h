@@ -28,8 +28,7 @@
 #include "../../pointwidget.h"
 #include "../../gtk/checkframe.h"
 #include "../../oscillatorwidget.h"
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class CreateTextureDlg : public Gtk::Window
 {
@@ -139,7 +138,6 @@ protected:
 
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

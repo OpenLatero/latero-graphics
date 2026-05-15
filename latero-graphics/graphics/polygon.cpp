@@ -31,8 +31,7 @@
 #include "tactileops.h"
 
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 const Polygon::JoinType Polygon::join_type_straight(0,"straight");
 const Polygon::JoinType Polygon::join_type_round(1,"round");
@@ -734,8 +733,7 @@ void Polygon::InsertPoint(const Point &p)
 	SetLastModified();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

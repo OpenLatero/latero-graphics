@@ -26,8 +26,7 @@
 #include "texture.h"
 #include "../../gratingfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class GratingTexture : public Texture
 {
@@ -51,8 +50,7 @@ protected:
 	GratingPtr grating_; 	// waveform
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

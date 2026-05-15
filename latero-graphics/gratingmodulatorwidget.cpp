@@ -23,8 +23,7 @@
 #include "gratingmodulator.h"
 #include "gtk/numwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class GratingModulatorModeDropDown : public Gtk::Box
 {
@@ -140,5 +139,4 @@ void GratingModulatorCtrl::OnClick()
 	widgetbox_.set_sensitive(check_.get_active());
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace

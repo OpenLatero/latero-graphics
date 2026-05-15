@@ -29,8 +29,7 @@
 #include "modifiable.h"
 #include "xml.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Ridge : public Modifiable
 {
@@ -113,7 +112,6 @@ protected:
 	unsigned int txNbCycles_; 	// nb of full cycles per side (a half cycle is added)
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

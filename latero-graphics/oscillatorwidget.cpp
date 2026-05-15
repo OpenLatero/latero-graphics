@@ -23,8 +23,7 @@
 #include "oscillator.h"
 #include "gtk/numwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class OscillatorBlendModeDropDown : public Gtk::Box
 {
@@ -99,5 +98,4 @@ OscillatorWidget::OscillatorWidget(OscillatorPtr peer, bool showBlendBode) :
 }
 void OscillatorWidget::OnClick() { peer_->SetEnable(GetCheck().get_active()); }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

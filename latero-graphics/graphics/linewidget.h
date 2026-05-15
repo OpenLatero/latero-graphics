@@ -25,8 +25,7 @@
 #include "linefwd.h"
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class LineWidget : public Gtk::Notebook
 {
@@ -35,7 +34,6 @@ public:
 	virtual ~LineWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

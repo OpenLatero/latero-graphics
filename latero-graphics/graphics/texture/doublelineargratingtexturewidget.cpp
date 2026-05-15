@@ -27,8 +27,7 @@
 #include "texturewidget.h"
 #include "../../graphics/groupwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 namespace DoubleLinearGratingTextureWidgets {
 
 class SeedCtrl : public Gtk::Frame
@@ -288,5 +287,4 @@ DoubleLinearGratingTextureAdvancedWidget::DoubleLinearGratingTextureAdvancedWidg
 	attach(*patternPreview,4,0,1,5);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

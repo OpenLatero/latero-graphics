@@ -32,8 +32,7 @@
 #include "../../state.h"
 #include "../pattern.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Texture : virtual public Pattern
 {
@@ -215,8 +214,7 @@ protected:
 	const latero::Tactograph *dev_; 
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

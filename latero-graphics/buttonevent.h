@@ -27,8 +27,7 @@
  * move to latero?
  */
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 typedef struct {
     bool button0_up_event;
@@ -37,7 +36,6 @@ typedef struct {
     bool button1_down_event;
 } ButtonEvent;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

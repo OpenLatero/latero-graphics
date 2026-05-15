@@ -26,8 +26,7 @@
 #include <gtkmm.h>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class ModulatorPreview : public Gtk::Box
 {
@@ -48,8 +47,7 @@ protected:
 	ModulatorPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

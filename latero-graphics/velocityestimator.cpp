@@ -21,8 +21,7 @@
 
 #include "velocityestimator.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 VelocityEstimator::VelocityEstimator()
 {
@@ -70,6 +69,5 @@ double VelocityEstimator::GetDirection()
 	return angle;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

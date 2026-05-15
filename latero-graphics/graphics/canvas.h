@@ -27,8 +27,7 @@
 #include "groupfwd.h"
 #include "patternfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /**
  * The Canvas is a specialization of the PositionGen, and hence indirectly of Generator, which is used for the rendering of
@@ -98,8 +97,7 @@ protected:
 	GroupPtr objects_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

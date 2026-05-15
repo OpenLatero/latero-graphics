@@ -27,8 +27,7 @@
 #include "lineargratingtexture.h"
 #include "gratingtexturewidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class LinearGratingTextureWidget : public GratingTextureWidget
 {
@@ -48,7 +47,6 @@ public:
 	virtual ~LinearGratingTextureAdvancedWidget() {}
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

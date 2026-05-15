@@ -26,8 +26,7 @@
 #include "../../units.h"
 #include "../../graphics/patternpreview.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class VibroTextureFreqCtrl : public Gtk::Box
 {
@@ -66,5 +65,4 @@ VibroTextureWidget::VibroTextureWidget(VibroTexturePtr peer) :
 	append(*patternPreview);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

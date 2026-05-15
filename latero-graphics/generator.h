@@ -32,8 +32,7 @@
 #include "buttonevent.h"
 #include "audiodevice.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /**
  * @defgroup GeneratorGroup Generators
@@ -160,7 +159,6 @@ private:
 	State latestState_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

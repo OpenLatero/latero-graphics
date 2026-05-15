@@ -28,8 +28,7 @@
 #include "../../graphics/patterncreatordialog.h"
 
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PatternTextureGridWidthCtrl : public Gtk::Box
 {
@@ -194,5 +193,4 @@ void PatternTextureAdvancedWidget::OnLoad()
 	dlg->show();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

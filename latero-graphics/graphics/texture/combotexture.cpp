@@ -27,8 +27,7 @@
 #include "patternops.h"
 #include "stock.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 ComboTexture::ComboTexture(const latero::Tactograph *dev) : 
 	Pattern(dev), Texture(dev), Group(dev)
@@ -108,6 +107,5 @@ std::vector<TexturePtr> ComboTexture::GetTextures() const
 	return rv;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

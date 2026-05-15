@@ -28,8 +28,7 @@
 #include "xml.h"
 #include "units.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Grating : public Modifiable
 {
@@ -193,7 +192,6 @@ protected:
 	bool regularizable_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

@@ -24,8 +24,7 @@
 #include "../units.h"
 #include "dotpatternwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 DotPattern::DotPattern(const latero::Tactograph *dev) :
 	Pattern(dev), Dots(dev), minSpacing_(1), vel_(0)
@@ -295,8 +294,7 @@ void DottedPolygon::SetVertices(const std::vector<Point> &points)
 	SetLastModified();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

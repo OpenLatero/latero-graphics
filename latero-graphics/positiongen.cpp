@@ -22,8 +22,7 @@
 #include "positiongen.h"
 #include <boost/thread.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 PositionGen::PositionGen(const latero::Tactograph *dev) :
 	Generator(dev)
@@ -95,6 +94,5 @@ Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, boost::posix_tim
 	return buf;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

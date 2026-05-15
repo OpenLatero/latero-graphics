@@ -22,8 +22,7 @@
 #ifndef LATERO_GRAPHICS_PLANAR_STOCK
 #define LATERO_GRAPHICS_PLANAR_STOCK
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /**
  * Predefined textures.
@@ -118,8 +117,7 @@ inline std::vector<std::string> GetStockTextures()
 	return rv;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

@@ -24,8 +24,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class DotPattern;
 typedef boost::shared_ptr<DotPattern> DotPatternPtr;
@@ -40,7 +39,6 @@ class DottedPolygon;
 typedef boost::shared_ptr<DottedPolygon> DottedPolygonPtr;
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

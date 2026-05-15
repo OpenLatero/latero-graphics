@@ -23,8 +23,7 @@
 #include "units.h"
 #include "graphics/texture/patternops.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 const Oscillator::BlendMode Oscillator::blend_mode_high(0,"high");
 const Oscillator::BlendMode Oscillator::blend_mode_low(1,"low");
@@ -146,7 +145,6 @@ Cairo::RefPtr<Cairo::Pattern> Oscillator::GetBlendPattern(Cairo::RefPtr<Cairo::P
 	return rv;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

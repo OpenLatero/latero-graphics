@@ -24,14 +24,12 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PositionGen;
 typedef boost::shared_ptr<PositionGen> PositionGenPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

@@ -25,8 +25,7 @@
 #include "gratingtexture.h"
 #include "radialgratingtexturefwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class RadialGratingTexture : public GratingTexture
 {
@@ -60,8 +59,7 @@ protected:
 	RadialGratingTexture(const latero::Tactograph *dev, const XMLInputNode &node);
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

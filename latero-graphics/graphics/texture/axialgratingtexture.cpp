@@ -27,8 +27,7 @@
 #include "../../units.h"
 #include "stock.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 AxialGratingTexture::AxialGratingTexture(const latero::Tactograph *dev, Point seed, uint axialNb) :
 	Pattern(dev), GratingTexture(dev,seed,units::degree), seedAngle_(default_seedAngle)
@@ -148,7 +147,6 @@ std::string AxialGratingTexture::GetDefaultIconFile() const
 	return tx_icon_axial_grating;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

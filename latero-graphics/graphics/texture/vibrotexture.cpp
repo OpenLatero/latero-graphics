@@ -26,8 +26,7 @@
 #include "../../units.h"
 #include "stock.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 VibroTexture::VibroTexture(const latero::Tactograph *dev, double freqHz) : 
 	Pattern(dev), Texture(dev), vib_(Oscillator::Create(freqHz,1,true))
@@ -75,5 +74,4 @@ std::string VibroTexture::GetDefaultIconFile() const
 	return tx_icon_vibration;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

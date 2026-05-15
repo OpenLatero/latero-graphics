@@ -25,8 +25,7 @@
 #include "strokefwd.h"
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class StrokeMotionWidget : public Gtk::Box
 {
@@ -43,7 +42,6 @@ protected:
 
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

@@ -25,8 +25,7 @@
 #include "../../pointwidget.h"
 #include "../../graphics/patternpreview.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 namespace MotionTextureCtrls {
 
 class MotionTextureCtrl
@@ -122,5 +121,4 @@ void MotionTextureWidget::OnTextureChanged()
 	peer_->SetTexture(txWidget_.GetTexture());
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

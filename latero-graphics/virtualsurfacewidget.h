@@ -29,8 +29,7 @@
 #include "point.h"
 #include "generatorfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /** Use VirtualSurfaceWidget instead! */
 class VirtualSurfaceArea : public Gtk::DrawingArea
@@ -205,7 +204,6 @@ private:
 	boost::posix_time::ptime bgUpdateTime_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

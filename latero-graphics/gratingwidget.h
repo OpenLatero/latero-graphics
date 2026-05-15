@@ -28,8 +28,7 @@
 #include "gratingmodulatorwidget.h"
 #include "gtk/checkframe.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 
 /**
@@ -268,7 +267,6 @@ protected:
 };
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

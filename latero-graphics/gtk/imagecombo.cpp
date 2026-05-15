@@ -22,9 +22,7 @@
 #include "imagedropdown.h"
 #include <iostream>
 
-namespace latero {
-namespace graphics {
-namespace gtk {
+namespace latero::graphics::gtk {
 
 ImageDropDown::ImageDropDown() :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),
@@ -82,7 +80,4 @@ sigc::signal<void(int)> ImageDropDown::SignalChanged()
 	return signalChanged_;
 };
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace

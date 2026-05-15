@@ -27,9 +27,7 @@
 // todo: turn this in a class?
 // todo: are any of the ops implemented in GTKMM?
 
-namespace latero {
-namespace graphics {
-namespace gtk {
+namespace latero::graphics::gtk {
 
 
 class PixbufOps
@@ -57,9 +55,6 @@ public:
 	static void CopyChannel(Glib::RefPtr<Gdk::Pixbuf> &img, int src, int dest);
 };
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

@@ -25,8 +25,7 @@
 #include "togglefwd.h"
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class ToggleWidget : public Gtk::Notebook
 {
@@ -35,7 +34,6 @@ public:
 	virtual ~ToggleWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

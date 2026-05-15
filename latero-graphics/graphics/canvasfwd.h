@@ -24,13 +24,11 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Canvas;
 typedef boost::shared_ptr<Canvas> CanvasPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

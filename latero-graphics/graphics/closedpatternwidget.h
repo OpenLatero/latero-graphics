@@ -26,8 +26,7 @@
 #include "../gtk/checkframe.h"
 #include "texture/textureselectorwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class ClosedPatternFillTextureWidget : public gtk::CheckFrame
 {
@@ -42,7 +41,6 @@ protected:
 	ClosedPatternPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

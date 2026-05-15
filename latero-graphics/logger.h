@@ -27,8 +27,7 @@
 #include <queue>
 #include "timer.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
     
 class Logger
 {
@@ -64,7 +63,6 @@ private:
     Timer m_timer;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

@@ -37,8 +37,7 @@
 
 #define UPDATE_RATE_MS 300
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
  
 VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 	showCursor_(false), showBorder_(false), animateCursor_(true),
@@ -624,6 +623,5 @@ Point VirtualSurfaceWidget::GetDisplayPos()
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

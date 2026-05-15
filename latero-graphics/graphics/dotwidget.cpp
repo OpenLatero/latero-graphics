@@ -26,8 +26,7 @@
 #include "../pointwidget.h"
 #include "../oscillatorwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 DotRadiusCtrl::DotRadiusCtrl(DotPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),
@@ -87,6 +86,5 @@ DotWidget::DotWidget(DotPtr peer) :
 	append(*Gtk::make_managed<RidgeGraph>(peer->GetProfile(),300));
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

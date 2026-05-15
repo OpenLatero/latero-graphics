@@ -28,8 +28,7 @@
 #include "../gtk/numwidget.h"
 #include "patternpreview.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class LineStartCtrl : public Gtk::Frame
 {
@@ -94,6 +93,5 @@ LineWidget::LineWidget(LinePtr peer)
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

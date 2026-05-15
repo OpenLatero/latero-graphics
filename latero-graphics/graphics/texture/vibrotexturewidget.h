@@ -25,8 +25,7 @@
 #include <gtkmm.h>
 #include "vibrotexturefwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class VibroTextureWidget : public Gtk::Box
 {
@@ -38,7 +37,6 @@ protected:
 	VibroTexturePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

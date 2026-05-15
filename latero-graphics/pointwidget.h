@@ -25,8 +25,7 @@
 #include <gtkmm.h>
 #include "point.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PointWidget : public Gtk::Box
 {
@@ -43,7 +42,6 @@ protected:
     Glib::RefPtr<Gtk::Adjustment> xAdj_, yAdj_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

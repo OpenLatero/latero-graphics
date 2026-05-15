@@ -27,8 +27,7 @@
 #include "../ridgefwd.h"
 #include "../oscillator.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Dot : public Pattern
 {
@@ -102,7 +101,6 @@ protected:
 };
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

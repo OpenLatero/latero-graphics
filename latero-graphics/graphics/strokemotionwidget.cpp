@@ -28,8 +28,7 @@
 #include "../oscillatorwidget.h"
 #include "../grating.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 
 class StrokeMotionCueDropDown : public Gtk::Box
@@ -205,6 +204,5 @@ void StrokeMotionWidget::Rebuild()
 	}
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

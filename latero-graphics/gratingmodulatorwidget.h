@@ -25,8 +25,7 @@
 #include <gtkmm.h>
 #include "gratingmodulatorfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class GratingModulatorCtrl : public Gtk::Frame
 {
@@ -40,7 +39,6 @@ protected:
 	GratingModulatorPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

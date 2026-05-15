@@ -24,8 +24,7 @@
 #include "dirmodulator.h"
 #include "velmodulator.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 void ModulatorDropDown::Append(ModulatorPtr mod)
 {
@@ -95,6 +94,5 @@ ModulatorDropDown::ModulatorDropDown(ModulatorPtr mod) :
 	append(dropDown_);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

@@ -21,8 +21,7 @@
 
 #include "pointlistwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class NumButton : public Gtk::Button
 {
@@ -127,6 +126,5 @@ std::vector<Point> PointListWidget::GetPoints()
 	return rv;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

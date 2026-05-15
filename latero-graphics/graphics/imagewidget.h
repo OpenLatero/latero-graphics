@@ -27,8 +27,7 @@
 #include "../maskwidget.h"
 #include "imagefwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class ImageWidget : public Gtk::Box
 {
@@ -44,7 +43,6 @@ protected:
     ImagePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

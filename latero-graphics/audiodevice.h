@@ -28,8 +28,7 @@
 #endif
 
 
-namespace latero {
-    namespace graphics {
+namespace latero::graphics {
         
         class AudioDevice
         {
@@ -54,7 +53,6 @@ namespace latero {
 #endif
         };
         
-    } // namespace graphics
-} // namespace latero
+    } // namespace
 
 #endif

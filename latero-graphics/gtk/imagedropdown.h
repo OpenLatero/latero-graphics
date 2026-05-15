@@ -24,9 +24,7 @@
 
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
-namespace gtk {
+namespace latero::graphics::gtk {
 
 /**
  * This widget implements a DropDown that displays a list of images. A numerical ID is associated with
@@ -60,9 +58,6 @@ protected:
 	sigc::signal<void(int)> signalChanged_;
 };
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

@@ -27,9 +27,7 @@
 #include <sstream>
 #include "../units.h"
 
-namespace latero {
-namespace graphics {
-namespace gtk {
+namespace latero::graphics::gtk {
 
 static const std::string units_default = "";
 static const std::string name_default = "";
@@ -80,8 +78,6 @@ public:
 };
 
 
-} // namespace gtk
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

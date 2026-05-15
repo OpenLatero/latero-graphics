@@ -26,8 +26,7 @@
 #include "../../units.h"
 #include "stock.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 PlainTexture::PlainTexture(const latero::Tactograph *dev) : 
 	Pattern(dev), Texture(dev)
@@ -74,5 +73,4 @@ std::string PlainTexture::GetDefaultIconFile() const
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace

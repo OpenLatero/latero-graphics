@@ -23,8 +23,7 @@
 #include "radialgratingtexturewidget.h"
 #include "radialgratingtexture.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 void RadialGratingTextureWidget::Create()
 {
@@ -95,5 +94,4 @@ RadialGratingTextureAdvancedWidget::RadialGratingTextureAdvancedWidget(RadialGra
 	hbox->append(preview_);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -25,9 +25,7 @@
 #include <gdkmm.h>
 #include <gtkmm/window.h>
 
-namespace latero {
-namespace graphics {
-namespace gtk {
+namespace latero::graphics::gtk {
 
 /**
  * This class implements an animation as a container of frames. It also supports automatic update of
@@ -158,9 +156,6 @@ protected:
 	sigc::connection timeout_;
 };
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

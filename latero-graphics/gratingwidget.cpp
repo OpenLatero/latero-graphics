@@ -24,8 +24,7 @@
 #include "gtk/numwidget.h"
 #include <iostream>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 // GratingInvertCtrl ///////////////////////////////////////////////////////////////
 
@@ -392,5 +391,4 @@ GratingAmplitudeWidget::GratingAmplitudeWidget(GratingPtr peer) :
 void GratingAmplitudeWidget::OnChanged() { peer_->SetAmplitude(adj_->get_value()/100); }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace

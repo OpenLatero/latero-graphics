@@ -25,8 +25,7 @@
 #include "axialgratingtexturefwd.h"
 #include "gratingtexture.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class AxialGratingTexture : public GratingTexture
 {
@@ -74,8 +73,7 @@ protected:
 	double seedAngle_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

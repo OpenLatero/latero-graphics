@@ -26,8 +26,7 @@
 #include "axialgratingtexture.h"
 #include "gratingtexturewidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class AxialGratingTextureWidget : public GratingTextureWidget
 {
@@ -50,7 +49,6 @@ protected:
 	AxialGratingTexturePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

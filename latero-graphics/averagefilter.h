@@ -24,8 +24,7 @@
 
 #include <stdio.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 template<class TYPE>
 class AverageFilter
@@ -95,7 +94,6 @@ private:
 
 //static void AverageFilterSelfTest();
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

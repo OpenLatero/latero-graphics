@@ -24,13 +24,11 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class GratingModulator;
 typedef boost::shared_ptr<GratingModulator> GratingModulatorPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

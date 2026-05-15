@@ -26,8 +26,7 @@
 #include "point.h"
 #include <string>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class XMLOutputNode
 {
@@ -120,7 +119,6 @@ protected:
 	std::string path_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

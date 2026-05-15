@@ -29,8 +29,7 @@
 #include "vibrotexture.h"
 #include "nulltexture.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 void TextureDropDown::Init()
 {
@@ -150,7 +149,6 @@ void TextureDropDown::OnDropDownChanged()
 
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

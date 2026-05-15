@@ -24,13 +24,11 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Oscillator;
 typedef boost::shared_ptr<Oscillator> OscillatorPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

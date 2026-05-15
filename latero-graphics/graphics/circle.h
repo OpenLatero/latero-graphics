@@ -27,8 +27,7 @@
 #include "strokefwd.h"
 #include "dotpatternfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 
 class Circle : public ClosedPattern
@@ -99,7 +98,6 @@ protected:
 	DottedCirclePtr dots_;	// dots rendering
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

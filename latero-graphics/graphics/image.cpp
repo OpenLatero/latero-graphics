@@ -29,8 +29,7 @@
 #include "../mask.h"
 #include "texture/nulltexture.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 Image::Image(const latero::Tactograph *dev, TexturePtr texture) :
 	Pattern(dev),
@@ -230,6 +229,5 @@ bool Image::UpdateVisible_(const State *state)
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

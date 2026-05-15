@@ -28,8 +28,7 @@
 
 /** create object for loading as well */
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 XMLOutputNode::XMLOutputNode(xmlpp::Element *root) : element_(root)
 {
@@ -316,6 +315,5 @@ std::string XMLInputNode::GetFilename() const
 		return GetPath() + file; // relative path
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

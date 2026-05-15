@@ -25,8 +25,7 @@
 #include "pattern.h"
 #include "togglefwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Toggle : virtual public Pattern
 {
@@ -86,7 +85,6 @@ protected:
     long toggleCount_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

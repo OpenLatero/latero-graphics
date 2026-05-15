@@ -27,8 +27,7 @@
 #include <gtkmm.h>
 #include "../modulator/modulatordropdown.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class BlendTextureWidget : public Gtk::Notebook
 {
@@ -46,7 +45,6 @@ protected:
 	TextureSelectorWidget *txWidgets_[2];
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

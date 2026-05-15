@@ -24,8 +24,7 @@
 
 #include <cairomm/context.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PatternOps
 {
@@ -51,8 +50,7 @@ public:
 
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

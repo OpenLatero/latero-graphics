@@ -27,8 +27,7 @@
 #include "../vector.h"
 
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 Line::Line(const latero::Tactograph *dev, const XMLInputNode &node) :
 	Pattern(dev), stroke_(Stroke::Create(dev)),
@@ -159,8 +158,7 @@ bool Line::UpdateVisible_(const State *state)
 	return visible;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

@@ -25,8 +25,7 @@
 #include <math.h>
 //#include "config.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 Logger::Logger(std::string filename) : 
 	m_stopRequested(false), m_filename(filename)
@@ -113,6 +112,5 @@ void Logger::Loop()
 	myfile.close();
 }    
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

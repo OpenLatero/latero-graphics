@@ -24,14 +24,12 @@
 
 #include <latero/point.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 typedef latero::Point Point;
 typedef latero::pair_T<int> INTPoint; // TODO
 typedef latero::pair_T<unsigned int> UINTPoint;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

@@ -26,8 +26,7 @@
 #include "dots.h"
 #include "../vector.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class DotPattern : public Dots
 {
@@ -182,7 +181,6 @@ protected:
 	bool invertCornerVib_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

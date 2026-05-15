@@ -27,8 +27,7 @@
 #include "audiodevicefwd.h"
 #include <latero/tactograph.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class AudioEngine : public Engine
 {
@@ -46,7 +45,6 @@ private:
     AudioDevicePtr audioDevPtr_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

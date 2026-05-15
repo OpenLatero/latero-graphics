@@ -39,8 +39,7 @@
 #include <iostream>
 #include <sys/stat.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 const Point Texture::tdCentricPos_default(0,0);
 const Point Texture::motionVector_default(50,0);
@@ -275,8 +274,7 @@ Gtk::Widget *Texture::CreateWidget(TexturePtr ptr)
 	return new Gtk::Box(Gtk::Orientation::VERTICAL);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

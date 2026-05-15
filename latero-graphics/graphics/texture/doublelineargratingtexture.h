@@ -26,8 +26,7 @@
 #include "combotexture.h"
 #include "lineargratingtexturefwd.h"
  
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /** TODO: integrate velocity, support radial mode */
 
@@ -97,8 +96,7 @@ protected:
 	LinearGratingTexturePtr tx_[2];
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

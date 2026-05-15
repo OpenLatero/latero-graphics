@@ -24,8 +24,7 @@
 #include "modulatorpreview.h"
 #include "../../gtk/numwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 namespace dir_modulator_ctrls {
 
 class Ctrl : public Gtk::Box
@@ -166,5 +165,4 @@ DirModulatorWidget::DirModulatorWidget(DirModulatorPtr peer) :
 	append(*Gtk::make_managed<ModulatorPreview>(peer));
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

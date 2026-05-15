@@ -27,8 +27,7 @@
 #include "pattern.h"
 #include "stroke.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Line : public Pattern
 {
@@ -80,7 +79,6 @@ private:
 	DottedLinePtr dots_;	// dots rendering
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

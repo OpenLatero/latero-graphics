@@ -28,8 +28,7 @@
 // TODO clean this up
 // use this? http://www.boost.org/doc/libs/1_37_0/libs/numeric/ublas/doc/index.htm
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Vector : public Point
 {
@@ -112,7 +111,6 @@ Point GetIntersectionOfLines(const Point &p1, const Vector &v1, const Point &p2,
 
 bool IsInsidePolygon(Point pos, const std::vector<Point> &v);
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

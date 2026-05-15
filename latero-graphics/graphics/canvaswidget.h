@@ -25,8 +25,7 @@
 #include "canvasfwd.h"
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class CanvasWidget : public Gtk::Box
 {
@@ -35,7 +34,6 @@ public:
 	virtual ~CanvasWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

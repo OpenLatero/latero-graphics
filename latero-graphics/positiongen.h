@@ -25,8 +25,7 @@
 #include "generator.h"
 #include "positiongenfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /**
  * This class represents a Generator in which the deflection of an actuator is determined
@@ -84,7 +83,6 @@ protected:
 
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

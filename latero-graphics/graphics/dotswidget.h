@@ -25,8 +25,7 @@
 #include <gtkmm.h>
 #include "dotsfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class DotsRadiusCtrl : public Gtk::Box
 {
@@ -58,7 +57,6 @@ public:
 	virtual ~DotsWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

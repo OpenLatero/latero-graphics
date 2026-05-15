@@ -31,8 +31,7 @@
 #include "../buttonevent.h"
 #include "../audiodevice.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /** 
  * A Pattern is a basic tactile graphics element which knows how to render itself,
@@ -179,7 +178,6 @@ private:
 	std::string xmlfile_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

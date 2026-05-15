@@ -25,8 +25,7 @@
 #include "circlefwd.h"
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class CircleWidget : public Gtk::Notebook
 {
@@ -35,7 +34,6 @@ public:
 	virtual ~CircleWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

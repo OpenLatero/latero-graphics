@@ -24,13 +24,11 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Polygon;
 typedef boost::shared_ptr<Polygon> PolygonPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

@@ -25,8 +25,7 @@
 #include "ridgefwd.h"
 #include "graph.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class RidgeGraph : public Graph
 {
@@ -41,7 +40,6 @@ protected:
 	RidgePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

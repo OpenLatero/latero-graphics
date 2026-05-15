@@ -25,8 +25,7 @@
 #include <sstream>
 #include <iostream>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class SysCommand
 {
@@ -52,7 +51,6 @@ protected:
 	std::stringstream cmd;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

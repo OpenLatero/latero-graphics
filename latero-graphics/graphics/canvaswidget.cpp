@@ -23,8 +23,7 @@
 #include "group.h"
 #include "canvas.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 CanvasWidget::CanvasWidget(CanvasPtr peer) :
 	Gtk::Box(Gtk::Orientation::VERTICAL)
@@ -33,6 +32,5 @@ CanvasWidget::CanvasWidget(CanvasPtr peer) :
 	append(*Gtk::manage(p->CreateWidget(p)));
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

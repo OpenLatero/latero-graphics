@@ -32,8 +32,7 @@
 #include "patternpreview.h"
 #include "closedpatternwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PolygonJoinTypeDropDown : public Gtk::Box
 {
@@ -349,6 +348,5 @@ PolygonWidget::PolygonWidget(PolygonPtr peer)
 	append_page(*Gtk::make_managed<ClosedPatternFillTextureWidget>(peer),"texture");
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

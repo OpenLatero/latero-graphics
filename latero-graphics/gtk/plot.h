@@ -25,9 +25,7 @@
 #include <queue>
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
-namespace gtk {
+namespace latero::graphics::gtk {
 
 class Plot : public Gtk::DrawingArea
 {
@@ -98,9 +96,6 @@ protected:
 	float yMin_, yMax_;
 };
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

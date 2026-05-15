@@ -24,8 +24,7 @@
 
 #include <boost/thread.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Engine
 {
@@ -51,7 +50,6 @@ private:
     bool highPriority_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

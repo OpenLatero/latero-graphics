@@ -27,8 +27,7 @@
 #include "modulator/dirmodulator.h"
 
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 const Group::Operation Group::op_multiply(0,"multiply");
 const Group::Operation Group::op_add(1,"add");
@@ -603,5 +602,4 @@ void Group::SetReactiveMod(ModulatorPtr mod)
 	SetLastModified_();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

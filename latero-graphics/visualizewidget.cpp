@@ -26,8 +26,7 @@
 
 #define UPDATE_RATE_MS 30
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 #define mode_abstract "abstract"
 #define mode_vib_as_deflection "deflection"
@@ -310,5 +309,4 @@ void VisualizeWidget::OnPrevious()
 	RefreshImg();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

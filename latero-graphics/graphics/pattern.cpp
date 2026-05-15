@@ -33,8 +33,7 @@
 #include "texture/texture.h"
 #include <boost/thread.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 Pattern::Pattern(const latero::Tactograph *dev) 
 	: visible_(true), dev_(dev)
@@ -209,5 +208,4 @@ Gtk::Widget *Pattern::CreateWidget(PatternPtr ptr)
 	return new Gtk::Box(Gtk::Orientation::VERTICAL); 
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -24,8 +24,7 @@
 #include "axialgratingtexture.h"
 #include "../../gtk/numwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 namespace AxialGratingTextureCtrls {
 
 class SeedAngleCtrl : public Gtk::Box
@@ -119,5 +118,4 @@ AxialGratingTextureAdvancedWidget::AxialGratingTextureAdvancedWidget(AxialGratin
 	hbox->append(preview_);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

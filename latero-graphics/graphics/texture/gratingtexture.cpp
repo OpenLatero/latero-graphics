@@ -24,8 +24,7 @@
 #include "../../xml.h"
 #include "../../units.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 GratingTexture::GratingTexture(const latero::Tactograph *dev, const Point &seed, std::string units) :
 	Pattern(dev), Texture(dev),
@@ -55,7 +54,6 @@ Cairo::RefPtr<Cairo::Pattern> GratingTexture::GetNormDrawingPattern(Cairo::RefPt
 	return GetGratingDrawingPattern(mmContext,t);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

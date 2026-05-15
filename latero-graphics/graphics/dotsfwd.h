@@ -24,14 +24,12 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Dots;
 typedef boost::shared_ptr<Dots> DotsPtr;
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

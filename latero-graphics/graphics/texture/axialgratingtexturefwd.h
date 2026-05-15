@@ -24,13 +24,11 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class AxialGratingTexture;
 typedef boost::shared_ptr<AxialGratingTexture> AxialGratingTexturePtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

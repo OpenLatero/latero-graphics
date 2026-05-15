@@ -28,8 +28,7 @@
 #include <gtkmm.h>
 
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /**
  * Profile of the stroke across the line.
@@ -63,7 +62,6 @@ public:
 	virtual ~StrokeDottedWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

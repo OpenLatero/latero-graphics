@@ -27,8 +27,7 @@
 #include "generatorfwd.h"
 #include <latero/tactograph.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class MaskWidgetCtrl 
 {
@@ -58,7 +57,6 @@ protected:
 	std::vector<MaskWidgetCtrl*> ctrls_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

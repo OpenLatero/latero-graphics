@@ -25,8 +25,7 @@
 #include <gtkmm.h>
 #include "pattern.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PatternPreview : public Gtk::Box
 {
@@ -49,7 +48,6 @@ protected:
 	PatternPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

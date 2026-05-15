@@ -23,8 +23,7 @@
 #include "canvas.h"
 #include "group.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 CanvasPtr Canvas::Create(const latero::Tactograph *dev)
 {
@@ -135,5 +134,4 @@ GroupPtr Canvas::GetGroup() const
 	return objects_; 
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

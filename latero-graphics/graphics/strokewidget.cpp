@@ -29,8 +29,7 @@
 #include "../grating.h"
 #include "dotpatternwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class StrokeIntensityCtrl : public Gtk::Box
 {
@@ -204,6 +203,5 @@ StrokeDottedWidget::StrokeDottedWidget(StrokePtr peer) :
 	if (p) append(*Gtk::make_managed<DotPatternMinSpacingCtrl>(p));
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

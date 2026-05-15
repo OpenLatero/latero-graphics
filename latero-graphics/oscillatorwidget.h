@@ -26,8 +26,7 @@
 #include "gtk/checkframe.h"
 #include "oscillatorfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class OscillatorEnableCheck : public Gtk::CheckButton
 {
@@ -73,7 +72,6 @@ protected:
 	OscillatorPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

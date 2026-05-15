@@ -21,10 +21,8 @@
 
 #include "mutex.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 Mutex Context::lock_;
 
-} // namespace graphics
-} // namespace latero
+} // namespace

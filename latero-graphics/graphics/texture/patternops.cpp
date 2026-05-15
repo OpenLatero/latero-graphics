@@ -22,8 +22,7 @@
 #include "patternops.h"
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 Cairo::RefPtr<Cairo::Pattern> PatternOps::Add(Cairo::RefPtr<Cairo::Context> cr, Cairo::RefPtr<Cairo::Pattern> a, Cairo::RefPtr<Cairo::Pattern> b)
 {
@@ -105,5 +104,4 @@ Cairo::RefPtr<Cairo::Pattern> PatternOps::Invert(Cairo::RefPtr<Cairo::Context> c
 	return cr->pop_group();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

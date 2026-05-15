@@ -25,8 +25,7 @@
 #include <gtkmm.h>
 #include "dirmodulatorfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class DirModulatorWidget : public Gtk::Box
 {
@@ -37,8 +36,7 @@ protected:
 	DirModulatorPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

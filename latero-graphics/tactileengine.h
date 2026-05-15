@@ -26,8 +26,7 @@
 #include "engine.h"
 #include "generatorfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class TactileEngine : public Engine
 {
@@ -45,7 +44,6 @@ private:
 	boost::posix_time::time_duration period_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

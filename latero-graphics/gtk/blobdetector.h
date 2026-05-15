@@ -25,9 +25,7 @@
 #include <gdkmm/pixbuf.h>
 #include "../point.h"
 
-namespace latero {
-namespace graphics {
-namespace gtk {
+namespace latero::graphics::gtk {
 
 /**
  * This class computes the center of mass and mean pixel value of blobs in a grayscale image.
@@ -125,9 +123,6 @@ protected:
 	std::vector<int> equiv_; 	// equivalence map (blob id -> smaller equivalent blob id)
 };
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

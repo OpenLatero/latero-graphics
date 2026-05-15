@@ -26,8 +26,7 @@
 #include "gratingtexturewidget.h"
 #include "../../pointwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 namespace LinearGratingTextureCtrls {
 
 class AngleWidget : public Gtk::Box
@@ -137,5 +136,4 @@ LinearGratingTextureAdvancedWidget::LinearGratingTextureAdvancedWidget(LinearGra
 	append(preview_);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

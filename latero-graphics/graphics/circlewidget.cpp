@@ -29,8 +29,7 @@
 #include "patternpreview.h"
 
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class CircleCenterCtrl : public Gtk::Frame
 {
@@ -98,6 +97,5 @@ CircleWidget::CircleWidget(CirclePtr peer)
 	append_page(*Gtk::make_managed<ClosedPatternFillTextureWidget>(peer),"texture");
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

@@ -27,8 +27,7 @@
 #include "../patternpreview.h"
 #include "../../oscillatorwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 PlainTextureWidget::PlainTextureWidget(PlainTexturePtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
@@ -49,5 +48,4 @@ PlainTextureWidget::PlainTextureWidget(PlainTexturePtr peer) :
 	append(*patternPreview);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

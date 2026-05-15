@@ -24,8 +24,7 @@
 
 #include <boost/thread/recursive_mutex.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 typedef boost::recursive_mutex Mutex;
 
@@ -47,7 +46,6 @@ protected:
 /** This DEFINE unlocks the global mutex. */
 #define LATERO_GRAPHICS_UNLOCK latero::graphics::Context::GetLock()->unlock();
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

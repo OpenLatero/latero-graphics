@@ -26,8 +26,7 @@
 #include "texture.h"
 #include "../../graphics/group.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class ComboTexture : public Texture, public Group
 {
@@ -73,8 +72,7 @@ protected:
 	//std::vector<TexturePtr> textures_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

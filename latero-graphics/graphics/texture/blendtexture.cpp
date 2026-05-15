@@ -28,8 +28,7 @@
 #include "../modulator/dirmodulator.h"
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 BlendTexture::BlendTexture(const latero::Tactograph *dev, const XMLInputNode &node) :
 	Pattern(dev), Texture(dev), illMode_(ill_mode_mix)
@@ -203,5 +202,4 @@ void BlendTexture::SetTexture(uint i, TexturePtr tx)
 	AddModifiableChild(tx);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -25,8 +25,7 @@
 #include "togglewidget.h"
 #include <iostream>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 Toggle::Toggle(const latero::Tactograph *dev, const XMLInputNode &node) :
 	Pattern(dev), toggle_(false), toggleCount_(0)
@@ -157,5 +156,4 @@ bool Toggle::OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state)
 */
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace

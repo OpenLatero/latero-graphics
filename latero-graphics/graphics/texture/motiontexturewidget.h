@@ -26,8 +26,7 @@
 #include "motiontexturefwd.h"
 #include "textureselectorwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class MotionTextureWidget : public Gtk::Notebook
 {
@@ -41,7 +40,6 @@ protected:
 	TextureSelectorWidget txWidget_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

@@ -33,8 +33,7 @@
 #include "gtk/pixbufops.h"
 
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 Mask::Mask(const Point &surfaceSize) :
 	surfaceSize_(surfaceSize),
@@ -574,5 +573,4 @@ bool Mask::IsInside(const Point &p)
 		(p.y <= offset_.y + size_.y);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

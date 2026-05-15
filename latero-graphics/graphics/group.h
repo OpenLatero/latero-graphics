@@ -27,8 +27,7 @@
 #include "../namedid.h"
 #include "modulator/modulatorfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 // TODO: turn into a template for different types of patterns?
 class Group : virtual public Pattern
@@ -114,7 +113,6 @@ protected:
 	ill_mode illMode_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

@@ -27,8 +27,7 @@
 #include "doublelineargratingtexture.h"
 #include "texturewidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class DoubleLinearGratingTextureWidget : public TextureWidget
 {
@@ -51,7 +50,6 @@ protected:
 	DoubleLinearGratingTexturePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

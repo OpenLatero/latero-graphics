@@ -29,8 +29,7 @@
 #include "../../grating.h"
 #include "lineargratingtexture.h"
  
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class MotionTexture : public ComboTexture
 {
@@ -101,8 +100,7 @@ protected:
 	PlainTexturePtr plainTx_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

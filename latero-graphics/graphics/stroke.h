@@ -33,8 +33,7 @@
 #include <sigc++/signal.h>
 #include "dotpattern.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class StrokeState
 {
@@ -245,7 +244,6 @@ protected:
 	const latero::Tactograph *dev_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

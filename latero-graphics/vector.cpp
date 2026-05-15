@@ -21,8 +21,7 @@
 
 #include "vector.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 Point GetIntersectionOfLines(const Point &p1, const Vector &v1, const Point &p2, const Vector &v2)
 {
@@ -132,6 +131,5 @@ bool IsInsidePolygon(Point pos, const std::vector<Point> &v)
       	return rv;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

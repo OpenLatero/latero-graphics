@@ -23,8 +23,7 @@
 #include "closedpattern.h"
 #include "../gtk/numwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class ClosedPatternFillTextureGapCtrl : public Gtk::Box
 {
@@ -88,6 +87,5 @@ void ClosedPatternFillTextureWidget::OnCheck() { peer_->SetFillTextureEnable(Get
 void ClosedPatternFillTextureWidget::OnTextureChanged() { peer_->SetFillTexture(txWidget_.GetTexture()); }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

@@ -22,9 +22,7 @@
 #include "numwidget.h"
 #include <iostream>
 
-namespace latero {
-namespace graphics {
-namespace gtk {
+namespace latero::graphics::gtk {
 
 NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
 	units_(units),
@@ -154,8 +152,6 @@ HNumWidget::HNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint
 VNumWidget::VNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
 	NumWidget(Gtk::Orientation::VERTICAL,adj,digits,name,units) {}
 
-} // namespace gtk
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

@@ -25,8 +25,7 @@
 #include "polygonfwd.h"
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PolygonWidget : public Gtk::Notebook
 {
@@ -35,7 +34,6 @@ public:
 	virtual ~PolygonWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

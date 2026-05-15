@@ -28,8 +28,7 @@
 #include "../pointlistwidget.h"
 #include "dotswidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 DotPatternMinSpacingCtrl::DotPatternMinSpacingCtrl(DotPatternPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetMinSpacing(), 0, 50.0)), peer_(peer)
@@ -53,6 +52,5 @@ DotPatternWidget::DotPatternWidget(DotPatternPtr peer) :
 	append(*Gtk::make_managed<RidgeGraph>(peer->GetProfile(),300));
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

@@ -24,13 +24,11 @@
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class ClosedPattern;
 typedef boost::shared_ptr<ClosedPattern> ClosedPatternPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

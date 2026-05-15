@@ -26,8 +26,7 @@
 #include "generator.h"
 #include "audiodevice.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 AudioEngine::AudioEngine(latero::Tactograph *dev, boost::posix_time::time_duration period) :
 	dev_(dev), period_(period)
@@ -73,5 +72,4 @@ void AudioEngine::ResetGenerator()
 	gen_.reset();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

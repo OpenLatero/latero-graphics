@@ -24,8 +24,7 @@
 #include "modulatorpreview.h"
 #include "../../gtk/numwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 namespace vel_modulator_ctrls {
 
 class Ctrl : public Gtk::Box
@@ -104,5 +103,4 @@ VelModulatorWidget::VelModulatorWidget(VelModulatorPtr peer) :
 	append(*previewCtrl);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

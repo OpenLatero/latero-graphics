@@ -26,8 +26,7 @@
 #include "graphics/canvas.h"
 
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 void Generator::SaveToFile(std::string filename) const
 {
@@ -147,5 +146,4 @@ void Generator::Render_(const State *state, latero::BiasedImg &frame)
 
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace

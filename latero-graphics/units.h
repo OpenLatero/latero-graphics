@@ -26,8 +26,7 @@
 #include <math.h>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 namespace units {
 
 static const std::string percent = "%";
@@ -82,7 +81,6 @@ inline static double DegreeShift(double degree, double min)
 
 } // namespace units
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

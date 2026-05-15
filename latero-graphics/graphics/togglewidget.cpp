@@ -27,8 +27,7 @@
 #include "../gtk/numwidget.h"
 #include "patternpreview.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 ToggleWidget::ToggleWidget(TogglePtr peer)
 {
@@ -39,6 +38,5 @@ ToggleWidget::ToggleWidget(TogglePtr peer)
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

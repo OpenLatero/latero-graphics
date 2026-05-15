@@ -29,8 +29,7 @@
 #include "units.h"
 #include "xml.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /**
  * A Mask maps a bitmapped image to a window within the virtual surface.
@@ -239,7 +238,6 @@ protected:
 	static const int shadow_size = 5; // TODO: could go outside buffer...
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

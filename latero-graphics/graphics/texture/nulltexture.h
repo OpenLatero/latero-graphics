@@ -25,8 +25,7 @@
 #include "texture.h"
 #include "nulltexturefwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class NullTexture : public Texture
 {
@@ -54,8 +53,7 @@ protected:
 	NullTexture(const latero::Tactograph *dev);
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

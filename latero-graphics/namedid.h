@@ -26,8 +26,7 @@
 #include <vector>
 #include <iostream>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 // This class provides basic support for the association between a numerical ID and a 
 // label. This is useful in situations where a numerical ID should be used internally
@@ -88,8 +87,7 @@ public:
 
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

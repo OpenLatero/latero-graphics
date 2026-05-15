@@ -28,8 +28,7 @@
 #include "mutex.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Modifiable;
 typedef boost::shared_ptr<Modifiable> ModifiablePtr;
@@ -119,7 +118,6 @@ private:
 	boost::posix_time::ptime lastModified_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

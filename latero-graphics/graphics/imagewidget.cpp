@@ -22,8 +22,7 @@
 #include "imagewidget.h"
 #include "image.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 ImageWidget::ImageWidget(ImagePtr peer, bool showMaskWidget) :
 	Gtk::Box(Gtk::Orientation::VERTICAL),
@@ -64,5 +63,4 @@ void ImageWidget::OnTextureChanged()
 	peer_->SetTexture(txWidget_.GetTexture());
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

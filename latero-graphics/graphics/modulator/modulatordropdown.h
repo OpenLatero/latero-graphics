@@ -26,8 +26,7 @@
 #include <gtkmm.h>
 #include <latero/tactograph.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class ModulatorDropDown : public Gtk::Box
 {
@@ -50,8 +49,7 @@ protected:
 	bool signalEnable_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
 

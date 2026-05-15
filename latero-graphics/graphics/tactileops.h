@@ -22,8 +22,7 @@
 #ifndef LATERO_GRAPHICS_GRAPHICS_TACTILE_OPS_H
 #define LATERO_GRAPHICS_GRAPHICS_TACTILE_OPS_H
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 // Todo: are these making the code easier to grasp or these operations more obscure?
 class TactileOps
@@ -47,7 +46,6 @@ public:
 
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

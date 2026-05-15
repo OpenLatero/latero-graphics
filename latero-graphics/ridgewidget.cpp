@@ -24,8 +24,7 @@
 #include "gtk/numwidget.h"
 #include "ridge.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 RidgeEdgeWidthScale::RidgeEdgeWidthScale(RidgePtr peer) :
 	Gtk::Box(Gtk::Orientation::VERTICAL),
@@ -123,6 +122,5 @@ RidgeWidget::RidgeWidget(RidgePtr peer) :
 	graph_->Refresh();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

@@ -24,8 +24,7 @@
 
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class Timer
 {
@@ -59,7 +58,6 @@ protected:
 	boost::posix_time::ptime initTime_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

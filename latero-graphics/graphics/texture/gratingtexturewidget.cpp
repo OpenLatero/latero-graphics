@@ -23,8 +23,7 @@
 #include "gratingtexture.h"
 #include "../../gtk/numwidget.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 
 // GratingTextureSeedCtrl ///////////////////////////////////////////////////////////////
@@ -69,5 +68,4 @@ GratingRegularizeButton *GratingTextureWidget::CreateRegularizeButton()
 { return Gtk::make_managed<GratingRegularizeButton>(peer_->GetGrating()); }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -25,8 +25,7 @@
 #include <gtkmm.h>
 #include "patterntexturefwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class PatternTextureWidget : public Gtk::Box
 {
@@ -54,7 +53,6 @@ protected:
 	
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif
