@@ -30,33 +30,59 @@ namespace graphics {
 namespace gtk {
 
 
-class PlotSaveDlg : public Gtk::FileChooserDialog
+class PlotSaveDlg : public Gtk::Window
 {
 public:
+	sigc::signal<void(std::string, uint, uint)> signalSave;
+
 	PlotSaveDlg() :
-		Gtk::FileChooserDialog("Please select file name.", Gtk::FileChooser::Action::SAVE),
-		wAdj_(Gtk::Adjustment::create(1000, 0, 1000)), hAdj_(Gtk::Adjustment::create(500, 0, 1000))
+		wAdj_(Gtk::Adjustment::create(1000, 1, 10000, 10)),
+		hAdj_(Gtk::Adjustment::create(500, 1, 10000, 10))
 	{
-		set_current_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
-		add_button("Cancel", Gtk::ResponseType::CANCEL);
-		add_button("Save", Gtk::ResponseType::OK);
-		set_default_response(Gtk::ResponseType::CANCEL);
-		set_current_name("plot.svg");
+		set_title("Save Plot");
+		set_modal(true);
+		set_resizable(false);
 
-		auto xSpin = Gtk::make_managed<Gtk::SpinButton>(wAdj_);
-		auto ySpin = Gtk::make_managed<Gtk::SpinButton>(hAdj_);
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL, 6);
+		box->set_margin(12);
 
-		get_content_area()->append(*xSpin);
-		get_content_area()->append(*ySpin);
+		auto sizeBox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL, 6);
+		sizeBox->append(*Gtk::make_managed<Gtk::Label>("Width:"));
+		sizeBox->append(*Gtk::make_managed<Gtk::SpinButton>(wAdj_));
+		sizeBox->append(*Gtk::make_managed<Gtk::Label>("Height:"));
+		sizeBox->append(*Gtk::make_managed<Gtk::SpinButton>(hAdj_));
+		box->append(*sizeBox);
 
-		xSpin->set_vexpand();
-		ySpin->set_vexpand();
+		auto btnBox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL, 6);
+		auto cancelBtn = Gtk::make_managed<Gtk::Button>("Cancel");
+		auto saveBtn = Gtk::make_managed<Gtk::Button>("Save As...");
+		btnBox->append(*cancelBtn);
+		btnBox->append(*saveBtn);
+		box->append(*btnBox);
+
+		set_child(*box);
+
+		cancelBtn->signal_clicked().connect([this]() { close(); });
+		saveBtn->signal_clicked().connect([this]() { OnPickFile(); });
 	}
 
-	uint GetWidth() { return wAdj_->get_value(); }
-	uint GetHeight() { return hAdj_->get_value(); }
 protected:
-    Glib::RefPtr<Gtk::Adjustment> wAdj_, hAdj_;
+	void OnPickFile()
+	{
+		auto dialog = Gtk::FileDialog::create();
+		dialog->set_title("Save Plot");
+		dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+		dialog->set_initial_name("plot.svg");
+		dialog->save(*this, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+			try {
+				auto file = dialog->save_finish(result);
+				signalSave(file->get_path(), wAdj_->get_value(), hAdj_->get_value());
+				close();
+			} catch (const Gtk::DialogError&) {}
+		});
+	}
+
+	Glib::RefPtr<Gtk::Adjustment> wAdj_, hAdj_;
 };
 
 
@@ -187,13 +213,11 @@ void Plot::InsertPoint(unsigned int channel, float x, float y)
 
 void Plot::OnSaveAs()
 {
-	auto dialog = new PlotSaveDlg();
+	auto* dialog = new PlotSaveDlg();
 	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
 		dialog->set_transient_for(*win);
-	dialog->signal_response().connect([this, dialog](int response_id) {
-		if (response_id == Gtk::ResponseType::OK)
-			SaveToFile(dialog->get_file()->get_path(), dialog->GetWidth(), dialog->GetHeight());
-		delete dialog;
+	dialog->signalSave.connect([this](std::string path, uint w, uint h) {
+		SaveToFile(path, w, h);
 	});
 	dialog->show();
 }
