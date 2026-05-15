@@ -26,6 +26,7 @@
 namespace latero {
 namespace graphics { 
 
+/*
 // TODO: add options for size
 class PatternIllustrationSaveDialog : public Gtk::FileChooserDialog
 {
@@ -64,6 +65,7 @@ PatternThumbnailSaveDialog::PatternThumbnailSaveDialog() :
 	set_default_response(Gtk::ResponseType::CANCEL);
 	set_current_name("thumbnail.png");
 }
+*/
 
 PatternPreview::PatternPreview(PatternPtr peer) : 
 	peer_(peer),
@@ -112,20 +114,19 @@ void PatternPreview::CreatePopupMenu()
 
 void PatternPreview::OnSave()
 {
-	auto dialog = new PatternIllustrationSaveDialog();
-	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
-		dialog->set_transient_for(*win);
-	dialog->signal_response().connect([this, dialog](int response_id) {
-		if (response_id == Gtk::ResponseType::OK)
-		{
-			auto filename = dialog->get_file()->get_path();
-			printf("saving pattern preview to %s\n", filename.c_str());
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select file name.");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name("pattern.png");
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->save(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto file = dialog->save_finish(result);
+			std::string filename = file->get_path();
 			peer_->GetVisualization(1000,boost::posix_time::seconds(0),viz_mode)->save(filename,"png");
-			chmod(filename.c_str(), 0666); // make accessible to others than root
-		}
-		delete dialog;
+			chmod(filename.c_str(), 0666);
+		} catch (const Gtk::DialogError&) {}
 	});
-	dialog->show();
 }
 
 
