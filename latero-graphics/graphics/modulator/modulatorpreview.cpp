@@ -25,8 +25,7 @@
 #include <glibmm/main.h>
 #include <giomm/simpleactiongroup.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 ModulatorPreview::ModulatorPreview(ModulatorPtr peer) : peer_(peer)
 {
@@ -116,5 +115,4 @@ void ModulatorPreview::Refresh()
 	refreshTime_ = boost::posix_time::microsec_clock::universal_time();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -27,8 +27,7 @@
 #include <gtkmm.h>
 #include "texture/textureselectorwidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class GroupOpDropDown : public Gtk::Box
 {
@@ -108,7 +107,6 @@ protected:
 	TextureSelectorWidget *txWidget_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 #endif

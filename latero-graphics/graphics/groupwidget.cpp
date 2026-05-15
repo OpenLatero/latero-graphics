@@ -42,8 +42,7 @@
 #include "modulator/modulatordropdown.h"
 #include "modulator/modulator.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 
 GroupOpDropDown::GroupOpDropDown(GroupPtr peer) :
@@ -727,6 +726,5 @@ void GroupWidget::OnSelectionChanged()
 	}
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

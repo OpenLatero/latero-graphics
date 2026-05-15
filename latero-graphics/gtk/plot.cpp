@@ -24,10 +24,7 @@
 #include <assert.h>
 #include <iostream>
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 
 class PlotSaveDlg : public Gtk::Window
@@ -290,7 +287,4 @@ void Plot::CreatePopupMenu()
 }
 
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace

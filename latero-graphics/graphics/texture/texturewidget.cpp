@@ -26,8 +26,7 @@
 #include "../../gtk/numwidget.h"
 #include "texture.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 	Gtk::Window(), txDropDown_(dev), dev_(dev)
@@ -330,5 +329,4 @@ OscillatorEnableCheck* TextureWidget::CreateVibCheck()
 TextureMotionCtrl* TextureWidget::CreateMotionWidget()
 { return Gtk::make_managed<TextureMotionCtrl>(peer_); }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

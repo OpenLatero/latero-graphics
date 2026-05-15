@@ -29,8 +29,7 @@
 #include <glibmm/main.h>
 #include <iostream>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class MaskSrcTypeCheck : public Gtk::CheckButton
 {
@@ -408,5 +407,4 @@ void MaskWidget::SynchFromPeer()
 		ctrls_[i]->SynchFromPeer();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

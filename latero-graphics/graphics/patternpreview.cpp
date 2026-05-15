@@ -23,8 +23,7 @@
 #include <sys/stat.h>
 #include "patternpreview.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 /*
 // TODO: add options for size
@@ -151,6 +150,5 @@ void PatternPreview::Refresh()
 	refreshTime_ = boost::posix_time::microsec_clock::universal_time();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

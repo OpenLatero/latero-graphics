@@ -33,10 +33,7 @@
 #include "../external.h"
 #include <glibmm/main.h>
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 Animation::~Animation()
 {
@@ -300,8 +297,5 @@ bool Animation::IsActive()
 	return active_;
 }
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 

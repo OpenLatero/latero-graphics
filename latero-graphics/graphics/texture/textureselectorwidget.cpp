@@ -25,8 +25,7 @@
 #include "../../graphics/patternpreview.h"
 #include "../../gtk/numwidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
 	Gtk::Box(Gtk::Orientation::VERTICAL), modeDropDown_(texture), texture_(texture)
@@ -155,5 +154,4 @@ void TextureSelectorWidget::OnChanged()
 	SignalTextureChanged_();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

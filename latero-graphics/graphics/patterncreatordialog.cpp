@@ -30,8 +30,7 @@
 #include "texture/texture.h"
 #include "dots.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 	Gtk::Window(), txDropDown_(dev), dev_(dev)
@@ -128,5 +127,4 @@ PatternPtr PatternCreatorDialog::CreatePattern()
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
