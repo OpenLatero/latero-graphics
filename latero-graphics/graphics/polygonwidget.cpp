@@ -103,11 +103,11 @@ class PolygonJoinTypeCtrl : public Gtk::Frame
 {
 public:
 	PolygonJoinTypeCtrl(PolygonPtr peer) : 
-		box_(Gtk::Orientation::HORIZONTAL), Gtk::Frame("join"), dropDown_(peer), offsetCtrl_(peer), comboFrame_("type"), peer_(peer)
+		box_(Gtk::Orientation::HORIZONTAL), Gtk::Frame("join"), dropDown_(peer), offsetCtrl_(peer), dropDownFrame_("type"), peer_(peer)
 	{
 		set_child(box_);
-		box_.append(comboFrame_);
-		comboFrame_.set_child(dropDown_);
+		box_.append(dropDownFrame_);
+		dropDownFrame_.set_child(dropDown_);
 		offsetCtrl_.set_hexpand();
 		box_.append(offsetCtrl_);
 		OnChange();
@@ -120,7 +120,7 @@ protected:
 	Gtk::Box box_;
 	PolygonJoinTypeDropDown dropDown_;
 	PolygonRoundingOffsetCtrl offsetCtrl_;
-	Gtk::Frame comboFrame_;
+	Gtk::Frame dropDownFrame_;
 	PolygonPtr peer_;
 };
 
@@ -223,12 +223,12 @@ public:
 		box->append(angleCtrl_);
 		set_child(*box);
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnChanged));
-		dropDown_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnComboChanged));
+		dropDown_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnDropDownChanged));
 	}
 	virtual ~PolygonCornerAngleCtrl() {};
 protected:
 	void OnChanged() { peer_->SetCornerUserAngle(adj_->get_value()); }
-	void OnComboChanged() { angleCtrl_.set_sensitive(peer_->GetCornerSpan()==Polygon::corner_span_user); }
+	void OnDropDownChanged() { angleCtrl_.set_sensitive(peer_->GetCornerSpan()==Polygon::corner_span_user); }
 
     Glib::RefPtr<Gtk::Adjustment> adj_;	
 	Gtk::SpinButton angleCtrl_;
@@ -286,12 +286,12 @@ public:
 		lowerbox_.append(vibWidget_);
 
 		GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnClick));
-		typeDropDown_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnComboChanged));
+		typeDropDown_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnDropDownChanged));
 	}
 	virtual ~PolygonCornerCtrl() {};
 protected:
 	void OnClick() { peer_->SetCornerEnable(GetCheck().get_active()); };
-	void OnComboChanged() { vibWidget_.set_sensitive(peer_->GetCornerType()==Polygon::corner_type_solid); }
+	void OnDropDownChanged() { vibWidget_.set_sensitive(peer_->GetCornerType()==Polygon::corner_type_solid); }
 
     PolygonCornerAngleCtrl angleCtrl_;
 	PolygonCornerTypeDropDown typeDropDown_;

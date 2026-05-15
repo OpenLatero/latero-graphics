@@ -19,8 +19,8 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_TEXTURE_COMBO
-#define LATERO_GRAPHICS_PLANAR_TEXTURE_COMBO
+#ifndef LATERO_GRAPHICS_PLANAR_TEXTURE_DROPDOWN
+#define LATERO_GRAPHICS_PLANAR_TEXTURE_DROPDOWN
 
 #include "texturefwd.h"
 #include <gtkmm.h>
