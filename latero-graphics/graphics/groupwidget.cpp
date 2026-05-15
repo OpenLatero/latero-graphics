@@ -434,28 +434,25 @@ void GroupTreeView::OnPatternSave()
 	PatternPtr pattern = GetCurrentPattern();
 	if (!pattern) return;
 
-	auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
-	auto filter = Gtk::FileFilter::create();
-	filter->add_pattern("*.pattern");
-	dialog->set_current_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
-	dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
-	dialog->add_button("Save", Gtk::ResponseType::OK);
-	dialog->set_default_response(Gtk::ResponseType::CANCEL);
 	std::string file = pattern->GetXMLFile();
-	if (file=="") file = "new.pattern";
-	dialog->set_current_name(file);
-	dialog->add_filter(filter);
-	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
-	{
-		dialog->set_transient_for(*win);
-		dialog->set_modal(true);
-	}
-	dialog->signal_response().connect([pattern, dialog](int response_id) {
-		if (response_id == Gtk::ResponseType::OK)
-			pattern->SaveToFile(dialog->get_file()->get_path());
-		delete dialog;
+	if (file == "") file = "new.pattern";
+
+	auto filter = Gtk::FileFilter::create();
+	filter->add_suffix("pattern");
+
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select a file...");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name(file);
+	dialog->set_default_filter(filter);
+
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->save(*win, [pattern, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto f = dialog->save_finish(result);
+pattern->SaveToFile(f->get_path());
+		} catch (const Gtk::DialogError&) {}
 	});
-	dialog->show();
 }
 
 
@@ -464,28 +461,25 @@ void GroupTreeView::OnTextureSave()
 	PatternPtr pattern = GetCurrentPattern();
 	if (!pattern) return;
 
-	auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
-	auto filter = Gtk::FileFilter::create();
-	filter->add_pattern("*.tx");
-	dialog->set_current_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
-	dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
-	dialog->add_button("Save", Gtk::ResponseType::OK);
-	dialog->set_default_response(Gtk::ResponseType::CANCEL);
 	std::string file = pattern->GetXMLFile();
-	if (file=="") file = "new.tx";
-	dialog->set_current_name(file);
-	dialog->add_filter(filter);
-	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
-	{
-		dialog->set_transient_for(*win);
-		dialog->set_modal(true);
-	}
-	dialog->signal_response().connect([pattern, dialog](int response_id) {
-		if (response_id == Gtk::ResponseType::OK)
-			pattern->SaveToFile(dialog->get_file()->get_path());
-		delete dialog;
+	if (file == "") file = "new.tx";
+
+	auto filter = Gtk::FileFilter::create();
+	filter->add_suffix("tx");
+
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select a file...");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name(file);
+	dialog->set_default_filter(filter);
+
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->save(*win, [pattern, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto f = dialog->save_finish(result);
+			pattern->SaveToFile(f->get_path());
+		} catch (const Gtk::DialogError&) {}
 	});
-	dialog->show();
 }
 
 
@@ -495,34 +489,25 @@ void GroupTreeView::OnPatternLoad()
 	GroupPtr parent = GetParentGroup(pattern);
 	if (!pattern || !parent) return;
 
-	auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::OPEN);
 	auto filter = Gtk::FileFilter::create();
-	filter->add_pattern("*.pattern");
-	filter->add_pattern("*.tx");
-	dialog->set_current_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
-	dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
-	dialog->add_button("Open", Gtk::ResponseType::OK);
-	dialog->set_default_response(Gtk::ResponseType::CANCEL);
-	std::string file = pattern->GetXMLFile();
-	if (file=="") file = "new.pattern";
-	dialog->set_current_name(file);
-	dialog->add_filter(filter);
-	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
-	{
-		dialog->set_transient_for(*win);
-		dialog->set_modal(true);
-	}
-	dialog->signal_response().connect([this, pattern, parent, dialog](int response_id) {
-		if (response_id == Gtk::ResponseType::OK)
-		{
-			PatternPtr newPattern = Pattern::Create(pattern->Dev(), dialog->get_file()->get_path());
+	filter->add_suffix("pattern");
+	filter->add_suffix("tx");
+
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select a file...");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_default_filter(filter);
+
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->open(*win, [this, pattern, parent, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto f = dialog->open_finish(result);
+			PatternPtr newPattern = Pattern::Create(pattern->Dev(), f->get_path());
 			parent->ReplacePattern(pattern, newPattern);
 			Refresh();
 			Select(newPattern);
-		}
-		delete dialog;
+		} catch (const Gtk::DialogError&) {}
 	});
-	dialog->show();
 }
 
 
@@ -554,9 +539,7 @@ public:
 	void OnOpChanged()
 	{
 		// clear op widget
-		Widget *old = opWidgetHolder_.get_child();
 		opWidgetHolder_.unset_child();
-		delete old;
 
 		if (peer_->GetOperation() == Group::op_reactive)
 		{
@@ -573,9 +556,7 @@ public:
 				modWidgetHolder_.set_hexpand();
 
 
-				Widget *old = modWidgetHolder_.get_child();
 				modWidgetHolder_.unset_child();
-				delete old;
 				modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
 
 				modDropDown->SignalModulatorChanged().connect(
@@ -588,10 +569,7 @@ public:
 	{
 		peer_->SetReactiveMod(mod);
 
-		Widget *old = modWidgetHolder_.get_child();
 		modWidgetHolder_.unset_child();
-		delete old;
-
 		modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
 	}
 

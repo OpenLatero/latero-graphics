@@ -219,7 +219,7 @@ void Plot::OnSaveAs()
 	dialog->signalSave.connect([this](std::string path, uint w, uint h) {
 		SaveToFile(path, w, h);
 	});
-	dialog->show();
+	dialog->set_visible();
 }
 
 void Plot::OnSave()
