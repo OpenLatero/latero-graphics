@@ -39,7 +39,7 @@
 #include "patternpreview.h"
 #include "dots.h"
 #include "patterncreatordialog.h"
-#include "modulator/modulatorcombo.h"
+#include "modulator/modulatordropdown.h"
 #include "modulator/modulator.h"
 
 namespace latero {
