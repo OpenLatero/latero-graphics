@@ -151,11 +151,9 @@ public:
 protected:
 	void OnOpen()
 	{
-		auto dialog = new Gtk::FileChooserDialog("Please select an image file.", Gtk::FileChooser::Action::OPEN);
-
 		std::string dir;
 		std::string currentFile = peer_->GetImgFile();
-		if (currentFile == "")
+		if (currentFile.empty())
 		{
 			dir = std::filesystem::current_path().string();
 			dir += "/cards/masks"; // TODO
@@ -167,26 +165,26 @@ protected:
 
 		auto filter = Gtk::FileFilter::create();
 		filter->set_name("supported image formats");
-		filter->add_pixbuf_formats();
+		for (auto& ext : {"png","jpg","jpeg","gif","bmp","tiff","tif","webp","svg"})
+			filter->add_suffix(ext);
+		auto filters = Gio::ListStore<Gtk::FileFilter>::create();
+		filters->append(filter);
 
-		dialog->set_current_folder(Gio::File::create_for_path(dir));
-		dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
-		dialog->add_button("Open", Gtk::ResponseType::OK);
-		dialog->set_default_response(Gtk::ResponseType::OK);
-		dialog->add_filter(filter);
+		auto dialog = Gtk::FileDialog::create();
+		dialog->set_title("Please select an image file.");
+		dialog->set_initial_folder(Gio::File::create_for_path(dir));
+		dialog->set_filters(filters);
+		dialog->set_default_filter(filter);
 
-		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
-			dialog->set_transient_for(*win);
-		dialog->signal_response().connect([this, dialog](int response_id) {
-			if (response_id == Gtk::ResponseType::OK)
-			{
-				std::string filename = dialog->get_file()->get_path();
-				fileEntry_.set_text(filename.c_str());
+		auto* win = dynamic_cast<Gtk::Window*>(get_root());
+		dialog->open(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+			try {
+				auto file = dialog->open_finish(result);
+				std::string filename = file->get_path();
+				fileEntry_.set_text(filename);
 				peer_->SetImage(filename, false); // TODO
-			}
-			delete dialog;
+			} catch (const Gtk::DialogError&) {}
 		});
-		dialog->show();
 	}
 
 	void OnReload()
