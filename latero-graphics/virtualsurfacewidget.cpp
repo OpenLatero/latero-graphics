@@ -547,26 +547,21 @@ void VirtualSurfaceWidget::OnEdit()
 
 void VirtualSurfaceWidget::OnSaveCanvasAs()
 {
+	std::cout << "VirtualSurfaceWidget::OnSaveCanvasAs\n";
 	if (peer_)
 	{
-		auto dialog = new Gtk::FileChooserDialog("Please select a generator file.", Gtk::FileChooser::Action::SAVE);
-		std::string dir = std::filesystem::current_path().string();
-		dialog->set_current_folder(Gio::File::create_for_path(dir));
-		dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
-		dialog->add_button("Save", Gtk::ResponseType::OK);
-		dialog->set_default_response(Gtk::ResponseType::CANCEL);
-		dialog->set_current_name("test.gen");
-		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
-			dialog->set_transient_for(*win);
-		dialog->signal_response().connect([this, dialog](int response_id) {
-			if (response_id == Gtk::ResponseType::OK)
-			{
-				std::string filename = dialog->get_file()->get_path();
-				peer_->SaveToFile(filename);
-			}
-			delete dialog;
+		auto dialog = Gtk::FileDialog::create();
+		dialog->set_title("Please select a generator file.");
+		dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+		dialog->set_initial_name("test.gen");
+
+		auto* win = dynamic_cast<Gtk::Window*>(get_root());
+		dialog->save(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+			try {
+				auto file = dialog->save_finish(result);
+				peer_->SaveToFile(file->get_path());
+			} catch (const Gtk::DialogError&) {}
 		});
-		dialog->show();
 	}
 }
 
