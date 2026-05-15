@@ -29,14 +29,14 @@ namespace graphics {
 
 BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 	peer_(peer),
-	modCombo_(peer->GetModulator())
+	modDropDown_(peer->GetModulator())
 {
 	txWidgets_[0] = Gtk::make_managed<TextureSelectorWidget>(peer->GetFirstTexture());
 	txWidgets_[1] = Gtk::make_managed<TextureSelectorWidget>(peer->GetSecondTexture());
 	ModulatorPtr mod = peer->GetModulator();
 
 	auto optionBox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
-	optionBox->append(modCombo_);
+	optionBox->append(modDropDown_);
 	optionBox->append(modWidgetHolder_);
 	modWidgetHolder_.set_hexpand();
 	optionBox->append(*Gtk::make_managed<PatternPreview>(peer));
@@ -50,7 +50,7 @@ BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 		sigc::mem_fun(*this, &BlendTextureWidget::OnFirstTextureChanged));
 	txWidgets_[1]->SignalTextureChanged().connect(
 		sigc::mem_fun(*this, &BlendTextureWidget::OnSecondTextureChanged));
-	modCombo_.SignalModulatorChanged().connect(
+	modDropDown_.SignalModulatorChanged().connect(
 		sigc::mem_fun(*this, &BlendTextureWidget::OnModulatorChanged));
 }
 

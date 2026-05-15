@@ -35,10 +35,10 @@
 namespace latero {
 namespace graphics { 
 
-class PolygonJoinTypeCombo : public Gtk::Box
+class PolygonJoinTypeDropDown : public Gtk::Box
 {
 public:
-	PolygonJoinTypeCombo(PolygonPtr peer) :
+	PolygonJoinTypeDropDown(PolygonPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL),
 		list_(Gtk::StringList::create({})),
 		dropDown_(list_),
@@ -49,10 +49,10 @@ public:
 		Glib::ustring target = peer->GetJoinType().label;
 		for (guint i = 0; i < list_->get_n_items(); ++i)
 			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
-		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonJoinTypeCombo::OnChange));
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonJoinTypeDropDown::OnChange));
 		append(dropDown_);
 	};
-	virtual ~PolygonJoinTypeCombo() {};
+	virtual ~PolygonJoinTypeDropDown() {};
 	sigc::signal<void()>& SignalChanged() { return signalChanged_; };
 private:
 	Glib::RefPtr<Gtk::StringList> list_;
@@ -103,22 +103,22 @@ class PolygonJoinTypeCtrl : public Gtk::Frame
 {
 public:
 	PolygonJoinTypeCtrl(PolygonPtr peer) : 
-		box_(Gtk::Orientation::HORIZONTAL), Gtk::Frame("join"), combo_(peer), offsetCtrl_(peer), comboFrame_("type"), peer_(peer)
+		box_(Gtk::Orientation::HORIZONTAL), Gtk::Frame("join"), dropDown_(peer), offsetCtrl_(peer), comboFrame_("type"), peer_(peer)
 	{
 		set_child(box_);
 		box_.append(comboFrame_);
-		comboFrame_.set_child(combo_);
+		comboFrame_.set_child(dropDown_);
 		offsetCtrl_.set_hexpand();
 		box_.append(offsetCtrl_);
 		OnChange();
-		combo_.SignalChanged().connect(sigc::mem_fun(*this, &PolygonJoinTypeCtrl::OnChange));
+		dropDown_.SignalChanged().connect(sigc::mem_fun(*this, &PolygonJoinTypeCtrl::OnChange));
 	}
 	virtual ~PolygonJoinTypeCtrl() {}
 protected:
 	void OnChange() { offsetCtrl_.set_sensitive(peer_->GetJoinType()==Polygon::join_type_round); }
 
 	Gtk::Box box_;
-	PolygonJoinTypeCombo combo_;
+	PolygonJoinTypeDropDown dropDown_;
 	PolygonRoundingOffsetCtrl offsetCtrl_;
 	Gtk::Frame comboFrame_;
 	PolygonPtr peer_;
