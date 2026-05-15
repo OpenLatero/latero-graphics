@@ -298,7 +298,7 @@ void GratingAdvancedButton::OnPush()
 {
 	if (auto win = dynamic_cast<Gtk::Window*>(get_root()))
 		dialog_.set_transient_for(*win);
-	dialog_.show();
+	dialog_.set_visible();
 }
 
 // GratingWidget ////////////////////////////////////////////////////////////////////
