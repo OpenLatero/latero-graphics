@@ -20,6 +20,7 @@
 // -----------------------------------------------------------
 
 #include <filesystem>
+#include <memory>
 #include "animation.h"
 #include "pixbufops.h"
 #include <sstream>
@@ -176,8 +177,8 @@ void Animation::SaveToFile(std::string file, bool trim)
 {
 	namespace fs = boost::filesystem;	
 
-	std::string ext = fs::extension(file);
-	std::string base = fs::basename(file);
+	std::string ext = fs::path(file).extension().string();
+	std::string base = (fs::path(file).parent_path() / fs::path(file).stem()).string();
 	
 	try
 	{
@@ -252,22 +253,25 @@ void Animation::SaveToFile(std::string file, bool trim)
 
 void Animation::SaveToFile(Gtk::Window* parent)
 {
-	auto dialog = new Gtk::FileChooserDialog("Please select file name.", Gtk::FileChooser::Action::SAVE);
-	std::string dir = std::filesystem::current_path().string();
-	dialog->set_current_folder(Gio::File::create_for_path(dir));
-	dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
-	dialog->add_button("Save", Gtk::ResponseType::OK);
-	dialog->set_default_response(Gtk::ResponseType::CANCEL);
-	dialog->set_current_name("animation.png");
-	if (parent)
-		dialog->set_transient_for(*parent);
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select file name.");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name("animation.png");
 
-	dialog->signal_response().connect([this, dialog](int response_id) {
-		if (response_id == Gtk::ResponseType::OK)
-			SaveToFile(dialog->get_file()->get_path());
-		delete dialog;
+	auto self = std::make_shared<Animation>(*this);
+	dialog->save(*parent, [self, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto file = dialog->save_finish(result);
+			std::string path = file->get_path();
+			std::cout << "Animation::SaveToFile: saving to " << path << "\n";
+			self->SaveToFile(path);
+			std::cout << "Animation::SaveToFile: done\n";
+		} catch (const Gtk::DialogError& e) {
+			std::cout << "Animation::SaveToFile: dialog cancelled (" << e.what() << ")\n";
+		} catch (const std::exception& e) {
+			std::cerr << "Animation::SaveToFile: error: " << e.what() << "\n";
+		}
 	});
-	dialog->show();
 }
 
 
