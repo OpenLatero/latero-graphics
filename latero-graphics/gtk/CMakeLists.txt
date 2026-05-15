@@ -2,7 +2,7 @@ set(SRC_CPP
 	animation.cpp
 	blobdetector.cpp
 	checkframe.cpp
-	imagecombo.cpp
+	imagedropdown.cpp
 	numwidget.cpp
 	pixbufops.cpp
 	plot.cpp
@@ -12,7 +12,7 @@ set(SRC_H
 	animation.h
 	blobdetector.h
 	checkframe.h
-	imagecombo.h
+	imagedropdown.h
 	numwidget.h
 	pixbufops.h
 	plot.h

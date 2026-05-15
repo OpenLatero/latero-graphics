@@ -19,8 +19,8 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_MODULATOR_DROP_DOWN
-#define LATERO_GRAPHICS_PLANAR_MODULATOR_DROP_DOWN
+#ifndef LATERO_GRAPHICS_PLANAR_MODULATOR_DROPDOWN
+#define LATERO_GRAPHICS_PLANAR_MODULATOR_DROPDOWN
 
 #include "modulatorfwd.h"
 #include <gtkmm.h>
