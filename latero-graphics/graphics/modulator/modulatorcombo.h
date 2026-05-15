@@ -29,11 +29,11 @@
 namespace latero {
 namespace graphics { 
 
-class ModulatorCombo : public Gtk::ComboBox
+class ModulatorDropDown : public Gtk::Box
 {
 public:
-	ModulatorCombo(ModulatorPtr tx);
-	virtual ~ModulatorCombo() {};
+	ModulatorDropDown(ModulatorPtr tx);
+	virtual ~ModulatorDropDown() {};
 	void Append(ModulatorPtr mod);
 	void SetActive(ModulatorPtr mod);
 	sigc::signal<void(ModulatorPtr)> SignalModulatorChanged() { return signalModulatorChanged_; }
@@ -42,17 +42,11 @@ protected:
 	sigc::signal<void(ModulatorPtr)> signalModulatorChanged_;
 	void OnComboChanged();
 
-	class Columns : public Gtk::TreeModel::ColumnRecord
-	{
-	public:
-		Columns() { add(img); add(mod); }
-		Gtk::TreeModelColumn< Glib::RefPtr<Gdk::Pixbuf> > img;
-		Gtk::TreeModelColumn<ModulatorPtr> mod;
-	};
-
 	const latero::Tactograph *dev_; // tmp?
-	Columns columns_;
-	Glib::RefPtr<Gtk::ListStore> model_;
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
+	std::vector<ModulatorPtr> modList_;
+	std::vector<Glib::RefPtr<Gdk::Pixbuf>> imgList_;
 	bool signalEnable_;
 };
 

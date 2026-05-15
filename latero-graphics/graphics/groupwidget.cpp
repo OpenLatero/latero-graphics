@@ -566,7 +566,7 @@ public:
 				Gtk::Box *box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 				opWidgetHolder_.set_child(*box);
 
-				ModulatorCombo *modCombo = Gtk::make_managed<ModulatorCombo>(mod);
+				ModulatorDropDown *modCombo = Gtk::make_managed<ModulatorDropDown>(mod);
 
 				box->append(*modCombo);
 				box->append(modWidgetHolder_);

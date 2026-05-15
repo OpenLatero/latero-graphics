@@ -42,7 +42,7 @@ protected:
 
 	BlendTexturePtr peer_;
 	Gtk::Frame modWidgetHolder_;
-	ModulatorCombo modCombo_;
+	ModulatorDropDown modCombo_;
 	TextureSelectorWidget *txWidgets_[2];
 };
 

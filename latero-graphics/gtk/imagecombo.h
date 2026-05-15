@@ -30,7 +30,7 @@ namespace graphics {
 namespace gtk {
 
 /**
- * This widget implements a ComboBox that displays a list of images. A numerical ID is associated with
+ * This widget implements a DropDown that displays a list of images. A numerical ID is associated with
  * each image.
  */
 class ImageCombo : public Gtk::Box

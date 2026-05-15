@@ -26,10 +26,10 @@
 namespace latero {
 namespace graphics { 
 
-class GratingModulatorModeCombo : public Gtk::Box
+class GratingModulatorModeDropDown : public Gtk::Box
 {
 public:
-	GratingModulatorModeCombo(GratingModulatorPtr peer) :
+	GratingModulatorModeDropDown(GratingModulatorPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL),
 		list_(Gtk::StringList::create({})),
 		dropDown_(list_),
@@ -40,10 +40,10 @@ public:
 		Glib::ustring target = peer->GetMode().label;
 		for (guint i = 0; i < list_->get_n_items(); ++i)
 			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
-		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &GratingModulatorModeCombo::OnChange));
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &GratingModulatorModeDropDown::OnChange));
 		append(dropDown_);
 	}
-	virtual ~GratingModulatorModeCombo() {};
+	virtual ~GratingModulatorModeDropDown() {};
 	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 private:
 	Glib::RefPtr<Gtk::StringList> list_;
@@ -111,7 +111,7 @@ GratingModulatorCtrl::GratingModulatorCtrl(GratingModulatorPtr peer) :
 {
 	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 
-	auto modeCombo = Gtk::make_managed<GratingModulatorModeCombo>(peer);
+	auto modeCombo = Gtk::make_managed<GratingModulatorModeDropDown>(peer);
 	auto factorWidget = Gtk::make_managed<GratingModulatorFactorWidget>(peer);
 	auto posWidget = Gtk::make_managed<GratingModulatorPosWidget>(peer);
 	auto lengthWidget = Gtk::make_managed<GratingModulatorLengthWidget>(peer);
