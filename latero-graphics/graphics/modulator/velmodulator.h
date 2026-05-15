@@ -27,7 +27,7 @@
 #include "../../units.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class VelModulator : public Modulator
 {

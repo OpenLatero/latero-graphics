@@ -28,7 +28,7 @@
 #include "../../graphics/groupwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 namespace DoubleLinearGratingTextureWidgets {
 

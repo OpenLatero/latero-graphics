@@ -30,7 +30,7 @@
 #include "texture/nulltexture.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Image::Image(const latero::Tactograph *dev, TexturePtr texture) :
 	Pattern(dev),

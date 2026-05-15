@@ -28,7 +28,7 @@
 #include "../modulator/modulatordropdown.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class BlendTextureWidget : public Gtk::Notebook
 {

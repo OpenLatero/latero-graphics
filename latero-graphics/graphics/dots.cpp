@@ -26,7 +26,7 @@
 #include "dotswidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 
 

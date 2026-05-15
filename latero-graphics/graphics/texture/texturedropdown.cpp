@@ -30,7 +30,7 @@
 #include "nulltexture.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 void TextureDropDown::Init()
 {

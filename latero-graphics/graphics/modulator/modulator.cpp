@@ -24,7 +24,7 @@
 #include "velmodulator.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 ModulatorPtr Modulator::Create(const latero::Tactograph *dev, const XMLInputNode &node)
 {

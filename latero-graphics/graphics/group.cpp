@@ -28,7 +28,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 const Group::Operation Group::op_multiply(0,"multiply");
 const Group::Operation Group::op_add(1,"add");

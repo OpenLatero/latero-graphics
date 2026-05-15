@@ -26,7 +26,7 @@
 #include "stock.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 RadialGratingTexture::RadialGratingTexture(const latero::Tactograph *dev, Point seed, float pitch) : 
 	Pattern(dev), GratingTexture(dev,seed,"mm")

@@ -27,7 +27,7 @@
 #include "../../graphics/patternpreview.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class VibroTextureFreqCtrl : public Gtk::Box
 {

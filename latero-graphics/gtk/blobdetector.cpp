@@ -22,7 +22,7 @@
 #include "blobdetector.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 namespace gtk {
 

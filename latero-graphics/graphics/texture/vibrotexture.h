@@ -26,7 +26,7 @@
 #include "vibrotexturefwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class VibroTexture : public Texture
 {

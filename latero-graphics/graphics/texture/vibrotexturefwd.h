@@ -25,7 +25,7 @@
 #include <boost/shared_ptr.hpp>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class VibroTexture;
 typedef boost::shared_ptr<VibroTexture> VibroTexturePtr;

@@ -27,7 +27,7 @@
 #include "../oscillatorwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 DotRadiusCtrl::DotRadiusCtrl(DotPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),

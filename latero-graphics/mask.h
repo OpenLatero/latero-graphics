@@ -30,7 +30,7 @@
 #include "xml.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /**
  * A Mask maps a bitmapped image to a window within the virtual surface.

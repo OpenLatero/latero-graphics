@@ -29,7 +29,7 @@
 #include "patternpreview.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class LineStartCtrl : public Gtk::Frame
 {

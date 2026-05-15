@@ -29,7 +29,7 @@
 #include "../grating.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 
 class StrokeMotionCueDropDown : public Gtk::Box

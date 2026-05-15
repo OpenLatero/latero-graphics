@@ -27,7 +27,7 @@
 #include "stock.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 LinearGratingTexture::LinearGratingTexture(const latero::Tactograph *dev, float pitch, float angle) :
 	Pattern(dev), GratingTexture(dev,Point(0,0),"mm")

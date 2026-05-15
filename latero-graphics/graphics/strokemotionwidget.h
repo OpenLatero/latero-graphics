@@ -26,7 +26,7 @@
 #include <gtkmm.h>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class StrokeMotionWidget : public Gtk::Box
 {

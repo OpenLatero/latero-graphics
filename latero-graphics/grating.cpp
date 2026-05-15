@@ -46,7 +46,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Grating::Grating(std::string units) :
 	ridgeSize_(1),

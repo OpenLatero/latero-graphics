@@ -28,7 +28,7 @@
 #include "modulator/modulatorfwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 // TODO: turn into a template for different types of patterns?
 class Group : virtual public Pattern

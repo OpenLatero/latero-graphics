@@ -30,7 +30,7 @@
 #include "lineargratingtexture.h"
  
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class MotionTexture : public ComboTexture
 {

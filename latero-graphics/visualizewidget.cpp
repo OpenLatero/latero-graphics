@@ -27,7 +27,7 @@
 #define UPDATE_RATE_MS 30
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 #define mode_abstract "abstract"
 #define mode_vib_as_deflection "deflection"

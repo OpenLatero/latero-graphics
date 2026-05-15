@@ -28,7 +28,7 @@
 #include "../oscillator.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class Dot : public Pattern
 {

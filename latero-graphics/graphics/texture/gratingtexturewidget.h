@@ -31,7 +31,7 @@
 #include "../../pointwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 
 class GratingTextureSeedCtrl : public Gtk::Frame

@@ -34,7 +34,7 @@
 #include <boost/thread.hpp>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Pattern::Pattern(const latero::Tactograph *dev) 
 	: visible_(true), dev_(dev)

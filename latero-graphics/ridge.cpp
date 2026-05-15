@@ -23,7 +23,7 @@
 #include "units.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Ridge::Ridge(double edgeWidth) :
     width_(width_default),

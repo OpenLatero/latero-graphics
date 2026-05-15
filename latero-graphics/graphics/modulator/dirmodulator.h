@@ -28,7 +28,7 @@
 #include <string>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /**
  * Modulates based on the direction of the exloration velocity (and to some extend the magnitude).

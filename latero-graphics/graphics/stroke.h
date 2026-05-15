@@ -34,7 +34,7 @@
 #include "dotpattern.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class StrokeState
 {

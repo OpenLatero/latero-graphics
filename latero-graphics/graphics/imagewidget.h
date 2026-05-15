@@ -28,7 +28,7 @@
 #include "imagefwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class ImageWidget : public Gtk::Box
 {

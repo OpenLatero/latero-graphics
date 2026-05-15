@@ -27,7 +27,7 @@
 #include "texture/texturedropdown.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class PatternCreatorDialog : public Gtk::Window
 {

@@ -28,7 +28,7 @@
 #include "patternpreview.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 ToggleWidget::ToggleWidget(TogglePtr peer)
 {

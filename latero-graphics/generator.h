@@ -33,7 +33,7 @@
 #include "audiodevice.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /**
  * @defgroup GeneratorGroup Generators

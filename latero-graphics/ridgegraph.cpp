@@ -23,7 +23,7 @@
 #include "ridge.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 RidgeGraph::RidgeGraph(RidgePtr peer, int minWidth, int minHeight) :
 	peer_(peer)

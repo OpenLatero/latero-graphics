@@ -29,7 +29,7 @@
 #include "../pointlistwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class DotsPointsWidget : public Gtk::Frame
 {

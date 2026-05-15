@@ -27,7 +27,7 @@
 #include "lineargratingtexturefwd.h"
  
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /** TODO: integrate velocity, support radial mode */
 

@@ -28,7 +28,7 @@
 // todo: are any of the ops implemented in GTKMM?
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 namespace gtk {
 

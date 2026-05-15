@@ -29,7 +29,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class PatternTextureGridWidthCtrl : public Gtk::Box
 {

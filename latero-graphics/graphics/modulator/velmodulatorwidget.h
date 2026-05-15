@@ -26,7 +26,7 @@
 #include "velmodulatorfwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class VelModulatorWidget : public Gtk::Box
 {

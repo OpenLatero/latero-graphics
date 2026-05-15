@@ -27,7 +27,7 @@
 #include "../../pointwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class TextureSelectorCtrl : public Gtk::Box
 {

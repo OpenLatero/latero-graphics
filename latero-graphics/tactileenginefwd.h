@@ -23,7 +23,7 @@
 #define LATERO_GRAPHICS_TACTILE_ENGINE_FWD_H
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class TactileEngine;
 

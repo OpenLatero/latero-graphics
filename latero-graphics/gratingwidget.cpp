@@ -25,7 +25,7 @@
 #include <iostream>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 // GratingInvertCtrl ///////////////////////////////////////////////////////////////
 

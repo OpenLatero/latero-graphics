@@ -30,7 +30,7 @@
 #include "dotpatternwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class StrokeIntensityCtrl : public Gtk::Box
 {

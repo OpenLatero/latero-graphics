@@ -22,7 +22,7 @@
 #include "pointlistwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class NumButton : public Gtk::Button
 {

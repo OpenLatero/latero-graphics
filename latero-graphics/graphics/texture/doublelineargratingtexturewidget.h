@@ -28,7 +28,7 @@
 #include "texturewidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class DoubleLinearGratingTextureWidget : public TextureWidget
 {

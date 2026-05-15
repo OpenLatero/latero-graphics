@@ -28,7 +28,7 @@
 #include "stock.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 ComboTexture::ComboTexture(const latero::Tactograph *dev) : 
 	Pattern(dev), Texture(dev), Group(dev)

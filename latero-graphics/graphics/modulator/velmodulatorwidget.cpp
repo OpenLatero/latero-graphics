@@ -25,7 +25,7 @@
 #include "../../gtk/numwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 namespace vel_modulator_ctrls {
 

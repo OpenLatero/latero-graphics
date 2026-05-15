@@ -27,7 +27,7 @@
 #include "gratingtexturewidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class AxialGratingTextureWidget : public GratingTextureWidget
 {

@@ -29,7 +29,7 @@
 #include "../../gtk/checkframe.h"
 #include "../../oscillatorwidget.h"
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class CreateTextureDlg : public Gtk::Window
 {

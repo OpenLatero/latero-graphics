@@ -28,7 +28,7 @@
 #include "ridgegraph.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 
 class RidgeEdgeWidthScale : public Gtk::Box

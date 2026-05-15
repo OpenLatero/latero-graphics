@@ -26,7 +26,7 @@
 #include "plaintexturefwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class PlainTexture : public Texture
 {

@@ -40,7 +40,7 @@
 #include <sys/stat.h>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 const Point Texture::tdCentricPos_default(0,0);
 const Point Texture::motionVector_default(50,0);

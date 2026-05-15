@@ -28,7 +28,7 @@
 #include "../units.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 namespace gtk {
 
 static const std::string units_default = "";

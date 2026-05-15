@@ -28,7 +28,7 @@
 #include "patternfwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /**
  * The Canvas is a specialization of the PositionGen, and hence indirectly of Generator, which is used for the rendering of

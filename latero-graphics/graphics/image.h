@@ -29,7 +29,7 @@
 #include "../gtk/animation.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 
 class Image : public Pattern

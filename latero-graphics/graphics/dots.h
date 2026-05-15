@@ -29,7 +29,7 @@
 #include "dot.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /** Set of dots with all the same properties (except location). */
 class Dots : public Group

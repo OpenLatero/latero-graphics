@@ -30,7 +30,7 @@
 #include "namedid.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /** 
  * The oscillator efficiently handles the rendering of vibrations.

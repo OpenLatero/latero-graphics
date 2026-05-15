@@ -23,7 +23,7 @@
 #include <gtkmm.h>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Cairo::RefPtr<Cairo::Pattern> PatternOps::Add(Cairo::RefPtr<Cairo::Context> cr, Cairo::RefPtr<Cairo::Pattern> a, Cairo::RefPtr<Cairo::Pattern> b)
 {

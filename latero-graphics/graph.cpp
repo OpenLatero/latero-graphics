@@ -24,7 +24,7 @@
 #define NB_POINTS 1000
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Graph::Graph(uint nbPoints, const char *fgColor, const char *bgColor) :
 	refreshTime_(boost::posix_time::min_date_time),

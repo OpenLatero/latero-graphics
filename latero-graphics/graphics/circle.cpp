@@ -29,7 +29,7 @@
 #include "texture/patternops.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Circle::Circle(const latero::Tactograph *dev, const XMLInputNode &node)  :
 	ClosedPattern(dev),

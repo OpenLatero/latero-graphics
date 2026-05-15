@@ -22,7 +22,7 @@
 #include "checkframe.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 namespace gtk {
 
 CheckFrame::CheckFrame(bool checkState, std::string label, bool check_in_label) :

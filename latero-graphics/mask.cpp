@@ -34,7 +34,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Mask::Mask(const Point &surfaceSize) :
 	surfaceSize_(surfaceSize),

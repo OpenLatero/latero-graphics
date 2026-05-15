@@ -28,7 +28,7 @@
 #include "dotpatternfwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 
 class Circle : public ClosedPattern

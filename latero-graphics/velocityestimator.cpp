@@ -22,7 +22,7 @@
 #include "velocityestimator.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 VelocityEstimator::VelocityEstimator()
 {

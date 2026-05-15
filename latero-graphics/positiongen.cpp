@@ -23,7 +23,7 @@
 #include <boost/thread.hpp>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 PositionGen::PositionGen(const latero::Tactograph *dev) :
 	Generator(dev)

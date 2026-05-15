@@ -27,7 +27,7 @@
 #include "generatorfwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class TactileEngine : public Engine
 {

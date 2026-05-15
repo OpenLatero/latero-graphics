@@ -25,7 +25,7 @@
 #include "ridge.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 RidgeEdgeWidthScale::RidgeEdgeWidthScale(RidgePtr peer) :
 	Gtk::Box(Gtk::Orientation::VERTICAL),

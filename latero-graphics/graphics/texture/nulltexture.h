@@ -26,7 +26,7 @@
 #include "nulltexturefwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class NullTexture : public Texture
 {

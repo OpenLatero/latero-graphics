@@ -25,7 +25,7 @@
 #include "../../units.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 VelModulator::VelModulator(const latero::Tactograph *dev) :
 	Modulator(dev),

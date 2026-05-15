@@ -27,7 +27,7 @@
 #include <latero/tactograph.h>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class ModulatorDropDown : public Gtk::Box
 {

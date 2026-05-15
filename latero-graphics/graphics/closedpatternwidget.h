@@ -27,7 +27,7 @@
 #include "texture/textureselectorwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class ClosedPatternFillTextureWidget : public gtk::CheckFrame
 {

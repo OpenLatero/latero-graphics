@@ -30,7 +30,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class TimeWidget : public Gtk::Box
 {

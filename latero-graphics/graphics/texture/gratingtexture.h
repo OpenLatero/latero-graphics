@@ -27,7 +27,7 @@
 #include "../../gratingfwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class GratingTexture : public Texture
 {

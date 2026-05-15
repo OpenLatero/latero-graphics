@@ -29,7 +29,7 @@
 #include <gtkmm.h>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 BlendTexture::BlendTexture(const latero::Tactograph *dev, const XMLInputNode &node) :
 	Pattern(dev), Texture(dev), illMode_(ill_mode_mix)

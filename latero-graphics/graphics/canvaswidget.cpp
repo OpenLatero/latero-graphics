@@ -24,7 +24,7 @@
 #include "canvas.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 CanvasWidget::CanvasWidget(CanvasPtr peer) :
 	Gtk::Box(Gtk::Orientation::VERTICAL)

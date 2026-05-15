@@ -26,7 +26,7 @@
 #include "graph.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class RidgeGraph : public Graph
 {

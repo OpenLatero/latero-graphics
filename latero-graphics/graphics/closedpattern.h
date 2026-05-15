@@ -27,7 +27,7 @@
 #include "texture/texturefwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class ClosedPattern : public Pattern
 {

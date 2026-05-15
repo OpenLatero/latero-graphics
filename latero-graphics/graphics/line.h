@@ -28,7 +28,7 @@
 #include "stroke.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class Line : public Pattern
 {

@@ -25,7 +25,7 @@
 #include "units.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 const GratingModulator::Mode GratingModulator::mode_slope(0,"slope");
 const GratingModulator::Mode GratingModulator::mode_peak(1,"peak");

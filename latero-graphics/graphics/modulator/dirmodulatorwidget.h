@@ -26,7 +26,7 @@
 #include "dirmodulatorfwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class DirModulatorWidget : public Gtk::Box
 {

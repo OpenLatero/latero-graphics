@@ -27,7 +27,7 @@
 #include "oscillatorfwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class OscillatorEnableCheck : public Gtk::CheckButton
 {

@@ -26,7 +26,7 @@
 #include "radialgratingtexturefwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class RadialGratingTexture : public GratingTexture
 {

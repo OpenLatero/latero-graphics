@@ -26,7 +26,7 @@
 #include "gratingtexture.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class AxialGratingTexture : public GratingTexture
 {

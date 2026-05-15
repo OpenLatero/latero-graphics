@@ -23,7 +23,7 @@
 #include "image.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 ImageWidget::ImageWidget(ImagePtr peer, bool showMaskWidget) :
 	Gtk::Box(Gtk::Orientation::VERTICAL),

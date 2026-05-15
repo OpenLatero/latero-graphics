@@ -27,7 +27,7 @@
 #include "stock.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 VibroTexture::VibroTexture(const latero::Tactograph *dev, double freqHz) : 
 	Pattern(dev), Texture(dev), vib_(Oscillator::Create(freqHz,1,true))

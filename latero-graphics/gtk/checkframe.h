@@ -25,7 +25,7 @@
 #include <gtkmm.h>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 namespace gtk {
 

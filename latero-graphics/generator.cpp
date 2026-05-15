@@ -27,7 +27,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 void Generator::SaveToFile(std::string filename) const
 {

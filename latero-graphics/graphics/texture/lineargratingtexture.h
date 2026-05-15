@@ -26,7 +26,7 @@
 #include "lineargratingtexturefwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class LinearGratingTexture : public GratingTexture
 {

@@ -29,7 +29,7 @@
 #include "gtk/checkframe.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 
 /**

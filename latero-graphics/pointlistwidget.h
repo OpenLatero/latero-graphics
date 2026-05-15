@@ -26,7 +26,7 @@
 #include "point.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class PointListWidget : public Gtk::ScrolledWindow
 {

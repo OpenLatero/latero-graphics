@@ -27,7 +27,7 @@
 #include "buttonevent.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 TactileEngine::TactileEngine(latero::Tactograph *dev, boost::posix_time::time_duration period) :
 		Engine(true), dev_(dev), period_(period)

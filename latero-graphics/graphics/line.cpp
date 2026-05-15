@@ -28,7 +28,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Line::Line(const latero::Tactograph *dev, const XMLInputNode &node) :
 	Pattern(dev), stroke_(Stroke::Create(dev)),

@@ -27,7 +27,7 @@
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class Graph : public Gtk::Box
 {

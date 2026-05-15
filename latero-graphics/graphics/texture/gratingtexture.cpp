@@ -25,7 +25,7 @@
 #include "../../units.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 GratingTexture::GratingTexture(const latero::Tactograph *dev, const Point &seed, std::string units) :
 	Pattern(dev), Texture(dev),

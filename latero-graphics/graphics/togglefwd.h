@@ -25,7 +25,7 @@
 #include <boost/shared_ptr.hpp>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class Toggle;
 typedef boost::shared_ptr<Toggle> TogglePtr;

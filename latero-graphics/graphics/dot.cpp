@@ -25,7 +25,7 @@
 #include "../units.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 void Dot::AppendXML(XMLOutputNode &root) const
 {

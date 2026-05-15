@@ -31,7 +31,7 @@
 #include "namedid.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class GratingModulator : public Modifiable
 {

@@ -23,7 +23,7 @@
 #define LATERO_GRAPHICS_PLANAR_STOCK
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /**
  * Predefined textures.

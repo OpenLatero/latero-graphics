@@ -26,7 +26,7 @@
 #include "patterntexturefwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class PatternTextureWidget : public Gtk::Box
 {

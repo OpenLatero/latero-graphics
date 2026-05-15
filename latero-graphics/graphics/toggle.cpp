@@ -26,7 +26,7 @@
 #include <iostream>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Toggle::Toggle(const latero::Tactograph *dev, const XMLInputNode &node) :
 	Pattern(dev), toggle_(false), toggleCount_(0)

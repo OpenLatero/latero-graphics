@@ -28,7 +28,7 @@
 #endif
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 Sound::Sound(const Point &surfaceSize) :
 	mask_(Mask::Create(surfaceSize))

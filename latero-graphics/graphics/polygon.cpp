@@ -32,7 +32,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 const Polygon::JoinType Polygon::join_type_straight(0,"straight");
 const Polygon::JoinType Polygon::join_type_round(1,"round");

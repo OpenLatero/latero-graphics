@@ -27,7 +27,7 @@
 #include "audiodevice.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 AudioEngine::AudioEngine(latero::Tactograph *dev, boost::posix_time::time_duration period) :
 	dev_(dev), period_(period)

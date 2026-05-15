@@ -24,7 +24,7 @@
 #include "../gtk/numwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class ClosedPatternFillTextureGapCtrl : public Gtk::Box
 {

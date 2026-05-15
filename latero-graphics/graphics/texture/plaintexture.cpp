@@ -27,7 +27,7 @@
 #include "stock.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 PlainTexture::PlainTexture(const latero::Tactograph *dev) : 
 	Pattern(dev), Texture(dev)

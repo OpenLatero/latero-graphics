@@ -27,7 +27,7 @@
 #include "../vector.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class DotPattern : public Dots
 {

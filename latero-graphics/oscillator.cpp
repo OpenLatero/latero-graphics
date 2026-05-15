@@ -24,7 +24,7 @@
 #include "graphics/texture/patternops.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 const Oscillator::BlendMode Oscillator::blend_mode_high(0,"high");
 const Oscillator::BlendMode Oscillator::blend_mode_low(1,"low");

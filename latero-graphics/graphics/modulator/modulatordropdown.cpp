@@ -25,7 +25,7 @@
 #include "velmodulator.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 void ModulatorDropDown::Append(ModulatorPtr mod)
 {

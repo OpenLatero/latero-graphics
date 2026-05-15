@@ -25,7 +25,7 @@
 #include <boost/thread/recursive_mutex.hpp>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 typedef boost::recursive_mutex Mutex;
 

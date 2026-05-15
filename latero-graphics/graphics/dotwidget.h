@@ -27,7 +27,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class DotRadiusCtrl : public Gtk::Box
 {

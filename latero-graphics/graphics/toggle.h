@@ -26,7 +26,7 @@
 #include "togglefwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class Toggle : virtual public Pattern
 {

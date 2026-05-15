@@ -27,7 +27,7 @@
 #include "../../graphics/group.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class ComboTexture : public Texture, public Group
 {

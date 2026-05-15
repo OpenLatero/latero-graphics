@@ -33,7 +33,7 @@
 #include "closedpatternwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class PolygonJoinTypeDropDown : public Gtk::Box
 {

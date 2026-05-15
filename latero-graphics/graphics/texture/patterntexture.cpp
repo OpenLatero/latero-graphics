@@ -29,7 +29,7 @@
 #include "../../graphics/stroke.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 PatternTexture::PatternTexture(const latero::Tactograph *dev) : 
 	Pattern(dev), Texture(dev), gridWidth_(20), gridHeight_(20)

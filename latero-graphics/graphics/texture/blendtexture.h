@@ -27,7 +27,7 @@
 #include "../modulator/modulatorfwd.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 // TODO: This could be implemented as part of ComboTexture using Group's reactive operator.
 class BlendTexture : public Texture

@@ -25,7 +25,7 @@
 #include "../modulator/modulator.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 	peer_(peer),

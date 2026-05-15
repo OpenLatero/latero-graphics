@@ -29,7 +29,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /**
  * Profile of the stroke across the line.

@@ -24,7 +24,7 @@
 #include "radialgratingtexture.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 void RadialGratingTextureWidget::Create()
 {

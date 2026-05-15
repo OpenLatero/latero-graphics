@@ -23,7 +23,7 @@
 #include <iostream>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 namespace gtk {
 
 NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :

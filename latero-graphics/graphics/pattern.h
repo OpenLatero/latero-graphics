@@ -32,7 +32,7 @@
 #include "../audiodevice.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /** 
  * A Pattern is a basic tactile graphics element which knows how to render itself,

@@ -30,7 +30,7 @@
 #include "../../state.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 /**
  * A modulator takes as input a number of variables (typically sensor readings) and returns

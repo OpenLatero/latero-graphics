@@ -29,7 +29,7 @@
 #include "dotswidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 DotPatternMinSpacingCtrl::DotPatternMinSpacingCtrl(DotPatternPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetMinSpacing(), 0, 50.0)), peer_(peer)

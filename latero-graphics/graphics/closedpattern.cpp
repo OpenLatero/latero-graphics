@@ -25,7 +25,7 @@
 #include "texture/stock.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 ClosedPattern::ClosedPattern(const latero::Tactograph *dev) : Pattern(dev)
 {

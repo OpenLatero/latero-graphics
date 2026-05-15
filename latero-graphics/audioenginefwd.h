@@ -24,7 +24,7 @@
 
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class AudioEngine;
 

@@ -28,7 +28,7 @@
 #include "../../xml.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 DoubleLinearGratingTexture::DoubleLinearGratingTexture(const latero::Tactograph *dev) : 
 	Pattern(dev), ComboTexture(dev),

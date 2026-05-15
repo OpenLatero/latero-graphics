@@ -23,7 +23,7 @@
 #define LATERO_GRAPHICS_GRAPHICS_TACTILE_OPS_H
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 // Todo: are these making the code easier to grasp or these operations more obscure?
 class TactileOps

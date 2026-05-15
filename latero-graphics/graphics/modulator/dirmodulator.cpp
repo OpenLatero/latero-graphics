@@ -25,7 +25,7 @@
 #include "../../units.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 static const std::string low_vel_mode_high_str = "high";
 static const std::string low_vel_mode_low_str = "low";

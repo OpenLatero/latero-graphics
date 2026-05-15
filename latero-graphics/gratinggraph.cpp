@@ -24,7 +24,7 @@
 #include <math.h>
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 GratingGraph::GratingGraph(GratingPtr peer) :
 	peer_(peer)

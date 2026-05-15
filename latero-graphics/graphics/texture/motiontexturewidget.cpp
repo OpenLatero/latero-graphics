@@ -26,7 +26,7 @@
 #include "../../graphics/patternpreview.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 namespace MotionTextureCtrls {
 

@@ -30,7 +30,7 @@
 #include "xml.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class Ridge : public Modifiable
 {

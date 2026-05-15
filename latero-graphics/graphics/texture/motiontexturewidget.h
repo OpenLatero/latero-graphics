@@ -27,7 +27,7 @@
 #include "textureselectorwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class MotionTextureWidget : public Gtk::Notebook
 {

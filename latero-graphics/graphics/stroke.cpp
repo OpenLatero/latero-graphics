@@ -26,7 +26,7 @@
 #include "tactileops.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 const Stroke::MotionCue Stroke::motion_cue_none(0,"none");
 const Stroke::MotionCue Stroke::motion_cue_inherent(1,"inherent");

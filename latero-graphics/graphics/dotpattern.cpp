@@ -25,7 +25,7 @@
 #include "dotpatternwidget.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 DotPattern::DotPattern(const latero::Tactograph *dev) :
 	Pattern(dev), Dots(dev), minSpacing_(1), vel_(0)

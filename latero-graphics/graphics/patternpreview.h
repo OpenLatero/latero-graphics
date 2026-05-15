@@ -26,7 +26,7 @@
 #include "pattern.h"
 
 namespace latero {
-namespace graphics { 
+namespace graphics {
 
 class PatternPreview : public Gtk::Box
 {
