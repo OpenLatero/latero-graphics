@@ -28,7 +28,6 @@
 
 namespace latero {
 namespace graphics {
-
 namespace LinearGratingTextureCtrls {
 
 class AngleWidget : public Gtk::Box

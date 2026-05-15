@@ -23,7 +23,6 @@
 
 namespace latero {
 namespace graphics {
-
 namespace gtk {
 
 BlobDetector::BlobDetector(Glib::RefPtr<Gdk::Pixbuf> buf) :

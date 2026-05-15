@@ -26,7 +26,6 @@
 
 namespace latero {
 namespace graphics {
-
 namespace vel_modulator_ctrls {
 
 class Ctrl : public Gtk::Box

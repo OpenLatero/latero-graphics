@@ -27,7 +27,6 @@
 
 namespace latero {
 namespace graphics {
-
 namespace gtk {
 
 /**

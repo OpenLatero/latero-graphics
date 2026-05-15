@@ -27,7 +27,6 @@
 
 namespace latero {
 namespace graphics {
-
 namespace gtk {
 
 class Plot : public Gtk::DrawingArea

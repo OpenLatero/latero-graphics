@@ -26,7 +26,6 @@
 
 namespace latero {
 namespace graphics {
-
 namespace AxialGratingTextureCtrls {
 
 class SeedAngleCtrl : public Gtk::Box

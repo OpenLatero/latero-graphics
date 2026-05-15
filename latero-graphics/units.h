@@ -28,7 +28,6 @@
 
 namespace latero {
 namespace graphics {
-
 namespace units {
 
 static const std::string percent = "%";

@@ -26,7 +26,6 @@
 
 namespace latero {
 namespace graphics {
-
 namespace gtk {
 
 class CheckFrame : public Gtk::Frame
