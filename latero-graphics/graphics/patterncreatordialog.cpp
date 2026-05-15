@@ -34,7 +34,7 @@ namespace latero {
 namespace graphics { 
 
 PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
-	Gtk::Window(), txCombo_(dev), dev_(dev)
+	Gtk::Window(), txDropDown_(dev), dev_(dev)
 {
 	set_title("Create Pattern");
 	set_modal(true);
@@ -52,7 +52,7 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 	typeList_->append("group");
 	typeDropDown_ = Gtk::make_managed<Gtk::DropDown>(typeList_);
 	typeDropDown_->set_selected(3); // "line"
-	txCombo_.set_sensitive(false);
+	txDropDown_.set_sensitive(false);
 
 	auto okButton     = Gtk::make_managed<Gtk::Button>("Ok");
 	auto cancelButton = Gtk::make_managed<Gtk::Button>("Cancel");
@@ -66,11 +66,11 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 	vbox->set_margin(12);
 	vbox->set_spacing(6);
 	vbox->append(*typeDropDown_);
-	vbox->append(txCombo_);
+	vbox->append(txDropDown_);
 	vbox->append(*bbox);
 	set_child(*vbox);
 
-	typeDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &PatternCreatorDialog::OnComboChanged));
+	typeDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &PatternCreatorDialog::OnDropDownChanged));
 	okButton->signal_clicked().connect([this]{
 		signalResponse_.emit((int)Gtk::ResponseType::OK);
 	});
@@ -80,10 +80,10 @@ PatternCreatorDialog::PatternCreatorDialog(const latero::Tactograph *dev) :
 }
 
 
-void PatternCreatorDialog::OnComboChanged()
+void PatternCreatorDialog::OnDropDownChanged()
 {
 	auto activeText = std::string(typeList_->get_string(typeDropDown_->get_selected()));
-	txCombo_.set_sensitive(activeText == "texture");
+	txDropDown_.set_sensitive(activeText == "texture");
 	if (activeText == "load from file")
 	{
 		loadedFile_.clear();
@@ -115,7 +115,7 @@ PatternPtr PatternCreatorDialog::CreatePattern()
 	else if (type == "circle")	return Circle::Create(dev_);
 	else if (type == "polygon")	return Polygon::Create(dev_);
 	else if (type == "image")	return Image::Create(dev_);
-	else if (type == "texture")	return txCombo_.GetTexture();
+	else if (type == "texture")	return txDropDown_.GetTexture();
 	else if (type == "group")	return Group::Create(dev_);
 	else if (type == "load from file")
 	{

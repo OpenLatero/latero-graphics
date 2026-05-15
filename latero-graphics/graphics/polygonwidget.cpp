@@ -128,10 +128,10 @@ protected:
 
 
 
-class PolygonCornerSpanCombo : public Gtk::Box
+class PolygonCornerSpanDropDown : public Gtk::Box
 {
 public:
-	PolygonCornerSpanCombo(PolygonPtr peer) :
+	PolygonCornerSpanDropDown(PolygonPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL),
 		list_(Gtk::StringList::create({})),
 		dropDown_(list_),
@@ -142,10 +142,10 @@ public:
 		Glib::ustring target = peer->GetCornerSpan().label;
 		for (guint i = 0; i < list_->get_n_items(); ++i)
 			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
-		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerSpanCombo::OnChange));
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerSpanDropDown::OnChange));
 		append(dropDown_);
 	};
-	virtual ~PolygonCornerSpanCombo() {};
+	virtual ~PolygonCornerSpanDropDown() {};
 	sigc::signal<void()>& signal_changed() { return signalChanged_; };
 private:
 	Glib::RefPtr<Gtk::StringList> list_;
@@ -155,10 +155,10 @@ private:
 	PolygonPtr peer_;
 };
 
-class PolygonCornerBlendCombo : public Gtk::Frame
+class PolygonCornerBlendDropDown : public Gtk::Frame
 {
 public:
-	PolygonCornerBlendCombo(PolygonPtr peer) : Gtk::Frame("blend"), peer_(peer)
+	PolygonCornerBlendDropDown(PolygonPtr peer) : Gtk::Frame("blend"), peer_(peer)
 	{
 		opsList_ = Gtk::StringList::create({});
 		Polygon::CornerBlendSet ops = peer->GetCornerBlends();
@@ -168,10 +168,10 @@ public:
 		Glib::ustring target = peer->GetCornerBlend().label;
 		for (guint i = 0; i < opsList_->get_n_items(); ++i)
 			if (opsList_->get_string(i) == target) { opsDropDown_->set_selected(i); break; }
-		opsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendCombo::OnChange));
+		opsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendDropDown::OnChange));
 		set_child(*opsDropDown_);
 	};
-	virtual ~PolygonCornerBlendCombo() {};
+	virtual ~PolygonCornerBlendDropDown() {};
 private:
 	Glib::RefPtr<Gtk::StringList> opsList_;
 	Gtk::DropDown* opsDropDown_;
@@ -179,10 +179,10 @@ private:
 	PolygonPtr peer_;
 };
 
-class PolygonCornerTypeCombo : public Gtk::Frame
+class PolygonCornerTypeDropDown : public Gtk::Frame
 {
 public:
-	PolygonCornerTypeCombo(PolygonPtr peer) : Gtk::Frame("type"), peer_(peer)
+	PolygonCornerTypeDropDown(PolygonPtr peer) : Gtk::Frame("type"), peer_(peer)
 	{
 		opsList_ = Gtk::StringList::create({});
 		Polygon::CornerTypeSet ops = peer->GetCornerTypes();
@@ -192,10 +192,10 @@ public:
 		Glib::ustring target = peer->GetCornerType().label;
 		for (guint i = 0; i < opsList_->get_n_items(); ++i)
 			if (opsList_->get_string(i) == target) { opsDropDown_->set_selected(i); break; }
-		opsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerTypeCombo::OnChange));
+		opsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerTypeDropDown::OnChange));
 		set_child(*opsDropDown_);
 	};
-	virtual ~PolygonCornerTypeCombo() {};
+	virtual ~PolygonCornerTypeDropDown() {};
 	sigc::signal<void()>& signal_changed() { return signalChanged_; };
 private:
 	Glib::RefPtr<Gtk::StringList> opsList_;
@@ -213,17 +213,17 @@ public:
 		Gtk::Frame("angle"), 
 		adj_(Gtk::Adjustment::create(peer->GetCornerUserAngle(), 0, 180)),
 		angleCtrl_(adj_),
-        combo_(peer), 
+        dropDown_(peer), 
         peer_(peer)
 	{
 		angleCtrl_.set_sensitive(peer->GetCornerSpan()==Polygon::corner_span_user );
 		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
-		box->append(combo_);
+		box->append(dropDown_);
 		angleCtrl_.set_hexpand();
 		box->append(angleCtrl_);
 		set_child(*box);
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnChanged));
-		combo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnComboChanged));
+		dropDown_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerAngleCtrl::OnComboChanged));
 	}
 	virtual ~PolygonCornerAngleCtrl() {};
 protected:
@@ -232,7 +232,7 @@ protected:
 
     Glib::RefPtr<Gtk::Adjustment> adj_;	
 	Gtk::SpinButton angleCtrl_;
-	PolygonCornerSpanCombo combo_;
+	PolygonCornerSpanDropDown dropDown_;
 	PolygonPtr peer_;
 };
 
@@ -257,11 +257,11 @@ class PolygonCornerCtrl : public gtk::CheckFrame
 public:
 	PolygonCornerCtrl(PolygonPtr peer) : 
 		upperbox_(Gtk::Orientation::HORIZONTAL), lowerbox_(Gtk::Orientation::HORIZONTAL), mainbox_(Gtk::Orientation::VERTICAL), gtk::CheckFrame(peer->GetCornerEnable(), "corner marker", true), 
-		angleCtrl_(peer), typeCombo_(peer), vibWidget_(peer->GetCornerOscillator()), peer_(peer)
+		angleCtrl_(peer), typeDropDown_(peer), vibWidget_(peer->GetCornerOscillator()), peer_(peer)
 	{
 		vibWidget_.set_sensitive(peer_->GetCornerType()==Polygon::corner_type_solid);
 
-		auto blendCombo = Gtk::make_managed<PolygonCornerBlendCombo>(peer);
+		auto blendDropDown = Gtk::make_managed<PolygonCornerBlendDropDown>(peer);
 		auto blendSizeCtrl = Gtk::make_managed<PolygonCornerBlendSizeCtrl>(peer);
 		auto motionCheck = Gtk::make_managed<PolygonCornerMotionCheck>(peer);
 
@@ -269,24 +269,24 @@ public:
 		upperbox_.set_vexpand();
 		lowerbox_.set_vexpand();
 		angleCtrl_.set_hexpand();
-		blendCombo->set_hexpand();
+		blendDropDown->set_hexpand();
 		blendSizeCtrl->set_hexpand();
 		motionCheck->set_hexpand();
-		typeCombo_.set_hexpand();
+		typeDropDown_.set_hexpand();
 		vibWidget_.set_hexpand();
 
 		GetBox().append(mainbox_);
 		mainbox_.append(upperbox_);
 		mainbox_.append(lowerbox_);
 		upperbox_.append(angleCtrl_);
-		upperbox_.append(*blendCombo);
+		upperbox_.append(*blendDropDown);
 		upperbox_.append(*blendSizeCtrl);
 		upperbox_.append(*motionCheck);
-		lowerbox_.append(typeCombo_);
+		lowerbox_.append(typeDropDown_);
 		lowerbox_.append(vibWidget_);
 
 		GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnClick));
-		typeCombo_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnComboChanged));
+		typeDropDown_.signal_changed().connect(sigc::mem_fun(*this, &PolygonCornerCtrl::OnComboChanged));
 	}
 	virtual ~PolygonCornerCtrl() {};
 protected:
@@ -294,7 +294,7 @@ protected:
 	void OnComboChanged() { vibWidget_.set_sensitive(peer_->GetCornerType()==Polygon::corner_type_solid); }
 
     PolygonCornerAngleCtrl angleCtrl_;
-	PolygonCornerTypeCombo typeCombo_;
+	PolygonCornerTypeDropDown typeDropDown_;
 	OscillatorWidget vibWidget_;
 	Gtk::Box mainbox_;
 	Gtk::Box upperbox_;

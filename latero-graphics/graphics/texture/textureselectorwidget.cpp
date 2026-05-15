@@ -29,7 +29,7 @@ namespace latero {
 namespace graphics { 
 
 TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
-	Gtk::Box(Gtk::Orientation::VERTICAL), modeCombo_(texture), texture_(texture)
+	Gtk::Box(Gtk::Orientation::VERTICAL), modeDropDown_(texture), texture_(texture)
 {
 	auto saveButton = Gtk::make_managed<Gtk::Button>();
 	saveButton->set_icon_name("document-save");
@@ -39,13 +39,13 @@ TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
 
 	append(*saveButton);
 	append(*loadButton);
-	append(modeCombo_);
+	append(modeDropDown_);
 
-	modeCombo_.set_vexpand();
+	modeDropDown_.set_vexpand();
 
 	saveButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnSave));
 	loadButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnLoad));
-	modeCombo_.SignalTextureChanged().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnModeChanged));
+	modeDropDown_.SignalTextureChanged().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnModeChanged));
 }
 
 void TextureSelectorCtrl::OnModeChanged(TexturePtr tx)
@@ -103,7 +103,7 @@ void TextureSelectorCtrl::OnLoad()
 		if (response_id == Gtk::ResponseType::OK)
 		{
 			texture_ = Texture::Create(texture_->Dev(), dialog->get_file()->get_path().c_str());
-			modeCombo_.SetActive(texture_);
+			modeDropDown_.SetActive(texture_);
 			SignalTextureChanged_();
 		}
 		delete dialog;

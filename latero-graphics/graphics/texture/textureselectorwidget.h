@@ -47,7 +47,7 @@ protected:
 	void OnLoad();
 
 	sigc::signal<void()> SignalTextureChanged_;
-	TextureDropDown modeCombo_;
+	TextureDropDown modeDropDown_;
     TexturePtr texture_;
 };
 

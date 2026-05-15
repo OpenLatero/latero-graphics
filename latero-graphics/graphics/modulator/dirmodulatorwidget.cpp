@@ -38,10 +38,10 @@ protected:
 	DirModulatorPtr peer_;
 };
 
-class LowVelModeCombo : public Ctrl
+class LowVelModeDropDown : public Ctrl
 {
 public:
-	LowVelModeCombo(DirModulatorPtr peer) : Ctrl(peer)
+	LowVelModeDropDown(DirModulatorPtr peer) : Ctrl(peer)
 	{
 		Gtk::Frame *frame = Gtk::make_managed<Gtk::Frame>("low velocity mode");
 		append(*frame);
@@ -53,10 +53,10 @@ public:
 		Glib::ustring target = peer->GetLowVelModeLabel();
 		for (guint i = 0; i < modeList_->get_n_items(); ++i)
 			if (modeList_->get_string(i) == target) { modeDropDown_->set_selected(i); break; }
-		modeDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &LowVelModeCombo::OnChange));
+		modeDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &LowVelModeDropDown::OnChange));
 		frame->set_child(*modeDropDown_);
 	}
-	virtual ~LowVelModeCombo() {};
+	virtual ~LowVelModeDropDown() {};
 	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 private:
 	sigc::signal<void()> signalChanged_;
@@ -157,7 +157,7 @@ DirModulatorWidget::DirModulatorWidget(DirModulatorPtr peer) :
 	auto grid = Gtk::make_managed<Gtk::Grid>();
 	grid->attach(*Gtk::make_managed<DirCtrl>(peer),0,0,1,1);
 	grid->attach(*Gtk::make_managed<SymmetricCtrl>(peer),1,0,1,1);
-	grid->attach(*Gtk::make_managed<LowVelModeCombo>(peer),2,0,1,1);
+	grid->attach(*Gtk::make_managed<LowVelModeDropDown>(peer),2,0,1,1);
 	grid->attach(*Gtk::make_managed<DirToleranceCtrl>(peer),0,1,1,1);
 	grid->attach(*Gtk::make_managed<DirTransitionCtrl>(peer),1,1,2,1);
 	grid->attach(*Gtk::make_managed<VelToleranceCtrl>(peer),0,2,1,1);

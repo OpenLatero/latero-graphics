@@ -56,7 +56,7 @@ void ModulatorDropDown::SetActive(ModulatorPtr mod)
 	SetActive(mod);
 }
 
-void ModulatorDropDown::OnComboChanged()
+void ModulatorDropDown::OnDropDownChanged()
 {
 	guint i = dropDown_.get_selected();
 	if (i < modList_.size() && signalEnable_)
@@ -91,7 +91,7 @@ ModulatorDropDown::ModulatorDropDown(ModulatorPtr mod) :
 
 	SetActive(mod);
 
-	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &ModulatorDropDown::OnComboChanged));
+	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &ModulatorDropDown::OnDropDownChanged));
 	append(dropDown_);
 }
 

@@ -27,7 +27,7 @@ namespace graphics {
 
 namespace gtk {
 
-ImageCombo::ImageCombo() :
+ImageDropDown::ImageDropDown() :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	list_(Gtk::StringList::create({})),
 	dropDown_(list_)
@@ -45,14 +45,14 @@ ImageCombo::ImageCombo() :
 	dropDown_.set_factory(factory);
 	dropDown_.set_list_factory(factory);
 	append(dropDown_);
-	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &ImageCombo::OnComboChanged));
+	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &ImageDropDown::OnDropDownChanged));
 }
 
-ImageCombo::~ImageCombo()
+ImageDropDown::~ImageDropDown()
 {
 }
 
-void ImageCombo::Append(int id, std::string imgfile)
+void ImageDropDown::Append(int id, std::string imgfile)
 {
 	try
 	{
@@ -61,24 +61,24 @@ void ImageCombo::Append(int id, std::string imgfile)
 	}
 	catch (Glib::Error &e)
 	{
-		std::cerr << "ImageCombo::Append() " << e.what() << "\n";
+		std::cerr << "ImageDropDown::Append() " << e.what() << "\n";
 	}
 }
 
-void ImageCombo::SetActive(int id)
+void ImageDropDown::SetActive(int id)
 {
 	for (guint i = 0; i < items_.size(); ++i)
 		if (items_[i].first == id) { dropDown_.set_selected(i); return; }
 }
 
-void ImageCombo::OnComboChanged()
+void ImageDropDown::OnDropDownChanged()
 {
 	guint pos = dropDown_.get_selected();
 	if (pos < items_.size())
 		signalChanged_(items_[pos].first);
 }
 
-sigc::signal<void(int)> ImageCombo::SignalChanged()
+sigc::signal<void(int)> ImageDropDown::SignalChanged()
 {
 	return signalChanged_;
 };

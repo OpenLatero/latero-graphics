@@ -44,7 +44,7 @@ public:
 protected:
 	sigc::signal<void(TexturePtr)> signalTextureChanged_;
 	void Init();
-	void OnComboChanged();
+	void OnDropDownChanged();
 
     bool signalEnable_;
 	TexturePtr tx_;

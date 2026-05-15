@@ -30,7 +30,7 @@ namespace latero {
 namespace graphics { 
 
 CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
-	Gtk::Window(), txCombo_(dev), dev_(dev)
+	Gtk::Window(), txDropDown_(dev), dev_(dev)
 {
 	set_title("Create Texture");
 	set_modal(true);
@@ -41,7 +41,7 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 	optionsList_->append("texture");
 	optionsDropDown_ = Gtk::make_managed<Gtk::DropDown>(optionsList_);
 	optionsDropDown_->set_selected(1); // "texture"
-	txCombo_.set_sensitive(true); // as long as texture is the default
+	txDropDown_.set_sensitive(true); // as long as texture is the default
 
 	auto okButton     = Gtk::make_managed<Gtk::Button>("OK");
 	auto cancelButton = Gtk::make_managed<Gtk::Button>("Cancel");
@@ -55,11 +55,11 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 	vbox->set_margin(12);
 	vbox->set_spacing(6);
 	vbox->append(*optionsDropDown_);
-	vbox->append(txCombo_);
+	vbox->append(txDropDown_);
 	vbox->append(*bbox);
 	set_child(*vbox);
 
-	optionsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &CreateTextureDlg::OnComboChanged));
+	optionsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &CreateTextureDlg::OnDropDownChanged));
 	okButton->signal_clicked().connect([this]{
 		signalResponse_.emit((int)Gtk::ResponseType::OK);
 	});
@@ -69,10 +69,10 @@ CreateTextureDlg::CreateTextureDlg(const latero::Tactograph *dev) :
 }
 
 
-void CreateTextureDlg::OnComboChanged()
+void CreateTextureDlg::OnDropDownChanged()
 {
 	auto activeText = std::string(optionsList_->get_string(optionsDropDown_->get_selected()));
-	txCombo_.set_sensitive(activeText == "texture");
+	txDropDown_.set_sensitive(activeText == "texture");
 
 	if (activeText == "load from file")
 	{
@@ -98,7 +98,7 @@ void CreateTextureDlg::OnComboChanged()
 TexturePtr CreateTextureDlg::CreateTexture()
 {
 	std::string type = std::string(optionsList_->get_string(optionsDropDown_->get_selected()));
-	if (type == "texture")	return txCombo_.GetTexture();
+	if (type == "texture")	return txDropDown_.GetTexture();
 	else if (type == "load from file")
 	{
 		if (!loadedFile_.empty())

@@ -19,8 +19,8 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GTK_IMAGE_COMBO
-#define LATERO_GRAPHICS_GTK_IMAGE_COMBO
+#ifndef LATERO_GRAPHICS_GTK_IMAGE_DROP_DOWN
+#define LATERO_GRAPHICS_GTK_IMAGE_DROP_DOWN
 
 #include <gtkmm.h>
 
@@ -33,14 +33,14 @@ namespace gtk {
  * This widget implements a DropDown that displays a list of images. A numerical ID is associated with
  * each image.
  */
-class ImageCombo : public Gtk::Box
+class ImageDropDown : public Gtk::Box
 {
 public:
 	/** ctor */
-	ImageCombo();
+	ImageDropDown();
 
 	/** dtor */
-	virtual ~ImageCombo();
+	virtual ~ImageDropDown();
 
 	/** Append an image with its associated ID. */
 	void Append(int id, std::string imgfile);
@@ -53,7 +53,7 @@ public:
 
 protected:
 
-	void OnComboChanged();
+	void OnDropDownChanged();
 
 	Glib::RefPtr<Gtk::StringList> list_;
 	Gtk::DropDown dropDown_;

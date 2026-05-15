@@ -532,10 +532,10 @@ public:
 	GroupPanel(GroupPtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 	{
 		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
-		auto opCombo = Gtk::make_managed<GroupOpDropDown>(peer);
+		auto opDropDown = Gtk::make_managed<GroupOpDropDown>(peer);
 		auto patternPreview = Gtk::make_managed<PatternPreview>(peer);
 
-		box->append(*opCombo);
+		box->append(*opDropDown);
 		box->append(opWidgetHolder_);
 		opWidgetHolder_.set_hexpand();
 		OnOpChanged();
@@ -547,7 +547,7 @@ public:
 		append(*box);
 		append(*patternPreview);
 
-		opCombo->SignalChanged().connect(
+		opDropDown->SignalChanged().connect(
 			sigc::mem_fun(*this, &GroupPanel::OnOpChanged));
 	}
 
@@ -563,12 +563,12 @@ public:
 			ModulatorPtr mod = peer_->GetReactiveMod();
 			if (mod)
 			{
-				Gtk::Box *box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+				auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 				opWidgetHolder_.set_child(*box);
 
-				ModulatorDropDown *modCombo = Gtk::make_managed<ModulatorDropDown>(mod);
+				auto modDropDown = Gtk::make_managed<ModulatorDropDown>(mod);
 
-				box->append(*modCombo);
+				box->append(*modDropDown);
 				box->append(modWidgetHolder_);
 				modWidgetHolder_.set_hexpand();
 
@@ -578,7 +578,7 @@ public:
 				delete old;
 				modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
 
-				modCombo->SignalModulatorChanged().connect(
+				modDropDown->SignalModulatorChanged().connect(
 					sigc::mem_fun(*this, &GroupPanel::OnModulatorChanged));
 			}
 		}

@@ -47,7 +47,7 @@ void TextureDropDown::Init()
 	dropDown_.set_factory(factory);
 	dropDown_.set_list_factory(factory);
 	append(dropDown_);
-	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &TextureDropDown::OnComboChanged));
+	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &TextureDropDown::OnDropDownChanged));
 }
 
 TextureDropDown::TextureDropDown(TexturePtr tx, std::vector<std::string> textures) :
@@ -139,7 +139,7 @@ void TextureDropDown::SetActive(TexturePtr tx)
 
 
 
-void TextureDropDown::OnComboChanged()
+void TextureDropDown::OnDropDownChanged()
 {
 	guint curIndex = dropDown_.get_selected();
 	if (curIndex >= txFileList_.size()) return;

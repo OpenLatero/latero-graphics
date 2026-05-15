@@ -111,7 +111,7 @@ GratingModulatorCtrl::GratingModulatorCtrl(GratingModulatorPtr peer) :
 {
 	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 
-	auto modeCombo = Gtk::make_managed<GratingModulatorModeDropDown>(peer);
+	auto modeDropDown = Gtk::make_managed<GratingModulatorModeDropDown>(peer);
 	auto factorWidget = Gtk::make_managed<GratingModulatorFactorWidget>(peer);
 	auto posWidget = Gtk::make_managed<GratingModulatorPosWidget>(peer);
 	auto lengthWidget = Gtk::make_managed<GratingModulatorLengthWidget>(peer);
@@ -124,7 +124,7 @@ GratingModulatorCtrl::GratingModulatorCtrl(GratingModulatorPtr peer) :
 	set_child(*box);
 	box->append(check_);
 	box->append(widgetbox_);
-	widgetbox_.append(*modeCombo);
+	widgetbox_.append(*modeDropDown);
 	widgetbox_.append(*factorWidget);
 	widgetbox_.append(*posWidget);
 	widgetbox_.append(*lengthWidget);

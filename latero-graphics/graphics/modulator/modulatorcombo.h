@@ -19,8 +19,8 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_MODULATOR_COMBO
-#define LATERO_GRAPHICS_PLANAR_MODULATOR_COMBO
+#ifndef LATERO_GRAPHICS_PLANAR_MODULATOR_DROP_DOWN
+#define LATERO_GRAPHICS_PLANAR_MODULATOR_DROP_DOWN
 
 #include "modulatorfwd.h"
 #include <gtkmm.h>
@@ -40,7 +40,7 @@ public:
 
 protected:
 	sigc::signal<void(ModulatorPtr)> signalModulatorChanged_;
-	void OnComboChanged();
+	void OnDropDownChanged();
 
 	const latero::Tactograph *dev_; // tmp?
 	Glib::RefPtr<Gtk::StringList> list_;
