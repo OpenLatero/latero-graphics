@@ -57,58 +57,54 @@ void TextureSelectorCtrl::OnSave()
 {
 	if (!texture_) return;
 
-	auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::SAVE);
-
-	std::string dir = std::filesystem::current_path().string();
-
 	auto filter = Gtk::FileFilter::create();
-	filter->add_pattern("*.tx");
+	filter->set_name("texture files");
+	filter->add_suffix("tx");
+	auto filters = Gio::ListStore<Gtk::FileFilter>::create();
+	filters->append(filter);
 
-	dialog->set_current_folder(Gio::File::create_for_path(dir));
-	dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
-	dialog->add_button("Save", Gtk::ResponseType::OK);
-	dialog->set_default_response(Gtk::ResponseType::CANCEL);
 	std::string file = texture_->GetXMLFile();
-	if (file=="") file = "texture.tx";
-	dialog->set_current_name(file);
-	dialog->add_filter(filter);
+	if (file == "") file = "texture.tx";
 
-	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
-		dialog->set_transient_for(*win);
-	dialog->signal_response().connect([this, dialog](int response_id) {
-		if (response_id == Gtk::ResponseType::OK)
-			texture_->Save(dialog->get_file()->get_path());
-		delete dialog;
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select a file...");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name(file);
+	dialog->set_filters(filters);
+	dialog->set_default_filter(filter);
+
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->save(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto f = dialog->save_finish(result);
+			texture_->Save(f->get_path());
+		} catch (const Gtk::DialogError&) {}
 	});
-	dialog->show();
 }
 
 void TextureSelectorCtrl::OnLoad()
 {
-	auto dialog = new Gtk::FileChooserDialog("Please select a file...", Gtk::FileChooser::Action::OPEN);
-
-	std::string dir = std::filesystem::current_path().string();
-
 	auto filter = Gtk::FileFilter::create();
-	filter->add_pattern("*.tx");
+	filter->set_name("texture files");
+	filter->add_suffix("tx");
+	auto filters = Gio::ListStore<Gtk::FileFilter>::create();
+	filters->append(filter);
 
-	dialog->set_current_folder(Gio::File::create_for_path(dir));
-	dialog->add_button("Cancel", Gtk::ResponseType::CANCEL);
-	dialog->add_button("Open", Gtk::ResponseType::OK);
-	dialog->set_default_response(Gtk::ResponseType::CANCEL);
-	dialog->add_filter(filter);
-	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
-		dialog->set_transient_for(*win);
-	dialog->signal_response().connect([this, dialog](int response_id) {
-		if (response_id == Gtk::ResponseType::OK)
-		{
-			texture_ = Texture::Create(texture_->Dev(), dialog->get_file()->get_path().c_str());
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select a file...");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_filters(filters);
+	dialog->set_default_filter(filter);
+
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->open(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto file = dialog->open_finish(result);
+			texture_ = Texture::Create(texture_->Dev(), file->get_path().c_str());
 			modeDropDown_.SetActive(texture_);
 			SignalTextureChanged_();
-		}
-		delete dialog;
+		} catch (const Gtk::DialogError&) {}
 	});
-	dialog->show();
 }
 
 
