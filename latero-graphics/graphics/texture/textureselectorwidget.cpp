@@ -54,6 +54,8 @@ void TextureSelectorCtrl::OnModeChanged(TexturePtr tx)
 
 void TextureSelectorCtrl::OnSave()
 {
+	// GTKMM4: this currently saves the path along with the filename
+
 	if (!texture_) return;
 
 	auto filter = Gtk::FileFilter::create();
@@ -64,6 +66,7 @@ void TextureSelectorCtrl::OnSave()
 
 	std::string file = texture_->GetXMLFile();
 	if (file == "") file = "texture.tx";
+	file = std::filesystem::path(file).stem().string();
 
 	auto dialog = Gtk::FileDialog::create();
 	dialog->set_title("Please select a file...");
