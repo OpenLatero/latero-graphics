@@ -435,6 +435,7 @@ void GroupTreeView::OnPatternSave()
 
 	std::string file = pattern->GetXMLFile();
 	if (file == "") file = "new.pattern";
+	file = std::filesystem::path(file).filename().string();
 
 	auto filter = Gtk::FileFilter::create();
 	filter->add_suffix("pattern");
@@ -462,6 +463,7 @@ void GroupTreeView::OnTextureSave()
 
 	std::string file = pattern->GetXMLFile();
 	if (file == "") file = "new.tx";
+	file = std::filesystem::path(file).filename().string();
 
 	auto filter = Gtk::FileFilter::create();
 	filter->add_suffix("tx");
