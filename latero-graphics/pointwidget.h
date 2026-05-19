@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_POINT_WIDGET
-#define LATERO_GRAPHICS_POINT_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "point.h"
@@ -44,4 +43,3 @@ protected:
 
 } // namespace
 
-#endif

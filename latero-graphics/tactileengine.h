@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_TACTILE_ENGINE_H
-#define LATERO_GRAPHICS_TACTILE_ENGINE_H
+#pragma once
 
 #include <latero/tactograph.h>
 #include "engine.h"
@@ -46,4 +45,3 @@ private:
 
 } // namespace
 
-#endif

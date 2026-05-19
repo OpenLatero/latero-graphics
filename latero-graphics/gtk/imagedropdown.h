@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GTK_IMAGE_DROP_DOWN
-#define LATERO_GRAPHICS_GTK_IMAGE_DROP_DOWN
+#pragma once
 
 #include <gtkmm.h>
 
@@ -60,4 +59,3 @@ protected:
 
 } // namespace
 
-#endif

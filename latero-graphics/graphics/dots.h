@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DOTS_H
-#define LATERO_GRAPHICS_PLANAR_DOTS_H
+#pragma once
 
 #include "dotsfwd.h"
 #include "group.h"
@@ -113,4 +112,3 @@ protected:
 
 } // namespace
 
-#endif

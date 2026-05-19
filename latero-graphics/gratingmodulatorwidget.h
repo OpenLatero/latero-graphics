@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GRATING_MODULATOR_WIDGET
-#define LATERO_GRAPHICS_GRATING_MODULATOR_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "gratingmodulatorfwd.h"
@@ -41,4 +40,3 @@ protected:
 
 } // namespace
 
-#endif

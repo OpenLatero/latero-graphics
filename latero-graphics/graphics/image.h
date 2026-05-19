@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_IMAGE_H
-#define LATERO_GRAPHICS_PLANAR_IMAGE_H
+#pragma once
 
 #include "texture/texturefwd.h"
 #include "pattern.h"
@@ -92,4 +91,3 @@ protected:
 
 } // namespace
 
-#endif

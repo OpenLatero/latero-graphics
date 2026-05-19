@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_PLAIN_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_PLAIN_TEXTURE
+#pragma once
 
 #include "texture.h"
 #include "plaintexturefwd.h"
@@ -57,6 +56,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

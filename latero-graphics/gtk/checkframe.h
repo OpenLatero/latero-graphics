@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GTK_CHECK_FRAME_H
-#define LATERO_GRAPHICS_GTK_CHECK_FRAME_H
+#pragma once
 
 #include <gtkmm.h>
 
@@ -45,4 +44,3 @@ protected:
 
 } // namespace
 
-#endif

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_GRAPH_H
-#define LATERO_GRAPHICS_PLANAR_GRAPH_H
+#pragma once
 
 #include "gtk/plot.h"
 #include <gtkmm.h>
@@ -45,4 +44,3 @@ protected:
 
 } // namespace
 
-#endif

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GRATING_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_GRATING_TEXTURE_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "texturewidget.h"
@@ -78,4 +77,3 @@ protected:
 
 } // namespace
 
-#endif

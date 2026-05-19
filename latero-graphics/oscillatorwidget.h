@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_OSCILLATOR_WIDGET
-#define LATERO_GRAPHICS_PLANAR_OSCILLATOR_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "gtk/checkframe.h"
@@ -74,4 +73,3 @@ protected:
 
 } // namespace
 
-#endif

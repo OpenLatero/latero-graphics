@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_CLOSED_PATTERN_WIDGET
-#define LATERO_GRAPHICS_PLANAR_CLOSED_PATTERN_WIDGET
+#pragma once
 
 #include "closedpatternfwd.h"
 #include "../gtk/checkframe.h"
@@ -43,4 +42,3 @@ protected:
 
 } // namespace
 
-#endif

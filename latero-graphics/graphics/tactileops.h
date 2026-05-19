@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GRAPHICS_TACTILE_OPS_H
-#define LATERO_GRAPHICS_GRAPHICS_TACTILE_OPS_H
+#pragma once
 
 namespace latero::graphics {
 
@@ -48,4 +47,3 @@ public:
 
 } // namespace
 
-#endif

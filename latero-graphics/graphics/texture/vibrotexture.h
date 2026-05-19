@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_VIBRO_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_VIBRO_TEXTURE
+#pragma once
 
 #include "texture.h"
 #include "vibrotexturefwd.h"
@@ -65,6 +64,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_DOUBLE_LINEAR_GRATING_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_DOUBLE_LINEAR_GRATING_TEXTURE_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 //TODO: check why this is required
@@ -52,4 +51,3 @@ protected:
 
 } // namespace
 
-#endif

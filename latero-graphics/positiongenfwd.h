@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_POSITION_GEN_FWD
-#define LATERO_GRAPHICS_POSITION_GEN_FWD
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
@@ -30,6 +29,4 @@ class PositionGen;
 typedef boost::shared_ptr<PositionGen> PositionGenPtr;
 
 } // namespace
-
-#endif
 

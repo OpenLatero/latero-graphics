@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_VELOCITY_ESTIMATOR_H
-#define LATERO_GRAPHICS_VELOCITY_ESTIMATOR_H
+#pragma once
 
 #include <math.h>
 #include "point.h"
@@ -63,4 +62,3 @@ protected:
 
 } // namespace
 
-#endif

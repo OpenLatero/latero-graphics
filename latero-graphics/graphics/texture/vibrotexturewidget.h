@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_VIBRO_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_VIBRO_TEXTURE_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "vibrotexturefwd.h"
@@ -39,4 +38,3 @@ protected:
 
 } // namespace
 
-#endif

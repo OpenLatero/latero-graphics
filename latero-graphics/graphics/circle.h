@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_CIRCLE
-#define LATERO_GRAPHICS_PLANAR_CIRCLE
+#pragma once
 
 #include "closedpattern.h"
 #include "circlefwd.h"
@@ -100,4 +99,3 @@ protected:
 
 } // namespace
 
-#endif

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef GTKVL_ANIMATION
-#define GTKVL_ANIMATION
+#pragma once
 
 #include <gdkmm.h>
 #include <gtkmm/window.h>
@@ -158,4 +157,3 @@ protected:
 
 } // namespace
 
-#endif

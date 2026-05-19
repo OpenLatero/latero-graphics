@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_STROKE_MOTION_WIDGET
-#define LATERO_GRAPHICS_PLANAR_STROKE_MOTION_WIDGET
+#pragma once
 
 #include "strokefwd.h"
 #include <gtkmm.h>
@@ -44,4 +43,3 @@ protected:
 
 } // namespace
 
-#endif

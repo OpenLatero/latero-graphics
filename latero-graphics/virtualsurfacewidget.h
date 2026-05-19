@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_VIRTUAL_SURFACE_WIDGET_H
-#define LATERO_GRAPHICS_VIRTUAL_SURFACE_WIDGET_H
+#pragma once
 
 #include <gtkmm.h>
 #include <latero/tactileimg.h>
@@ -206,4 +205,3 @@ private:
 
 } // namespace
 
-#endif

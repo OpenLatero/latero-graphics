@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_STROKE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_STROKE_WIDGET
+#pragma once
 
 #include "strokemotionwidget.h"
 
@@ -64,4 +63,3 @@ public:
 
 } // namespace
 
-#endif

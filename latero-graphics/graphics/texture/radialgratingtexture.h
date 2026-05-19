@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_RADIAL_GRATING_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_RADIAL_GRATING_TEXTURE
+#pragma once
 
 #include "gratingtexture.h"
 #include "radialgratingtexturefwd.h"
@@ -60,6 +59,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

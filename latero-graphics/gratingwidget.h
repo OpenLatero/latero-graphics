@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GRATING_WIDGET
-#define LATERO_GRAPHICS_GRATING_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "gratingfwd.h"
@@ -269,4 +268,3 @@ protected:
 
 } // namespace
 
-#endif

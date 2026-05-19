@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_RADIAL_GRATING_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_RADIAL_GRATING_TEXTURE_WIDGET
+#pragma once
 
 //TODO: check why this is required
 #include "radialgratingtexture.h"
@@ -50,4 +49,3 @@ protected:
 
 } // namespace
 
-#endif

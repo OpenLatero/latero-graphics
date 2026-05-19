@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_LINEAR_GRATING_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_LINEAR_GRATING_TEXTURE
+#pragma once
 
 #include "gratingtexture.h"
 #include "lineargratingtexturefwd.h"
@@ -67,6 +66,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_POLYGON_WIDGET
-#define LATERO_GRAPHICS_PLANAR_POLYGON_WIDGET
+#pragma once
 
 #include "polygonfwd.h"
 #include <gtkmm.h>
@@ -36,4 +35,3 @@ public:
 
 } // namespace
 
-#endif

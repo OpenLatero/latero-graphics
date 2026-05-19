@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GRATING_H
-#define LATERO_GRAPHICS_GRATING_H
+#pragma once
 
 #include "gratingfwd.h"
 #include "gratingmodulatorfwd.h"
@@ -194,4 +193,3 @@ protected:
 
 } // namespace
 
-#endif

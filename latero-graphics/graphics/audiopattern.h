@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_AUDIO_PATTERN_H
-#define LATERO_GRAPHICS_AUDIO_PATTERN_H
+#pragma once
 
 #include "pattern.h"
 #include "../maskfwd.h"
@@ -95,4 +94,3 @@ private:
 
 } // namespace
 
-#endif

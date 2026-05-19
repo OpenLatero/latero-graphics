@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_OSCILLATOR_FWD
-#define LATERO_GRAPHICS_PLANAR_OSCILLATOR_FWD
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
@@ -30,5 +29,3 @@ class Oscillator;
 typedef boost::shared_ptr<Oscillator> OscillatorPtr;
 
 } // namespace
-
-#endif

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_CANVAS_FWD_H
-#define LATERO_GRAPHICS_CANVAS_FWD_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
@@ -31,4 +30,3 @@ typedef boost::shared_ptr<Canvas> CanvasPtr;
 
 } // namespace
 
-#endif

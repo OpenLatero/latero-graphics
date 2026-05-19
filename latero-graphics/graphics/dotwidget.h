@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DOT_WIDGET
-#define LATERO_GRAPHICS_PLANAR_DOT_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "dotfwd.h"
@@ -61,4 +60,3 @@ public:
 
 } // namespace
 
-#endif

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_RIDGE_GRAPH_H
-#define LATERO_GRAPHICS_PLANAR_RIDGE_GRAPH_H
+#pragma once
 
 #include "ridgefwd.h"
 #include "graph.h"
@@ -42,4 +41,3 @@ protected:
 
 } // namespace
 
-#endif

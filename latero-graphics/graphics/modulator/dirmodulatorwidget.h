@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DIR_MODULATOR_WIDGET
-#define LATERO_GRAPHICS_PLANAR_DIR_MODULATOR_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "dirmodulatorfwd.h"
@@ -37,6 +36,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

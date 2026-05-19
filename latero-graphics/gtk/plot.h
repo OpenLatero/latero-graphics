@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef GTKVL_PLOT_H
-#define GTKVL_PLOT_H
+#pragma once
 
 #include <queue>
 #include <gtkmm.h>
@@ -98,4 +97,3 @@ protected:
 
 } // namespace
 
-#endif

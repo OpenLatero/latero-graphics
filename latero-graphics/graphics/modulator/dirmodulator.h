@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DIR_MODULATOR_H
-#define LATERO_GRAPHICS_PLANAR_DIR_MODULATOR_H
+#pragma once
 
 #include "dirmodulatorfwd.h"
 #include "modulator.h"
@@ -98,6 +97,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

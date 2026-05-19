@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_MUTEX_H
-#define LATERO_GRAPHICS_MUTEX_H
+#pragma once
 
 #include <boost/thread/recursive_mutex.hpp>
 
@@ -48,4 +47,3 @@ protected:
 
 } // namespace
 
-#endif

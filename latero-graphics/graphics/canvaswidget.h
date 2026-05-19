@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_CANVAS_WIDGET_H
-#define LATERO_GRAPHICS_CANVAS_WIDGET_H
+#pragma once
 
 #include "canvasfwd.h"
 #include <gtkmm.h>
@@ -36,4 +35,3 @@ public:
 
 } // namespace
 
-#endif

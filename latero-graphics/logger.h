@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_LOGGER_H
-#define LATERO_GRAPHICS_LOGGER_H
+#pragma once
 
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
@@ -65,4 +64,3 @@ private:
 
 } // namespace
 
-#endif

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_STROKE_H
-#define LATERO_GRAPHICS_PLANAR_STROKE_H
+#pragma once
 
 #include "strokefwd.h"
 #include "../modifiable.h"
@@ -246,4 +245,3 @@ protected:
 
 } // namespace
 
-#endif

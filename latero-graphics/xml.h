@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_XML
-#define LATERO_GRAPHICS_XML
+#pragma once
 
 #include <libxml++/libxml++.h>
 #include "point.h"
@@ -121,4 +120,3 @@ protected:
 
 } // namespace
 
-#endif

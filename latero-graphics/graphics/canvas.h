@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_CANVAS_H
-#define LATERO_GRAPHICS_CANVAS_H
+#pragma once
 
 #include "canvasfwd.h"
 #include "../positiongen.h"
@@ -98,6 +97,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

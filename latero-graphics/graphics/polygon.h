@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_POLYGON
-#define LATERO_GRAPHICS_PLANAR_POLYGON
+#pragma once
 
 #include "polygonfwd.h"
 #include "closedpattern.h"
@@ -329,4 +328,3 @@ private:
 
 } // namespace
 
-#endif

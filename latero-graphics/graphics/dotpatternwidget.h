@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DOT_PATTERN_WIDGET
-#define LATERO_GRAPHICS_PLANAR_DOT_PATTERN_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "dotpatternfwd.h"
@@ -48,4 +47,3 @@ public:
 
 } // namespace
 
-#endif

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GTK_NUM_WIDGET_H
-#define LATERO_GRAPHICS_GTK_NUM_WIDGET_H
+#pragma once
 
 #include <gtkmm.h>
 #include <assert.h>
@@ -80,4 +79,3 @@ public:
 
 } // namespace
 
-#endif

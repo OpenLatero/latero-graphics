@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_RIDGE_H
-#define LATERO_GRAPHICS_PLANAR_RIDGE_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -114,4 +113,3 @@ protected:
 
 } // namespace
 
-#endif

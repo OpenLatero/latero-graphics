@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_RIDGE_FWD
-#define LATERO_GRAPHICS_RIDGE_FWD
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
@@ -31,4 +30,3 @@ typedef boost::shared_ptr<Ridge> RidgePtr;
 
 } // namespace
 
-#endif

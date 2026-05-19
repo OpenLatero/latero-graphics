@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GENERATOR_FWD
-#define LATERO_GRAPHICS_GENERATOR_FWD
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
@@ -31,4 +30,3 @@ typedef boost::shared_ptr<Generator> GeneratorPtr;
 
 } // namespace
 
-#endif

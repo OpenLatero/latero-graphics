@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_CLOSED_PATTERN_H
-#define LATERO_GRAPHICS_CLOSED_PATTERN_H
+#pragma once
 
 #include "closedpatternfwd.h"
 #include "pattern.h"
@@ -71,4 +70,3 @@ private:
 
 } // namespace
 
-#endif

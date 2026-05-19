@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_MOTION_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_MOTION_TEXTURE
+#pragma once
 
 #include "motiontexturefwd.h"
 #include "combotexture.h"
@@ -101,6 +100,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

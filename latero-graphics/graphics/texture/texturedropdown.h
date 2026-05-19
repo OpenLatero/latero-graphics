@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_TEXTURE_DROPDOWN
-#define LATERO_GRAPHICS_PLANAR_TEXTURE_DROPDOWN
+#pragma once
 
 #include "texturefwd.h"
 #include <gtkmm.h>
@@ -61,6 +60,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

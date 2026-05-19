@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DOUBLE_LINEAR_GRATING_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_DOUBLE_LINEAR_GRATING_TEXTURE
+#pragma once
 
 #include "doublelineargratingtexturefwd.h"
 #include "combotexture.h"
@@ -97,6 +96,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_OBJECT_SET_H
-#define LATERO_GRAPHICS_PLANAR_OBJECT_SET_H
+#pragma once
 
 #include "pattern.h"
 #include "groupfwd.h"
@@ -115,4 +114,3 @@ protected:
 
 } // namespace
 
-#endif

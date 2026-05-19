@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_AUDIO_DEVICE_FWD
-#define LATERO_GRAPHICS_AUDIO_DEVICE_FWD
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
@@ -31,4 +30,3 @@ namespace latero::graphics {
         
     } // namespace
 
-#endif

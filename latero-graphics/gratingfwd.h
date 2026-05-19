@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_GRATING_FWD_H
-#define LATERO_GRAPHICS_PLANAR_GRATING_FWD_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
@@ -30,5 +29,3 @@ class Grating;
 typedef boost::shared_ptr<Grating> GratingPtr;
 
 } // namespace
-
-#endif

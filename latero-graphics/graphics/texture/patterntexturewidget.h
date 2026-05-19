@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_PATTERN_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_PATTERN_TEXTURE_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "patterntexturefwd.h"
@@ -55,4 +54,3 @@ protected:
 
 } // namespace
 
-#endif

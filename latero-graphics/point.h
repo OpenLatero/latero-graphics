@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_POINT_H
-#define LATERO_GRAPHICS_POINT_H
+#pragma once
 
 #include <latero/point.h>
 
@@ -31,5 +30,3 @@ typedef latero::pair_T<int> INTPoint; // TODO
 typedef latero::pair_T<unsigned int> UINTPoint;
 
 } // namespace
-
-#endif

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_TEXTURE_SELECTOR_WIDGET
-#define LATERO_GRAPHICS_PLANAR_TEXTURE_SELECTOR_WIDGET
+#pragma once
 
 #include "texturedropdown.h"
 #include <gtkmm.h>
@@ -72,4 +71,3 @@ protected:
 
 } // namespace
 
-#endif

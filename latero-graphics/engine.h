@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_ENGINE_H
-#define LATERO_GRAPHICS_ENGINE_H
+#pragma once
 
 #include <boost/thread.hpp>
 
@@ -51,5 +50,3 @@ private:
 };
 
 } // namespace
-
-#endif

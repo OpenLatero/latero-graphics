@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_NAMED_ID
-#define LATERO_GRAPHICS_NAMED_ID
+#pragma once
 
 #include <string>
 #include <vector>
@@ -88,6 +87,4 @@ public:
 };
 
 } // namespace
-
-#endif
 

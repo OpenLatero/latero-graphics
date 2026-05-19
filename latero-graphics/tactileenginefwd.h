@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_TACTILE_ENGINE_FWD_H
-#define LATERO_GRAPHICS_TACTILE_ENGINE_FWD_H
+#pragma once
 
 namespace latero::graphics {
 
@@ -28,4 +27,3 @@ class TactileEngine;
 
 } // namespace
 
-#endif

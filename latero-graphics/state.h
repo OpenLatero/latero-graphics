@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_STATE_H
-#define LATERO_GRAPHICS_STATE_H
+#pragma once
 
 #include <latero/tactograph.h>
 #include "point.h"
@@ -109,6 +108,4 @@ protected:
 
 
 } // namespace
-
-#endif
 

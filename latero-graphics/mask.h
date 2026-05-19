@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_MASK_H
-#define LATERO_GRAPHICS_MASK_H
+#pragma once
 
 #include <gdkmm/pixbuf.h>
 
@@ -239,5 +238,3 @@ protected:
 };
 
 } // namespace
-
-#endif

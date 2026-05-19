@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_EXTERNAL_H
-#define LATERO_GRAPHICS_EXTERNAL_H
+#pragma once
 
 #include <sstream>
 #include <iostream>
@@ -53,4 +52,3 @@ protected:
 
 } // namespace
 
-#endif

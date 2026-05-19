@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_PATTERN_OPS_H
-#define LATERO_GRAPHICS_PLANAR_PATTERN_OPS_H
+#pragma once
 
 #include <cairomm/context.h>
 
@@ -51,6 +50,4 @@ public:
 };
 
 } // namespace
-
-#endif
 

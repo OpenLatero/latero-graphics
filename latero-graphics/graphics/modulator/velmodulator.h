@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_VEL_MODULATOR_H
-#define LATERO_GRAPHICS_PLANAR_VEL_MODULATOR_H
+#pragma once
 
 #include "velmodulatorfwd.h"
 #include "modulator.h"
@@ -81,6 +80,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

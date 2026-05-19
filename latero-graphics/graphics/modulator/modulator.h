@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_MODULATOR_H
-#define LATERO_GRAPHICS_PLANAR_MODULATOR_H
+#pragma once
 
 #include "modulatorfwd.h"
 #include "../../modifiable.h"
@@ -51,6 +50,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

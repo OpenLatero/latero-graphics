@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_STOCK
-#define LATERO_GRAPHICS_PLANAR_STOCK
+#pragma once
 
 namespace latero::graphics {
 
@@ -118,6 +117,4 @@ inline std::vector<std::string> GetStockTextures()
 }
 
 } // namespace
-
-#endif
 

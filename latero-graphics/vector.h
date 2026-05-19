@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_VECTOR_H
-#define LATERO_GRAPHICS_VECTOR_H
+#pragma once
 
 #include "point.h"
 #include <vector>
@@ -113,4 +112,3 @@ bool IsInsidePolygon(Point pos, const std::vector<Point> &v);
 
 } // namespace
 
-#endif

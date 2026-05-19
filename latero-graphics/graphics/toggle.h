@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_TOGGLE_H
-#define LATERO_GRAPHICS_TOGGLE_H
+#pragma once
 
 #include "pattern.h"
 #include "togglefwd.h"
@@ -87,4 +86,3 @@ protected:
 
 } // namespace
 
-#endif

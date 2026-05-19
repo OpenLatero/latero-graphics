@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_MODULATOR_DROPDOWN
-#define LATERO_GRAPHICS_PLANAR_MODULATOR_DROPDOWN
+#pragma once
 
 #include "modulatorfwd.h"
 #include <gtkmm.h>
@@ -50,6 +49,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

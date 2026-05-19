@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_IMAGE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_IMAGE_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "texture/textureselectorwidget.h"
@@ -45,4 +44,3 @@ protected:
 
 } // namespace
 
-#endif

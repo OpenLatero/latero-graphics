@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_AXIAL_GRATING_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_AXIAL_GRATING_TEXTURE_WIDGET
+#pragma once
 
 //TODO: check why this is required
 #include "axialgratingtexture.h"
@@ -51,4 +50,3 @@ protected:
 
 } // namespace
 
-#endif

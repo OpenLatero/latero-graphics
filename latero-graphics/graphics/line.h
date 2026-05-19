@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_LINE
-#define LATERO_GRAPHICS_PLANAR_LINE
+#pragma once
 
 #include "linefwd.h"
 #include "dotpatternfwd.h"
@@ -81,4 +80,3 @@ private:
 
 } // namespace
 
-#endif

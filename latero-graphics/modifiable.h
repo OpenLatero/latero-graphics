@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_MODIFIABLE_H
-#define LATERO_GRAPHICS_MODIFIABLE_H
+#pragma once
 
 #include <vector>
 #include <algorithm>
@@ -120,4 +119,3 @@ private:
 
 } // namespace
 
-#endif

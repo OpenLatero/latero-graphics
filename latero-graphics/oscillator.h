@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_OSCILLATOR_H
-#define LATERO_GRAPHICS_OSCILLATOR_H
+#pragma once
 
 #include <cairomm/context.h>
 #include "oscillatorfwd.h"
@@ -184,4 +183,3 @@ protected:
 
 } // namespace
 
-#endif

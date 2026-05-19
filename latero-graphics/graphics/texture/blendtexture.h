@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_BLEND_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_BLEND_TEXTURE
+#pragma once
 
 #include "texture.h"
 #include "blendtexturefwd.h"
@@ -75,6 +74,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_TOGGLE_WIDGET
-#define LATERO_GRAPHICS_TOGGLE_WIDGET
+#pragma once
 
 #include "togglefwd.h"
 #include <gtkmm.h>
@@ -36,4 +35,3 @@ public:
 
 } // namespace
 
-#endif

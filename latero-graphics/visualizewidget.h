@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_VISUALIZE_WIDGET_H
-#define LATERO_GRAPHICS_VISUALIZE_WIDGET_H
+#pragma once
 
 #include <gtkmm.h>
 #include "positiongenfwd.h"
@@ -156,5 +155,3 @@ protected:
 };
 
 } // namespace
-
-#endif

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef PATTERN_CREATOR_DIALOG
-#define PATTERN_CREATOR_DIALOG
+#pragma once
 
 #include "pattern.h"
 #include <gtkmm.h>
@@ -49,4 +48,3 @@ protected:
 
 } // namespace
 
-#endif

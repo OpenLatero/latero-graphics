@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_AXIAL_GRATING_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_AXIAL_GRATING_TEXTURE
+#pragma once
 
 #include "axialgratingtexturefwd.h"
 #include "gratingtexture.h"
@@ -74,6 +73,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

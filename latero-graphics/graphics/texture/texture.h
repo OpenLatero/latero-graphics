@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_TEXTURE
+#pragma once
 
 #include "texturefwd.h"
 #include "../../modifiable.h"
@@ -215,6 +214,4 @@ protected:
 };
 
 } // namespace
-
-#endif
 

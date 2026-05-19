@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_UNITS_H
-#define LATERO_GRAPHICS_UNITS_H
+#pragma once
 
 #include <string>
 #include <math.h>
@@ -83,4 +82,3 @@ inline static double DegreeShift(double degree, double min)
 
 } // namespace
 
-#endif

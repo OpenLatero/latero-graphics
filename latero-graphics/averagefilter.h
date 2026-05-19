@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_AVERAGE_FILTER_H
-#define LATERO_GRAPHICS_AVERAGE_FILTER_H
+#pragma once
 
 #include <stdio.h>
 
@@ -96,4 +95,3 @@ private:
 
 } // namespace
 
-#endif

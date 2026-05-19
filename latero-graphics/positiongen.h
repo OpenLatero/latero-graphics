@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_POSITIONGEN_H
-#define LATERO_GRAPHICS_POSITIONGEN_H
+#pragma once
 
 #include "generator.h"
 #include "positiongenfwd.h"
@@ -85,4 +84,3 @@ protected:
 
 } // namespace
 
-#endif

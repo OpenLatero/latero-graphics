@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_AUDIO_ENGINE
-#define LATERO_GRAPHICS_PLANAR_AUDIO_ENGINE
+#pragma once
 
 #include "engine.h"
 #include "generatorfwd.h"
@@ -46,5 +45,3 @@ private:
 };
 
 } // namespace
-
-#endif

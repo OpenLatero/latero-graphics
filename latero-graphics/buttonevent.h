@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_BUTTON_EVENT
-#define LATERO_GRAPHICS_BUTTON_EVENT
+#pragma once
 
 /**
  * TODO: probably not the best way to do this...
@@ -37,5 +36,3 @@ typedef struct {
 } ButtonEvent;
 
 } // namespace
-
-#endif

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef GTKVL_BLOB_DETECTOR
-#define GTKVL_BLOB_DETECTOR
+#pragma once
 
 #include <gdkmm/pixbuf.h>
 #include "../point.h"
@@ -125,4 +124,3 @@ protected:
 
 } // namespace
 
-#endif

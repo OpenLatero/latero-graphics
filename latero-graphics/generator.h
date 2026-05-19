@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GENERATOR_H
-#define LATERO_GRAPHICS_GENERATOR_H
+#pragma once
 
 #include <latero/tactograph.h>
 #include <gtkmm.h>
@@ -160,5 +159,3 @@ private:
 };
 
 } // namespace
-
-#endif

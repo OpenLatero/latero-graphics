@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef GTKVL_PIXBUF_OPS
-#define GTKVL_PIXBUF_OPS
+#pragma once
 
 #include <gdkmm/pixbuf.h>
 
@@ -57,4 +56,3 @@ public:
 
 } // namespace
 
-#endif

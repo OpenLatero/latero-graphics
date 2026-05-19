@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PATTERN_PREVIEW
-#define LATERO_GRAPHICS_PATTERN_PREVIEW
+#pragma once
 
 #include <gtkmm.h>
 #include "pattern.h"
@@ -50,4 +49,3 @@ protected:
 
 } // namespace
 
-#endif

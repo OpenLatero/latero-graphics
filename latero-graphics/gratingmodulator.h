@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_GRATING_MODULATOR_H
-#define LATERO_GRAPHICS_PLANAR_GRATING_MODULATOR_H
+#pragma once
 
 #include <string>
 #include <math.h>
@@ -90,4 +89,3 @@ protected:
 
 } // namespace
 
-#endif
