@@ -310,13 +310,7 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 	if (showAdvanced)
 		vbox->append(*advancedButton);
 	if (showPreview) 
-	{
-		auto preview = Gtk::make_managed<PatternPreview>(peer_);
-		box->append(*preview);
-		preview->set_size_request(200, -1);
-		preview->set_vexpand();
-		preview->set_hexpand(false);
-	}
+		box->append(*Gtk::make_managed<PatternPreview>(peer_));
 }
 
 

@@ -22,6 +22,7 @@
 #include <filesystem>
 #include <sys/stat.h>
 #include "patternpreview.h"
+#include <iostream>
 
 namespace latero::graphics {
 
@@ -66,12 +67,13 @@ PatternThumbnailSaveDialog::PatternThumbnailSaveDialog() :
 }
 */
 
-PatternPreview::PatternPreview(PatternPtr peer) : 
+PatternPreview::PatternPreview(PatternPtr peer) :
 	peer_(peer),
+	refreshTime_(boost::posix_time::min_date_time),
 	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
 	append(img_);
-	img_.set_hexpand();
+	img_.set_can_shrink(true);
 	Refresh();
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &PatternPreview::OnTimer),
@@ -146,7 +148,7 @@ bool PatternPreview::OnTimer()
 void PatternPreview::Refresh()
 {
 	int w = height*peer_->Dev()->GetSurfaceWidth()/peer_->Dev()->GetSurfaceHeight();
-	img_.set(peer_->GetVisualization(w,boost::posix_time::seconds(0),viz_mode));
+	img_.set_pixbuf(peer_->GetVisualization(w,boost::posix_time::seconds(0),viz_mode));
 	refreshTime_ = boost::posix_time::microsec_clock::universal_time();
 }
 
