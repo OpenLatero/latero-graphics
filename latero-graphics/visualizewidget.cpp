@@ -270,7 +270,7 @@ void VisualizeWidget::RefreshImg()
 {
 	frameAdj_->set_value(map_.GetCurrentFrameIndex());
 	Glib::RefPtr<Gdk::Pixbuf> buf = map_.GetCurrentFrame();
-	img_.set(buf);
+	img_.set_paintable(Gdk::Texture::create_for_pixbuf(buf));
 }
 
 void VisualizeWidget::ReloadAnimation()

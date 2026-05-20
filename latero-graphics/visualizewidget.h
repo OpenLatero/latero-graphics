@@ -147,7 +147,7 @@ protected:
     Glib::RefPtr<Gtk::Adjustment> widthAdj_, heightAdj_;
 	StartTimeWidget startTimeCtrl_;
 	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
-	Gtk::Image img_;
+	Gtk::Picture img_;
 	latero::graphics::gtk::Animation map_;
 	Glib::RefPtr<Gtk::StringList> modeList_;
 	Gtk::DropDown* modeDropDown_;
