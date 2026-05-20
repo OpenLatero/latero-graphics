@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_AUDIO_PATTERN_H
-#define LATERO_GRAPHICS_AUDIO_PATTERN_H
+#pragma once
 
 #include "pattern.h"
 #include "../maskfwd.h"
 #include "audiopatternfwd.h"
 #include "../audiodevice.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Sound
 {
@@ -94,7 +92,5 @@ private:
 	AudioPattern(const latero::Tactograph *dev, std::string file);
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

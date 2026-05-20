@@ -19,16 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef GTKVL_PLOT_H
-#define GTKVL_PLOT_H
+#pragma once
 
 #include <queue>
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 class Plot : public Gtk::DrawingArea
 {
@@ -67,19 +63,18 @@ public:
 	float GetMinY() { return yMin_; }
 	float GetMaxY() { return yMax_; }
 
-	void Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode = false);
+	void Draw(Cairo::RefPtr<Cairo::Context> cr, int w, int h, bool gtkmode = false);
 	void SaveToFile(std::string filename, uint w, uint h);
 	void OnSaveAs();
 	void OnSave();
 
 protected:
 	void CreatePopupMenu();
-	bool OnClick(GdkEventButton* event);
-	//virtual bool on_expose_event(GdkEventExpose* event);
-	bool OnDraw(const Cairo::RefPtr<Cairo::Context>& cr);
+	void OnClick(int n_press, double x, double y);
+	void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int w, int h);
 
-	const Gdk::Color bgColor_;	// background
-	const Gdk::Color lineColor_;	// line in the middle of the screen
+	const Gdk::RGBA bgColor_;	// background
+	const Gdk::RGBA lineColor_;	// line in the middle of the screen
 
 	typedef struct struct_point
 	{
@@ -90,19 +85,15 @@ protected:
 	typedef struct
 	{
 		std::vector<Point> points;
-		Gdk::Color color;
+		Gdk::RGBA color;
 	} Trace;
 
-	std::unique_ptr<Gtk::Menu> popupMenu_;
+	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	std::vector<Trace> channels_;
 
 	float xMin_, xMax_;
 	float yMin_, yMax_;
 };
 
-} // namespace gtk
+} // namespace
 
-} // namespace graphics
-} // namespace latero
-
-#endif

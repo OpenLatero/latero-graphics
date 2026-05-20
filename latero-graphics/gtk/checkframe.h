@@ -19,17 +19,11 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GTK_CHECK_FRAME_H
-#define LATERO_GRAPHICS_GTK_CHECK_FRAME_H
+#pragma once
 
-#include <gtkmm/box.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/checkbutton.h>
+#include <gtkmm.h>
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 class CheckFrame : public Gtk::Frame
 {
@@ -48,9 +42,5 @@ protected:
 	Gtk::CheckButton check_;
 };
 
-} // namespace gtk
+} // namespace
 
-} // namespace graphics
-} // namespace latero
-
-#endif

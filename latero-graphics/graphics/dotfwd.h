@@ -19,18 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DOT_FWD_H
-#define LATERO_GRAPHICS_PLANAR_DOT_FWD_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Dot;
 typedef boost::shared_ptr<Dot> DotPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

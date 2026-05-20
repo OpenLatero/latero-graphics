@@ -19,30 +19,24 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GTK_IMAGE_COMBO
-#define LATERO_GRAPHICS_GTK_IMAGE_COMBO
+#pragma once
 
-#include <gtkmm/combobox.h>
-#include <gtkmm/liststore.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 /**
- * This widget implements a ComboBox that displays a list of images. A numerical ID is associated with
+ * This widget implements a DropDown that displays a list of images. A numerical ID is associated with
  * each image.
  */
-class ImageCombo : public Gtk::Box
+class ImageDropDown : public Gtk::Box
 {
 public:
 	/** ctor */
-	ImageCombo();
+	ImageDropDown();
 
 	/** dtor */
-	virtual ~ImageCombo();
+	virtual ~ImageDropDown();
 
 	/** Append an image with its associated ID. */
 	void Append(int id, std::string imgfile);
@@ -51,29 +45,17 @@ public:
 	void SetActive(int id);
 
 	/** Callback for changes to selected image. Image ID is passed as an argument. */
-	sigc::signal<void,int> SignalChanged();
+	sigc::signal<void(int)> SignalChanged();
 
 protected:
 
-	void OnComboChanged();
+	void OnDropDownChanged();
 
-	class ModelColumns : public Gtk::TreeModel::ColumnRecord
-	{
-	public:
-		ModelColumns() { add(id_); add(img_);}
-		Gtk::TreeModelColumn<int> id_;
-		Gtk::TreeModelColumn< Glib::RefPtr<Gdk::Pixbuf> > img_;
-	};
-
-	ModelColumns columns_;
-	Gtk::ComboBox combo_;
-	Glib::RefPtr<Gtk::ListStore> model_;
-	sigc::signal<void,int> signalChanged_;
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
+	std::vector<std::pair<int, Glib::RefPtr<Gdk::Pixbuf>>> items_;
+	sigc::signal<void(int)> signalChanged_;
 };
 
-} // namespace gtk
+} // namespace
 
-} // namespace graphics
-} // namespace latero
-
-#endif

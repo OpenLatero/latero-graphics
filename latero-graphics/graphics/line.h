@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_LINE
-#define LATERO_GRAPHICS_PLANAR_LINE
+#pragma once
 
 #include "linefwd.h"
 #include "dotpatternfwd.h"
 #include "pattern.h"
 #include "stroke.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Line : public Pattern
 {
@@ -80,7 +78,5 @@ private:
 	DottedLinePtr dots_;	// dots rendering
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

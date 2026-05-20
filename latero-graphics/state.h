@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_STATE_H
-#define LATERO_GRAPHICS_STATE_H
+#pragma once
 
 #include <latero/tactograph.h>
 #include "point.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class State
 {
@@ -109,8 +107,5 @@ protected:
 
 
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

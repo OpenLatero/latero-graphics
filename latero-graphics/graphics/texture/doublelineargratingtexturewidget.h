@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_DOUBLE_LINEAR_GRATING_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_DOUBLE_LINEAR_GRATING_TEXTURE_WIDGET
+#pragma once
 
-#include <gtkmm/table.h>
+#include <gtkmm.h>
 //TODO: check why this is required
 #include "doublelineargratingtexture.h"
 #include "texturewidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class DoubleLinearGratingTextureWidget : public TextureWidget
 {
@@ -51,7 +49,5 @@ protected:
 	DoubleLinearGratingTexturePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

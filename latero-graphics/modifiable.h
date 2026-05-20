@@ -19,17 +19,16 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_MODIFIABLE_H
-#define LATERO_GRAPHICS_MODIFIABLE_H
+#pragma once
 
+#include <cassert>
 #include <vector>
 #include <algorithm>
 #include <boost/shared_ptr.hpp>
 #include "mutex.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Modifiable;
 typedef boost::shared_ptr<Modifiable> ModifiablePtr;
@@ -77,6 +76,7 @@ public:
 	inline void AddModifiableChild(ModifiablePtr mod) { LATERO_GRAPHICS_GUARD; AddModifiableChild_(mod); }
 	inline void AddModifiableChild_(ModifiablePtr mod)
 	{
+		assert(mod);
 		schildren_.push_back(mod);
 	}
 
@@ -119,7 +119,5 @@ private:
 	boost::posix_time::ptime lastModified_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

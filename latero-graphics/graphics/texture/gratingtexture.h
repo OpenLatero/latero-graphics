@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_GRATING_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_GRATING_TEXTURE
+#pragma once
 
 #include "gratingtexturefwd.h"
 #include "texture.h"
 #include "../../gratingfwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class GratingTexture : public Texture
 {
@@ -51,8 +49,5 @@ protected:
 	GratingPtr grating_; 	// waveform
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

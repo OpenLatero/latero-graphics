@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_TEXTURE
+#pragma once
 
 #include "texturefwd.h"
 #include "../../modifiable.h"
@@ -28,12 +27,11 @@
 #include "../../xml.h"
 #include "../../oscillator.h"
 #include <cairomm/context.h>
-#include <gtkmm/widget.h>
+#include <gtkmm.h>
 #include "../../state.h"
 #include "../pattern.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Texture : virtual public Pattern
 {
@@ -215,8 +213,5 @@ protected:
 	const latero::Tactograph *dev_; 
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

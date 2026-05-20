@@ -22,8 +22,7 @@
 #include "ridge.h"
 #include "units.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 Ridge::Ridge(double edgeWidth) :
     width_(width_default),
@@ -99,5 +98,4 @@ double Ridge::GetShape_(double d, double width, double edge)
 	return 0.5 + 0.5*cos(v * M_PI);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_BLEND_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_BLEND_TEXTURE_WIDGET
+#pragma once
 
 #include "blendtexturefwd.h"
 #include "textureselectorwidget.h"
-#include <gtkmm/notebook.h>
-#include "../modulator/modulatorcombo.h"
+#include <gtkmm.h>
+#include "../modulator/modulatordropdown.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class BlendTextureWidget : public Gtk::Notebook
 {
@@ -42,11 +40,9 @@ protected:
 
 	BlendTexturePtr peer_;
 	Gtk::Frame modWidgetHolder_;
-	ModulatorCombo modCombo_;
+	ModulatorDropDown modDropDown_;
 	TextureSelectorWidget *txWidgets_[2];
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

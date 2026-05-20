@@ -22,10 +22,8 @@
 #include "modulator.h"
 #include "dirmodulator.h"
 #include "velmodulator.h"
-#include <gtkmm/box.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 ModulatorPtr Modulator::Create(const latero::Tactograph *dev, const XMLInputNode &node)
 {
@@ -43,12 +41,12 @@ ModulatorPtr Modulator::Create(const latero::Tactograph *dev, const XMLInputNode
 
 Gtk::Widget *Modulator::CreateWidget(ModulatorPtr ptr)
 {
-	return new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+	return new Gtk::Box(Gtk::Orientation::VERTICAL);
 }
 
 Glib::RefPtr<Gdk::Pixbuf> Modulator::GetIllustration(uint size, double maxVel)
 {
-	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, size, size);
+	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, size, size);
 
 	uint rowstride = rv->get_rowstride();
 	uint n_channels = rv->get_n_channels();
@@ -76,8 +74,7 @@ Glib::RefPtr<Gdk::Pixbuf> Modulator::GetIllustration(uint size, double maxVel)
 	return rv;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

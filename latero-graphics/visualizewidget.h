@@ -19,79 +19,77 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_VISUALIZE_WIDGET_H
-#define LATERO_GRAPHICS_VISUALIZE_WIDGET_H
+#pragma once
 
-#include <gtkmm/dialog.h>
-#include <gtkmm/uimanager.h>
-#include <gtkmm/eventbox.h>
-#include <gtkmm/comboboxtext.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/radiobutton.h>
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/image.h>
+#include <gtkmm.h>
 #include "positiongenfwd.h"
 #include "gtk/animation.h"
 #include "units.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class TimeWidget : public Gtk::Box
 {
 public:
 	TimeWidget(int init=0, std::string units=units::nsec) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), adj_(Gtk::Adjustment::create(init, 0, 1000000)), spin_(adj_)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(init, 0, 1000000)), spin_(adj_)
 	{
-		combo_.append(units::day);
-		combo_.append(units::hour);
-		combo_.append(units::min);
-		combo_.append(units::sec);
-		combo_.append(units::msec);
-		combo_.append(units::usec);
-		combo_.append(units::nsec);
-		combo_.set_active_text(units);
+		unitsList_ = Gtk::StringList::create({});
+		unitsList_->append(units::day);
+		unitsList_->append(units::hour);
+		unitsList_->append(units::min);
+		unitsList_->append(units::sec);
+		unitsList_->append(units::msec);
+		unitsList_->append(units::usec);
+		unitsList_->append(units::nsec);
+		unitsDropDown_ = Gtk::make_managed<Gtk::DropDown>(unitsList_);
+		for (guint i = 0; i < unitsList_->get_n_items(); ++i)
+			if (unitsList_->get_string(i) == units) { unitsDropDown_->set_selected(i); break; }
 
-		pack_start(spin_);
+		append(spin_);
+		spin_.set_hexpand();
 		spin_.set_margin_end(6);
-		pack_start(combo_, Gtk::PACK_SHRINK);
+		append(*unitsDropDown_);
 	};
 
 	virtual ~TimeWidget() {};
 
 	boost::posix_time::time_duration GetTime()
 	{
-		return units::ConvertTime(adj_->get_value(), combo_.get_active_text());
+		auto idx = unitsDropDown_->get_selected();
+		return units::ConvertTime(adj_->get_value(), std::string(unitsList_->get_string(idx)));
 	}
 
 protected:
 
     Glib::RefPtr<Gtk::Adjustment> adj_;
 	Gtk::SpinButton spin_;
-	Gtk::ComboBoxText combo_;
+	Glib::RefPtr<Gtk::StringList> unitsList_;
+	Gtk::DropDown* unitsDropDown_;
 };
 
 class StartTimeWidget : public Gtk::Box
 {
 public:
-	StartTimeWidget() : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), currentRadio_("now"), timeCtrl_(0, units::min)
+	StartTimeWidget() : Gtk::Box(Gtk::Orientation::HORIZONTAL), currentRadio_("now"), timeCtrl_(0, units::min)
 	{
-		auto pTimeBox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+		auto pTimeBox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 
-		Gtk::RadioButton::Group group = currentRadio_.get_group();
-		timeRadio_.set_group(group);
+		currentRadio_.set_group(timeRadio_);
 		timeRadio_.set_active();
 	
-		pTimeBox->pack_start(timeRadio_, Gtk::PACK_SHRINK);
-		pTimeBox->pack_start(timeCtrl_);
+		pTimeBox->append(timeRadio_);
+		pTimeBox->append(timeCtrl_);
+		timeCtrl_.set_hexpand();
 
-		pack_start(currentRadio_, Gtk::PACK_SHRINK);		
+		append(currentRadio_);		
 		currentRadio_.set_margin_end(6);
-		pack_start(*pTimeBox);
+		append(*pTimeBox);
+		pTimeBox->set_hexpand();
 
-		timeRadio_.signal_clicked().connect(sigc::mem_fun(*this, &StartTimeWidget::OnModeChanged));
+		timeRadio_.signal_toggled().connect(sigc::mem_fun(*this, &StartTimeWidget::OnModeChanged));
 	};
 
 	virtual ~StartTimeWidget() {};
@@ -107,7 +105,7 @@ public:
 			return timeCtrl_.GetTime();
 	}
 
-	Gtk::RadioButton currentRadio_, timeRadio_;
+	Gtk::CheckButton currentRadio_, timeRadio_;
 	TimeWidget timeCtrl_;
 };
 
@@ -116,10 +114,8 @@ public:
  * This widget takes care of showing a low-level visualization image
  * for PositionGen generator. In order to work properly, the PositionGen 
  * must not depend on time.
- *
- * @TODO: rename? use Window instead of dialog?
  */
-class VisualizeWidget : public Gtk::Dialog
+class VisualizeWidget : public Gtk::Window
 {
 public:
 	VisualizeWidget(PositionGenPtr gen);
@@ -130,7 +126,6 @@ protected:
 	Gtk::Widget *GetPlaybackWidget();
 	latero::graphics::gtk::Animation GetDeflectionMap(uint w, uint n, double velMag, double velDir);
 	void RefreshImg();
-	bool OnClick(GdkEventButton* event);
 	void CreateMenu();
 	void OnSave();
 	void OnSaveAs();
@@ -151,14 +146,12 @@ protected:
     Glib::RefPtr<Gtk::Adjustment> nbFramesAdj_;
     Glib::RefPtr<Gtk::Adjustment> widthAdj_, heightAdj_;
 	StartTimeWidget startTimeCtrl_;
-	std::unique_ptr<Gtk::Menu> popupMenu_;
-	Gtk::Image img_;
+	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
+	Gtk::Picture img_;
 	latero::graphics::gtk::Animation map_;
-	Gtk::ComboBoxText modeCombo_;
+	Glib::RefPtr<Gtk::StringList> modeList_;
+	Gtk::DropDown* modeDropDown_;
 	PositionGenPtr gen_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace

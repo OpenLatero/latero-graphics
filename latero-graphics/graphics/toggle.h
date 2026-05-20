@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_TOGGLE_H
-#define LATERO_GRAPHICS_TOGGLE_H
+#pragma once
 
 #include "pattern.h"
 #include "togglefwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Toggle : virtual public Pattern
 {
@@ -62,7 +60,7 @@ public:
 
 	void DoToggle();
 	void DoToggle_();
-	//virtual bool OnKeyPress(GdkEventKey* event);
+	//virtual bool OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state);
     virtual void OnButtonEvent_(const ButtonEvent &event);
     
 	PatternPtr GetFirstPattern() { LATERO_GRAPHICS_GUARD; return patterns_[0]; }
@@ -86,7 +84,5 @@ protected:
     long toggleCount_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

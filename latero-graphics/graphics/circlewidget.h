@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_CIRCLE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_CIRCLE_WIDGET
+#pragma once
 
 #include "circlefwd.h"
-#include <gtkmm/notebook.h>
+#include <gtkmm.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class CircleWidget : public Gtk::Notebook
 {
@@ -35,7 +33,5 @@ public:
 	virtual ~CircleWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

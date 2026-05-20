@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_EXTERNAL_H
-#define LATERO_GRAPHICS_EXTERNAL_H
+#pragma once
 
 #include <sstream>
 #include <iostream>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 class SysCommand
 {
@@ -52,7 +50,5 @@ protected:
 	std::stringstream cmd;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

@@ -22,30 +22,32 @@
 #include "imagewidget.h"
 #include "image.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 ImageWidget::ImageWidget(ImagePtr peer, bool showMaskWidget) :
-	Gtk::Box(Gtk::ORIENTATION_VERTICAL),
+	Gtk::Box(Gtk::Orientation::VERTICAL),
 	txWidget_(peer->GetTexture()),
 	maskWidget_(peer->GetMask(),peer->Dev()),
 	peer_(peer)
 {
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-	pack_start(*box);
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+	append(*box);
+	box->set_vexpand();
 	
 	if (showMaskWidget)
 	{
-		Gtk::Notebook *notebook = Gtk::manage(new Gtk::Notebook);
+		Gtk::Notebook *notebook = Gtk::make_managed<Gtk::Notebook>();
 		notebook->append_page(maskWidget_, "mask");
 		notebook->append_page(txWidget_, "texture");
-		box->pack_start(*notebook);
+		box->append(*notebook);
+		notebook->set_hexpand();
 	}
 	else
 	{
-		box->pack_start(txWidget_);
+		box->append(txWidget_);
+		txWidget_.set_hexpand();
 	}
-	//box->pack_start(vizButton_,Gtk::PACK_SHRINK);
+	//box->append(vizButton_);
 
 
 	txWidget_.SignalTextureChanged().connect(
@@ -61,5 +63,4 @@ void ImageWidget::OnTextureChanged()
 	peer_->SetTexture(txWidget_.GetTexture());
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

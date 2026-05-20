@@ -19,17 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_LINEAR_GRATING_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_LINEAR_GRATING_TEXTURE_WIDGET
+#pragma once
 
-#include <gtkmm/adjustment.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 //TODO: check why this is required
 #include "lineargratingtexture.h"
 #include "gratingtexturewidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class LinearGratingTextureWidget : public GratingTextureWidget
 {
@@ -49,7 +46,5 @@ public:
 	virtual ~LinearGratingTextureAdvancedWidget() {}
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

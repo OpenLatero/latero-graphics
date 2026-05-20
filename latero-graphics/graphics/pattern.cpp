@@ -20,7 +20,6 @@
 // -----------------------------------------------------------
 
 #include <sys/stat.h>
-#include <gtkmm/box.h>
 #include <filesystem>
 #include "pattern.h"
 #include "circle.h"
@@ -34,8 +33,7 @@
 #include "texture/texture.h"
 #include <boost/thread.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 Pattern::Pattern(const latero::Tactograph *dev) 
 	: visible_(true), dev_(dev)
@@ -102,10 +100,10 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, boost::posix_time::t
 		uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
 		assert(h>0);
 
-		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, w, h);
+		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 		Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create(
 			(unsigned char*)img->get_pixels(),
-			Cairo::FORMAT_ARGB32,
+			Cairo::Surface::Format::ARGB32,
 			img->get_width(), img->get_height(), img->get_rowstride());
 		Cairo::RefPtr<Cairo::Context> cr = Cairo::Context::create(surface);
 		cr->scale(w/Dev()->GetSurfaceWidth(), h/Dev()->GetSurfaceHeight()); // scale to mm
@@ -124,7 +122,7 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, boost::posix_time::t
 		double ws_y = Dev()->GetSurfaceHeight();
 		uint h = w * ws_y/ws_x;
 
-		Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, false, 8, w, h);
+		Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, false, 8, w, h);
 
 		ActuatorState state;
 		if (mode == viz_deflection)
@@ -207,8 +205,7 @@ void Pattern::ClearVisible_()
 
 Gtk::Widget *Pattern::CreateWidget(PatternPtr ptr)
 { 
-	return new Gtk::Box(Gtk::ORIENTATION_VERTICAL); 
+	return new Gtk::Box(Gtk::Orientation::VERTICAL); 
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

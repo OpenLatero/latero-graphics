@@ -19,18 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DIR_MODULATOR_FWD_H
-#define LATERO_GRAPHICS_PLANAR_DIR_MODULATOR_FWD_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class DirModulator;
 typedef boost::shared_ptr<DirModulator> DirModulatorPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

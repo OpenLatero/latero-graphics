@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_CANVAS_H
-#define LATERO_GRAPHICS_CANVAS_H
+#pragma once
 
 #include "canvasfwd.h"
 #include "../positiongen.h"
 #include "groupfwd.h"
 #include "patternfwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 /**
  * The Canvas is a specialization of the PositionGen, and hence indirectly of Generator, which is used for the rendering of
@@ -73,7 +71,7 @@ public:
 	virtual void PlayAudio(AudioDevicePtr dev);
     
 	// see Generator
-	virtual bool OnKeyPress(GdkEventKey* event);
+	virtual bool OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state);
 
     // see Generator
     virtual void OnButtonEvent_(const ButtonEvent &event);
@@ -98,8 +96,5 @@ protected:
 	GroupPtr objects_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

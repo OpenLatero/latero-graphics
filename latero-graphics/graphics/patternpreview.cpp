@@ -22,11 +22,11 @@
 #include <filesystem>
 #include <sys/stat.h>
 #include "patternpreview.h"
-#include <gtkmm.h>
+#include <iostream>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
+/*
 // TODO: add options for size
 class PatternIllustrationSaveDialog : public Gtk::FileChooserDialog
 {
@@ -45,30 +45,35 @@ public:
 
 
 PatternIllustrationSaveDialog::PatternIllustrationSaveDialog() :
-	Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE)
+	Gtk::FileChooserDialog("Please select file name.", Gtk::FileChooser::Action::SAVE)
 {
 	std::string dir = std::filesystem::current_path().string();
-	set_current_folder(dir);
-	add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	add_button("Save", Gtk::RESPONSE_OK);
-	set_default_response(Gtk::RESPONSE_CANCEL);
+	set_current_folder(Gio::File::create_for_path(dir));
+	add_button("Cancel", Gtk::ResponseType::CANCEL);
+	add_button("Save", Gtk::ResponseType::OK);
+	set_default_response(Gtk::ResponseType::CANCEL);
 	set_current_name("pattern.png");
 }
 
 PatternThumbnailSaveDialog::PatternThumbnailSaveDialog() :
-	Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE)
+	Gtk::FileChooserDialog("Please select file name.", Gtk::FileChooser::Action::SAVE)
 {
 	std::string dir = std::filesystem::current_path().string();
-	set_current_folder(dir);
-	add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	add_button("Save", Gtk::RESPONSE_OK);
-	set_default_response(Gtk::RESPONSE_CANCEL);
+	set_current_folder(Gio::File::create_for_path(dir));
+	add_button("Cancel", Gtk::ResponseType::CANCEL);
+	add_button("Save", Gtk::ResponseType::OK);
+	set_default_response(Gtk::ResponseType::CANCEL);
 	set_current_name("thumbnail.png");
 }
+*/
 
-PatternPreview::PatternPreview(PatternPtr peer) : peer_(peer)
+PatternPreview::PatternPreview(PatternPtr peer) :
+	peer_(peer),
+	refreshTime_(boost::posix_time::min_date_time),
+	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
-	add(img_);
+	append(img_);
+	img_.set_can_shrink(true);
 	Refresh();
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &PatternPreview::OnTimer),
@@ -79,8 +84,10 @@ PatternPreview::PatternPreview(PatternPtr peer) : peer_(peer)
 
 void PatternPreview::CreatePopupMenu()
 {
-	set_events(Gdk::BUTTON_PRESS_MASK);
-	signal_button_press_event().connect(sigc::mem_fun(*this, &PatternPreview::OnClick));
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &PatternPreview::OnClick));
+	add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
@@ -101,33 +108,34 @@ void PatternPreview::CreatePopupMenu()
 	)");
 
 	// Get the menu and create a Gtk::Menu from it
-	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
-	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
-	popupMenu_->attach_to_widget(*this);
+	auto menu_model = std::dynamic_pointer_cast<Gio::MenuModel>(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu_model);
+	popupMenu_->set_parent(*this);
 }
 
 void PatternPreview::OnSave()
 {
-	PatternIllustrationSaveDialog dialog;
-	if (Gtk::RESPONSE_OK == dialog.run())
-	{
-		printf("saving pattern preview to %s\n", dialog.get_filename().c_str());
-		peer_->GetVisualization(1000,boost::posix_time::seconds(0),viz_mode)->save(dialog.get_filename(),"png");
-		chmod(dialog.get_filename().c_str(), 0666); // make accessible to others than root
-	}
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select file name.");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name("pattern.png");
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->save(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto file = dialog->save_finish(result);
+			std::string filename = file->get_path();
+			peer_->GetVisualization(1000,boost::posix_time::seconds(0),viz_mode)->save(filename,"png");
+			chmod(filename.c_str(), 0666);
+		} catch (const Gtk::DialogError&) {}
+	});
 }
 
 
 	
-bool PatternPreview::OnClick(GdkEventButton* event)
+void PatternPreview::OnClick(int n_press, double x, double y)
 {
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		return true;
-	}
-	else
-		return false;
+	popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
+	popupMenu_->popup();
 }
 
 bool PatternPreview::OnTimer()
@@ -140,10 +148,9 @@ bool PatternPreview::OnTimer()
 void PatternPreview::Refresh()
 {
 	int w = height*peer_->Dev()->GetSurfaceWidth()/peer_->Dev()->GetSurfaceHeight();
-	img_.set(peer_->GetVisualization(w,boost::posix_time::seconds(0),viz_mode));
+	img_.set_paintable(Gdk::Texture::create_for_pixbuf(peer_->GetVisualization(w,boost::posix_time::seconds(0),viz_mode)));
 	refreshTime_ = boost::posix_time::microsec_clock::universal_time();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

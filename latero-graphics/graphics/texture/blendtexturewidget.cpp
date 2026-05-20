@@ -24,24 +24,22 @@
 #include "../patternpreview.h"
 #include "../modulator/modulator.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 	peer_(peer),
-	modCombo_(peer->GetModulator())
+	modDropDown_(peer->GetModulator())
 {
-	modWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
-
-	txWidgets_[0] = Gtk::manage(new TextureSelectorWidget(peer->GetFirstTexture()));
-	txWidgets_[1] = Gtk::manage(new TextureSelectorWidget(peer->GetSecondTexture()));
+	txWidgets_[0] = Gtk::make_managed<TextureSelectorWidget>(peer->GetFirstTexture());
+	txWidgets_[1] = Gtk::make_managed<TextureSelectorWidget>(peer->GetSecondTexture());
 	ModulatorPtr mod = peer->GetModulator();
 
-	auto optionBox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-	optionBox->pack_start(modCombo_, Gtk::PACK_SHRINK);
-	optionBox->pack_start(modWidgetHolder_);
-	optionBox->pack_start(*Gtk::manage(new PatternPreview(peer)),Gtk::PACK_SHRINK);
-	modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
+	auto optionBox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+	optionBox->append(modDropDown_);
+	optionBox->append(modWidgetHolder_);
+	modWidgetHolder_.set_hexpand();
+	optionBox->append(*Gtk::make_managed<PatternPreview>(peer));
+	modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
 
 	append_page(*optionBox,"options");
 	append_page(*txWidgets_[0],"Texture (high)");
@@ -51,10 +49,8 @@ BlendTextureWidget::BlendTextureWidget(BlendTexturePtr peer) :
 		sigc::mem_fun(*this, &BlendTextureWidget::OnFirstTextureChanged));
 	txWidgets_[1]->SignalTextureChanged().connect(
 		sigc::mem_fun(*this, &BlendTextureWidget::OnSecondTextureChanged));
-	modCombo_.SignalModulatorChanged().connect(
+	modDropDown_.SignalModulatorChanged().connect(
 		sigc::mem_fun(*this, &BlendTextureWidget::OnModulatorChanged));
-
-	show_all_children();
 }
 
 void BlendTextureWidget::OnFirstTextureChanged()
@@ -71,13 +67,8 @@ void BlendTextureWidget::OnModulatorChanged(ModulatorPtr mod)
 {
 	peer_->SetModulator(mod);
 
-	Widget *old = modWidgetHolder_.get_child();
-	modWidgetHolder_.remove();
-	delete old;
-
-	modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
-	show_all_children();
+	modWidgetHolder_.unset_child();
+	modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

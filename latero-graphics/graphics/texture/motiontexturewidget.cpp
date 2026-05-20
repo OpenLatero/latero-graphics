@@ -22,13 +22,10 @@
 #include "motiontexturewidget.h"
 #include "motiontexture.h"
 #include "../../gtk/numwidget.h"
-#include <gtkmm.h>
 #include "../../pointwidget.h"
 #include "../../graphics/patternpreview.h"
 
-namespace latero {
-namespace graphics { 
-
+namespace latero::graphics {
 namespace MotionTextureCtrls {
 
 class MotionTextureCtrl
@@ -40,31 +37,39 @@ protected:
 	MotionTexturePtr peer_;
 };
 
-class CueTypeCombo : public Gtk::ComboBoxText, MotionTextureCtrl
+class CueTypeDropDown : public Gtk::Box, MotionTextureCtrl
 {
 public:
-	CueTypeCombo(MotionTexturePtr peer) : MotionTextureCtrl(peer)
+	CueTypeDropDown(MotionTexturePtr peer) :
+		Gtk::Box(Gtk::Orientation::HORIZONTAL),
+		MotionTextureCtrl(peer),
+		list_(Gtk::StringList::create({})),
+		dropDown_(list_)
 	{
-		MotionTexture::CueTypeSet ops = peer->GetCueTypes();
-		for (unsigned int i=0; i<ops.size(); ++i)
-			append(ops[i].label);
-		set_active_text(peer->GetCueType().label);
-		signal_changed().connect(sigc::mem_fun(*this, &CueTypeCombo::OnChange));
+		for (const auto& op : peer->GetCueTypes())
+			list_->append(op.label);
+		Glib::ustring target = peer->GetCueType().label;
+		for (guint i = 0; i < list_->get_n_items(); ++i)
+			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &CueTypeDropDown::OnChange));
+		append(dropDown_);
 	};
-	virtual ~CueTypeCombo() {};
-	sigc::signal<void> SignalChanged() { return signalChanged_; };
+	virtual ~CueTypeDropDown() {};
+	sigc::signal<void()>& SignalChanged() { return signalChanged_; };
 private:
-	sigc::signal<void> signalChanged_;
-	void OnChange() { peer_->SetCueType(get_active_text()); signalChanged_(); };
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
+	sigc::signal<void()> signalChanged_;
+	void OnChange() { peer_->SetCueType(std::string(list_->get_string(dropDown_.get_selected()))); signalChanged_(); };
 };
 
 class DirectionCtrl : public Gtk::Box, MotionTextureCtrl
 {
 public:
-	DirectionCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), MotionTextureCtrl(peer),
+	DirectionCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), MotionTextureCtrl(peer),
 		adj_(Gtk::Adjustment::create(peer->GetDirection(),0,360))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("direction", adj_, 0, units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirectionCtrl::OnChanged));
 	}
 	virtual ~DirectionCtrl() {};
@@ -76,10 +81,10 @@ protected:
 class VelocityCtrl : public Gtk::Box, MotionTextureCtrl
 {
 public:
-	VelocityCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), MotionTextureCtrl(peer),
+	VelocityCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), MotionTextureCtrl(peer),
 		adj_(Gtk::Adjustment::create(peer->GetVelocity(),0,100))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("velocity", adj_, 1, units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelocityCtrl::OnChanged));
 	}
 	virtual ~VelocityCtrl() {};
@@ -96,17 +101,17 @@ MotionTextureWidget::MotionTextureWidget(MotionTexturePtr peer) :
 	txWidget_(peer->GetTexture())
 {
 	using namespace MotionTextureCtrls;
-	auto motionPage = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-	box->pack_start(*Gtk::manage(new CueTypeCombo(peer)), Gtk::PACK_SHRINK);
-	box->pack_start(*Gtk::manage(new DirectionCtrl(peer)), Gtk::PACK_SHRINK);
-	box->pack_start(*Gtk::manage(new VelocityCtrl(peer)), Gtk::PACK_SHRINK);
-	motionPage->pack_start(*box);
-	motionPage->pack_start(*Gtk::manage(new PatternPreview(peer->GetMotionTexture())), Gtk::PACK_SHRINK);
+	auto motionPage = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	box->append(*Gtk::make_managed<CueTypeDropDown>(peer));
+	box->append(*Gtk::make_managed<DirectionCtrl>(peer));
+	box->append(*Gtk::make_managed<VelocityCtrl>(peer));
+	motionPage->append(*box);
+	box->set_hexpand();
+	motionPage->append(*Gtk::make_managed<PatternPreview>(peer->GetMotionTexture()));
 
 	append_page(txWidget_, "texture");
 	append_page(*motionPage, "motion cue");
-	show_all_children();
 
 	txWidget_.SignalTextureChanged().connect(sigc::mem_fun(*this, &MotionTextureWidget::OnTextureChanged));;
 }
@@ -116,5 +121,4 @@ void MotionTextureWidget::OnTextureChanged()
 	peer_->SetTexture(txWidget_.GetTexture());
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

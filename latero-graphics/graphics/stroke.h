@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_STROKE_H
-#define LATERO_GRAPHICS_PLANAR_STROKE_H
+#pragma once
 
 #include "strokefwd.h"
 #include "../modifiable.h"
@@ -33,8 +32,7 @@
 #include <sigc++/signal.h>
 #include "dotpattern.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class StrokeState
 {
@@ -195,7 +193,7 @@ public:
 
 	/** signals... activated unlocked... */
 	// applies to both width and effective width
-	sigc::signal<void> signal_width_changed() { return signal_width_changed_; };
+	sigc::signal<void()> signal_width_changed() { return signal_width_changed_; };
 
 
 	/***********************************************
@@ -216,7 +214,7 @@ protected:
 	/** @return the profile of the motion cue, without the intensity */
 	double GetMotionProfile(const StrokeState &state);
 
-	sigc::signal<void> signal_width_changed_;
+	sigc::signal<void()> signal_width_changed_;
 
 	// basic properties
 	RidgePtr profile_; 	// shape of the ridge (smooth, textured, etc)
@@ -245,7 +243,5 @@ protected:
 	const latero::Tactograph *dev_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

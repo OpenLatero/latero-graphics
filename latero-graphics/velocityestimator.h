@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_VELOCITY_ESTIMATOR_H
-#define LATERO_GRAPHICS_VELOCITY_ESTIMATOR_H
+#pragma once
 
 #include <math.h>
 #include "point.h"
 #include "averagefilter.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class VelocityEstimator
 {
@@ -62,7 +60,5 @@ protected:
 	AverageFilter<double> velx,vely; // cannot average direction since it's circular
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

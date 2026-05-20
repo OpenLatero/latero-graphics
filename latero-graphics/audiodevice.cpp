@@ -22,8 +22,7 @@
 #include "audiodevice.h"
 #include "graphics/canvas.h"
 
-namespace latero {
-    namespace graphics {
+namespace latero::graphics {
         
         AudioDevicePtr AudioDevice::Create()
         {
@@ -52,5 +51,4 @@ namespace latero {
         }
         
         
-    } // namespace graphics
-} // namespace latero
+    } // namespace

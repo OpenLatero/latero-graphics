@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_LINEAR_GRATING_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_LINEAR_GRATING_TEXTURE
+#pragma once
 
 #include "gratingtexture.h"
 #include "lineargratingtexturefwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class LinearGratingTexture : public GratingTexture
 {
@@ -67,8 +65,5 @@ protected:
 	float angle_; // orientation in degrees
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

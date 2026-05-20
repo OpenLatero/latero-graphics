@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_POLYGON_WIDGET
-#define LATERO_GRAPHICS_PLANAR_POLYGON_WIDGET
+#pragma once
 
 #include "polygonfwd.h"
-#include <gtkmm/notebook.h>
+#include <gtkmm.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class PolygonWidget : public Gtk::Notebook
 {
@@ -35,7 +33,5 @@ public:
 	virtual ~PolygonWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_BUTTON_EVENT
-#define LATERO_GRAPHICS_BUTTON_EVENT
+#pragma once
 
 /**
  * TODO: probably not the best way to do this...
  * move to latero?
  */
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 typedef struct {
     bool button0_up_event;
@@ -37,7 +35,4 @@ typedef struct {
     bool button1_down_event;
 } ButtonEvent;
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace

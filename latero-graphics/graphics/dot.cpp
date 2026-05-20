@@ -24,8 +24,7 @@
 #include "../ridge.h"
 #include "../units.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 void Dot::AppendXML(XMLOutputNode &root) const
 {
@@ -204,8 +203,7 @@ bool Dot::UpdateVisible_(const State *state)
 	return visible;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

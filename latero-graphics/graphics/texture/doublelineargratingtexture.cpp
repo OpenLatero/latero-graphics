@@ -27,8 +27,7 @@
 #include "../../grating.h"
 #include "../../xml.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 DoubleLinearGratingTexture::DoubleLinearGratingTexture(const latero::Tactograph *dev) : 
 	Pattern(dev), ComboTexture(dev),
@@ -226,5 +225,4 @@ void DoubleLinearGratingTexture::UpdateChildMotion()
 	}
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

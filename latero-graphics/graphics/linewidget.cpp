@@ -25,12 +25,10 @@
 #include "strokewidget.h"
 #include "../pointwidget.h"
 #include "dotpattern.h"
-#include <gtkmm/frame.h>
 #include "../gtk/numwidget.h"
 #include "patternpreview.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class LineStartCtrl : public Gtk::Frame
 {
@@ -40,7 +38,7 @@ public:
 		peer_(peer),
 		widget_(peer->GetStartPoint(),0,peer->Dev()->GetSurfaceWidth(),0,peer->Dev()->GetSurfaceHeight())
 	{
-		add(widget_);
+		set_child(widget_);
 		widget_.SignalValueChanged().connect(sigc::mem_fun(*this, &LineStartCtrl::OnChanged));
 	}
 	virtual ~LineStartCtrl() {};
@@ -59,7 +57,7 @@ public:
 		peer_(peer),
 		widget_(peer->GetEndPoint(),0,peer->Dev()->GetSurfaceWidth(),0,peer->Dev()->GetSurfaceHeight())
 	{
-		add(widget_);
+		set_child(widget_);
 		widget_.SignalValueChanged().connect(sigc::mem_fun(*this, &LineEndCtrl::OnChanged));
 	}
 protected:
@@ -72,28 +70,28 @@ class LinePropertiesCtrl : public Gtk::Box
 {
 public:
 	LinePropertiesCtrl(LinePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL)
 	{
-		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-		box->pack_start(*Gtk::manage(new LineStartCtrl(peer)), Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new LineEndCtrl(peer)), Gtk::PACK_SHRINK);
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+		box->append(*Gtk::make_managed<LineStartCtrl>(peer));
+		box->append(*Gtk::make_managed<LineEndCtrl>(peer));
 
-		pack_start(*box);
-		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		append(*box);
+		box->set_hexpand();
+		append(*Gtk::make_managed<PatternPreview>(peer));
 	}
 	virtual ~LinePropertiesCtrl() {};
 };
 
 LineWidget::LineWidget(LinePtr peer)
 {
-	append_page(*Gtk::manage(new LinePropertiesCtrl(peer)), "properties");
-	append_page(*Gtk::manage(new StrokeProfileWidget(peer->GetStroke())), "stroke");
-	append_page(*Gtk::manage(new StrokeFillWidget(peer->GetStroke())), "fill");
-	append_page(*Gtk::manage(new StrokeMotionWidget(peer->GetStroke())),"motion");
-	append_page(*Gtk::manage(new StrokeDottedWidget(peer->GetStroke())),"dots");
+	append_page(*Gtk::make_managed<LinePropertiesCtrl>(peer), "properties");
+	append_page(*Gtk::make_managed<StrokeProfileWidget>(peer->GetStroke()), "stroke");
+	append_page(*Gtk::make_managed<StrokeFillWidget>(peer->GetStroke()), "fill");
+	append_page(*Gtk::make_managed<StrokeMotionWidget>(peer->GetStroke()),"motion");
+	append_page(*Gtk::make_managed<StrokeDottedWidget>(peer->GetStroke()),"dots");
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

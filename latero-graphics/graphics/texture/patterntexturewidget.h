@@ -19,15 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_PATTERN_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_PATTERN_TEXTURE_WIDGET
+#pragma once
 
-#include <gtkmm/box.h>
-#include <gtkmm/frame.h>
+#include <gtkmm.h>
 #include "patterntexturefwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class PatternTextureWidget : public Gtk::Box
 {
@@ -55,7 +52,5 @@ protected:
 	
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

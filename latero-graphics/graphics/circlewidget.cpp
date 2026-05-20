@@ -25,14 +25,11 @@
 #include "circle.h"
 #include "../gtk/numwidget.h"
 #include "strokewidget.h"
-#include <gtkmm/frame.h>
-#include <gtkmm/box.h>
 #include "../pointwidget.h"
 #include "patternpreview.h"
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class CircleCenterCtrl : public Gtk::Frame
 {
@@ -42,7 +39,7 @@ public:
 		peer_(peer),
 		widget_(peer->GetCenter(),0,peer->Dev()->GetSurfaceWidth(),0,peer->Dev()->GetSurfaceHeight())
 	{
-		add(widget_);
+		set_child(widget_);
 		widget_.SignalValueChanged().connect(sigc::mem_fun(*this, &CircleCenterCtrl::OnChanged));
 	}
 	virtual ~CircleCenterCtrl() {};
@@ -57,9 +54,9 @@ class CircleRadiusCtrl : public Gtk::Box
 {
 public:
 	CircleRadiusCtrl(CirclePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetRadius(), 0.1, 100.0)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetRadius(), 0.1, 100.0)), peer_(peer)
 	{
-		add(*Gtk::manage(new latero::graphics::gtk::HNumWidget("radius", adj_, 1, "mm")));
+		append(*Gtk::make_managed<latero::graphics::gtk::HNumWidget>("radius", adj_, 1, "mm"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &CircleRadiusCtrl::OnChanged));
 	}
 	virtual ~CircleRadiusCtrl() {};
@@ -74,14 +71,16 @@ class CirclePropsWidget : public Gtk::Box
 {
 public:
 	CirclePropsWidget(CirclePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL)
 	{
-		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-		box->pack_start(*Gtk::manage(new CircleCenterCtrl(peer)),Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new CircleRadiusCtrl(peer)),Gtk::PACK_SHRINK);
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+		box->append(*Gtk::make_managed<CircleCenterCtrl>(peer));
+		box->append(*Gtk::make_managed<CircleRadiusCtrl>(peer));
 
-		pack_start(*box);
-		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		box->set_hexpand();
+
+		append(*box);
+		append(*Gtk::make_managed<PatternPreview>(peer));
 
 	}
 	virtual ~CirclePropsWidget() {};
@@ -90,14 +89,13 @@ public:
 
 CircleWidget::CircleWidget(CirclePtr peer)
 {
-	append_page(*Gtk::manage(new CirclePropsWidget(peer)),"properties");
-	append_page(*Gtk::manage(new StrokeProfileWidget(peer->GetStroke())),"stroke");
-	append_page(*Gtk::manage(new StrokeFillWidget(peer->GetStroke())),"fill");
-	append_page(*Gtk::manage(new StrokeMotionWidget(peer->GetStroke())),"motion");
-	append_page(*Gtk::manage(new StrokeDottedWidget(peer->GetStroke())),"dots");
-	append_page(*Gtk::manage(new ClosedPatternFillTextureWidget(peer)),"texture");
+	append_page(*Gtk::make_managed<CirclePropsWidget>(peer),"properties");
+	append_page(*Gtk::make_managed<StrokeProfileWidget>(peer->GetStroke()),"stroke");
+	append_page(*Gtk::make_managed<StrokeFillWidget>(peer->GetStroke()),"fill");
+	append_page(*Gtk::make_managed<StrokeMotionWidget>(peer->GetStroke()),"motion");
+	append_page(*Gtk::make_managed<StrokeDottedWidget>(peer->GetStroke()),"dots");
+	append_page(*Gtk::make_managed<ClosedPatternFillTextureWidget>(peer),"texture");
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

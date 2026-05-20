@@ -28,8 +28,7 @@
 #include "texture/texture.h"
 #include "texture/patternops.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 Circle::Circle(const latero::Tactograph *dev, const XMLInputNode &node)  :
 	ClosedPattern(dev),
@@ -42,7 +41,7 @@ Circle::Circle(const latero::Tactograph *dev, const XMLInputNode &node)  :
 	SetRadius(100);
 	AddModifiableChild(GetStroke());
 	LoadXML(node);
-	printf("finished constructing circle\n");
+	//printf("finished constructing circle\n");
 }
 
 
@@ -55,7 +54,7 @@ Circle::Circle(const latero::Tactograph *dev, Point center, double radius) :
 	SetCenter(center);
 	SetRadius(radius);
 	AddModifiableChild(GetStroke());
-	printf("finished constructing circle\n");
+	//printf("finished constructing circle\n");
 }
 
 void Circle::LoadXML(const XMLInputNode &root)
@@ -209,7 +208,6 @@ void Circle::SetRadius(float v)
 
 void Circle::SetCenter(const Point &v)  { LATERO_GRAPHICS_GUARD; center_=v; SetLastModified_(); dots_->SetCenter(v); }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

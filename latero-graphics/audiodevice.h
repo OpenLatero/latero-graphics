@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_AUDIO_DEVICE_H
-#define LATERO_GRAPHICS_AUDIO_DEVICE_H
+#pragma once
 
 #include "audiodevicefwd.h"
 #ifdef ENABLE_AUDIERE
@@ -28,8 +27,7 @@
 #endif
 
 
-namespace latero {
-    namespace graphics {
+namespace latero::graphics {
         
         class AudioDevice
         {
@@ -54,7 +52,5 @@ namespace latero {
 #endif
         };
         
-    } // namespace graphics
-} // namespace latero
+    } // namespace
 
-#endif

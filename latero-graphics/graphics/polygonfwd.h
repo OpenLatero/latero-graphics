@@ -19,18 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_POLYGON_FWD_H
-#define LATERO_GRAPHICS_POLYGON_FWD_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Polygon;
 typedef boost::shared_ptr<Polygon> PolygonPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

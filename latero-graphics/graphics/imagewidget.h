@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_IMAGE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_IMAGE_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "texture/textureselectorwidget.h"
 #include "../maskwidget.h"
 #include "imagefwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class ImageWidget : public Gtk::Box
 {
@@ -44,7 +42,5 @@ protected:
     ImagePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

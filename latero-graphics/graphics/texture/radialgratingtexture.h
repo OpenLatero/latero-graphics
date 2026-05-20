@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_RADIAL_GRATING_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_RADIAL_GRATING_TEXTURE
+#pragma once
 
 #include "gratingtexture.h"
 #include "radialgratingtexturefwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class RadialGratingTexture : public GratingTexture
 {
@@ -60,8 +58,5 @@ protected:
 	RadialGratingTexture(const latero::Tactograph *dev, const XMLInputNode &node);
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

@@ -22,25 +22,31 @@
 #include "oscillatorwidget.h"
 #include "oscillator.h"
 #include "gtk/numwidget.h"
-#include <gtkmm/checkbutton.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
-class OscillatorBlendModeCombo : public Gtk::ComboBoxText
+class OscillatorBlendModeDropDown : public Gtk::Box
 {
 public:
-	OscillatorBlendModeCombo(OscillatorPtr peer) : peer_(peer)
+	OscillatorBlendModeDropDown(OscillatorPtr peer) :
+		Gtk::Box(Gtk::Orientation::HORIZONTAL),
+		list_(Gtk::StringList::create({})),
+		dropDown_(list_),
+		peer_(peer)
 	{
-		Oscillator::BlendModeSet ops = peer->GetBlendModes();
-		for (unsigned int i=0; i<ops.size(); ++i)
-			append(ops[i].label);
-		set_active_text(peer->GetBlendMode().label);
-		signal_changed().connect(sigc::mem_fun(*this, &OscillatorBlendModeCombo::OnChange));
+		for (const auto& op : peer->GetBlendModes())
+			list_->append(op.label);
+		Glib::ustring target = peer->GetBlendMode().label;
+		for (guint i = 0; i < list_->get_n_items(); ++i)
+			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &OscillatorBlendModeDropDown::OnChange));
+		append(dropDown_);
 	};
-	virtual ~OscillatorBlendModeCombo() {};
+	virtual ~OscillatorBlendModeDropDown() {};
 private:
-	void OnChange() { peer_->SetBlendMode(get_active_text()); };
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
+	void OnChange() { peer_->SetBlendMode(std::string(list_->get_string(dropDown_.get_selected()))); };
 	OscillatorPtr peer_;
 };
 
@@ -49,23 +55,27 @@ OscillatorEnableCheck::OscillatorEnableCheck(OscillatorPtr peer) :
 	Gtk::CheckButton("vibrate"), peer_(peer)
 {
 	set_active(peer->GetEnable());
+	signal_toggled().connect([this]{ peer_->SetEnable(get_active()); });
 }
-void OscillatorEnableCheck::on_clicked() { peer_->SetEnable(!get_active()); Gtk::CheckButton::on_clicked(); };
 
 
 OscillatorAmplitudeCtrl::OscillatorAmplitudeCtrl(OscillatorPtr peer) :
-    Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
+    Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
-	pack_start(*Gtk::manage(new gtk::HNumWidget(adj_,0, units::percent)));
+	auto widget = Gtk::make_managed<gtk::HNumWidget>(adj_,0, units::percent);
+	append(*widget);
+	widget->set_vexpand();
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &OscillatorAmplitudeCtrl::OnChanged));
 }
 void OscillatorAmplitudeCtrl::OnChanged() { peer_->SetAmplitude(adj_->get_value()/100); };
 
 
 OscillatorFreqCtrl::OscillatorFreqCtrl(OscillatorPtr peer) :
-    Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),0.1,50)), peer_(peer)
+    Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),0.1,50)), peer_(peer)
 {
-	pack_start(*Gtk::manage(new gtk::HNumWidget(adj_,0, units::hz)));
+	auto widget = Gtk::make_managed<gtk::HNumWidget>(adj_,0, units::hz);
+	append(*widget);
+	widget->set_vexpand();
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &OscillatorFreqCtrl::OnChanged));
 }
 void OscillatorFreqCtrl::OnChanged() { peer_->SetFreq(adj_->get_value()); };
@@ -74,12 +84,18 @@ void OscillatorFreqCtrl::OnChanged() { peer_->SetFreq(adj_->get_value()); };
 OscillatorWidget::OscillatorWidget(OscillatorPtr peer, bool showBlendBode) :
 	gtk::CheckFrame(peer->GetEnable(), "vibration"), peer_(peer)
 {
-	GetBox().pack_start(*Gtk::manage(new OscillatorAmplitudeCtrl(peer)));
-	GetBox().pack_start(*Gtk::manage(new OscillatorFreqCtrl(peer)));
-	if (showBlendBode) GetBox().pack_start(*Gtk::manage(new OscillatorBlendModeCombo(peer)),Gtk::PACK_SHRINK);
-	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &OscillatorWidget::OnClick));
+	auto amplitudeCtrl = Gtk::make_managed<OscillatorAmplitudeCtrl>(peer);
+	auto freqCtrl = Gtk::make_managed<OscillatorFreqCtrl>(peer);
+
+	amplitudeCtrl->set_hexpand();
+	freqCtrl->set_hexpand();
+
+	GetBox().append(*amplitudeCtrl);
+	GetBox().append(*freqCtrl);
+
+	if (showBlendBode) GetBox().append(*Gtk::make_managed<OscillatorBlendModeDropDown>(peer));
+	GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &OscillatorWidget::OnClick));
 }
 void OscillatorWidget::OnClick() { peer_->SetEnable(GetCheck().get_active()); }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

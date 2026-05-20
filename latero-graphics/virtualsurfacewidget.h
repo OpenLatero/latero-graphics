@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_VIRTUAL_SURFACE_WIDGET_H
-#define LATERO_GRAPHICS_VIRTUAL_SURFACE_WIDGET_H
+#pragma once
 
 #include <gtkmm.h>
 #include <latero/tactileimg.h>
@@ -29,8 +28,7 @@
 #include "point.h"
 #include "generatorfwd.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /** Use VirtualSurfaceWidget instead! */
 class VirtualSurfaceArea : public Gtk::DrawingArea
@@ -51,8 +49,8 @@ public:
 	void ShowCursor(bool v = true);
 	void AnimateCursor(bool v = true);
 
-	inline uint GetWidth() { return get_allocation().get_width(); };
-	inline uint GetHeight() { return get_allocation().get_height(); };
+	inline uint GetWidth() { return get_width(); };
+	inline uint GetHeight() { return get_height(); };
 
 	void DisablePopup() { disablePopup_=true; }
 	void EnablePopup() { disablePopup_=false; }
@@ -64,17 +62,12 @@ public:
 
 protected:
 	void CreatePopupMenu();
-	bool OnClick(GdkEventButton* event);
+	void OnClick(int n_press, double x, double y);
 	void OnSave();
-    bool OnButtonPress(GdkEventButton* event);
-    bool OnMotionNotify(GdkEventMotion *event);
-    bool OnButtonRelease(GdkEventButton* event);
     Point GetClickPos(double x, double y);
 
 	// invalidate the entire window
 	void Invalidate();
-
-	virtual void on_size_allocate(Gtk::Allocation& allocation);
 
 	/** dots per mm in x */
 	inline double dpmm_x() { return GetWidth() / dev_->GetSurfaceWidth(); }
@@ -91,7 +84,7 @@ protected:
 	void DrawCursor(const Cairo::RefPtr<Cairo::Context> &cr);
 
 	//virtual bool on_expose_event(GdkEventExpose* event);
-    bool OnDraw(const Cairo::RefPtr<Cairo::Context>& cr);
+    void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height);
 
 protected:
     
@@ -99,7 +92,7 @@ protected:
 
 	latero::graphics::gtk::Animation anim_;
 
-	std::unique_ptr<Gtk::Menu> popupMenu_;
+	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	const latero::Tactograph *dev_;
 
 	Point tdPos_;
@@ -113,17 +106,16 @@ protected:
  * This widget represents the virtual surface explored by a tactile display. It is implement as an AspectFrame enclosing a 
  * DrawingArea so that the aspect ratio can be maintained.
  */
-class BaseVirtualSurfaceWidget : public Gtk::EventBox
+class BaseVirtualSurfaceWidget : public Gtk::Box
 {
 public:
 	BaseVirtualSurfaceWidget(const latero::Tactograph *dev) :
- 		frame_("", 0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
+ 		frame_(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
 		surface_(dev)
 	{
-		add(frame_);
-		frame_.unset_label(); // this is necessary to remove blank above surface
-		frame_.set_shadow_type(Gtk::SHADOW_NONE); // this removes the border
-		frame_.add(surface_);
+		append(frame_);
+		frame_.set_child(surface_);
+		surface_.set_expand();
 	}
 
 	virtual ~BaseVirtualSurfaceWidget()
@@ -200,19 +192,16 @@ protected:
 	void OnSaveCanvas();
 	void OnSaveCanvasAs();
 	void OnVisualize();
-	bool OnClick(GdkEventButton* event);
+	void OnClick(int n_press, double x, double y);
 	void CreatePopupMenu();
 
-	std::unique_ptr<Gtk::Menu> popupMenu_;
+	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	bool OnCheckPeer();
-	virtual void on_size_allocate(Gtk::Allocation& allocation);
 
 private:
 	GeneratorPtr peer_;
 	boost::posix_time::ptime bgUpdateTime_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

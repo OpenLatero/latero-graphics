@@ -38,10 +38,8 @@
 #include <sys/types.h>
 #include <iostream>
 #include <sys/stat.h>
-#include <gtkmm/box.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 const Point Texture::tdCentricPos_default(0,0);
 const Point Texture::motionVector_default(50,0);
@@ -52,7 +50,7 @@ TexturePtr Texture::Create(const latero::Tactograph *dev, const XMLInputNode &no
 	assert(node.GetType() == "Texture");
 	std::string type = node.GetSubType();
 
-	printf("name=%s, type=%s, subtype=%s\n", node.GetName().c_str(), node.GetType().c_str(), node.GetSubType().c_str());
+	//printf("name=%s, type=%s, subtype=%s\n", node.GetName().c_str(), node.GetType().c_str(), node.GetSubType().c_str());
 
 	if (type == "LinearGrating")		return LinearGratingTexture::Create(dev,node);
 	else if (type == "RadialGrating")	return RadialGratingTexture::Create(dev,node);
@@ -273,11 +271,10 @@ Gtk::Widget *Texture::CreateWidget(PatternPtr ptr)
 
 Gtk::Widget *Texture::CreateWidget(TexturePtr ptr)
 {
-	return new Gtk::Box(Gtk::ORIENTATION_VERTICAL);
+	return new Gtk::Box(Gtk::Orientation::VERTICAL);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_LINE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_LINE_WIDGET
+#pragma once
 
 #include "linefwd.h"
-#include <gtkmm/notebook.h>
+#include <gtkmm.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class LineWidget : public Gtk::Notebook
 {
@@ -35,7 +33,5 @@ public:
 	virtual ~LineWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_CANVAS_WIDGET_H
-#define LATERO_GRAPHICS_CANVAS_WIDGET_H
+#pragma once
 
 #include "canvasfwd.h"
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class CanvasWidget : public Gtk::Box
 {
@@ -35,7 +33,5 @@ public:
 	virtual ~CanvasWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

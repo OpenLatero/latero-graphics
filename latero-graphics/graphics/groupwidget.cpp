@@ -32,32 +32,35 @@
 #include "polygon.h"
 #include "image.h"
 #include "texture/texturewidget.h"
-#include "texture/texturecombo.h"
+#include "texture/texturedropdown.h"
 #include "texture/texture.h"
 #include "texture/doublelineargratingtexture.h"
 #include "texture/motiontexture.h"
 #include "patternpreview.h"
 #include "dots.h"
 #include "patterncreatordialog.h"
-#include <gtkmm/filechooserdialog.h>
-#include "modulator/modulatorcombo.h"
+#include "modulator/modulatordropdown.h"
 #include "modulator/modulator.h"
-#include <gtkmm.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 
-GroupOpCombo::GroupOpCombo(GroupPtr peer) :
+GroupOpDropDown::GroupOpDropDown(GroupPtr peer) :
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
+	list_(Gtk::StringList::create({})),
+	dropDown_(list_),
 	peer_(peer)
 {
-	Group::OperationSet ops = peer->GetOperations();
-	for (unsigned int i=0; i<ops.size(); ++i)
-		append(ops[i].label);
-	set_active_text(peer->GetOperation().label);
-	signal_changed().connect(sigc::mem_fun(*this, &GroupOpCombo::OnChange));
+	for (const auto& op : peer->GetOperations())
+		list_->append(op.label);
+	Glib::ustring target = peer->GetOperation().label;
+	for (guint i = 0; i < list_->get_n_items(); ++i)
+		if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &GroupOpDropDown::OnChange));
+	append(dropDown_);
 }
-void GroupOpCombo::OnChange() { peer_->SetOperation(get_active_text()); signalChanged_(); }
+
+void GroupOpDropDown::OnChange() { peer_->SetOperation(std::string(list_->get_string(dropDown_.get_selected()))); signalChanged_(); }
 
 
 
@@ -65,11 +68,53 @@ void GroupOpCombo::OnChange() { peer_->SetOperation(get_active_text()); signalCh
 
 
 GroupTreeView::GroupTreeView(GroupPtr peer) :
-	peer_(peer)
+	peer_(peer),
+	selection_(Gtk::SingleSelection::create())
 {
+	auto factory = Gtk::SignalListItemFactory::create();
+	factory->signal_setup().connect([](const Glib::RefPtr<Gtk::ListItem>& item) {
+		auto expander = Gtk::make_managed<Gtk::TreeExpander>();
+		expander->set_child(*Gtk::make_managed<Gtk::Label>("", Gtk::Align::START));
+		item->set_child(*expander);
+	});
+	factory->signal_bind().connect([](const Glib::RefPtr<Gtk::ListItem>& item) {
+		auto row = std::dynamic_pointer_cast<Gtk::TreeListRow>(item->get_item());
+		if (!row) return;
+		auto expander = dynamic_cast<Gtk::TreeExpander*>(item->get_child());
+		if (!expander) return;
+		expander->set_list_row(row);
+		auto patItem = std::dynamic_pointer_cast<PatternItem>(row->get_item());
+		if (!patItem || !patItem->pattern) return;
+		auto label = dynamic_cast<Gtk::Label*>(expander->get_child());
+		if (label) label->set_label(patItem->pattern->GetName());
+	});
+	factory->signal_unbind().connect([](const Glib::RefPtr<Gtk::ListItem>& item) {
+		if (auto* expander = dynamic_cast<Gtk::TreeExpander*>(item->get_child()))
+			expander->set_list_row({});
+	});
+
+	selection_->set_autoselect(false);
+	selection_->set_can_unselect(true);
+	set_factory(factory);
+	set_model(selection_);
 	Refresh();
-	append_column("name", columns_.name_);
-	set_headers_visible (false);
+
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &GroupTreeView::OnClick));
+	add_controller(gesture);
+}
+
+Glib::RefPtr<Gio::ListModel> GroupTreeView::CreateChildModel(const Glib::RefPtr<Glib::ObjectBase>& item)
+{
+	auto patItem = std::dynamic_pointer_cast<PatternItem>(item);
+	if (!patItem) return {};
+	GroupPtr group = boost::dynamic_pointer_cast<Group>(patItem->pattern);
+	if (!group || !group->ChildrenArePublic()) return {};
+	auto store = Gio::ListStore<PatternItem>::create();
+	for (auto& child : group->GetPatterns())
+		if (child) store->append(PatternItem::create(child));
+	return store;
 }
 
 void GroupTreeView::RebuildMenu(PatternPtr pattern)
@@ -77,151 +122,163 @@ void GroupTreeView::RebuildMenu(PatternPtr pattern)
 	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
 	bool has_parent = (bool)GetParentGroup(pattern);
 	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(pattern);
-    
-    while (!menu_.get_children().empty())
-        menu_.remove(*menu_.get_children().front());
-    
-    if (group)
-    {
-        if (group->ChildrenArePublic())
-        {
-            auto item = Gtk::make_managed<Gtk::MenuItem>("Add to group");
-            if (tx)
-                item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnGroupAddTexture));
-            else
-                item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnGroupAddPattern));
-            menu_.append(*item);
-        }
-    }
 
-    auto item = Gtk::make_managed<Gtk::MenuItem>("Save to file");
-    if (!tx)
-        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternSave));
-    else
-        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnTextureSave));
-    menu_.append(*item);
+	// Build action group
+	actionGroup_ = Gio::SimpleActionGroup::create();
+	insert_action_group("tree", actionGroup_);
 
-    if (has_parent)
-    {
-        auto item = Gtk::make_managed<Gtk::MenuItem>("Load from file");
-        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternLoad));
-        menu_.append(*item);
+	// Build menu model
+	auto menu = Gio::Menu::create();
 
-        item = Gtk::make_managed<Gtk::MenuItem>("Remove");
-        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternRemove));
-        menu_.append(*item);
+	if (group && group->ChildrenArePublic())
+	{
+		if (tx)
+		{
+			actionGroup_->add_action("add_to_group", sigc::mem_fun(*this, &GroupTreeView::OnGroupAddTexture));
+			menu->append("Add to group", "tree.add_to_group");
+		}
+		else
+		{
+			actionGroup_->add_action("add_to_group", sigc::mem_fun(*this, &GroupTreeView::OnGroupAddPattern));
+			menu->append("Add to group", "tree.add_to_group");
+		}
+	}
 
-        item = Gtk::make_managed<Gtk::MenuItem>("Add after");
-        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternAppend));
-        menu_.append(*item);
+	if (!tx)
+		actionGroup_->add_action("save", sigc::mem_fun(*this, &GroupTreeView::OnPatternSave));
+	else
+		actionGroup_->add_action("save", sigc::mem_fun(*this, &GroupTreeView::OnTextureSave));
+	menu->append("Save to file", "tree.save");
 
-        item = Gtk::make_managed<Gtk::MenuItem>("Add before");
-        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternPrepend));
-        menu_.append(*item);
+	if (has_parent)
+	{
+		actionGroup_->add_action("load",      sigc::mem_fun(*this, &GroupTreeView::OnPatternLoad));
+		actionGroup_->add_action("remove",    sigc::mem_fun(*this, &GroupTreeView::OnPatternRemove));
+		actionGroup_->add_action("append",    sigc::mem_fun(*this, &GroupTreeView::OnPatternAppend));
+		actionGroup_->add_action("prepend",   sigc::mem_fun(*this, &GroupTreeView::OnPatternPrepend));
+		actionGroup_->add_action("move_up",   sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveUp));
+		actionGroup_->add_action("move_down", sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveDown));
+		menu->append("Load from file", "tree.load");
+		menu->append("Remove",         "tree.remove");
+		menu->append("Add after",      "tree.append");
+		menu->append("Add before",     "tree.prepend");
+		menu->append("Move up",        "tree.move_up");
+		menu->append("Move down",      "tree.move_down");
+	}
 
-        item = Gtk::make_managed<Gtk::MenuItem>("Move up");
-        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveUp));
-        menu_.append(*item);
-
-        item = Gtk::make_managed<Gtk::MenuItem>("Move down");
-        item->signal_activate().connect(sigc::mem_fun(*this, &GroupTreeView::OnPatternMoveDown));
-        menu_.append(*item);
-    }
-    
-    menu_.show_all();
-    
-    
+	if (!popupMenu_) {
+		popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu);
+		popupMenu_->set_parent(*this);
+	} else {
+		popupMenu_->set_menu_model(menu);
+	}
 }
 
 
-bool GroupTreeView::on_button_press_event(GdkEventButton* event)
+void GroupTreeView::OnClick(int n_press, double x, double y)
 {
-	bool rv = TreeView::on_button_press_event(event);
-	if( (event->type == GDK_BUTTON_PRESS) && (event->button == 3) )
+	PatternPtr pattern = GetCurrentPattern();
+	if (pattern)
 	{
-		PatternPtr pattern = GetCurrentPattern();
-		if (pattern)
-		{
-			RebuildMenu(pattern);
-			menu_.popup_at_pointer((GdkEvent*)event);
-		}
+		RebuildMenu(pattern);
+		popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
+		popupMenu_->popup();
 	}
-	return rv;
 }
 
 void GroupTreeView::OnPatternAppend()
 {
 	PatternPtr curPattern = GetCurrentPattern();
 	GroupPtr parent = GetParentGroup(curPattern);
-	if (curPattern && parent)
+	if (!curPattern || !parent) return;
+
+	// TODO: try to reduce duplication of code below
+	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(parent);
+	if (tx)
 	{
-		TexturePtr tx = boost::dynamic_pointer_cast<Texture>(parent);
-		if (tx)
+		// TODO: Consider making CreateTextureDlg a PatternCreatorDialog (or derive both from the same class) so that we don't need to duplicate the code below. This is needed
+		// so that we have a single method to call to create the texture/pattern based.
+		auto dlg = new CreateTextureDlg(peer_->Dev());
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
 		{
-			CreateTextureDlg dlg(peer_->Dev());
-			if (Gtk::RESPONSE_OK == dlg.run())
-			{
-				PatternPtr newPattern = dlg.CreateTexture();
-				if (newPattern)
-				{
-					parent->InsertPatternAfter(newPattern, curPattern);
-					Refresh();
-					Select(newPattern);
-				}
-			}
+			dlg->set_transient_for(*win);
+			dlg->set_modal(true);
 		}
-		else
+		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {
+			if (response_id == Gtk::ResponseType::OK)
+			{
+				PatternPtr newPattern = dlg->CreateTexture();
+				if (newPattern) { parent->InsertPatternAfter(newPattern, curPattern); Refresh(); Select(newPattern); }
+			}
+			delete dlg;
+		});
+		dlg->present();
+	}
+	else
+	{
+		auto dlg = new PatternCreatorDialog(peer_->Dev());
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
 		{
-			PatternCreatorDialog dlg(peer_->Dev());
-			if (Gtk::RESPONSE_OK == dlg.run())
-			{
-				PatternPtr newPattern = dlg.CreatePattern();
-				if (newPattern)
-				{
-					parent->InsertPatternAfter(newPattern, curPattern);
-					Refresh();
-					Select(newPattern);
-				}
-			}
+			dlg->set_transient_for(*win);
+			dlg->set_modal(true);
 		}
+		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {
+			if (response_id == Gtk::ResponseType::OK)
+			{
+				PatternPtr newPattern = dlg->CreatePattern();
+				if (newPattern) { parent->InsertPatternAfter(newPattern, curPattern); Refresh(); Select(newPattern); }
+			}
+			delete dlg;
+		});
+		std::cout << "---- HERE ----" << std::endl;
+		dlg->present();
 	}
 }
 
 void GroupTreeView::OnPatternPrepend()
 {
+	// TODO: share code with OnPatternAppend() to reduce duplication
+
 	PatternPtr curPattern = GetCurrentPattern();
 	GroupPtr parent = GetParentGroup(curPattern);
-	if (curPattern && parent)
+	if (!curPattern || !parent) return;
+
+	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(parent);
+	if (!tx)
 	{
-		TexturePtr tx = boost::dynamic_pointer_cast<Texture>(parent);
-		if (!tx)
+		auto dlg = new PatternCreatorDialog(peer_->Dev());
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
 		{
-			PatternCreatorDialog dlg(peer_->Dev());
-			if (Gtk::RESPONSE_OK == dlg.run())
-			{
-				PatternPtr newPattern = dlg.CreatePattern();
-				if (newPattern)
-				{
-					parent->InsertPatternBefore(newPattern, curPattern);
-					Refresh();
-					Select(newPattern);
-				}
-			}
+			dlg->set_transient_for(*win);
+			dlg->set_modal(true);
 		}
-		else
+		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {
+			if (response_id == Gtk::ResponseType::OK)
+			{
+				PatternPtr newPattern = dlg->CreatePattern();
+				if (newPattern) { parent->InsertPatternBefore(newPattern, curPattern); Refresh(); Select(newPattern); }
+			}
+			delete dlg;
+		});
+		dlg->present();
+	}
+	else
+	{
+		auto dlg = new CreateTextureDlg(peer_->Dev());
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
 		{
-			CreateTextureDlg dlg(peer_->Dev());
-			if (Gtk::RESPONSE_OK == dlg.run())
-			{
-				PatternPtr newPattern = dlg.CreateTexture();
-				if (newPattern)
-				{
-					parent->InsertPatternBefore(newPattern, curPattern);
-					Refresh();
-					Select(newPattern);
-				}
-			}
+			dlg->set_transient_for(*win);
+			dlg->set_modal(true);
 		}
+		dlg->signal_response().connect([this, dlg, curPattern, parent](int response_id) {
+			if (response_id == Gtk::ResponseType::OK)
+			{
+				PatternPtr newPattern = dlg->CreateTexture();
+				if (newPattern) { parent->InsertPatternBefore(newPattern, curPattern); Refresh(); Select(newPattern); }
+			}
+			delete dlg;
+		});
+		dlg->present();
 	}
 }
 
@@ -253,97 +310,62 @@ void GroupTreeView::OnPatternMoveDown()
 
 PatternPtr GroupTreeView::GetCurrentPattern()
 {
-	Gtk::TreeModel::iterator iter = get_selection()->get_selected();
-	if (iter)
-		return (*iter)[columns_.obj_];
-	else
-		return PatternPtr();
+	auto row = std::dynamic_pointer_cast<Gtk::TreeListRow>(selection_->get_selected_item());
+	if (!row) return PatternPtr();
+	auto patItem = std::dynamic_pointer_cast<PatternItem>(row->get_item());
+	return patItem ? patItem->pattern : PatternPtr();
 }
-
 
 
 void GroupTreeView::Refresh()
 {
-	Glib::RefPtr<Gtk::TreeStore> store = Gtk::TreeStore::create(columns_);
-
-	Gtk::TreeModel::Row row = *store->append();
-
-	InsertPattern(peer_, &row, store);
-
-	set_model(store);
-	expand_all();
-	show_all_children();
-}
-
-
-void GroupTreeView::InsertPattern(PatternPtr pattern, Gtk::TreeModel::Row* row, Glib::RefPtr<Gtk::TreeStore> store)
-{
-	(*row)[columns_.name_] = pattern->GetName();
-	(*row)[columns_.obj_] = pattern;
-
-	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
-	if (!group) return;
-
-	if (group->ChildrenArePublic())
-	{
-		std::vector<PatternPtr> objects = group->GetPatterns();
-		for (unsigned int i=0; i<objects.size(); ++i)
-		{
-			Gtk::TreeModel::Row entry = *store->append(row->children());
-			InsertPattern(objects[i], &entry, store);
-		}
-	}
+	auto rootStore = Gio::ListStore<PatternItem>::create();
+	rootStore->append(PatternItem::create(peer_));
+	treeModel_ = Gtk::TreeListModel::create(rootStore,
+		sigc::mem_fun(*this, &GroupTreeView::CreateChildModel), false, true);
+	refreshing_ = true;
+	selection_->set_model(treeModel_);
+	refreshing_ = false;
 }
 
 
 void GroupTreeView::Select(PatternPtr pattern)
 {
-	Gtk::TreeModel::Children::iterator iter = GetIter(pattern, get_model()->children());
-	if (iter) get_selection()->select(iter);
-}
-
-
-Gtk::TreeModel::Children::iterator GroupTreeView::GetIter(PatternPtr pattern, Gtk::TreeModel::Children children)
-{
-	typedef Gtk::TreeModel::Children::iterator iterator;
-	for (iterator iter = children.begin(); iter != children.end(); ++iter)
-	{
-		Gtk::TreeModel::Row row = *iter;
-		PatternPtr curPattern = row[columns_.obj_];
-		if (curPattern == pattern)
-			return iter;
-
-		iterator rv = GetIter(pattern, row->children());
-		if (rv) return rv;
+	guint n = treeModel_->get_n_items();
+	for (guint i = 0; i < n; ++i) {
+		auto row = treeModel_->get_row(i);
+		if (!row) continue;
+		auto patItem = std::dynamic_pointer_cast<PatternItem>(row->get_item());
+		if (patItem && patItem->pattern == pattern) {
+			selection_->set_selected(i);
+			return;
+		}
 	}
-	return iterator();
 }
 
 
 GroupPtr GroupTreeView::GetParentGroup(PatternPtr pattern)
 {
 	if (!pattern) return GroupPtr();
-
-	Gtk::TreeModel::Children::iterator iter = GetIter(pattern, get_model()->children());
-	if (!iter) return GroupPtr();
-	
-	Gtk::TreeModel::Children::iterator parentIter = (*iter).parent();
-	if (!parentIter) return GroupPtr();
-
-	PatternPtr parent = (*parentIter)[columns_.obj_];
-	if (!parent) return GroupPtr();
-
-	return boost::dynamic_pointer_cast<Group>(parent);
+	guint n = treeModel_->get_n_items();
+	for (guint i = 0; i < n; ++i) {
+		auto row = treeModel_->get_row(i);
+		if (!row) continue;
+		auto patItem = std::dynamic_pointer_cast<PatternItem>(row->get_item());
+		if (!patItem || patItem->pattern != pattern) continue;
+		auto parentRow = row->get_parent();
+		if (!parentRow) return GroupPtr();
+		auto parentItem = std::dynamic_pointer_cast<PatternItem>(parentRow->get_item());
+		if (!parentItem) return GroupPtr();
+		return boost::dynamic_pointer_cast<Group>(parentItem->pattern);
+	}
+	return GroupPtr();
 }
 
 void GroupTreeView::SelectFirst()
 {
-    auto model = get_model();
-    if (!model || model->children().empty())
-        return;
-
-	Gtk::TreeModel::Row row = get_model()->children()[0];
-	if (row) get_selection()->select(row);
+	if (treeModel_ && treeModel_->get_n_items() > 0)
+		selection_->set_selected(0);
 }
 
 
@@ -367,14 +389,23 @@ void GroupTreeView::OnGroupAddPattern()
 	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
 	if (!group) return;
 
-	PatternCreatorDialog dlg(peer_->Dev());
-	if (Gtk::RESPONSE_OK == dlg.run())
+	auto dlg = new PatternCreatorDialog(peer_->Dev());
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
 	{
-		PatternPtr obj = dlg.CreatePattern();
-		group->InsertPattern(obj);
-		Refresh();
-		Select(obj);
+		dlg->set_transient_for(*win);
+		dlg->set_modal(true);
 	}
+	dlg->signal_response().connect([this, dlg, group](int response_id) {
+		if (response_id == Gtk::ResponseType::OK)
+		{
+			PatternPtr obj = dlg->CreatePattern();
+			group->InsertPattern(obj);
+			Refresh();
+			Select(obj);
+		}
+		delete dlg;
+	});
+	dlg->present();
 }
 
 void GroupTreeView::OnGroupAddTexture()
@@ -383,14 +414,23 @@ void GroupTreeView::OnGroupAddTexture()
 	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
 	if (!group) return;
 
-	CreateTextureDlg dlg(peer_->Dev());
-	if (Gtk::RESPONSE_OK == dlg.run())
+	auto dlg = new CreateTextureDlg(peer_->Dev());
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
 	{
-		PatternPtr obj = dlg.CreateTexture();
-		group->InsertPattern(obj);
-		Refresh();
-		Select(obj);
+		dlg->set_transient_for(*win);
+		dlg->set_modal(true);
 	}
+	dlg->signal_response().connect([this, dlg, group](int response_id) {
+		if (response_id == Gtk::ResponseType::OK)
+		{
+			PatternPtr obj = dlg->CreateTexture();
+			group->InsertPattern(obj);
+			Refresh();
+			Select(obj);
+		}
+		delete dlg;
+	});
+	dlg->present();
 }
 
 
@@ -398,54 +438,56 @@ void GroupTreeView::OnGroupAddTexture()
 void GroupTreeView::OnPatternSave()
 {
 	PatternPtr pattern = GetCurrentPattern();
-	if (pattern)
-	{
-		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
+	if (!pattern) return;
 
-		std::string dir = std::filesystem::current_path().string();
- 
-        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
-		filter->add_pattern("*.pattern");
+	std::string file = pattern->GetXMLFile();
+	if (file == "") file = "new.pattern";
+	file = std::filesystem::path(file).filename().string();
 
-		dialog.set_current_folder(dir);
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Save", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
-		std::string file = pattern->GetXMLFile();
-		if (file=="") file = "new.pattern";
-		dialog.set_current_name(file);
-		dialog.add_filter(filter);
+	auto filter = Gtk::FileFilter::create();
+	filter->add_suffix("pattern");
 
-		if (Gtk::RESPONSE_OK == dialog.run())
-			pattern->SaveToFile(dialog.get_filename());
-	}
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select a file...");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name(file);
+	dialog->set_default_filter(filter);
+
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->save(*win, [pattern, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto f = dialog->save_finish(result);
+pattern->SaveToFile(f->get_path());
+		} catch (const Gtk::DialogError&) {}
+	});
 }
 
 
 void GroupTreeView::OnTextureSave()
 {
 	PatternPtr pattern = GetCurrentPattern();
-	if (pattern)
-	{
-		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
+	if (!pattern) return;
 
-		std::string dir = std::filesystem::current_path().string();
- 
-        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
-		filter->add_pattern("*.tx");
+	std::string file = pattern->GetXMLFile();
+	if (file == "") file = "new.tx";
+	file = std::filesystem::path(file).filename().string();
 
-		dialog.set_current_folder(dir);
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Save", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
-		std::string file = pattern->GetXMLFile();
-		if (file=="") file = "new.tx";
-		dialog.set_current_name(file);
-		dialog.add_filter(filter);
+	auto filter = Gtk::FileFilter::create();
+	filter->add_suffix("tx");
 
-		if (Gtk::RESPONSE_OK == dialog.run())
-			pattern->SaveToFile(dialog.get_filename());
-	}
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select a file...");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name(file);
+	dialog->set_default_filter(filter);
+
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->save(*win, [pattern, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto f = dialog->save_finish(result);
+			pattern->SaveToFile(f->get_path());
+		} catch (const Gtk::DialogError&) {}
+	});
 }
 
 
@@ -453,100 +495,94 @@ void GroupTreeView::OnPatternLoad()
 {
 	PatternPtr pattern = GetCurrentPattern();
 	GroupPtr parent = GetParentGroup(pattern);
-	if (pattern && parent)
-	{
-		Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
+	if (!pattern || !parent) return;
 
-		std::string dir = std::filesystem::current_path().string();
- 
-        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
-		filter->add_pattern("*.pattern");
-		filter->add_pattern("*.tx");
+	auto filter = Gtk::FileFilter::create();
+	filter->add_suffix("pattern");
+	filter->add_suffix("tx");
 
-		dialog.set_current_folder(dir);
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Open", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
-		std::string file = pattern->GetXMLFile();
-		if (file=="") file = "new.pattern";
-		dialog.set_current_name(file);
-		dialog.add_filter(filter);
+	auto filters = Gio::ListStore<Gtk::FileFilter>::create();
+	filters->append(filter);
 
-		if (Gtk::RESPONSE_OK == dialog.run())
-		{
-			PatternPtr newPattern = Pattern::Create(pattern->Dev(),dialog.get_filename()); 
-			parent->ReplacePattern(pattern,newPattern);
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select a file...");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_filters(filters);
+
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->open(*win, [this, pattern, parent, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto f = dialog->open_finish(result);
+			PatternPtr newPattern = Pattern::Create(pattern->Dev(), f->get_path());
+			if (!newPattern) return;
+			parent->ReplacePattern(pattern, newPattern);
 			Refresh();
 			Select(newPattern);
-		}
-	}
+		} catch (const Gtk::DialogError&) {}
+	});
 }
 
 
 class GroupPanel : public Gtk::Box
 {
 public:
-	GroupPanel(GroupPtr peer) : Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
+	GroupPanel(GroupPtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 	{
-		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-		GroupOpCombo *opCombo = Gtk::manage(new GroupOpCombo(peer));
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+		auto opDropDown = Gtk::make_managed<GroupOpDropDown>(peer);
+		auto patternPreview = Gtk::make_managed<PatternPreview>(peer);
 
-		box->pack_start(*opCombo, Gtk::PACK_SHRINK);
-		box->pack_start(opWidgetHolder_);
+		box->append(*opDropDown);
+		box->append(opWidgetHolder_);
+		opWidgetHolder_.set_hexpand();
 		OnOpChanged();
-		pack_start(*box);
-		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
 
-		opCombo->SignalChanged().connect(
+		box->set_hexpand();
+		patternPreview->set_hexpand(false);
+		patternPreview->set_size_request(200, -1);
+
+		append(*box);
+		append(*patternPreview);
+
+		opDropDown->SignalChanged().connect(
 			sigc::mem_fun(*this, &GroupPanel::OnOpChanged));
-
-
-		show_all_children();
 	}
 
 	void OnOpChanged()
 	{
 		// clear op widget
-		Widget *old = opWidgetHolder_.get_child();
-		opWidgetHolder_.remove();
-		delete old;
+		opWidgetHolder_.unset_child();
 
 		if (peer_->GetOperation() == Group::op_reactive)
 		{
 			ModulatorPtr mod = peer_->GetReactiveMod();
 			if (mod)
 			{
-				Gtk::Box *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-				opWidgetHolder_.add(*box);
+				auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+				opWidgetHolder_.set_child(*box);
 
-				ModulatorCombo *modCombo = Gtk::manage(new ModulatorCombo(mod));
-				modWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
-				box->pack_start(*modCombo, Gtk::PACK_SHRINK);
-				box->pack_start(modWidgetHolder_);
+				auto modDropDown = Gtk::make_managed<ModulatorDropDown>(mod);
 
-				Widget *old = modWidgetHolder_.get_child();
-				modWidgetHolder_.remove();
-				delete old;
-				modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
+				box->append(*modDropDown);
+				box->append(modWidgetHolder_);
+				modWidgetHolder_.set_hexpand();
 
-				modCombo->SignalModulatorChanged().connect(
+
+				modWidgetHolder_.unset_child();
+				modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
+
+				modDropDown->SignalModulatorChanged().connect(
 					sigc::mem_fun(*this, &GroupPanel::OnModulatorChanged));
 			}
 		}
-
-		show_all_children();
 	}
 
 	void OnModulatorChanged(ModulatorPtr mod)
 	{
 		peer_->SetReactiveMod(mod);
 
-		Widget *old = modWidgetHolder_.get_child();
-		modWidgetHolder_.remove();
-		delete old;
-
-		modWidgetHolder_.add(*Gtk::manage(mod->CreateWidget(mod)));
-		show_all_children();
+		modWidgetHolder_.unset_child();
+		modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
 	}
 
 	virtual ~GroupPanel() {}
@@ -562,25 +598,30 @@ class ComboTexturePanel : public Gtk::Box
 {
 public:
 	ComboTexturePanel(ComboTexturePtr peer, GroupTreeView *treeView, bool showSelector) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), treeView_(treeView), txCtrl_(peer), peer_(peer)
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), treeView_(treeView), txCtrl_(peer), peer_(peer)
 	{
-		auto lbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-		lbox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
-		lbox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
+		auto textureAmplitudeCtrl = Gtk::make_managed<TextureAmplitudeCtrl>(peer);
 
-		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-		box->pack_start(*Gtk::manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new OscillatorWidget(peer->GetOscillator(),true)), Gtk::PACK_SHRINK);
+		textureAmplitudeCtrl->set_vexpand();
+
+		auto lbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+		lbox->append(*Gtk::make_managed<TextureInvertCtrl>(peer));
+		lbox->append(*textureAmplitudeCtrl);
+
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+		box->append(*Gtk::make_managed<GroupOpDropDown>(peer));
+		box->append(*Gtk::make_managed<OscillatorWidget>(peer->GetOscillator(),true));
 
 		if (showSelector)
 		{
-			pack_start(txCtrl_, Gtk::PACK_SHRINK);
+			append(txCtrl_);
 			txCtrl_.SignalTextureChanged().connect(sigc::mem_fun(*this, &ComboTexturePanel::OnTextureChange));	
 		}
 
-		pack_start(*lbox, Gtk::PACK_SHRINK);
-		pack_start(*box);
-		pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+		append(*lbox);
+		append(*box);
+		box->set_hexpand();
+		append(*Gtk::make_managed<PatternPreview>(peer));
 	}
 
 	virtual ~ComboTexturePanel() {}
@@ -605,27 +646,24 @@ protected:
 
 
 GroupWidget::GroupWidget(GroupPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer), treeView_(peer), txWidget_(NULL)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer), treeView_(peer), txWidget_(NULL)
 {
     // this was in a vbox above the tree view but commented out, not sure why
-    //pSideBar->pack_start(*Gtk::manage(new GroupOpCombo(peer)), Gtk::PACK_SHRINK);
+    //pSideBar->append(*Gtk::make_managed<GroupOpCombo>(peer));
     
-	Gtk::ScrolledWindow *scrolledTreeView = Gtk::manage(new Gtk::ScrolledWindow);
+	Gtk::ScrolledWindow *scrolledTreeView = Gtk::make_managed<Gtk::ScrolledWindow>();
     scrolledTreeView->set_size_request(200,200);
-	scrolledTreeView->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-	scrolledTreeView->set_placement(Gtk::CORNER_TOP_RIGHT);
-	scrolledTreeView->add(treeView_);
-    pack_start(*scrolledTreeView, false, false);
+	scrolledTreeView->set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
+	scrolledTreeView->set_placement(Gtk::CornerType::TOP_RIGHT);
+	scrolledTreeView->set_child(treeView_);
+    append(*scrolledTreeView);
     
-    objWidgetHolder_.set_shadow_type(Gtk::SHADOW_NONE);
-    pack_start(objWidgetHolder_, true, true);
+    append(objWidgetHolder_);
+	objWidgetHolder_.set_hexpand();
 
-	treeView_.get_selection()->signal_changed().connect(
-    		sigc::mem_fun(*this, &GroupWidget::OnSelectionChanged));
-    
-	// select the first item
-	Gtk::TreeModel::Row row = treeView_.get_model()->children()[0];
-	if (row) treeView_.get_selection()->select(row);
+	treeView_.selection_->property_selected_item().signal_changed().connect(
+		sigc::mem_fun(*this, &GroupWidget::OnSelectionChanged));
+	treeView_.SelectFirst();
 }
 
 
@@ -647,9 +685,8 @@ void GroupWidget::OnTextureChange()
 
 void GroupWidget::OnSelectionChanged()
 {
-	Widget *old = objWidgetHolder_.get_child();
-	objWidgetHolder_.remove();
-	delete old;
+	if (treeView_.refreshing_) return;
+	objWidgetHolder_.unset_child();
 
 	txWidget_ = NULL;
 	currentTx_ = TexturePtr();
@@ -668,40 +705,37 @@ void GroupWidget::OnSelectionChanged()
 			if (boost::dynamic_pointer_cast<DoubleLinearGratingTexture>(tx) ||
 			    boost::dynamic_pointer_cast<MotionTexture>(tx))
 			{
-				txWidget_ = Gtk::manage(new TextureSelectorWidget(tx));
+				txWidget_ = Gtk::make_managed<TextureSelectorWidget>(tx);
 				currentTx_ = tx;
-				objWidgetHolder_.add(*txWidget_);
-				txWidget_->SignalTextureChanged().connect(sigc::mem_fun(*this, &GroupWidget::OnTextureChange));		
+				objWidgetHolder_.set_child(*txWidget_);
+				txWidget_->SignalTextureChanged().connect(sigc::mem_fun(*this, &GroupWidget::OnTextureChange));
 			}
 			else if (combotx)
 			{
-				objWidgetHolder_.add(*Gtk::manage(new ComboTexturePanel(combotx,&treeView_,hasParent)));
+				objWidgetHolder_.set_child(*Gtk::make_managed<ComboTexturePanel>(combotx,&treeView_,hasParent));
 			}
 			else if (dots)
 			{
-				objWidgetHolder_.add(*Gtk::manage(dots->CreateWidget(dots)));
+				objWidgetHolder_.set_child(*Gtk::manage(dots->CreateWidget(dots)));
 			}
 			else
 			{
-				objWidgetHolder_.add(*Gtk::manage(new GroupPanel(group)));
+				objWidgetHolder_.set_child(*Gtk::make_managed<GroupPanel>(group));
 			}
 		}
 		else if (tx)
 		{
-			txWidget_ = Gtk::manage(new TextureSelectorWidget(tx));
+			txWidget_ = Gtk::make_managed<TextureSelectorWidget>(tx);
 			currentTx_ = tx;
-			objWidgetHolder_.add(*txWidget_);
-			txWidget_->SignalTextureChanged().connect(sigc::mem_fun(*this, &GroupWidget::OnTextureChange));		
+			objWidgetHolder_.set_child(*txWidget_);
+			txWidget_->SignalTextureChanged().connect(sigc::mem_fun(*this, &GroupWidget::OnTextureChange));
 		}
 		else
 		{
-			objWidgetHolder_.add(*Gtk::manage(pattern->CreateWidget(pattern)));
+			objWidgetHolder_.set_child(*Gtk::manage(pattern->CreateWidget(pattern)));
 		}
 	}
-
-	show_all_children();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

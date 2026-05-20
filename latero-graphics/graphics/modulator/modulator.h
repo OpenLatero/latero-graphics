@@ -19,18 +19,16 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_MODULATOR_H
-#define LATERO_GRAPHICS_PLANAR_MODULATOR_H
+#pragma once
 
 #include "modulatorfwd.h"
 #include "../../modifiable.h"
 #include <latero/tactograph.h>
 #include "../../xml.h"
-#include <gtkmm/widget.h>
+#include <gtkmm.h>
 #include "../../state.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 /**
  * A modulator takes as input a number of variables (typically sensor readings) and returns
@@ -51,8 +49,5 @@ protected:
 	const latero::Tactograph *dev_; 
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

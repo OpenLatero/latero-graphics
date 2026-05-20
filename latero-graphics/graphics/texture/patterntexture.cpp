@@ -28,8 +28,7 @@
 #include "../../graphics/circle.h"
 #include "../../graphics/stroke.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 PatternTexture::PatternTexture(const latero::Tactograph *dev) : 
 	Pattern(dev), Texture(dev), gridWidth_(20), gridHeight_(20)
@@ -146,5 +145,4 @@ void PatternTexture::SetPattern(PatternPtr pattern)
 	AddModifiableChild_(pattern_);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

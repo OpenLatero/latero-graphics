@@ -21,31 +21,30 @@
 
 #include <filesystem>
 #include "textureselectorwidget.h"
-#include <gtkmm/stock.h>
 #include "texture.h"
 #include "../../graphics/patternpreview.h"
 #include "../../gtk/numwidget.h"
-#include <gtkmm/filechooserdialog.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 TextureSelectorCtrl::TextureSelectorCtrl(TexturePtr texture) :
-	Gtk::Box(Gtk::ORIENTATION_VERTICAL), modeCombo_(texture), texture_(texture)
+	Gtk::Box(Gtk::Orientation::VERTICAL), modeDropDown_(texture), texture_(texture)
 {
-	auto saveButton = Gtk::manage(new Gtk::Button());
-	saveButton->set_image_from_icon_name("document-save", Gtk::ICON_SIZE_BUTTON);
+	auto saveButton = Gtk::make_managed<Gtk::Button>();
+	saveButton->set_icon_name("document-save");
 
-	auto loadButton = Gtk::manage(new Gtk::Button());
-	loadButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
+	auto loadButton = Gtk::make_managed<Gtk::Button>();
+	loadButton->set_icon_name("document-open");
 
-	pack_start(*saveButton, Gtk::PACK_SHRINK);
-	pack_start(*loadButton, Gtk::PACK_SHRINK);
-	pack_start(modeCombo_);
+	append(*saveButton);
+	append(*loadButton);
+	append(modeDropDown_);
+
+	modeDropDown_.set_vexpand();
 
 	saveButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnSave));
 	loadButton->signal_clicked().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnLoad));
-	modeCombo_.SignalTextureChanged().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnModeChanged));
+	modeDropDown_.SignalTextureChanged().connect(sigc::mem_fun(*this, &TextureSelectorCtrl::OnModeChanged));
 }
 
 void TextureSelectorCtrl::OnModeChanged(TexturePtr tx)
@@ -55,48 +54,59 @@ void TextureSelectorCtrl::OnModeChanged(TexturePtr tx)
 
 void TextureSelectorCtrl::OnSave()
 {
+	// GTKMM4: this currently saves the path along with the filename
+
 	if (!texture_) return;
-	
-	Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_SAVE);
 
-	std::string dir = std::filesystem::current_path().string();
- 
-    Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
-	filter->add_pattern("*.tx");
+	auto filter = Gtk::FileFilter::create();
+	filter->set_name("texture files");
+	filter->add_suffix("tx");
+	auto filters = Gio::ListStore<Gtk::FileFilter>::create();
+	filters->append(filter);
 
-	dialog.set_current_folder(dir);
-	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	dialog.add_button("Save", Gtk::RESPONSE_OK);
-	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
 	std::string file = texture_->GetXMLFile();
-	if (file=="") file = "texture.tx";
-	dialog.set_current_name(file);
-	dialog.add_filter(filter);
+	if (file == "") file = "texture.tx";
+	file = std::filesystem::path(file).stem().string();
 
-	if (Gtk::RESPONSE_OK == dialog.run())
-		 texture_->Save(dialog.get_filename());
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select a file...");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name(file);
+	dialog->set_filters(filters);
+	dialog->set_default_filter(filter);
+
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->save(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto f = dialog->save_finish(result);
+			texture_->Save(f->get_path());
+		} catch (const Gtk::DialogError&) {}
+	});
 }
 
 void TextureSelectorCtrl::OnLoad()
 {
-	Gtk::FileChooserDialog dialog("Please select a file...", Gtk::FILE_CHOOSER_ACTION_OPEN);
+	auto filter = Gtk::FileFilter::create();
+	filter->set_name("texture files");
+	filter->add_suffix("tx");
+	auto filters = Gio::ListStore<Gtk::FileFilter>::create();
+	filters->append(filter);
 
-	std::string dir = std::filesystem::current_path().string();
- 
-    Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
-	filter->add_pattern("*.tx");
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select a file...");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_filters(filters);
+	dialog->set_default_filter(filter);
 
-	dialog.set_current_folder(dir);
-	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	dialog.add_button("Open", Gtk::RESPONSE_OK);
-	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
-	dialog.add_filter(filter);
-	if (Gtk::RESPONSE_OK == dialog.run())
-	{
-		texture_ = Texture::Create(texture_->Dev(), dialog.get_filename().c_str());
-		modeCombo_.SetActive(texture_);
-		SignalTextureChanged_();
-	}
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->open(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto file = dialog->open_finish(result);
+			texture_ = Texture::Create(texture_->Dev(), file->get_path().c_str());
+			modeDropDown_.SetActive(texture_);
+			SignalTextureChanged_();
+		} catch (const Gtk::DialogError&) {}
+	});
 }
 
 
@@ -105,7 +115,7 @@ void TextureSelectorCtrl::OnLoad()
 
 
 TextureSelectorWidget::TextureSelectorWidget(TexturePtr texture) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), ctrl_(texture), widget_(NULL)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), ctrl_(texture), widget_(NULL)
 
 {
 	ctrl_.SignalTextureChanged().connect(sigc::mem_fun(*this, &TextureSelectorWidget::OnChanged));
@@ -122,21 +132,22 @@ void TextureSelectorWidget::Rebuild()
 	if (widget_)
 	{
 		remove(*widget_);
-		delete widget_;
+		widget_ = nullptr;
+		//delete widget_; // TODO: fixed seg fault - causing memory leak?
 	}
 	Build();
 }
 
 void TextureSelectorWidget::Build()
 {
-	pack_start(ctrl_, Gtk::PACK_SHRINK);
+	append(ctrl_);
 	TexturePtr tx = ctrl_.GetTexture();
 	if (tx)
 	{
 		widget_ = Gtk::manage(tx->CreateWidget(tx));
-		pack_start(*widget_);
+		append(*widget_);
+		widget_->set_hexpand();
 	}
-	show_all_children();
 }
 
 
@@ -146,5 +157,4 @@ void TextureSelectorWidget::OnChanged()
 	SignalTextureChanged_();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

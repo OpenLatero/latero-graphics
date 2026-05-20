@@ -28,8 +28,7 @@
 #include "../../xml.h"
 #include <iostream>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 const MotionTexture::CueType MotionTexture::cue_type_none(0,"none");
 const MotionTexture::CueType MotionTexture::cue_type_vib_bands(1,"vibration bands");
@@ -230,5 +229,4 @@ void MotionTexture::SetDirection(double v)
 	motionTx_->SetAngle(v);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

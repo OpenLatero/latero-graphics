@@ -19,18 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_LINE_FWD_H
-#define LATERO_GRAPHICS_LINE_FWD_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Line;
 typedef boost::shared_ptr<Line> LinePtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

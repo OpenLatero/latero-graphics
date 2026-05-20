@@ -28,8 +28,7 @@
 
 /** create object for loading as well */
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 XMLOutputNode::XMLOutputNode(xmlpp::Element *root) : element_(root)
 {
@@ -197,7 +196,7 @@ std::vector<XMLInputNode> XMLInputNode::GetChildren(std::string name) const
 		const xmlpp::Node* node = *iter;
 		if (node->get_children().size())
 		{
-			if (node->get_name() == name)
+			if (std::string(node->get_name()) == name)
 			{
 				XMLInputNode n = node;
 				n.SetPath(GetPath());
@@ -223,7 +222,7 @@ XMLInputNode XMLInputNode::GetChild(std::string name) const
 		const xmlpp::Node* node = *iter;
 		if (node->get_children().size())
 		{
-			if (node->get_name() == name)
+			if (std::string(node->get_name()) == name)
 			{
 				XMLInputNode n = node;
 				n.SetPath(GetPath());
@@ -316,6 +315,5 @@ std::string XMLInputNode::GetFilename() const
 		return GetPath() + file; // relative path
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

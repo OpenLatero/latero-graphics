@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DIR_MODULATOR_WIDGET
-#define LATERO_GRAPHICS_PLANAR_DIR_MODULATOR_WIDGET
+#pragma once
 
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "dirmodulatorfwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class DirModulatorWidget : public Gtk::Box
 {
@@ -37,8 +35,5 @@ protected:
 	DirModulatorPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

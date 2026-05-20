@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_POLYGON
-#define LATERO_GRAPHICS_PLANAR_POLYGON
+#pragma once
 
 #include "polygonfwd.h"
 #include "closedpattern.h"
@@ -33,8 +32,7 @@
 #include "dotpattern.h"
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Vertex
 {
@@ -328,7 +326,5 @@ private:
 	DottedPolygonPtr dots_;	// dots rendering
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

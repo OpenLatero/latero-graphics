@@ -33,8 +33,7 @@
 #include "gtk/pixbufops.h"
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 Mask::Mask(const Point &surfaceSize) :
 	surfaceSize_(surfaceSize),
@@ -188,7 +187,7 @@ void Mask::LoadXML(const XMLInputNode &root)
 	XMLInputNode maskNode = root.GetChild("mask");
 
 	XMLInputNode node = maskNode.GetChild("imgfile");
-	printf("type: %s\n", node.GetType().c_str());
+	//printf("type: %s\n", node.GetType().c_str());
 	SetImage(node.GetFilename(), (node.GetType()=="alpha"));
 
 	// temporary
@@ -258,11 +257,11 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetIllustration(uint w, uint h)
 	//
 	// Destination
 	//
-	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, w, h);
+	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	rv->fill(0xffffffff);
 	Cairo::RefPtr<Cairo::ImageSurface> rvSurface = Cairo::ImageSurface::create(
     		(unsigned char*)rv->get_pixels(),
-    		Cairo::FORMAT_ARGB32, rv->get_width(), rv->get_height(), rv->get_rowstride());
+    		Cairo::Surface::Format::ARGB32, rv->get_width(), rv->get_height(), rv->get_rowstride());
 	Cairo::RefPtr<Cairo::Context> rvContext = Cairo::Context::create(rvSurface);
 
 	//
@@ -272,7 +271,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetIllustration(uint w, uint h)
 	if (!alpha) return rv;
 	Cairo::RefPtr<Cairo::ImageSurface> alphaSurface = Cairo::ImageSurface::create(
     		(unsigned char*)alpha->get_pixels(),
-    		Cairo::FORMAT_ARGB32, alpha->get_width(), alpha->get_height(), alpha->get_rowstride());
+    		Cairo::Surface::Format::ARGB32, alpha->get_width(), alpha->get_height(), alpha->get_rowstride());
 
 
 	rvContext->set_source_rgb(0,0,0);
@@ -471,7 +470,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetAlphaImgCopy() const
 
 Glib::RefPtr<Gdk::Pixbuf> Mask::GetSurfaceAlpha(uint w, uint h)
 {
-	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, w, h);
+	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	rv->fill(defaultAlpha_*0x000000ff);
 
 	Glib::RefPtr<Gdk::Pixbuf> src = GetAlphaImgCopy();
@@ -487,7 +486,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetSurfaceAlpha(uint w, uint h)
 
 	if ((size_x>=1)&&(size_y>= 1))
 	{
-		src = src->scale_simple(size_x, size_y, Gdk::INTERP_BILINEAR);
+		src = src->scale_simple(size_x, size_y, Gdk::InterpType::BILINEAR);
 
 		int src_x1 = fmax(0,-offset_x);
 		int src_y1 = fmax(0,-offset_y);
@@ -574,5 +573,4 @@ bool Mask::IsInside(const Point &p)
 		(p.y <= offset_.y + size_.y);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_MOTION_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_MOTION_TEXTURE
+#pragma once
 
 #include "motiontexturefwd.h"
 #include "combotexture.h"
@@ -29,8 +28,7 @@
 #include "../../grating.h"
 #include "lineargratingtexture.h"
  
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class MotionTexture : public ComboTexture
 {
@@ -101,8 +99,5 @@ protected:
 	PlainTexturePtr plainTx_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

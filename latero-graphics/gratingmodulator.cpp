@@ -24,8 +24,7 @@
 #include <iostream>
 #include "units.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 const GratingModulator::Mode GratingModulator::mode_slope(0,"slope");
 const GratingModulator::Mode GratingModulator::mode_peak(1,"peak");
@@ -65,7 +64,7 @@ void GratingModulator::LoadXML(const XMLInputNode &root)
 	}
 
 	std::string mode = node.GetType();
-	std::cout << mode;
+	//std::cout << mode;
 	SetMode(mode);
 
 	XMLInputNode n = node.GetChild("enable");
@@ -116,5 +115,4 @@ double GratingModulator::ModulatePosition_(double pos)
 	return pos;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -19,80 +19,45 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GTK_NUM_WIDGET_H
-#define LATERO_GRAPHICS_GTK_NUM_WIDGET_H
+#pragma once
 
-#include <gtkmm/frame.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/entry.h>
-#include <gtkmm/scale.h>
-#include <gtkmm/box.h>
-#include <gtkmm/comboboxtext.h>
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/alignment.h>
-#include <gtkmm/combobox.h>
-#include <gtkmm/liststore.h>
+#include <gtkmm.h>
 #include <assert.h>
 #include <sstream>
 #include "../units.h"
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
-
-typedef enum {ORIENT_H, ORIENT_V} orient_T;
+namespace latero::graphics::gtk {
 
 static const std::string units_default = "";
 static const std::string name_default = "";
 
-class NumWidgetCombo : public Gtk::ComboBox
-{
-public:
-	NumWidgetCombo();
-	virtual ~NumWidgetCombo() {};
-
-	void Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits);
-	void SetActive(std::string units);
-	int GetSize();
-
-	std::string GetUnits();
-    Glib::RefPtr<Gtk::Adjustment> GetAdj();
-	uint GetDigits();
-
-	class ModelColumns : public Gtk::TreeModel::ColumnRecord
-	{
-	public:
-		ModelColumns() { add(units); add(adj); add(digits);}
-		Gtk::TreeModelColumn<std::string> units;
-		Gtk::TreeModelColumn<Glib::RefPtr<Gtk::Adjustment>> adj;
-		Gtk::TreeModelColumn<uint> digits;
-	};
-	ModelColumns columns_;
-	Glib::RefPtr<Gtk::ListStore> model_;
-};
 
 class NumWidget : public Gtk::Frame
 {
 public:
-	NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name = name_default, std::string units = units_default);
+	NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name = name_default, std::string units = units_default);
 	virtual ~NumWidget() {}
 	void AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits);
 	void SelectUnits(std::string units);
 
-	sigc::signal<void,std::string> SignalUnitsChanged() { return signalUnitsChanged_; }
+	sigc::signal<void(std::string)> SignalUnitsChanged() { return signalUnitsChanged_; }
 protected:
-	sigc::signal<void,std::string> signalUnitsChanged_;
+	sigc::signal<void(std::string)> signalUnitsChanged_;
 	void SetDigits(uint n);
 	void SetAdjustment(Glib::RefPtr<Gtk::Adjustment> adj);
 	Glib::ustring OnFormat(double v);
 	void OnUnitsChanged();
 
- 	std::string units_;
-	NumWidgetCombo unitsCombo_;
+	Gtk::Box *unitsDropDownBox_;
+	Gtk::DropDown *unitsDropDown_;
+	Glib::RefPtr<Gtk::StringList> unitsStringList_;
 	Gtk::SpinButton spin_;
-	Gtk::Box *box_, *comboBox_;
 	Gtk::Scale *scale_;
+
+	std::string units_;
+	std::map<std::string, uint> unitsToDigitsMap_;
+	std::map<std::string, Glib::RefPtr<Gtk::Adjustment>> unitsToAdjMap_;
+
 };
 
 class HNumWidget : public NumWidget
@@ -112,9 +77,5 @@ public:
 };
 
 
-} // namespace gtk
+} // namespace
 
-} // namespace graphics
-} // namespace latero
-
-#endif

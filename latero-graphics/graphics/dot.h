@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DOT_H
-#define LATERO_GRAPHICS_PLANAR_DOT_H
+#pragma once
 
 #include "dotfwd.h"
 #include "pattern.h"
 #include "../ridgefwd.h"
 #include "../oscillator.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Dot : public Pattern
 {
@@ -102,7 +100,5 @@ protected:
 };
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

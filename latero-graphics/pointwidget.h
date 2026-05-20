@@ -19,15 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_POINT_WIDGET
-#define LATERO_GRAPHICS_POINT_WIDGET
+#pragma once
 
-#include <gtkmm/adjustment.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "point.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class PointWidget : public Gtk::Box
 {
@@ -38,13 +35,11 @@ public:
 		bool showSliders = true);
 	Point GetValue();
 	void SetValue(const Point &p);
-	sigc::signal<void> SignalValueChanged();
+	sigc::signal<void()> SignalValueChanged();
 protected:
-	sigc::signal<void> signalValueChanged_;
+	sigc::signal<void()> signalValueChanged_;
     Glib::RefPtr<Gtk::Adjustment> xAdj_, yAdj_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

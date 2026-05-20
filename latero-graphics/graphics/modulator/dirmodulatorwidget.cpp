@@ -22,44 +22,45 @@
 #include "dirmodulatorwidget.h"
 #include "dirmodulator.h"
 #include "modulatorpreview.h"
-#include <gtkmm.h>
 #include "../../gtk/numwidget.h"
-#include <gtkmm/checkbutton.h>
 
-namespace latero {
-namespace graphics { 
-
+namespace latero::graphics {
 namespace dir_modulator_ctrls {
 
 class Ctrl : public Gtk::Box
 {
 public:
-	Ctrl(DirModulatorPtr peer) : Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer) {}
+	Ctrl(DirModulatorPtr peer) : Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer) {}
 	virtual ~Ctrl() {}
 protected:
 	DirModulatorPtr peer_;
 };
 
-class LowVelModeCombo : public Ctrl
+class LowVelModeDropDown : public Ctrl
 {
 public:
-	LowVelModeCombo(DirModulatorPtr peer) : Ctrl(peer)
+	LowVelModeDropDown(DirModulatorPtr peer) : Ctrl(peer)
 	{
-		Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("low velocity mode"));
-		add(*frame);
-		frame->add(combo_);
+		Gtk::Frame *frame = Gtk::make_managed<Gtk::Frame>("low velocity mode");
+		append(*frame);
+		modeList_ = Gtk::StringList::create({});
 		std::vector<std::string> labels = peer->GetLowVelModeLabels();
 		for (unsigned int i=0; i<labels.size(); ++i)
-			combo_.append(labels[i]);
-		combo_.set_active_text(peer->GetLowVelModeLabel());
-		combo_.signal_changed().connect(sigc::mem_fun(*this, &LowVelModeCombo::OnChange));
+			modeList_->append(labels[i]);
+		modeDropDown_ = Gtk::make_managed<Gtk::DropDown>(modeList_);
+		Glib::ustring target = peer->GetLowVelModeLabel();
+		for (guint i = 0; i < modeList_->get_n_items(); ++i)
+			if (modeList_->get_string(i) == target) { modeDropDown_->set_selected(i); break; }
+		modeDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &LowVelModeDropDown::OnChange));
+		frame->set_child(*modeDropDown_);
 	}
-	virtual ~LowVelModeCombo() {};
-	sigc::signal<void> SignalChanged() { return signalChanged_; };
+	virtual ~LowVelModeDropDown() {};
+	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 private:
-	sigc::signal<void> signalChanged_;
-	void OnChange() { peer_->SetLowVelModeLabel(combo_.get_active_text()); signalChanged_(); }
-	Gtk::ComboBoxText combo_;
+	sigc::signal<void()> signalChanged_;
+	void OnChange() { peer_->SetLowVelModeLabel(std::string(modeList_->get_string(modeDropDown_->get_selected()))); signalChanged_(); }
+	Glib::RefPtr<Gtk::StringList> modeList_;
+	Gtk::DropDown* modeDropDown_;
 };
 
 
@@ -68,7 +69,7 @@ class DirCtrl : public Ctrl
 public:
 	DirCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirection(), 0, 360))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("direction", adj_, 0, units::degree)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("direction", adj_, 0, units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirCtrl::OnChanged));
 	}
 protected:
@@ -81,7 +82,7 @@ class DirToleranceCtrl : public Ctrl
 public:
 	DirToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirTolerance(), 0, 180))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("direction tolerance", adj_, 0, units::degree)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("direction tolerance", adj_, 0, units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirToleranceCtrl::OnChanged));
 	}
 protected:
@@ -94,7 +95,7 @@ class DirTransitionCtrl : public Ctrl
 public:
 	DirTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirTransition(), 1, 180))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("direction transition rate", adj_, 0, units::degree)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("direction transition rate", adj_, 0, units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirTransitionCtrl::OnChanged));
 	}
 protected:
@@ -107,7 +108,7 @@ class VelToleranceCtrl : public Ctrl
 public:
 	VelToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetVelTolerance(), 0, 100))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("velocity tolerance", adj_, 0, units::mm_per_sec)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("velocity tolerance", adj_, 0, units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelToleranceCtrl::OnChanged));
 	}
 protected:
@@ -120,7 +121,7 @@ class VelTransitionCtrl : public Ctrl
 public:
 	VelTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetVelTransition(), 0, 100))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("velocity transition rate", adj_, 0, units::mm_per_sec)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("velocity transition rate", adj_, 0, units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelTransitionCtrl::OnChanged));
 	}
 protected:
@@ -133,11 +134,11 @@ class SymmetricCtrl : public Ctrl
 public:
 	SymmetricCtrl(DirModulatorPtr peer) : Ctrl(peer), check_("symmetric")
 	{
-		Gtk::Frame *frame = Gtk::manage(new Gtk::Frame);
-		add(*frame);
-		frame->add(check_);
+		Gtk::Frame *frame = Gtk::make_managed<Gtk::Frame>();
+		append(*frame);
+		frame->set_child(check_);
 		check_.set_active(peer_->GetSymmetric());
-		check_.signal_clicked().connect(sigc::mem_fun(*this, &SymmetricCtrl::OnClick));
+		check_.signal_toggled().connect(sigc::mem_fun(*this, &SymmetricCtrl::OnClick));
 	}
 	void OnClick() { peer_->SetSymmetric(check_.get_active()); };
 protected:
@@ -148,21 +149,20 @@ protected:
 
 
 DirModulatorWidget::DirModulatorWidget(DirModulatorPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
 	using namespace dir_modulator_ctrls;
-	auto grid = Gtk::manage(new Gtk::Grid());
-	grid->attach(*Gtk::manage(new DirCtrl(peer)),0,0,1,1);
-	grid->attach(*Gtk::manage(new SymmetricCtrl(peer)),1,0,1,1);
-	grid->attach(*Gtk::manage(new LowVelModeCombo(peer)),2,0,1,1);
-	grid->attach(*Gtk::manage(new DirToleranceCtrl(peer)),0,1,1,1);
-	grid->attach(*Gtk::manage(new DirTransitionCtrl(peer)),1,1,2,1);
-	grid->attach(*Gtk::manage(new VelToleranceCtrl(peer)),0,2,1,1);
-	grid->attach(*Gtk::manage(new VelTransitionCtrl(peer)),1,2,2,1);
-	pack_start(*grid);
-	pack_start(*Gtk::manage(new ModulatorPreview(peer)), Gtk::PACK_SHRINK);
-	show_all_children();
+	auto grid = Gtk::make_managed<Gtk::Grid>();
+	grid->attach(*Gtk::make_managed<DirCtrl>(peer),0,0,1,1);
+	grid->attach(*Gtk::make_managed<SymmetricCtrl>(peer),1,0,1,1);
+	grid->attach(*Gtk::make_managed<LowVelModeDropDown>(peer),2,0,1,1);
+	grid->attach(*Gtk::make_managed<DirToleranceCtrl>(peer),0,1,1,1);
+	grid->attach(*Gtk::make_managed<DirTransitionCtrl>(peer),1,1,2,1);
+	grid->attach(*Gtk::make_managed<VelToleranceCtrl>(peer),0,2,1,1);
+	grid->attach(*Gtk::make_managed<VelTransitionCtrl>(peer),1,2,2,1);
+	append(*grid);
+	grid->set_hexpand();
+	append(*Gtk::make_managed<ModulatorPreview>(peer));
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

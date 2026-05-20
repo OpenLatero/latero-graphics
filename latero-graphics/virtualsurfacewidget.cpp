@@ -22,13 +22,10 @@
 #include <filesystem>
 #include "virtualsurfacewidget.h"
 #include "gtk/pixbufops.h"
-#include <gtkmm.h>
 #include <math.h>
 #include "generator.h"
 #include "positiongen.h"
 #include "visualizewidget.h"
-#include <gtkmm/menu.h>
-#include <gtkmm/filechooserdialog.h>
 #include <iostream>
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "boost/date_time/local_time_adjustor.hpp"
@@ -40,8 +37,7 @@
 
 #define UPDATE_RATE_MS 300
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
  
 VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 	showCursor_(false), showBorder_(false), animateCursor_(true),
@@ -64,31 +60,41 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
     
     if (dev->IsEmulated())
 	{
-		set_events(Gdk::BUTTON_PRESS_MASK|Gdk::BUTTON_MOTION_MASK|Gdk::BUTTON_RELEASE_MASK);
-		signal_button_press_event().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnButtonPress));
-		signal_button_release_event().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnButtonRelease));
-		signal_motion_notify_event().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnMotionNotify));
+		auto drag = Gtk::GestureDrag::create();
+		drag->set_button(GDK_BUTTON_PRIMARY);
+		drag->signal_drag_begin().connect([this](double x, double y) {
+			dev_->SetEmulatedState(GetClickPos(x, y));
+		});
+		drag->signal_drag_update().connect([this, drag](double offset_x, double offset_y) {
+			double start_x, start_y;
+			if (drag->get_start_point(start_x, start_y))
+				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
+		});
+		drag->signal_drag_end().connect([this, drag](double offset_x, double offset_y) {
+			double start_x, start_y;
+			if (drag->get_start_point(start_x, start_y))
+				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
+		});
+		add_controller(drag);
 	}
-    
-    signal_draw().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
+    set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
 }
 
-bool VirtualSurfaceArea::OnClick(GdkEventButton* event)
+void VirtualSurfaceArea::OnClick(int n_press, double x, double y)
 {
-	if (disablePopup_) return false;
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
+	if (!disablePopup_)
 	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		return true;
+		popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
+		popupMenu_->popup();
 	}
-	else
-		return false;
 }
 
 void VirtualSurfaceArea::CreatePopupMenu()
 {
-	set_events(Gdk::BUTTON_PRESS_MASK);
-	signal_button_press_event().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnClick));
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnClick));
+	add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
@@ -109,14 +115,14 @@ void VirtualSurfaceArea::CreatePopupMenu()
 	)");
 
 	// Get the menu and create a Gtk::Menu from it
-	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
-	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
-	popupMenu_->attach_to_widget(*this);
+	auto menu_model = std::dynamic_pointer_cast<Gio::MenuModel>(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu_model);
+	popupMenu_->set_parent(*this);
 }
 
 void VirtualSurfaceArea::OnSave()
 {
-	anim_.SaveToFile();
+	anim_.SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
 }
 
 
@@ -128,52 +134,39 @@ void VirtualSurfaceArea::SetRounded(bool v)
 
 VirtualSurfaceArea::~VirtualSurfaceArea()
 {
+	if (popupMenu_) popupMenu_->unparent();
 	anim_.Deactivate();
 }
 
-void VirtualSurfaceArea::on_size_allocate(Gtk::Allocation& allocation)
-{
-	Gtk::DrawingArea::on_size_allocate(allocation);
-    
-	// We can't resize the animation here: quality degrades too quickly.
-	// We could keep a second resized copy, but that would require a lot of memory.
-}
-
-bool VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr)
+void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
 	if (rounded_)
 	{
 		DrawBorderPath(cr);
-    	cr->clip();	
+    	cr->clip();
     }
 
     if (!anim_.GetNbFrames())
     {
     	cr->set_source_rgb(1.0, 1.0, 1.0);
     	cr->paint();
-        return true;
+        return;
     }
 
-    //cr->save();
-    //cr->set_source_rgb(1.0, 0.0, 0.0);
-    //cr->paint();
-    //cr->restore();
-    //return true;
+	if (GetWidth() <= 0 || GetHeight() <= 0)
+		return;
 
     Glib::RefPtr<Gdk::Pixbuf> buf = anim_.GetCurrentFrame();
     if (buf)
     {
         // the animation might not have the right size
-        buf = buf->scale_simple(GetWidth(),GetHeight(),Gdk::INTERP_NEAREST);
+        buf = buf->scale_simple(GetWidth(),GetHeight(),Gdk::InterpType::NEAREST);
         Gdk::Cairo::set_source_pixbuf(cr, buf, 0, 0);
         cr->paint();
     }
 
     if (showCursor_)    DrawCursor(cr);
     if (showBorder_)    DrawBorder(cr);
-
-    return true;
-
 }
 
 
@@ -345,14 +338,19 @@ void VirtualSurfaceArea::SetDisplayState(const Point &pos, double angle, const l
 	Gdk::Rectangle invRect(oldBox);
 	invRect.join(newBox);
 
-	Glib::RefPtr<Gdk::Window> win = get_window();
-	if (win) win->invalidate_rect(invRect, false);
+	queue_draw();
 }
 
 void VirtualSurfaceArea::Clear(guint32 pixel)
 {
+	if ((GetWidth()<=0)||(GetHeight()<=0))
+	{
+		std::cout << "VirtualSurfaceArea::Clear() called while width or height is zero. Ignoring.\n";
+		return;
+	}
+
 	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(
-			Gdk::COLORSPACE_RGB, true, 8,
+			Gdk::Colorspace::RGB, true, 8,
 			GetWidth(), GetHeight());
 	buf->fill(pixel);
 	Set(buf);
@@ -378,25 +376,18 @@ void VirtualSurfaceArea::ShowBorder(bool v)
 
 void VirtualSurfaceArea::Invalidate()
 {
-    Glib::RefPtr<Gdk::Window> win = get_window();
-    if (win)
-    {
-        Gdk::Rectangle r(0, 0, get_allocation().get_width(), get_allocation().get_height());
-        win->invalidate_rect(r, false);
-    }
+    queue_draw();
 }
 
 
 void VirtualSurfaceArea::Set(latero::graphics::gtk::Animation &anim)
 {
-	std::cout << "VirtualSurfaceArea::Set(anim)\n";
 	anim_ = anim;
 	Invalidate();
 }
 
 void VirtualSurfaceArea::Set(Glib::RefPtr<Gdk::Pixbuf> buf)
 {
-	std::cout << "VirtualSurfaceArea::Set(pixbuf)\n";
 	//std::stringstream stm;
 	//struct timeval tv;
 	//struct tm* ptm;
@@ -427,26 +418,6 @@ Point VirtualSurfaceArea::GetClickPos(double x, double y)
     return Point(x * dev_->GetSurfaceWidth() / GetWidth(), y * dev_->GetSurfaceHeight() / GetHeight());
 }
     
-bool VirtualSurfaceArea::OnButtonPress(GdkEventButton* event)
-{
-	std::cout << "VirtualSurfaceArea::OnButtonPress\n";
-    if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1))
-        dev_->SetEmulatedState(GetClickPos(event->x, event->y));
-    return false;
-} 
-    
-bool VirtualSurfaceArea::OnMotionNotify(GdkEventMotion *event)
-{
-    if (event->state & GDK_BUTTON1_MASK)
-        dev_->SetEmulatedState(GetClickPos(event->x, event->y));
-    return true;
-} 
-    
-bool VirtualSurfaceArea::OnButtonRelease(GdkEventButton* event)
-{
-    dev_->SetEmulatedState(GetClickPos(event->x, event->y));
-    return true;
-}
 
 VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, GeneratorPtr gen, bool refreshBackground) :
 	BaseVirtualSurfaceWidget(dev),
@@ -454,6 +425,8 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 {
 	// TODO: enable these timeouts only when visible?!?
 	// TODO: when that's done, make sure everything 2D uses this version (e.g. Memory game)
+
+	surface_.signal_resize().connect([this](int, int){ RefreshBackground(); });
 
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &VirtualSurfaceWidget::RefreshCursor),
@@ -474,8 +447,10 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 
 void VirtualSurfaceWidget::CreatePopupMenu()
 {
-	set_events(Gdk::EventMask::BUTTON_PRESS_MASK);
-	signal_button_press_event().connect(sigc::mem_fun(*this, &VirtualSurfaceWidget::OnClick));
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &VirtualSurfaceWidget::OnClick));
+	add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
@@ -521,26 +496,21 @@ void VirtualSurfaceWidget::CreatePopupMenu()
 	)");
 
 	// Get the menu and create a Gtk::Menu from it
-	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
-	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
-	popupMenu_->attach_to_widget(*this);
+	auto menu_model = std::dynamic_pointer_cast<Gio::MenuModel>(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu_model);
+	popupMenu_->set_parent(*this);
 }
 
-bool VirtualSurfaceWidget::OnClick(GdkEventButton* event)
+void VirtualSurfaceWidget::OnClick(int n_press, double x, double y)
 {
 	std::cout << "VirtualSurfaceWidget::OnClick\n";
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		return true;
-	}
-	else
-		return false;
+	popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
+	popupMenu_->popup();
 }
 
 void VirtualSurfaceWidget::OnSave()
 {
-	surface_.GetIllustration().SaveToFile();
+	surface_.GetIllustration().SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
 }
 
 void VirtualSurfaceWidget::OnVisualize()
@@ -550,8 +520,11 @@ void VirtualSurfaceWidget::OnVisualize()
 		PositionGenPtr gen = boost::dynamic_pointer_cast<PositionGen>(peer_);
 		if (gen)
 		{
-			VisualizeWidget dlg(gen);
-			dlg.run();
+			auto dlg = new VisualizeWidget(gen);
+			dlg->signal_hide().connect([dlg]{ delete dlg; });
+			if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+				dlg->set_transient_for(*win);
+			dlg->present();
 		}
 	}
 }
@@ -560,29 +533,34 @@ void VirtualSurfaceWidget::OnEdit()
 {
 	if (peer_)
 	{
-		Gtk::Dialog dlg;
-		dlg.get_content_area()->pack_start(*Gtk::manage(peer_->CreateWidget(peer_)));
-		dlg.show_all_children();
-		dlg.run();
+		auto dlg = new Gtk::Window();
+		auto widget = Gtk::manage(peer_->CreateWidget(peer_));
+		dlg->set_child(*widget);
+		dlg->set_modal(true);
+		dlg->signal_hide().connect([dlg]{ delete dlg; });
+		if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+			dlg->set_transient_for(*win);
+		dlg->present();
 	}
 }
 
 void VirtualSurfaceWidget::OnSaveCanvasAs()
 {
+	std::cout << "VirtualSurfaceWidget::OnSaveCanvasAs\n";
 	if (peer_)
 	{
-		Gtk::FileChooserDialog dialog("Please select a generator file.", Gtk::FILE_CHOOSER_ACTION_SAVE);
-		std::string dir = std::filesystem::current_path().string();
-		dialog.set_current_folder(dir);
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Save", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_CANCEL);
-		dialog.set_current_name("test.gen");
-		if (Gtk::RESPONSE_OK == dialog.run())		
-		{
-			std::string filename = dialog.get_filename();
-			peer_->SaveToFile(filename);
-		}
+		auto dialog = Gtk::FileDialog::create();
+		dialog->set_title("Please select a generator file.");
+		dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+		dialog->set_initial_name("test.gen");
+
+		auto* win = dynamic_cast<Gtk::Window*>(get_root());
+		dialog->save(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+			try {
+				auto file = dialog->save_finish(result);
+				peer_->SaveToFile(file->get_path());
+			} catch (const Gtk::DialogError&) {}
+		});
 	}
 }
 
@@ -594,6 +572,7 @@ void VirtualSurfaceWidget::OnSaveCanvas()
 
 VirtualSurfaceWidget::~VirtualSurfaceWidget()
 {
+	if (popupMenu_) popupMenu_->unparent();
 }
 
 bool VirtualSurfaceWidget::RefreshCursor()
@@ -612,8 +591,11 @@ bool VirtualSurfaceWidget::RefreshCursor()
 bool VirtualSurfaceWidget::OnCheckPeer()
 {
 	if (peer_)
-		if (peer_->GetLastModified() > bgUpdateTime_)
+	{
+		// if the background has never been updated or peer has been modified since
+		if (bgUpdateTime_.is_not_a_date_time() || (peer_->GetLastModified() > bgUpdateTime_))
 			RefreshBackground();
+	}
 	return true;
 }
 
@@ -629,12 +611,6 @@ void VirtualSurfaceWidget::RefreshBackground()
 }
 
 
-void VirtualSurfaceWidget::on_size_allocate(Gtk::Allocation& allocation)
-{
-	BaseVirtualSurfaceWidget::on_size_allocate(allocation);
-	RefreshBackground();
-}
-
 void VirtualSurfaceWidget::SetGenerator(GeneratorPtr gen)
 {
 	peer_ = gen;
@@ -647,6 +623,5 @@ Point VirtualSurfaceWidget::GetDisplayPos()
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

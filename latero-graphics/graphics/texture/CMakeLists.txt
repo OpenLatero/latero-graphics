@@ -28,7 +28,7 @@ set(SRC_H
 	lineargratingtexture.h
 	nulltexture.h
 	plaintexture.h
-	texturecombo.h
+	texturedropdown.h
 	vibrotexture.h
 	blendtexture.h
 	doublelineargratingtexturewidget.h
@@ -57,7 +57,7 @@ set(SRC_CPP
 	doublelineargratingtexturewidget.cpp
 	motiontexture.cpp
 	patterntexturewidget.cpp
-	texturecombo.cpp
+	texturedropdown.cpp
 	vibrotexturewidget.cpp
 	blendtexture.cpp
 	motiontexturewidget.cpp

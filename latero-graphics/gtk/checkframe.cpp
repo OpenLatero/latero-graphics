@@ -21,13 +21,10 @@
 
 #include "checkframe.h"
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 CheckFrame::CheckFrame(bool checkState, std::string label, bool check_in_label) :
-	Gtk::Frame(label), 	mainBox_(Gtk::ORIENTATION_HORIZONTAL), innerBox_(Gtk::ORIENTATION_HORIZONTAL)
+	Gtk::Frame(label), 	mainBox_(Gtk::Orientation::HORIZONTAL), innerBox_(Gtk::Orientation::HORIZONTAL)
 {
 	if (check_in_label)
 	{
@@ -38,15 +35,13 @@ CheckFrame::CheckFrame(bool checkState, std::string label, bool check_in_label) 
 	check_.set_active(checkState);
 	innerBox_.set_sensitive(checkState);
 
-	add(mainBox_);
-	if (!check_in_label) mainBox_.pack_start(check_, Gtk::PACK_SHRINK);
-	mainBox_.pack_start(innerBox_);
-	check_.signal_clicked().connect(sigc::mem_fun(*this, &CheckFrame::OnClick));
+	set_child(mainBox_);
+	if (!check_in_label) mainBox_.append(check_);
+	mainBox_.append(innerBox_);
+	innerBox_.set_hexpand();
+	check_.signal_toggled().connect(sigc::mem_fun(*this, &CheckFrame::OnClick));
 }
 
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 

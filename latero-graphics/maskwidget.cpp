@@ -23,22 +23,13 @@
 #include "maskwidget.h"
 #include "mask.h"
 #include "generator.h"
-#include <gtkmm/filechooserdialog.h>
-#include <gtkmm/stock.h>
-#include <gtkmm/table.h>
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/checkbutton.h>
-#include <gtkmm/radiobutton.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/entry.h>
-#include <gtkmm/adjustment.h>
 #include "gtk/numwidget.h"
 #include "pointwidget.h"
 #include "virtualsurfacewidget.h"
 #include <glibmm/main.h>
+#include <iostream>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class MaskSrcTypeCheck : public Gtk::CheckButton
 {
@@ -75,6 +66,7 @@ public:
 		latero::graphics::VirtualSurfaceWidget(dev),
 		peer_(peer)
 	{
+		surface_.signal_resize().connect([this](int, int){ RefreshBackground(); });
 		Glib::signal_timeout().connect(
 			sigc::mem_fun(*this, &MaskSurfaceWidget::OnCheckPeer),
 			(uint)333, Glib::PRIORITY_DEFAULT_IDLE);
@@ -86,12 +78,6 @@ protected:
 	{
 		if (peer_->GetLastModified() > bgUpdateTime_) RefreshBackground();
 		return true;
-	}
-
-	virtual void on_size_allocate(Gtk::Allocation& allocation)
-	{
-		latero::graphics::VirtualSurfaceWidget::on_size_allocate(allocation);
-		RefreshBackground();
 	}
 
 	void RefreshBackground()
@@ -141,18 +127,20 @@ public:
 	{
 		fileEntry_.set_text(peer->GetImgFile());
 
-		auto pOpenButton = Gtk::manage(new Gtk::Button());
-		pOpenButton->set_image_from_icon_name("document-open", Gtk::ICON_SIZE_BUTTON);
+		auto pOpenButton = Gtk::make_managed<Gtk::Button>();
+		pOpenButton->set_icon_name("document-open");
 
-		auto pReloadButton = Gtk::manage(new Gtk::Button());
-		pReloadButton->set_image_from_icon_name("view-refresh", Gtk::ICON_SIZE_BUTTON);
+		auto pReloadButton = Gtk::make_managed<Gtk::Button>();
+		pReloadButton->set_icon_name("view-refresh");
 
-		auto *box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-		box->pack_start(fileEntry_);
-		box->pack_start(*pOpenButton, Gtk::PACK_SHRINK);
-		box->pack_start(*pReloadButton, Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new MaskSrcTypeCheck(peer)), Gtk::PACK_SHRINK);
-		add(*box);
+		auto *box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+		box->append(fileEntry_);
+		box->set_hexpand();
+		fileEntry_.set_hexpand();
+		box->append(*pOpenButton);
+		box->append(*pReloadButton);
+		box->append(*Gtk::make_managed<MaskSrcTypeCheck>(peer));
+		set_child(*box);
  
 		pOpenButton->signal_clicked().connect(sigc::mem_fun(*this, &MaskImageWidget::OnOpen));
 		pReloadButton->signal_clicked().connect(sigc::mem_fun(*this, &MaskImageWidget::OnReload));
@@ -162,11 +150,9 @@ public:
 protected:
 	void OnOpen()
 	{
-		Gtk::FileChooserDialog dialog("Please select an image file.");
- 
 		std::string dir;
 		std::string currentFile = peer_->GetImgFile();
-		if (currentFile == "")
+		if (currentFile.empty())
 		{
 			dir = std::filesystem::current_path().string();
 			dir += "/cards/masks"; // TODO
@@ -176,22 +162,28 @@ protected:
 			dir = currentFile.substr(0, currentFile.find_last_of('/'));
 		}
 
-        Glib::RefPtr<Gtk::FileFilter> filter = Gtk::FileFilter::create();
+		auto filter = Gtk::FileFilter::create();
 		filter->set_name("supported image formats");
-		filter->add_pixbuf_formats();
- 
-		dialog.set_current_folder(dir);
-		dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		dialog.add_button("Open", Gtk::RESPONSE_OK);
-		dialog.set_default_response(Gtk::RESPONSE_OK);
-		dialog.add_filter(filter);
+		for (auto& ext : {"png","jpg","jpeg","gif","bmp","tiff","tif","webp","svg"})
+			filter->add_suffix(ext);
+		auto filters = Gio::ListStore<Gtk::FileFilter>::create();
+		filters->append(filter);
 
-		if (Gtk::RESPONSE_OK == dialog.run())		
-		{
-			std::string filename = dialog.get_filename();
-			fileEntry_.set_text(filename.c_str());
-			peer_->SetImage(filename,false); // TODO
-		}
+		auto dialog = Gtk::FileDialog::create();
+		dialog->set_title("Please select an image file.");
+		dialog->set_initial_folder(Gio::File::create_for_path(dir));
+		dialog->set_filters(filters);
+		dialog->set_default_filter(filter);
+
+		auto* win = dynamic_cast<Gtk::Window*>(get_root());
+		dialog->open(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+			try {
+				auto file = dialog->open_finish(result);
+				std::string filename = file->get_path();
+				fileEntry_.set_text(filename);
+				peer_->SetImage(filename, false); // TODO
+			} catch (const Gtk::DialogError&) {}
+		});
 	}
 
 	void OnReload()
@@ -209,24 +201,24 @@ class MaskSizeCtrl : public Gtk::Box, public MaskWidgetCtrl
 {
 public:
 	MaskSizeCtrl(MaskPtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), MaskWidgetCtrl(peer),
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), MaskWidgetCtrl(peer),
 		wRelAdj_(Gtk::Adjustment::create(100*peer->GetWidth(units::percent),1,200)),
 		hRelAdj_(Gtk::Adjustment::create(100*peer->GetHeight(units::percent),1,200)),
 		wAbsAdj_(Gtk::Adjustment::create(peer->GetWidth(units::mm),1,2000)),
 		hAbsAdj_(Gtk::Adjustment::create(peer->GetHeight(units::mm),1,2000))
 	{
-		gtk::HNumWidget *wWidget = Gtk::manage(new gtk::HNumWidget("width",wRelAdj_,0, units::percent));
+		gtk::HNumWidget *wWidget = Gtk::make_managed<gtk::HNumWidget>("width",wRelAdj_,0, units::percent);
 		wWidget->AddUnits(units::mm, wAbsAdj_, 0);
 		wWidget->SelectUnits(peer->GetWidthUnits());
-		add(*wWidget);
+		append(*wWidget);
 		wRelAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnRelWidthChanged));
 		wAbsAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnAbsWidthChanged));
 		wWidget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnWidthUnitsChanged));
 
-		gtk::HNumWidget *hWidget = Gtk::manage(new gtk::HNumWidget("height",hRelAdj_,0, units::percent));
+		gtk::HNumWidget *hWidget = Gtk::make_managed<gtk::HNumWidget>("height",hRelAdj_,0, units::percent);
 		hWidget->AddUnits(units::mm, hAbsAdj_, 0);
 		hWidget->SelectUnits(peer->GetHeightUnits());
-		add(*hWidget);
+		append(*hWidget);
 		hRelAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnRelHeightChanged));
 		hAbsAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnAbsHeightChanged));
 		hWidget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnHeightUnitsChanged));
@@ -242,10 +234,10 @@ public:
 		hAbsAdj_->set_value(peer_->GetHeight(units::mm));
 	}
 
-	sigc::signal<void> SignalChanged() { return signalChanged_; };
+	sigc::signal<void()> SignalChanged() { return signalChanged_; };
 
 protected:
-	sigc::signal<void> signalChanged_;
+	sigc::signal<void()> signalChanged_;
 
 	void OnWidthUnitsChanged(std::string units) { peer_->SetWidthUnits(units); }
 	void OnHeightUnitsChanged(std::string units) { peer_->SetHeightUnits(units); }
@@ -297,15 +289,16 @@ public:
 				-peer->GetSurfaceSize().x*2, peer->GetSurfaceSize().x*2,
 				-peer->GetSurfaceSize().y*2, peer->GetSurfaceSize().y*2)
 	{
-		Gtk::RadioButton::Group group = centeredRadio_.get_group();
-		freeRadio_.set_group(group);
-		centeredRadio_.signal_clicked().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnModeChanged));
+		centeredRadio_.set_group(freeRadio_);
+
+		centeredRadio_.signal_toggled().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnModeChanged));
 		
-		auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-		box->pack_start(centeredRadio_, Gtk::PACK_SHRINK);
-		box->pack_start(freeRadio_, Gtk::PACK_SHRINK);
-		box->pack_start(posWidget_);
-		add(*box);
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+		box->append(centeredRadio_);
+		box->append(freeRadio_);
+		box->append(posWidget_);
+		posWidget_.set_hexpand();
+		set_child(*box);
 
 		posWidget_.SignalValueChanged().connect(sigc::mem_fun(*this, &MaskPositionCtrl::OnPosChanged));
 
@@ -338,7 +331,7 @@ protected:
 		SynchFromPeer();
 	}
     
-	Gtk::RadioButton centeredRadio_, freeRadio_;
+	Gtk::CheckButton centeredRadio_, freeRadio_;
 	PointWidget posWidget_;
 };
 
@@ -348,12 +341,12 @@ class MaskDefaultCtrl : public Gtk::Box, public MaskWidgetCtrl
 {
 public:
 	MaskDefaultCtrl(MaskPtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), MaskWidgetCtrl(peer),
+		Gtk::Box(Gtk::Orientation::HORIZONTAL), MaskWidgetCtrl(peer),
 		adj_(Gtk::Adjustment::create(100*peer->GetDefaultAlpha(),0,100))
 	{
-		pack_start(*Gtk::manage(new Gtk::Label("Default ")), Gtk::PACK_SHRINK);
-		pack_start(*Gtk::manage(new Gtk::SpinButton(adj_)), Gtk::PACK_SHRINK);
-		pack_start(*Gtk::manage(new Gtk::Label("%")), Gtk::PACK_SHRINK);
+		append(*Gtk::make_managed<Gtk::Label>("Default "));
+		append(*Gtk::make_managed<Gtk::SpinButton>(adj_));
+		append(*Gtk::make_managed<Gtk::Label>("%"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskDefaultCtrl::OnChanged));
 	}
 	virtual ~MaskDefaultCtrl() {}
@@ -363,29 +356,46 @@ protected:
 };
 
 MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
-	MaskSizeCtrl *sizeWidget = Gtk::manage(new MaskSizeCtrl(peer));
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	auto checkbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);	
+	auto maskImageWidget = Gtk::make_managed<MaskImageWidget>(peer);
+	auto maskBlurCheck = Gtk::make_managed<MaskBlurCheck>(peer);
+	auto maskLockAspectRatioCheck = Gtk::make_managed<MaskLockAspectRatioCheck>(peer);
+	auto refMaxWidget = Gtk::make_managed<MaskRefMaximizedCheck>(peer);
+	auto maskDefaultCtrl = Gtk::make_managed<MaskDefaultCtrl>(peer);
+	auto maskSurfaceWidget = Gtk::make_managed<MaskSurfaceWidget>(dev,peer);
+
+	MaskSizeCtrl *sizeWidget = Gtk::make_managed<MaskSizeCtrl>(peer);
 	ctrls_.push_back(sizeWidget);
 
-	MaskPositionCtrl *posWidget = Gtk::manage(new MaskPositionCtrl(peer));
+	MaskPositionCtrl *posWidget = Gtk::make_managed<MaskPositionCtrl>(peer);
 	ctrls_.push_back(posWidget);
 
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-	box->pack_start(*Gtk::manage(new MaskImageWidget(peer)));
-	box->pack_start(*posWidget);
-	box->pack_start(*sizeWidget);
+	maskImageWidget->set_vexpand();
+	posWidget->set_vexpand();
+	sizeWidget->set_vexpand();
+	checkbox->set_vexpand();
+	maskBlurCheck->set_hexpand();
+	maskLockAspectRatioCheck->set_hexpand();
+	refMaxWidget->set_hexpand();
+	maskDefaultCtrl->set_hexpand();
+	box->set_hexpand();
+	maskSurfaceWidget->set_hexpand();
 
-	auto checkbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-	checkbox->pack_start(*Gtk::manage(new MaskBlurCheck(peer)));
-	checkbox->pack_start(*Gtk::manage(new MaskLockAspectRatioCheck(peer)));
-	Gtk::CheckButton *refMaxWidget = Gtk::manage(new MaskRefMaximizedCheck(peer));
-	checkbox->pack_start(*refMaxWidget);
-	checkbox->pack_start(*Gtk::manage(new MaskDefaultCtrl(peer)));
-	box->pack_start(*checkbox);
+	box->append(*maskImageWidget);
+	box->append(*posWidget);
+	box->append(*sizeWidget);
+	box->append(*checkbox);
 
-	pack_start(*box);	
-	pack_start(*Gtk::manage(new MaskSurfaceWidget(dev,peer)));	
+	checkbox->append(*maskBlurCheck);
+	checkbox->append(*maskLockAspectRatioCheck);
+	checkbox->append(*refMaxWidget);
+	checkbox->append(*maskDefaultCtrl);
+
+	append(*box);
+	append(*maskSurfaceWidget);	
 
  	refMaxWidget->signal_toggled().connect(sigc::mem_fun(*this, &MaskWidget::SynchFromPeer));
 	sizeWidget->SignalChanged().connect(sigc::mem_fun(*this, &MaskWidget::SynchFromPeer));
@@ -397,5 +407,4 @@ void MaskWidget::SynchFromPeer()
 		ctrls_[i]->SynchFromPeer();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

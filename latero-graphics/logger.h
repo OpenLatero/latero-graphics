@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_LOGGER_H
-#define LATERO_GRAPHICS_LOGGER_H
+#pragma once
 
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include <queue>
 #include "timer.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
     
 class Logger
 {
@@ -64,7 +62,5 @@ private:
     Timer m_timer;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

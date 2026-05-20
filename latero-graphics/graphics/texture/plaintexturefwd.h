@@ -19,18 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_PLAIN_TEXTURE_FWD_H
-#define LATERO_GRAPHICS_PLANAR_PLAIN_TEXTURE_FWD_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class PlainTexture;
 typedef boost::shared_ptr<PlainTexture> PlainTexturePtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

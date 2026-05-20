@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_CLOSED_PATTERN_H
-#define LATERO_GRAPHICS_CLOSED_PATTERN_H
+#pragma once
 
 #include "closedpatternfwd.h"
 #include "pattern.h"
 #include "texture/texturefwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class ClosedPattern : public Pattern
 {
@@ -70,7 +68,5 @@ private:
 	TexturePtr texture_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

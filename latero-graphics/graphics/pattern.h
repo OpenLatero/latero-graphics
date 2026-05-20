@@ -19,11 +19,10 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PATTERN_H
-#define LATERO_GRAPHICS_PATTERN_H
+#pragma once
 
 #include <latero/tactograph.h>
-#include <gtkmm/widget.h>
+#include <gtkmm.h>
 #include "patternfwd.h"
 #include "../modifiable.h"
 #include "../state.h"
@@ -31,8 +30,7 @@
 #include "../buttonevent.h"
 #include "../audiodevice.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 /** 
  * A Pattern is a basic tactile graphics element which knows how to render itself,
@@ -136,7 +134,7 @@ public:
 	/** 
 	 * Handle key press or return false if key is unused.
 	 */
-	virtual bool OnKeyPress(GdkEventKey* event) { return false; }
+	virtual bool OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state) { return false; }
 
 	/** @return path of the source XML file, if created from a file */ 
 	std::string GetXMLFile() const { LATERO_GRAPHICS_GUARD; return xmlfile_; }
@@ -179,7 +177,5 @@ private:
 	std::string xmlfile_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

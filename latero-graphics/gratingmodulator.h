@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_GRATING_MODULATOR_H
-#define LATERO_GRAPHICS_PLANAR_GRATING_MODULATOR_H
+#pragma once
 
 #include <string>
 #include <math.h>
@@ -30,8 +29,7 @@
 #include "units.h"
 #include "namedid.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class GratingModulator : public Modifiable
 {
@@ -89,7 +87,5 @@ protected:
 	ModeSet modeSet_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

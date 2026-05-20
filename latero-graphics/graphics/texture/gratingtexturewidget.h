@@ -19,11 +19,9 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GRATING_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_GRATING_TEXTURE_WIDGET
+#pragma once
 
-#include <gtkmm/frame.h>
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "texturewidget.h"
 #include "../patternpreview.h"
 //TODO: check why this is required
@@ -31,8 +29,7 @@
 #include "../../gratingwidget.h"
 #include "../../pointwidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 
 class GratingTextureSeedCtrl : public Gtk::Frame
@@ -78,7 +75,5 @@ protected:
 	GratingTexturePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

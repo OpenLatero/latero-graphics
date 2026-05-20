@@ -19,18 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef GTKVL_PIXBUF_OPS
-#define GTKVL_PIXBUF_OPS
+#pragma once
 
 #include <gdkmm/pixbuf.h>
 
 // todo: turn this in a class?
 // todo: are any of the ops implemented in GTKMM?
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 
 class PixbufOps
@@ -58,9 +54,5 @@ public:
 	static void CopyChannel(Glib::RefPtr<Gdk::Pixbuf> &img, int src, int dest);
 };
 
-} // namespace gtk
+} // namespace
 
-} // namespace graphics
-} // namespace latero
-
-#endif

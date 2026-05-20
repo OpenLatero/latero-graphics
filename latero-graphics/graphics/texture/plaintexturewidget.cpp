@@ -20,9 +20,6 @@
 // -----------------------------------------------------------
 
 #include "plaintexturewidget.h"
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/box.h>
 #include "plaintexture.h"
 #include "texturewidget.h"
 #include "../../gtk/numwidget.h"
@@ -30,20 +27,25 @@
 #include "../patternpreview.h"
 #include "../../oscillatorwidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 PlainTextureWidget::PlainTextureWidget(PlainTexturePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
-	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-	sidebox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
-	sidebox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
-	pack_start(*sidebox, Gtk::PACK_SHRINK);
+	auto sidebox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	auto textureInvertCtrl = Gtk::make_managed<TextureInvertCtrl>(peer);
+	auto textureAmplitudeCtrl = Gtk::make_managed<TextureAmplitudeCtrl>(peer);
+	auto oscillatorWidget = Gtk::make_managed<OscillatorWidget>(peer->GetOscillator());
+	auto patternPreview = Gtk::make_managed<PatternPreview>(peer);
 
-	pack_start(*Gtk::manage(new OscillatorWidget(peer->GetOscillator())));
-	pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+	textureAmplitudeCtrl->set_vexpand();
+	oscillatorWidget->set_hexpand();
+
+	sidebox->append(*textureInvertCtrl);
+	sidebox->append(*textureAmplitudeCtrl);
+	append(*sidebox);
+	append(*oscillatorWidget);
+	append(*patternPreview);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

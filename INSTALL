@@ -11,7 +11,7 @@ See instructions in INSTALL file for latero project.
 
 Step 2: Install dependencies
 -----------------------------
->> sudo port install ImageMagick gtkmm3 +quartz glib2 +quartz libxmlxx3 librsvg
+>> sudo port install ImageMagick gtkmm3 +quartz glib2 +quartz  gsettings-desktop-schemas libxmlxx3 librsvg
 
 Step 3: Download, build and install the audiere library (optional)
 ------------------------------------------------------------------
@@ -31,6 +31,9 @@ Step 4: Install the latero-graphics library
 >> cmake --preset default
 >> cmake --build build
 >> sudo cmake --install build 
+
+or all together: 
+>> cmake --preset default && cmake --build build && sudo cmake --install build 
 
 You can run the program latero-demo (another project) to test the latero graphics library.
 

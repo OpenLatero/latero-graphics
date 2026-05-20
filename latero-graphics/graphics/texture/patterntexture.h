@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_PATTERN_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_PATTERN_TEXTURE
+#pragma once
 
 #include "texture.h"
 #include "patterntexturefwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class PatternTexture : public Texture
 {
@@ -73,8 +71,5 @@ protected:
 	double gridWidth_, gridHeight_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

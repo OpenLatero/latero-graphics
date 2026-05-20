@@ -29,8 +29,7 @@
 #include "../mask.h"
 #include "texture/nulltexture.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 Image::Image(const latero::Tactograph *dev, TexturePtr texture) :
 	Pattern(dev),
@@ -175,7 +174,7 @@ void Image::DrawIllustration(Cairo::RefPtr<Cairo::Context> mmContext, boost::pos
 	Glib::RefPtr<Gdk::Pixbuf> alpha = mask_->GetSurfaceAlpha(2000,2000); // TODO: pick better value
 	Cairo::RefPtr<Cairo::ImageSurface> alphaSurface = Cairo::ImageSurface::create(
 		(unsigned char*)alpha->get_pixels(),
-		Cairo::FORMAT_ARGB32,
+		Cairo::Surface::Format::ARGB32,
 		alpha->get_width(),
 		alpha->get_height(),
 		alpha->get_rowstride());
@@ -230,6 +229,5 @@ bool Image::UpdateVisible_(const State *state)
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

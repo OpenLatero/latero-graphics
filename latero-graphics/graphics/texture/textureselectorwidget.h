@@ -19,17 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_TEXTURE_SELECTOR_WIDGET
-#define LATERO_GRAPHICS_PLANAR_TEXTURE_SELECTOR_WIDGET
+#pragma once
 
-#include "texturecombo.h"
-#include <gtkmm/box.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/expander.h>
+#include "texturedropdown.h"
+#include <gtkmm.h>
 #include "../../pointwidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class TextureSelectorCtrl : public Gtk::Box
 {
@@ -42,14 +38,14 @@ public:
 
 	void OnModeChanged(TexturePtr tx);
 
-	sigc::signal<void> SignalTextureChanged() { return SignalTextureChanged_; }
+	sigc::signal<void()> SignalTextureChanged() { return SignalTextureChanged_; }
 
 protected:
 	void OnSave();
 	void OnLoad();
 
-	sigc::signal<void> SignalTextureChanged_;
-	TextureCombo modeCombo_;
+	sigc::signal<void()> SignalTextureChanged_;
+	TextureDropDown modeDropDown_;
     TexturePtr texture_;
 };
 
@@ -60,10 +56,10 @@ public:
 	virtual ~TextureSelectorWidget();
 	TexturePtr GetTexture() { return ctrl_.GetTexture(); }
 	void SetTexture(TexturePtr tx) { ctrl_.SetTexture(tx); }
-	sigc::signal<void> SignalTextureChanged() { return SignalTextureChanged_; }
+	sigc::signal<void()> SignalTextureChanged() { return SignalTextureChanged_; }
 
 protected:
-	sigc::signal<void> SignalTextureChanged_;
+	sigc::signal<void()> SignalTextureChanged_;
 
 	void OnChanged();
 	void Build();
@@ -73,7 +69,5 @@ protected:
 	Widget *widget_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

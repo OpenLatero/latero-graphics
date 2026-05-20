@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_CIRCLE
-#define LATERO_GRAPHICS_PLANAR_CIRCLE
+#pragma once
 
 #include "closedpattern.h"
 #include "circlefwd.h"
 #include "strokefwd.h"
 #include "dotpatternfwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 
 class Circle : public ClosedPattern
@@ -99,7 +97,5 @@ protected:
 	DottedCirclePtr dots_;	// dots rendering
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

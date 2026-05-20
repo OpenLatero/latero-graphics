@@ -22,18 +22,15 @@
 #include "velmodulatorwidget.h"
 #include "velmodulator.h"
 #include "modulatorpreview.h"
-#include <gtkmm.h>
 #include "../../gtk/numwidget.h"
 
-namespace latero {
-namespace graphics { 
-
+namespace latero::graphics {
 namespace vel_modulator_ctrls {
 
 class Ctrl : public Gtk::Box
 {
 public:
-	Ctrl(VelModulatorPtr peer) : Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer) {}
+	Ctrl(VelModulatorPtr peer) : Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer) {}
 	virtual ~Ctrl() {}
 protected:
 	VelModulatorPtr peer_;
@@ -44,7 +41,7 @@ class LimitCtrl : public Ctrl
 public:
 	LimitCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetLimit(), 0, 100))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("lower limit", adj_, 0, units::mm_per_sec)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("lower limit", adj_, 0, units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &LimitCtrl::OnChanged));
 	}
 protected:
@@ -57,7 +54,7 @@ class TransitionCtrl : public Ctrl
 public:
 	TransitionCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetTransition(), 0, 100))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("transition rate", adj_, 0, units::mm_per_sec)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("transition rate", adj_, 0, units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TransitionCtrl::OnChanged));
 	}
 protected:
@@ -70,7 +67,7 @@ class DelayCtrl : public Ctrl
 public:
 	DelayCtrl(VelModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDelay(), 0, 2000))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("delayed onset", adj_, 0, units::ms)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("delayed onset", adj_, 0, units::ms));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DelayCtrl::OnChanged));
 	}
 protected:
@@ -83,17 +80,27 @@ protected:
 
 
 VelModulatorWidget::VelModulatorWidget(VelModulatorPtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
 	using namespace vel_modulator_ctrls;
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-	box->pack_start(*Gtk::manage(new LimitCtrl(peer)));
-	box->pack_start(*Gtk::manage(new TransitionCtrl(peer)));
-	box->pack_start(*Gtk::manage(new DelayCtrl(peer)));
-	pack_start(*box);
-	pack_start(*Gtk::manage(new ModulatorPreview(peer)), Gtk::PACK_SHRINK);
-	show_all_children();
+
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	auto limitCtrl = Gtk::make_managed<LimitCtrl>(peer);
+	auto transitionCtrl = Gtk::make_managed<TransitionCtrl>(peer);
+	auto delayCtrl = Gtk::make_managed<DelayCtrl>(peer);
+	auto previewCtrl = Gtk::make_managed<ModulatorPreview>(peer);
+
+	limitCtrl->set_vexpand();
+	transitionCtrl->set_vexpand();
+	delayCtrl->set_vexpand();
+	box->set_hexpand();
+
+	box->append(*limitCtrl);
+	box->append(*transitionCtrl);
+	box->append(*delayCtrl);
+
+	append(*box);
+	append(*previewCtrl);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

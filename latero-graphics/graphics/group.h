@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_OBJECT_SET_H
-#define LATERO_GRAPHICS_PLANAR_OBJECT_SET_H
+#pragma once
 
 #include "pattern.h"
 #include "groupfwd.h"
 #include "../namedid.h"
 #include "modulator/modulatorfwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 // TODO: turn into a template for different types of patterns?
 class Group : virtual public Pattern
@@ -91,7 +89,7 @@ public:
 	ModulatorPtr GetReactiveMod() const { LATERO_GRAPHICS_GUARD; return reactiveMod_; }
 
 	virtual void PlayAudio(AudioDevicePtr dev, Point pos);
-    virtual bool OnKeyPress(GdkEventKey* event);
+    virtual bool OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state);
 
 	// only for reactive mode
 	typedef enum { ill_mode_mix, ill_mode_first, ill_mode_second } ill_mode;
@@ -114,7 +112,5 @@ protected:
 	ill_mode illMode_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

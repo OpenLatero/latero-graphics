@@ -19,18 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_GRATING_FWD_H
-#define LATERO_GRAPHICS_PLANAR_GRATING_FWD_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Grating;
 typedef boost::shared_ptr<Grating> GratingPtr;
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace

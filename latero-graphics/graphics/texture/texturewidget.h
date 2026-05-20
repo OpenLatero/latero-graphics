@@ -19,34 +19,31 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_TEXTURE_WIDGET
+#pragma once
 
-#include "texturecombo.h"
+#include "texturedropdown.h"
 #include "texturefwd.h"
-#include <gtkmm/box.h>
-#include <gtkmm/dialog.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/expander.h>
+#include <gtkmm.h>
 #include "../../pointwidget.h"
 #include "../../gtk/checkframe.h"
 #include "../../oscillatorwidget.h"
-#include <gtkmm/checkbutton.h>
+namespace latero::graphics {
 
-namespace latero {
-namespace graphics { 
-
-class CreateTextureDlg : public Gtk::Dialog
+class CreateTextureDlg : public Gtk::Window
 {
 public:
 	CreateTextureDlg(const latero::Tactograph *dev);
 	virtual ~CreateTextureDlg() {}
-	void OnComboChanged();
+	void OnDropDownChanged();
 	TexturePtr CreateTexture();
+	sigc::signal<void(int)>& signal_response() { return signalResponse_; }
 protected:
-	Gtk::ComboBoxText combo_;
-	TextureCombo txCombo_;
+	Glib::RefPtr<Gtk::StringList> optionsList_;
+	Gtk::DropDown* optionsDropDown_;
+	TextureDropDown txDropDown_;
 	const latero::Tactograph *dev_;
+	std::string loadedFile_;
+	sigc::signal<void(int)> signalResponse_;
 };
 
 
@@ -56,7 +53,6 @@ public:
 	TextureTDCentricCheck(TexturePtr peer);
 	virtual ~TextureTDCentricCheck() {};
 protected:
-	virtual void on_clicked();
 	TexturePtr peer_;
 };
 
@@ -109,14 +105,13 @@ class TextureAdvancedButton : public Gtk::Button
 public:
 	TextureAdvancedButton(TexturePtr peer);
 	virtual ~TextureAdvancedButton() {};
-	sigc::signal<void> SignalClosed() { return signalClosed_; }
+	sigc::signal<void()> SignalClosed() { return signalClosed_; }
 protected:
-	void OnResponse(int i) { signalClosed_(); }
 	virtual void on_clicked();
 
-	sigc::signal<void> signalClosed_;
+	sigc::signal<void()> signalClosed_;
     Gtk::Widget *adv_;
-	Gtk::Dialog dlg_;
+	Gtk::Window dlg_;
 	TexturePtr peer_;	
 };
 
@@ -142,7 +137,5 @@ protected:
 
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

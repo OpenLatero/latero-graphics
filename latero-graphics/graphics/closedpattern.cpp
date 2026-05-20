@@ -24,8 +24,7 @@
 #include "texture/texture.h"
 #include "texture/stock.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 ClosedPattern::ClosedPattern(const latero::Tactograph *dev) : Pattern(dev)
 {
@@ -95,7 +94,6 @@ double ClosedPattern::RenderFilling_(double dFromStroke, const ActuatorState &st
 	}
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

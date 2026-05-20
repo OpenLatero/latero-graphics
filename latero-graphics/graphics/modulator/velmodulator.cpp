@@ -21,11 +21,10 @@
 
 #include "velmodulator.h"
 #include "velmodulatorwidget.h"
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "../../units.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 VelModulator::VelModulator(const latero::Tactograph *dev) :
 	Modulator(dev),
@@ -124,8 +123,7 @@ void VelModulator::LoadXML(const XMLInputNode &root)
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

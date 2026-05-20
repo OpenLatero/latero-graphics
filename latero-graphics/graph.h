@@ -19,18 +19,15 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_GRAPH_H
-#define LATERO_GRAPHICS_PLANAR_GRAPH_H
+#pragma once
 
 #include "gtk/plot.h"
-#include <gtkmm/box.h>
-#include <gtkmm/eventbox.h>
+#include <gtkmm.h>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
-class Graph : public Gtk::EventBox
+class Graph : public Gtk::Box
 {
 public:
 	Graph(uint nbPoints=1000, const char *fgColor = "blue", const char *bgColor = "white");
@@ -45,7 +42,5 @@ protected:
 	latero::graphics::gtk::Plot plot_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

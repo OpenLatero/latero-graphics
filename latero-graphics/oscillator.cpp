@@ -23,8 +23,7 @@
 #include "units.h"
 #include "graphics/texture/patternops.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 const Oscillator::BlendMode Oscillator::blend_mode_high(0,"high");
 const Oscillator::BlendMode Oscillator::blend_mode_low(1,"low");
@@ -99,7 +98,7 @@ Cairo::RefPtr<Cairo::Pattern> Oscillator::GetPattern(Cairo::RefPtr<Cairo::Contex
 	int pix_sx = clip_pix_x2 - clip_pix_x1;
 	int pix_sy = clip_pix_y2 - clip_pix_y1;
 
-	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32,pix_sx,pix_sy);
+	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create(Cairo::Surface::Format::ARGB32,pix_sx,pix_sy);
 	unsigned char *data = surface->get_data();
     
     for (int y=0; y<pix_sy; ++y)
@@ -146,7 +145,6 @@ Cairo::RefPtr<Cairo::Pattern> Oscillator::GetBlendPattern(Cairo::RefPtr<Cairo::P
 	return rv;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

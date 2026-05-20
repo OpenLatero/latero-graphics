@@ -23,8 +23,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 Engine::Engine(bool highPriority) :
 	enabled_(true), highPriority_(highPriority)
@@ -83,5 +82,4 @@ void Engine::Stop()
 	m_thread->join();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

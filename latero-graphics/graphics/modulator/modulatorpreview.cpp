@@ -22,19 +22,14 @@
 #include <filesystem>
 #include "modulatorpreview.h"
 #include "modulator.h"
-#include <gtkmm/filechooserdialog.h>
-#include <gtkmm/stock.h>
-#include <gtkmm/menu.h>
-#include <gtkmm/builder.h>
 #include <glibmm/main.h>
 #include <giomm/simpleactiongroup.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 ModulatorPreview::ModulatorPreview(ModulatorPtr peer) : peer_(peer)
 {
-	add(img_);
+	append(img_);
 	Refresh();
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &ModulatorPreview::OnTimer),
@@ -45,8 +40,10 @@ ModulatorPreview::ModulatorPreview(ModulatorPtr peer) : peer_(peer)
 
 void ModulatorPreview::CreatePopupMenu()
 {
-	set_events(Gdk::BUTTON_PRESS_MASK);
-	signal_button_press_event().connect(sigc::mem_fun(*this, &ModulatorPreview::OnClick));
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &ModulatorPreview::OnClick));
+	add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
@@ -72,25 +69,24 @@ void ModulatorPreview::CreatePopupMenu()
 	)");
 
 	// Get the menu and create a Gtk::Menu from it
-	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
-	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
-	popupMenu_->attach_to_widget(*this);
+	auto menu_model = std::dynamic_pointer_cast<Gio::MenuModel>(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu_model);
+	popupMenu_->set_parent(*this);
 }
 
 void ModulatorPreview::OnSaveAs()
 {
-	Gtk::FileChooserDialog dialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE);
-	std::string dir = std::filesystem::current_path().string();
-	dialog.set_current_folder(dir);
-	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	dialog.add_button("Save", Gtk::RESPONSE_OK);
-	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
-	dialog.set_current_name("modulation.png");
-	if (Gtk::RESPONSE_OK == dialog.run())
-	{
-		printf("saving %s\n", dialog.get_filename().c_str());
-		peer_->GetIllustration(1000,50)->save(dialog.get_filename(),"png");
-	}
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select file name.");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name("modulation.png");
+	auto* win = dynamic_cast<Gtk::Window*>(get_root());
+	dialog->save(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto file = dialog->save_finish(result);
+			peer_->GetIllustration(1000,50)->save(file->get_path(),"png");
+		} catch (const Gtk::DialogError&) {}
+	});
 }
 
 void ModulatorPreview::OnSave()
@@ -100,15 +96,10 @@ void ModulatorPreview::OnSave()
 }
 
 	
-bool ModulatorPreview::OnClick(GdkEventButton* event)
+void ModulatorPreview::OnClick(int n_press, double x, double y)
 {
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		return true;
-	}
-	else
-		return false;
+	popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
+	popupMenu_->popup();
 }
 
 bool ModulatorPreview::OnTimer()
@@ -124,5 +115,4 @@ void ModulatorPreview::Refresh()
 	refreshTime_ = boost::posix_time::microsec_clock::universal_time();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

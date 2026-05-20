@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_VEL_MODULATOR_H
-#define LATERO_GRAPHICS_PLANAR_VEL_MODULATOR_H
+#pragma once
 
 #include "velmodulatorfwd.h"
 #include "modulator.h"
 #include "../../units.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class VelModulator : public Modulator
 {
@@ -81,8 +79,5 @@ protected:
     long toggleCount_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

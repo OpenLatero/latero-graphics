@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_COMBO_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_COMBO_TEXTURE
+#pragma once
 
 #include "combotexturefwd.h"
 #include "texture.h"
 #include "../../graphics/group.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class ComboTexture : public Texture, public Group
 {
@@ -51,7 +49,7 @@ public:
 
 	virtual double DoRender_(const ActuatorState &state) { return Texture::DoRender_(state); }
 	virtual double DoRenderShadow_(const ActuatorState &state) { return Texture::DoRenderShadow_(state); }
-	virtual std::string GetName() { return "Composite Texture"; }
+	virtual std::string GetName() { return "Composite Texture"; } // TODO: make this name match the class name?
 
 	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
 	{ return Texture::GetDrawingPattern(mmContext, t); }
@@ -73,8 +71,5 @@ protected:
 	//std::vector<TexturePtr> textures_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

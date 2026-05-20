@@ -19,16 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_OSCILLATOR_WIDGET
-#define LATERO_GRAPHICS_PLANAR_OSCILLATOR_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "gtk/checkframe.h"
 #include "oscillatorfwd.h"
-#include <gtkmm/checkbutton.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class OscillatorEnableCheck : public Gtk::CheckButton
 {
@@ -36,7 +33,6 @@ public:
 	OscillatorEnableCheck(OscillatorPtr peer);
 	virtual ~OscillatorEnableCheck() {};
 protected:
-	virtual void on_clicked();
 	OscillatorPtr peer_;
 };
 
@@ -75,7 +71,5 @@ protected:
 	OscillatorPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

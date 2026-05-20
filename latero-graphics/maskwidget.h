@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_MASK_WIDGET
-#define LATERO_GRAPHICS_PLANAR_MASK_WIDGET
+#pragma once
 
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "maskfwd.h"
 #include "generatorfwd.h"
 #include <latero/tactograph.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class MaskWidgetCtrl 
 {
@@ -58,7 +56,5 @@ protected:
 	std::vector<MaskWidgetCtrl*> ctrls_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

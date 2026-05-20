@@ -22,13 +22,11 @@
 #include <filesystem>
 #include <iostream>
 #include <sys/stat.h>
-#include <gtkmm/frame.h>
 #include "generator.h"
 #include "graphics/canvas.h"
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 void Generator::SaveToFile(std::string filename) const
 {
@@ -95,10 +93,14 @@ Generator::Generator(const latero::Tactograph *dev) :
 
 latero::graphics::gtk::Animation Generator::GetIllustration(uint w, boost::posix_time::time_duration t) const
 {
+	if (w == 0) {
+		std::cout << "Generator::GetIllustration: Invalid width" << std::endl;
+		return latero::graphics::gtk::Animation();
+	}
 	// by default return a white image
 	uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
 	assert(h>0);
-	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, w, h);
+	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	buf->fill(0xffffffff);
 	latero::graphics::gtk::Animation rv(buf);
 	return rv;
@@ -131,7 +133,7 @@ void Generator::SetLatestState_(const State &state, const latero::BiasedImg &fra
 	latestState_ = state;
 }
 
-bool Generator::OnKeyPress(GdkEventKey* event)
+bool Generator::OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state)
 {
 	return false;
 }
@@ -144,5 +146,4 @@ void Generator::Render_(const State *state, latero::BiasedImg &frame)
 
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -21,11 +21,10 @@
 
 #include "dirmodulator.h"
 #include "dirmodulatorwidget.h"
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "../../units.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 static const std::string low_vel_mode_high_str = "high";
 static const std::string low_vel_mode_low_str = "low";
@@ -190,8 +189,7 @@ std::vector<std::string> DirModulator::GetLowVelModeLabels()
 	return rv;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

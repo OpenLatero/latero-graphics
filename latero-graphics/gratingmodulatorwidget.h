@@ -19,16 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GRATING_MODULATOR_WIDGET
-#define LATERO_GRAPHICS_GRATING_MODULATOR_WIDGET
+#pragma once
 
-#include <gtkmm/box.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/checkbutton.h>
+#include <gtkmm.h>
 #include "gratingmodulatorfwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class GratingModulatorCtrl : public Gtk::Frame
 {
@@ -42,7 +38,5 @@ protected:
 	GratingModulatorPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

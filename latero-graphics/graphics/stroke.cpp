@@ -25,8 +25,7 @@
 #include "texture/vibrotexture.h"
 #include "tactileops.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 const Stroke::MotionCue Stroke::motion_cue_none(0,"none");
 const Stroke::MotionCue Stroke::motion_cue_inherent(1,"inherent");
@@ -454,5 +453,4 @@ void Stroke::SetDots(DotPatternPtr dots)
 	SetLastModified_();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -25,8 +25,7 @@
 #include "../../xml.h"
 #include "stock.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 RadialGratingTexture::RadialGratingTexture(const latero::Tactograph *dev, Point seed, float pitch) : 
 	Pattern(dev), GratingTexture(dev,seed,"mm")
@@ -112,5 +111,4 @@ std::string RadialGratingTexture::GetDefaultIconFile() const
 	return tx_icon_radial_grating;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

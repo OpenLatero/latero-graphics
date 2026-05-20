@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_PLAIN_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_PLAIN_TEXTURE_WIDGET
+#pragma once
 
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "plaintexturefwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class PlainTextureWidget : public Gtk::Box
 {
@@ -38,7 +36,5 @@ protected:
 	PlainTexturePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

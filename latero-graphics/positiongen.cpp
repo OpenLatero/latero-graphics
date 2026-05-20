@@ -22,8 +22,7 @@
 #include "positiongen.h"
 #include <boost/thread.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 PositionGen::PositionGen(const latero::Tactograph *dev) :
 	Generator(dev)
@@ -59,7 +58,7 @@ Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, boost::posix_tim
 	uint h = w * ws_y/ws_x;
 
 	Glib::RefPtr<Gdk::Pixbuf> buf =
-		Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, false, 8, w, h);
+		Gdk::Pixbuf::create(Gdk::Colorspace::RGB, false, 8, w, h);
 
 	ActuatorState state;
 	state.mode = mode;
@@ -95,6 +94,5 @@ Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, boost::posix_tim
 	return buf;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

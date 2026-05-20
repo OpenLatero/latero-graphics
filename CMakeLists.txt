@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # check for dependencies using pkg-config
 include(FindPkgConfig)
-pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-3.0)
+pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-4.0)
 pkg_check_modules(LIBXML REQUIRED IMPORTED_TARGET libxml++-3.0)
 
 set(Boost_USE_MULTITHREADED ON)
@@ -54,11 +54,3 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/laterographicsConfig.cmake
     DESTINATION lib/cmake/laterographics
 )
-
-# Treat deprecation in GTKMM as errors
-#target_compile_definitions(latero-gui PRIVATE
-#    GLIB_DISABLE_DEPRECATED
-#    GDK_DISABLE_DEPRECATED
-#    GTK_DISABLE_DEPRECATED
-#    GTKMM_DISABLE_DEPRECATED
-#)

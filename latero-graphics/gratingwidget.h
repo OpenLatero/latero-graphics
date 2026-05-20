@@ -19,22 +19,15 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GRATING_WIDGET
-#define LATERO_GRAPHICS_GRATING_WIDGET
+#pragma once
 
-#include <gtkmm/dialog.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/comboboxtext.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/radiobutton.h>
-#include <gtkmm/checkbutton.h>
+#include <gtkmm.h>
 #include "gratingfwd.h"
 #include "gratinggraph.h"
 #include "gratingmodulatorwidget.h"
 #include "gtk/checkframe.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 
 /**
@@ -59,9 +52,9 @@ class GratingEnableCtrl : public Gtk::Box
 public:
 	GratingEnableCtrl(GratingPtr peer);
 	virtual ~GratingEnableCtrl() {};
-	sigc::signal<void> SignalClicked() { return signalClick_; };
+	sigc::signal<void()> SignalClicked() { return signalClick_; };
 protected:
-	sigc::signal<void> signalClick_;
+	sigc::signal<void()> signalClick_;
 	void OnClick();
 	Gtk::CheckButton check_;
 	GratingPtr peer_;
@@ -175,7 +168,7 @@ public:
 	virtual ~GratingInterpWidget() {}
 protected:
 	void OnChanged();
-	Gtk::RadioButton linearRadio_, arcRadio_;
+	Gtk::CheckButton linearRadio_, arcRadio_;
 	GratingPtr peer_;
 };
 
@@ -209,7 +202,7 @@ protected:
 };
 
 
-class AdvancedGratingWidget : public Gtk::Dialog
+class AdvancedGratingWidget : public Gtk::Window
 {
 public:
 	AdvancedGratingWidget(GratingPtr peer);
@@ -273,7 +266,5 @@ protected:
 };
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

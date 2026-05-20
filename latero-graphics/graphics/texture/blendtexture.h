@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_BLEND_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_BLEND_TEXTURE
+#pragma once
 
 #include "texture.h"
 #include "blendtexturefwd.h"
 #include "../modulator/modulatorfwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 // TODO: This could be implemented as part of ComboTexture using Group's reactive operator.
 class BlendTexture : public Texture
@@ -75,8 +73,5 @@ protected:
 	ill_mode illMode_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

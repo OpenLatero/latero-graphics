@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DIR_MODULATOR_H
-#define LATERO_GRAPHICS_PLANAR_DIR_MODULATOR_H
+#pragma once
 
 #include "dirmodulatorfwd.h"
 #include "modulator.h"
 #include "../../units.h"
 #include <string>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 /**
  * Modulates based on the direction of the exloration velocity (and to some extend the magnitude).
@@ -98,8 +96,5 @@ protected:
 	bool toggleLowVelHigh_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

@@ -20,6 +20,7 @@
 // -----------------------------------------------------------
 
 #include <filesystem>
+#include <memory>
 #include "animation.h"
 #include "pixbufops.h"
 #include <sstream>
@@ -28,15 +29,11 @@
 #include <boost/filesystem/convenience.hpp>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <gtkmm/filechooserdialog.h>
-#include <gtkmm/stock.h>
+#include <gtkmm.h>
 #include "../external.h"
 #include <glibmm/main.h>
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 Animation::~Animation()
 {
@@ -177,8 +174,8 @@ void Animation::SaveToFile(std::string file, bool trim)
 {
 	namespace fs = boost::filesystem;	
 
-	std::string ext = fs::extension(file);
-	std::string base = fs::basename(file);
+	std::string ext = fs::path(file).extension().string();
+	std::string base = (fs::path(file).parent_path() / fs::path(file).stem()).string();
 	
 	try
 	{
@@ -251,21 +248,27 @@ void Animation::SaveToFile(std::string file, bool trim)
 	}
 }
 
-void Animation::SaveToFile()
+void Animation::SaveToFile(Gtk::Window* parent)
 {
-	Gtk::FileChooserDialog dialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE);
-	std::string dir = std::filesystem::current_path().string();
-	dialog.set_current_folder(dir);
-	dialog.add_button("Cancel", Gtk::RESPONSE_CANCEL);
-	dialog.add_button("Save", Gtk::RESPONSE_OK);
-	dialog.set_default_response(Gtk::RESPONSE_CANCEL);
-	dialog.set_current_name("animation.png");
+	auto dialog = Gtk::FileDialog::create();
+	dialog->set_title("Please select file name.");
+	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+	dialog->set_initial_name("animation.png");
 
-	if (Gtk::RESPONSE_OK == dialog.run())
-	{
-		printf("saving animation to %s\n", dialog.get_filename().c_str());
-		SaveToFile(dialog.get_filename());
-	}
+	auto self = std::make_shared<Animation>(*this);
+	dialog->save(*parent, [self, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+		try {
+			auto file = dialog->save_finish(result);
+			std::string path = file->get_path();
+			std::cout << "Animation::SaveToFile: saving to " << path << "\n";
+			self->SaveToFile(path);
+			std::cout << "Animation::SaveToFile: done\n";
+		} catch (const Gtk::DialogError& e) {
+			std::cout << "Animation::SaveToFile: dialog cancelled (" << e.what() << ")\n";
+		} catch (const std::exception& e) {
+			std::cerr << "Animation::SaveToFile: error: " << e.what() << "\n";
+		}
+	});
 }
 
 
@@ -294,8 +297,5 @@ bool Animation::IsActive()
 	return active_;
 }
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 

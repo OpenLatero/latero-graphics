@@ -21,10 +21,7 @@
 
 #include "blobdetector.h"
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 BlobDetector::BlobDetector(Glib::RefPtr<Gdk::Pixbuf> buf) :
 	img_(buf),
@@ -173,9 +170,6 @@ void BlobDetector::RelabelPixels()
 
 
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

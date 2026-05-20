@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_AXIAL_GRATING_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_AXIAL_GRATING_TEXTURE
+#pragma once
 
 #include "axialgratingtexturefwd.h"
 #include "gratingtexture.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class AxialGratingTexture : public GratingTexture
 {
@@ -74,8 +72,5 @@ protected:
 	double seedAngle_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

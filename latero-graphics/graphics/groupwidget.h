@@ -19,52 +19,53 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_OBJECT_SET_WIDGET
-#define LATERO_GRAPHICS_PLANAR_OBJECT_SET_WIDGET
+#pragma once
 
 #include "patternfwd.h"
 #include "groupfwd.h"
 #include <gtkmm.h>
 #include "texture/textureselectorwidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
-class GroupOpCombo : public Gtk::ComboBoxText
+class GroupOpDropDown : public Gtk::Box
 {
 public:
-	GroupOpCombo(GroupPtr peer);
-	virtual ~GroupOpCombo() {};
-	sigc::signal<void> SignalChanged() { return signalChanged_; };
+	GroupOpDropDown(GroupPtr peer);
+	virtual ~GroupOpDropDown() {};
+	sigc::signal<void()>& SignalChanged() { return signalChanged_; };
 private:
-	sigc::signal<void> signalChanged_;
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
+	sigc::signal<void()> signalChanged_;
 	void OnChange();
 	GroupPtr peer_;
 };
 
-class GroupTreeView : public Gtk::TreeView
+class PatternItem : public Glib::Object
+{
+public:
+	PatternPtr pattern;
+	static Glib::RefPtr<PatternItem> create(PatternPtr p) {
+		return Glib::make_refptr_for_instance<PatternItem>(new PatternItem(p));
+	}
+protected:
+	explicit PatternItem(PatternPtr p) : Glib::ObjectBase(typeid(PatternItem)), pattern(p) {}
+};
+
+class GroupTreeView : public Gtk::ListView
 {
 public:
 	GroupTreeView(GroupPtr peer);
-	virtual ~GroupTreeView() {}
-
-	class ListColumns : public Gtk::TreeModelColumnRecord
-	{
-	public:
-		ListColumns() { add(name_); add(obj_); }
-		Gtk::TreeModelColumn<std::string> name_;
-		Gtk::TreeModelColumn<PatternPtr> obj_;
-	};
+	virtual ~GroupTreeView() { if (popupMenu_) popupMenu_->unparent(); }
 
 	void Select(PatternPtr pattern);
 	void SelectFirst();
 	void Refresh();
-	void InsertPattern(PatternPtr pattern, Gtk::TreeModel::Row* row, Glib::RefPtr<Gtk::TreeStore> store);
-	Gtk::TreeModel::Children::iterator GetIter(PatternPtr pattern, Gtk::TreeModel::Children children);
 	GroupPtr GetParentGroup(PatternPtr pattern);
 
 	PatternPtr GetCurrentPattern();
-	virtual bool on_button_press_event(GdkEventButton* event);
+	void OnClick(int n_press, double x, double y);
 	void OnPatternRemove();
 	void OnPatternSave();
 	void OnTextureSave();
@@ -78,9 +79,15 @@ public:
 
 	void RebuildMenu(PatternPtr pattern);
 
-	Gtk::Menu menu_;
-	ListColumns columns_;
+	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
+	Glib::RefPtr<Gio::SimpleActionGroup> actionGroup_;
+	Glib::RefPtr<Gtk::SingleSelection> selection_;
+	Glib::RefPtr<Gtk::TreeListModel> treeModel_;
 	GroupPtr peer_;
+	bool refreshing_ = false;
+
+private:
+	Glib::RefPtr<Gio::ListModel> CreateChildModel(const Glib::RefPtr<Glib::ObjectBase>& item);
 };
 
 
@@ -105,7 +112,5 @@ protected:
 	TextureSelectorWidget *txWidget_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

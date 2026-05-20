@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_AXIAL_GRATING_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_AXIAL_GRATING_TEXTURE_WIDGET
+#pragma once
 
 //TODO: check why this is required
 #include "axialgratingtexture.h"
 #include "gratingtexturewidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class AxialGratingTextureWidget : public GratingTextureWidget
 {
@@ -50,7 +48,5 @@ protected:
 	AxialGratingTexturePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

@@ -22,8 +22,7 @@
 #include "averagefilter.h"
 #include <assert.h>
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 /*
 static void AverageFilterSelfTest()
@@ -92,6 +91,5 @@ static void AverageFilterSelfTest()
 }
 */ 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

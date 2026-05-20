@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DOUBLE_LINEAR_GRATING_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_DOUBLE_LINEAR_GRATING_TEXTURE
+#pragma once
 
 #include "doublelineargratingtexturefwd.h"
 #include "combotexture.h"
 #include "lineargratingtexturefwd.h"
  
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 /** TODO: integrate velocity, support radial mode */
 
@@ -97,8 +95,5 @@ protected:
 	LinearGratingTexturePtr tx_[2];
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

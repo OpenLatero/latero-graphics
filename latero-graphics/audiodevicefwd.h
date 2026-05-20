@@ -19,18 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_AUDIO_DEVICE_FWD
-#define LATERO_GRAPHICS_AUDIO_DEVICE_FWD
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-    namespace graphics {
+namespace latero::graphics {
         
         class AudioDevice;
         typedef boost::shared_ptr<AudioDevice> AudioDevicePtr;
         
-    } // namespace graphics
-} // namespace latero
+    } // namespace
 
-#endif

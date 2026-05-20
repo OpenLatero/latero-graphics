@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_GRATING_GRAPH_H
-#define LATERO_GRAPHICS_PLANAR_GRATING_GRAPH_H
+#pragma once
 
 #include "gratingfwd.h"
 #include "graph.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class GratingGraph : public Graph
 {
@@ -41,7 +39,5 @@ protected:
 	GratingPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

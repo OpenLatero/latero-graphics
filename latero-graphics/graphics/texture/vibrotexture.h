@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_VIBRO_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_VIBRO_TEXTURE
+#pragma once
 
 #include "texture.h"
 #include "vibrotexturefwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class VibroTexture : public Texture
 {
@@ -65,8 +63,5 @@ protected:
 	OscillatorPtr vib_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

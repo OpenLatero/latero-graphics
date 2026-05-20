@@ -19,16 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DOT_WIDGET
-#define LATERO_GRAPHICS_PLANAR_DOT_WIDGET
+#pragma once
 
-#include <gtkmm/box.h>
-#include <gtkmm/adjustment.h>
+#include <gtkmm.h>
 #include "dotfwd.h"
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class DotRadiusCtrl : public Gtk::Box
 {
@@ -61,7 +58,5 @@ public:
 	virtual ~DotWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

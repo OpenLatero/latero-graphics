@@ -19,19 +19,15 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_STROKE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_STROKE_WIDGET
+#pragma once
 
 #include "strokemotionwidget.h"
 
 #include "strokefwd.h"
-#include <gtkmm/box.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/checkbutton.h>
+#include <gtkmm.h>
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 /**
  * Profile of the stroke across the line.
@@ -65,7 +61,5 @@ public:
 	virtual ~StrokeDottedWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

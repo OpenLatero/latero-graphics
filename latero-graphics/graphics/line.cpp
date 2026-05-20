@@ -27,8 +27,7 @@
 #include "../vector.h"
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 Line::Line(const latero::Tactograph *dev, const XMLInputNode &node) :
 	Pattern(dev), stroke_(Stroke::Create(dev)),
@@ -105,7 +104,7 @@ Cairo::RefPtr<Cairo::Pattern> Line::GetDrawingPattern(Cairo::RefPtr<Cairo::Conte
 	cr->push_group();
 	cr->set_source_rgba(0, 0, 0, value);
 	cr->set_line_width(thickness);
-	cr->set_line_cap(Cairo::LINE_CAP_ROUND);
+	cr->set_line_cap(Cairo::Context::LineCap::ROUND);
 	cr->move_to(p1.x, p1.y);
 	cr->line_to(p2.x, p2.y);
 	cr->stroke();	
@@ -159,8 +158,7 @@ bool Line::UpdateVisible_(const State *state)
 	return visible;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

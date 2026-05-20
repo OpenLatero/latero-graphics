@@ -19,15 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef GTKVL_ANIMATION
-#define GTKVL_ANIMATION
+#pragma once
 
-#include <gdkmm/pixbuf.h>
+#include <gdkmm.h>
+#include <gtkmm/window.h>
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 /**
  * This class implements an animation as a container of frames. It also supports automatic update of
@@ -95,7 +92,7 @@ public:
 	/**
 	 * Interaction version of SaveToFile. Popups a dialog to select the filename.
 	 */
-	void SaveToFile();
+	void SaveToFile(Gtk::Window* parent = nullptr);
 
 	/** @return frame width or 0 if empty */
 	inline int GetWidth() const { return GetNbFrames()?imgs_[0]->get_width():0; }
@@ -132,7 +129,7 @@ public:
 	bool IsActive();
 
 	/** signal raised when current frame changes (if activated) */
-	sigc::signal<void> signal_current_frame_changed;
+	sigc::signal<void()> signal_current_frame_changed;
 
 	/********************************************************
 	 * Image processing operations
@@ -158,9 +155,5 @@ protected:
 	sigc::connection timeout_;
 };
 
-} // namespace gtk
+} // namespace
 
-} // namespace graphics
-} // namespace latero
-
-#endif

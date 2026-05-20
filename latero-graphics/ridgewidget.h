@@ -19,19 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_RIDGE_WIDGET_H
-#define LATERO_GRAPHICS_PLANAR_RIDGE_WIDGET_H
+#pragma once
 
-#include <gtkmm/checkbutton.h>
-#include <gtkmm/adjustment.h>
-#include <gtkmm/comboboxtext.h>
-#include <gtkmm/frame.h>
+#include <gtkmm.h>
 #include "gtk/checkframe.h"
 #include "ridgefwd.h"
 #include "ridgegraph.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 
 class RidgeEdgeWidthScale : public Gtk::Box
@@ -77,7 +72,5 @@ protected:
 	RidgeGraph *graph_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

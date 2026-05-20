@@ -19,32 +19,32 @@
 //
 // -----------------------------------------------------------
 
-#ifndef PATTERN_CREATOR_DIALOG
-#define PATTERN_CREATOR_DIALOG
+#pragma once
 
 #include "pattern.h"
 #include <gtkmm.h>
-#include "texture/texturecombo.h"
+#include "texture/texturedropdown.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
-class PatternCreatorDialog : public Gtk::Dialog
+class PatternCreatorDialog : public Gtk::Window
 {
 public:
 	PatternCreatorDialog(const latero::Tactograph *dev);
 	virtual ~PatternCreatorDialog() {};
 
-	void OnComboChanged();
+	void OnDropDownChanged();
 	PatternPtr CreatePattern();
+	sigc::signal<void(int)>& signal_response() { return signalResponse_; }
 
 protected:
-	Gtk::ComboBoxText combo_;
-	TextureCombo txCombo_;
+	Glib::RefPtr<Gtk::StringList> typeList_;
+	Gtk::DropDown* typeDropDown_;
+	TextureDropDown txDropDown_;
 	const latero::Tactograph *dev_;
+	std::string loadedFile_;
+	sigc::signal<void(int)> signalResponse_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

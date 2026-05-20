@@ -23,8 +23,7 @@
 #include "texture.h"
 #include "stock.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 NullTexture::NullTexture(const latero::Tactograph *dev) :
 	Pattern(dev), Texture(dev)
@@ -62,5 +61,4 @@ std::string NullTexture::GetDefaultIconFile() const
 	return tx_icon_null;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

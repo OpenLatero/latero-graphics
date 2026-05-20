@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_OSCILLATOR_H
-#define LATERO_GRAPHICS_OSCILLATOR_H
+#pragma once
 
 #include <cairomm/context.h>
 #include "oscillatorfwd.h"
@@ -29,8 +28,7 @@
 #include "state.h"
 #include "namedid.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 /** 
  * The oscillator efficiently handles the rendering of vibrations.
@@ -183,7 +181,5 @@ protected:
 	BlendModeSet blendModes_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

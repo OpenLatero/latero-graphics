@@ -22,23 +22,34 @@
 #include "pointwidget.h"
 #include "gtk/numwidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 PointWidget::PointWidget(const Point &init, double xlim_min, double xlim_max, double ylim_min, double ylim_max, bool showSliders)  :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	xAdj_(Gtk::Adjustment::create(init.x, xlim_min, xlim_max)),
 	yAdj_(Gtk::Adjustment::create(init.y, ylim_min, ylim_max))
 {
 	if (showSliders)
 	{
-		pack_start(*Gtk::manage(new latero::graphics::gtk::HNumWidget(xAdj_, 3, "mm")));
-		pack_start(*Gtk::manage(new latero::graphics::gtk::HNumWidget(yAdj_, 3, "mm")));
+		auto xWidget = Gtk::make_managed<latero::graphics::gtk::HNumWidget>(xAdj_, 3, "mm");
+		auto yWidget = Gtk::make_managed<latero::graphics::gtk::HNumWidget>(yAdj_, 3, "mm");
+
+		append(*xWidget);
+		append(*yWidget);
+
+		xWidget->set_hexpand();
+		yWidget->set_hexpand();
 	}
 	else
 	{
-		pack_start(*Gtk::manage(new Gtk::SpinButton(xAdj_,0,3)));
-		pack_start(*Gtk::manage(new Gtk::SpinButton(yAdj_,0,3)));
+		auto xWidget = Gtk::make_managed<Gtk::SpinButton>(xAdj_,0,3);
+		auto yWidget = Gtk::make_managed<Gtk::SpinButton>(yAdj_,0,3);
+
+		append(*xWidget);
+		append(*yWidget);
+
+		xWidget->set_hexpand();
+		yWidget->set_hexpand();		
 	}
 
 	xAdj_->signal_value_changed().connect(signalValueChanged_);
@@ -56,10 +67,9 @@ void PointWidget::SetValue(const Point &p)
 	yAdj_->set_value(p.y);
 }
 
-sigc::signal<void> PointWidget::SignalValueChanged()
+sigc::signal<void()> PointWidget::SignalValueChanged()
 {
 	return signalValueChanged_;
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

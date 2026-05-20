@@ -25,8 +25,7 @@
 #include "../vector.h"
 #include "dotswidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 
 
@@ -279,8 +278,7 @@ Cairo::RefPtr<Cairo::Pattern> Dots::GetDrawingPattern(Cairo::RefPtr<Cairo::Conte
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 
 

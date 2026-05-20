@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_CLOSED_PATTERN_WIDGET
-#define LATERO_GRAPHICS_PLANAR_CLOSED_PATTERN_WIDGET
+#pragma once
 
 #include "closedpatternfwd.h"
 #include "../gtk/checkframe.h"
 #include "texture/textureselectorwidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class ClosedPatternFillTextureWidget : public gtk::CheckFrame
 {
@@ -42,7 +40,5 @@ protected:
 	ClosedPatternPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

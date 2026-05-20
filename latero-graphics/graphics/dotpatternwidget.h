@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DOT_PATTERN_WIDGET
-#define LATERO_GRAPHICS_PLANAR_DOT_PATTERN_WIDGET
+#pragma once
 
 #include <gtkmm.h>
 #include "dotpatternfwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class DotPatternMinSpacingCtrl : public Gtk::Box
 {
@@ -47,7 +45,5 @@ public:
 	virtual ~DotPatternWidget() {};
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

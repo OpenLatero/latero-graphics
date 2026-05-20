@@ -19,16 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_AUDIO_ENGINE
-#define LATERO_GRAPHICS_PLANAR_AUDIO_ENGINE
+#pragma once
 
 #include "engine.h"
 #include "generatorfwd.h"
 #include "audiodevicefwd.h"
 #include <latero/tactograph.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class AudioEngine : public Engine
 {
@@ -46,7 +44,4 @@ private:
     AudioDevicePtr audioDevPtr_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace

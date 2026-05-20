@@ -20,92 +20,29 @@
 // -----------------------------------------------------------
 
 #include "numwidget.h"
+#include <iostream>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics::gtk {
 
-namespace gtk {
-
-NumWidgetCombo::NumWidgetCombo()
-{
-	model_ = Gtk::ListStore::create(columns_);
-	set_model(model_);
-	pack_start(columns_.units);
-}
-
-void NumWidgetCombo::Append(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
-{
-	Gtk::TreeModel::Row row = *(model_->append());
-	row[columns_.units] = units;
-	row[columns_.adj] = adj;
-	row[columns_.digits] = digits;
-}
-
-int NumWidgetCombo::GetSize()
-{
-	return get_model()->children().size();
-}
-
-void NumWidgetCombo::SetActive(std::string units)
-{
-	Gtk::TreeModel::Children::iterator iter;
-	for (iter = model_->children().begin(); iter != model_->children().end(); iter++)
-	{
-		std::string curunits = (*iter)[columns_.units];
-		if (curunits == units)
-		{
-			set_active(iter);
-		}
-	}
-}
-
-std::string NumWidgetCombo::GetUnits()
-{
-	return (*get_active())[columns_.units];
-}
-
-Glib::RefPtr<Gtk::Adjustment> NumWidgetCombo::GetAdj()
-{
-	return (*get_active())[columns_.adj];
-}
-
-uint NumWidgetCombo::GetDigits()
-{
-	return (*get_active())[columns_.digits];
-}
-
-
-
-
-
-NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
+NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
 	units_(units),
 	spin_(adj)
 {
-	Gtk::Box *box2;
-	if (orient == ORIENT_V)
-	{
-		scale_ = Gtk::manage(new Gtk::Scale(adj, Gtk::ORIENTATION_VERTICAL));
-		scale_->set_inverted();
-		box2 = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-		box_ = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-		comboBox_ = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-	}
-	else
-	{
-		scale_ = Gtk::manage(new Gtk::Scale(adj, Gtk::ORIENTATION_HORIZONTAL));
-		box2 = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-		box_ = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-		comboBox_ = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-	}
+	if (name != "") set_label(name);
 
-	if (name=="")
+	auto mainBox = Gtk::make_managed<Gtk::Box>(orient);
+	set_child(*mainBox);
+
+	if (orient == Gtk::Orientation::VERTICAL)
 	{
-		set_shadow_type(Gtk::SHADOW_NONE);
+		scale_ = Gtk::make_managed<Gtk::Scale>(adj, Gtk::Orientation::VERTICAL);
+		scale_->set_inverted();
+		unitsDropDownBox_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 	}
 	else
 	{
-		if (name!="") set_label(name);
+		scale_ = Gtk::make_managed<Gtk::Scale>(adj, Gtk::Orientation::HORIZONTAL);
+		unitsDropDownBox_ = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	}
 
 	SetDigits(digits);
@@ -115,34 +52,41 @@ NumWidget::NumWidget(orient_T orient, Glib::RefPtr<Gtk::Adjustment> adj, uint di
 	// in which case the policy should be emulated by not handling all updates the same.
     //scale_->set_update_policy(Gtk::UPDATE_DISCONTINUOUS);
 
-	add(*box2);
-	box2->pack_start(*box_, Gtk::PACK_SHRINK);
-	if (orient == ORIENT_V)
+	if (orient == Gtk::Orientation::VERTICAL)
 	{
-		box_->pack_start(*scale_); 
-		box_->pack_start(spin_, Gtk::PACK_SHRINK);
-		box_->pack_start(*comboBox_, Gtk::PACK_SHRINK);
+		mainBox->append(*scale_);
+		mainBox->append(spin_);
+		mainBox->append(*unitsDropDownBox_);
+		scale_->set_size_request(-1, 150);
 	}
 	else
 	{
-		box_->pack_start(spin_, Gtk::PACK_SHRINK);
-		box_->pack_start(*comboBox_, Gtk::PACK_SHRINK);
-		box_->pack_start(*scale_); 
+		mainBox->append(spin_);
+		mainBox->append(*unitsDropDownBox_);
+		mainBox->append(*scale_);
+		scale_->set_size_request(150, -1);
 	}
+	scale_->set_hexpand();
+	scale_->set_vexpand();
 
-	scale_->signal_format_value().connect(
-		sigc::mem_fun(*this, &NumWidget::OnFormat));
+	scale_->set_format_value_func(sigc::mem_fun(*this, &NumWidget::OnFormat));
 
-	unitsCombo_.Append(units,adj,digits);
-	unitsCombo_.SetActive(units);
-	unitsCombo_.signal_changed().connect( sigc::mem_fun(*this, &NumWidget::OnUnitsChanged) );
+	unitsStringList_ = Gtk::StringList::create({});
+	unitsDropDown_ = Gtk::make_managed<Gtk::DropDown>(unitsStringList_);
+	unitsStringList_->append(units);
+	unitsToDigitsMap_[units] = digits;
+	unitsToAdjMap_[units] = adj;
+	SelectUnits(units);
+	unitsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &NumWidget::OnUnitsChanged));
 };
 
 void NumWidget::AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
 {
-	unitsCombo_.Append(units,adj,digits);
-	if (unitsCombo_.GetSize())
-		comboBox_->pack_start(unitsCombo_, Gtk::PACK_SHRINK);
+	unitsStringList_->append(units);
+	unitsToDigitsMap_[units] = digits;
+	unitsToAdjMap_[units] = adj;
+	if (unitsStringList_->get_n_items() > 1)
+		unitsDropDownBox_->append(*unitsDropDown_);
 }
 
 void NumWidget::SetDigits(uint n)
@@ -159,16 +103,25 @@ void NumWidget::SetAdjustment(Glib::RefPtr<Gtk::Adjustment> adj)
 
 void NumWidget::OnUnitsChanged()
 {
-	units_ = unitsCombo_.GetUnits();
+	auto idx = unitsDropDown_->get_selected();
+	if (idx == GTK_INVALID_LIST_POSITION) return;
+	units_ = std::string(unitsStringList_->get_string(idx));
 	SetDigits(10);
-	SetAdjustment(unitsCombo_.GetAdj());
-	SetDigits(unitsCombo_.GetDigits());
+	SetAdjustment(unitsToAdjMap_[units_]);
+	SetDigits(unitsToDigitsMap_[units_]);
 	SignalUnitsChanged()(units_);
 }
 
 void NumWidget::SelectUnits(std::string units)
 {
-	unitsCombo_.SetActive(units);
+	for (guint i = 0; i < unitsStringList_->get_n_items(); ++i)
+	{
+		if (unitsStringList_->get_string(i) == units)
+		{
+			unitsDropDown_->set_selected(i);
+			return;
+		}
+	}
 }
 
 Glib::ustring NumWidget::OnFormat(double v)
@@ -188,20 +141,17 @@ Glib::ustring NumWidget::OnFormat(double v)
 
 
 HNumWidget::HNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(ORIENT_H,adj,digits,"",units) {}
+	NumWidget(Gtk::Orientation::HORIZONTAL,adj,digits,"",units) {}
 
 VNumWidget::VNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(ORIENT_V,adj,digits,"",units) {}
+	NumWidget(Gtk::Orientation::VERTICAL,adj,digits,"",units) {}
 
 HNumWidget::HNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(ORIENT_H,adj,digits,name,units) {}
+	NumWidget(Gtk::Orientation::HORIZONTAL,adj,digits,name,units) {}
 
 VNumWidget::VNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(ORIENT_V,adj,digits,name,units) {}
+	NumWidget(Gtk::Orientation::VERTICAL,adj,digits,name,units) {}
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

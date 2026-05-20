@@ -45,8 +45,7 @@
  */
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 Grating::Grating(std::string units) :
 	ridgeSize_(1),
@@ -263,6 +262,5 @@ double Grating::GetMinCycleSize_()
 }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace
  

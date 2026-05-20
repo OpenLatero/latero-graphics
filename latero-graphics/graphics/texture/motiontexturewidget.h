@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_MOTION_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_MOTION_TEXTURE_WIDGET
+#pragma once
 
-#include <gtkmm/notebook.h>
+#include <gtkmm.h>
 #include "motiontexturefwd.h"
 #include "textureselectorwidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class MotionTextureWidget : public Gtk::Notebook
 {
@@ -41,7 +39,5 @@ protected:
 	TextureSelectorWidget txWidget_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

@@ -19,16 +19,11 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_AUDIO_ENGINE_FWD
-#define LATERO_GRAPHICS_PLANAR_AUDIO_ENGINE_FWD
+#pragma once
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class AudioEngine;
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace

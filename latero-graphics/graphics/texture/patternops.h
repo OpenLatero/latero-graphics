@@ -19,13 +19,11 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_PATTERN_OPS_H
-#define LATERO_GRAPHICS_PLANAR_PATTERN_OPS_H
+#pragma once
 
 #include <cairomm/context.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class PatternOps
 {
@@ -51,8 +49,5 @@ public:
 
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

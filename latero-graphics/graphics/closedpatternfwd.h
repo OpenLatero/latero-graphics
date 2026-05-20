@@ -19,18 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_CLOSED_PATTERN_FWD_H
-#define LATERO_GRAPHICS_CLOSED_PATTERN_FWD_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class ClosedPattern;
 typedef boost::shared_ptr<ClosedPattern> ClosedPatternPtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

@@ -21,19 +21,17 @@
 
 #include "ridgewidget.h"
 #include <iostream>
-#include <gtkmm/expander.h>
 #include "gtk/numwidget.h"
 #include "ridge.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 RidgeEdgeWidthScale::RidgeEdgeWidthScale(RidgePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_VERTICAL),
+	Gtk::Box(Gtk::Orientation::VERTICAL),
 	peer_(peer),
 	adj_(Gtk::Adjustment::create(peer->GetEdgeWidth(), Ridge::edgeWidth_min, 10, 10, 50))
 {
-	add(*Gtk::manage(new gtk::HNumWidget("edge width", adj_, 2, "mm")));
+	append(*Gtk::make_managed<gtk::HNumWidget>("edge width", adj_, 2, "mm"));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeEdgeWidthScale::OnChange));
 }
 void RidgeEdgeWidthScale::OnChange() { peer_->SetEdgeWidth(adj_->get_value()); }
@@ -45,9 +43,9 @@ class RidgeTxAmpScale : public Gtk::Box
 {
 public:
 	RidgeTxAmpScale(RidgePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer), adj_(Gtk::Adjustment::create(100*peer->GetTxAmp(), 0, 100, 10, 50))
+		Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer), adj_(Gtk::Adjustment::create(100*peer->GetTxAmp(), 0, 100, 10, 50))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget(adj_, 0, "%")));
+		append(*Gtk::make_managed<gtk::HNumWidget>(adj_, 0, "%"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxAmpScale::OnChange));
 	}
 	virtual ~RidgeTxAmpScale() {};
@@ -61,9 +59,9 @@ class RidgeTxNbCyclesScale : public Gtk::Box
 {
 public:
 	RidgeTxNbCyclesScale(RidgePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer), adj_(Gtk::Adjustment::create(peer->GetTxNbCycles(),1,20.0))
+		Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer), adj_(Gtk::Adjustment::create(peer->GetTxNbCycles(),1,20.0))
 	{
-		add(*Gtk::manage(new gtk::HNumWidget(adj_, 0)));
+		append(*Gtk::make_managed<gtk::HNumWidget>(adj_, 0));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &RidgeTxNbCyclesScale::OnChange));
 	}
 	virtual ~RidgeTxNbCyclesScale() {};
@@ -77,39 +75,52 @@ private:
 RidgeTextureCtrl::RidgeTextureCtrl(RidgePtr peer) :
 	gtk::CheckFrame(peer->GetTxEnable(), "texture"), peer_(peer)
 {
-	GetBox().pack_start(*Gtk::manage(new RidgeTxAmpScale(peer)));
-	GetBox().pack_start(*Gtk::manage(new RidgeTxNbCyclesScale(peer)));
-	GetCheck().signal_clicked().connect(sigc::mem_fun(*this, &RidgeTextureCtrl::OnClick));
+	auto ridgeTxAmpScale = Gtk::make_managed<RidgeTxAmpScale>(peer);
+	auto ridgeTxNbCyclesScale = Gtk::make_managed<RidgeTxNbCyclesScale>(peer);
+
+	GetBox().append(*ridgeTxAmpScale);
+	GetBox().append(*ridgeTxNbCyclesScale);
+
+	ridgeTxAmpScale->set_hexpand();
+	ridgeTxNbCyclesScale->set_hexpand();
+	
+	GetCheck().signal_toggled().connect(sigc::mem_fun(*this, &RidgeTextureCtrl::OnClick));
 }
 void RidgeTextureCtrl::OnClick() { peer_->SetTxEnable(GetCheck().get_active()); };
 
 
 
 RidgeControls::RidgeControls(RidgePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_VERTICAL),
+	Gtk::Box(Gtk::Orientation::VERTICAL),
 	peer_(peer),
 	edgeWidthScale_(peer),
 	txCtrl_(peer)
 {
 	set_size_request(300,-1);
-	pack_start(edgeWidthScale_);
-	pack_start(txCtrl_);
+	append(edgeWidthScale_);
+	append(txCtrl_);
+
+	edgeWidthScale_.set_vexpand();
+	txCtrl_.set_vexpand();
 }
 
 
 ///////////////////////////////////////
 
 RidgeWidget::RidgeWidget(RidgePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL),
+	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	controls_(peer),
     peer_(peer)
 {
-	graph_ = Gtk::manage(new RidgeGraph(peer));
-	pack_start(controls_);
-	pack_start(*graph_);
+	graph_ = Gtk::make_managed<RidgeGraph>(peer);
+	append(controls_);
+	append(*graph_);
+
+	controls_.set_hexpand();
+	graph_->set_hexpand();
+
 	graph_->Refresh();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

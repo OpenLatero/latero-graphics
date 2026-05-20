@@ -23,8 +23,7 @@
 #include "canvas.h"
 #include "group.h"
 
-namespace latero {
-namespace graphics {
+namespace latero::graphics {
 
 CanvasPtr Canvas::Create(const latero::Tactograph *dev)
 {
@@ -66,10 +65,15 @@ Canvas::~Canvas()
 
 latero::graphics::gtk::Animation Canvas::GetIllustration(uint w, boost::posix_time::time_duration t) const
 {
+	if (w == 0) 
+	{
+		std::cout << "Canvas::GetIllustration: Invalid width" << std::endl;
+		return latero::graphics::gtk::Animation();
+	}
 	uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
-	Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, true, 8, w, h);
+	Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create(
-		(unsigned char*)img->get_pixels(), Cairo::FORMAT_ARGB32,
+		(unsigned char*)img->get_pixels(), Cairo::Surface::Format::ARGB32,
 		img->get_width(), img->get_height(), img->get_rowstride());
 	Cairo::RefPtr<Cairo::Context> cr = Cairo::Context::create(surface);
 
@@ -114,9 +118,9 @@ void Canvas::PlayAudio(AudioDevicePtr dev)
 	return GetGroup()->PlayAudio(dev,GetDisplayCenter());
 }
     
-bool Canvas::OnKeyPress(GdkEventKey* event)
+bool Canvas::OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state)
 {
-	return GetGroup()->OnKeyPress(event);
+	return GetGroup()->OnKeyPress(keyval, keycode, state);
 }
 
 void Canvas::OnButtonEvent_(const ButtonEvent &event) 
@@ -130,5 +134,4 @@ GroupPtr Canvas::GetGroup() const
 	return objects_; 
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -27,8 +27,7 @@
 #include <audiere.h>
 #endif
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 Sound::Sound(const Point &surfaceSize) :
 	mask_(Mask::Create(surfaceSize))
@@ -37,7 +36,7 @@ Sound::Sound(const Point &surfaceSize) :
 
 void Sound::SetFile(std::string file)
 {
-	printf("Sound: setting file to %s\n", file.c_str());
+	//printf("Sound: setting file to %s\n", file.c_str());
 	file_ = file;
 	UpdateStream();
 }
@@ -179,6 +178,5 @@ Cairo::RefPtr<Cairo::Pattern> AudioPattern::GetDrawingPattern(Cairo::RefPtr<Cair
 	return cr->pop_group();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

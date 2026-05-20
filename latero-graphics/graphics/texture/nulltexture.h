@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_NULL_TEXTURE
-#define LATERO_GRAPHICS_PLANAR_NULL_TEXTURE
+#pragma once
 
 #include "texture.h"
 #include "nulltexturefwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class NullTexture : public Texture
 {
@@ -54,8 +52,5 @@ protected:
 	NullTexture(const latero::Tactograph *dev);
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

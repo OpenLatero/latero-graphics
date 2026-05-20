@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_VEL_MODULATOR_WIDGET
-#define LATERO_GRAPHICS_PLANAR_VEL_MODULATOR_WIDGET
+#pragma once
 
-#include <gtkmm/box.h>
+#include <gtkmm.h>
 #include "velmodulatorfwd.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class VelModulatorWidget : public Gtk::Box
 {
@@ -37,8 +35,5 @@ protected:
 	VelModulatorPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
-
-#endif
+} // namespace
 

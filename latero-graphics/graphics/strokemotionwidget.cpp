@@ -28,25 +28,33 @@
 #include "../oscillatorwidget.h"
 #include "../grating.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 
-class StrokeMotionCueCombo : public Gtk::ComboBoxText
+class StrokeMotionCueDropDown : public Gtk::Box
 {
 public:
-	StrokeMotionCueCombo(StrokePtr peer) : peer_(peer)
+	StrokeMotionCueDropDown(StrokePtr peer) :
+		Gtk::Box(Gtk::Orientation::HORIZONTAL),
+		list_(Gtk::StringList::create({})),
+		dropDown_(list_),
+		peer_(peer)
 	{
-		Stroke::MotionCueSet ops = peer->GetMotionCues();
-		for (unsigned int i=0; i<ops.size(); ++i)
-			append(ops[i].label);
-		set_active_text(peer->GetMotionCue().label);
-		signal_changed().connect(sigc::mem_fun(*this, &StrokeMotionCueCombo::OnChange));
+		for (const auto& op : peer->GetMotionCues())
+			list_->append(op.label);
+		Glib::ustring target = peer->GetMotionCue().label;
+		for (guint i = 0; i < list_->get_n_items(); ++i)
+			if (list_->get_string(i) == target) { dropDown_.set_selected(i); break; }
+		dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &StrokeMotionCueDropDown::OnChange));
+		append(dropDown_);
 	};
-	virtual ~StrokeMotionCueCombo() {};
+	virtual ~StrokeMotionCueDropDown() {};
+	Glib::PropertyProxy<guint> property_selected() { return dropDown_.property_selected(); }
 private:
-	void OnChange() { peer_->SetMotionCue(get_active_text()); };
+	Glib::RefPtr<Gtk::StringList> list_;
+	Gtk::DropDown dropDown_;
 	StrokePtr peer_;
+	void OnChange() { peer_->SetMotionCue(std::string(list_->get_string(dropDown_.get_selected()))); };
 };
 
 
@@ -54,9 +62,9 @@ class StrokeMinMotionWidthCtrl : public Gtk::Box
 {
 public:
 	StrokeMinMotionWidthCtrl(StrokePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMinMotionWidth(),0,20)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMinMotionWidth(),0,20)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("min width", adj_, 1, units::mm)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("min width", adj_, 1, units::mm));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMinMotionWidthCtrl::OnChanged));
 	}
 	virtual ~StrokeMinMotionWidthCtrl() {};
@@ -70,9 +78,9 @@ class StrokeMotionVelCtrl : public Gtk::Box
 {
 public:
 	StrokeMotionVelCtrl(StrokePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),-100,100)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),-100,100)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("velocity", adj_, 1, units::mm_per_sec)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("velocity", adj_, 1, units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMotionVelCtrl::OnChanged));
 	}
 	virtual ~StrokeMotionVelCtrl() {};
@@ -86,9 +94,9 @@ class StrokeSuperposedMotionRatioCtrl : public Gtk::Box
 {
 public:
 	StrokeSuperposedMotionRatioCtrl(StrokePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetSuperposedMotionRatio()*100,0,100)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetSuperposedMotionRatio()*100,0,100)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("ratio", adj_, 0, units::percent)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("ratio", adj_, 0, units::percent));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeSuperposedMotionRatioCtrl::OnChanged));
 	}
 	virtual ~StrokeSuperposedMotionRatioCtrl() {};
@@ -103,9 +111,9 @@ class StrokeBlendMotionValueCtrl : public Gtk::Box
 {
 public:
 	StrokeBlendMotionValueCtrl(StrokePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetBlendMotionValue()*100,0,100)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetBlendMotionValue()*100,0,100)), peer_(peer)
 	{
-		add(*Gtk::manage(new gtk::HNumWidget("blend value", adj_, 0, units::percent)));
+		append(*Gtk::make_managed<gtk::HNumWidget>("blend value", adj_, 0, units::percent));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeBlendMotionValueCtrl::OnChanged));
 	}
 	virtual ~StrokeBlendMotionValueCtrl() {};
@@ -116,25 +124,23 @@ protected:
 };
 
 
-StrokeMotionWidget::StrokeMotionWidget(StrokePtr peer) : Gtk::Box(Gtk::ORIENTATION_VERTICAL), peer_(peer)
+StrokeMotionWidget::StrokeMotionWidget(StrokePtr peer) : Gtk::Box(Gtk::Orientation::VERTICAL), peer_(peer)
 {
-	holder_.set_shadow_type(Gtk::SHADOW_NONE);
+	velWidget_ = Gtk::make_managed<StrokeMotionVelCtrl>(peer);
+	auto wCue = Gtk::make_managed<StrokeMotionCueDropDown>(peer);
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 
-	velWidget_ = Gtk::manage(new StrokeMotionVelCtrl(peer));
-	StrokeMotionCueCombo *wCue = Gtk::manage(new StrokeMotionCueCombo(peer));
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	velWidget_->set_hexpand();
 
+	box->append(*wCue);
+	box->append(*velWidget_);
 
-
-	box->pack_start(*wCue,Gtk::PACK_SHRINK);
-	box->pack_start(*velWidget_);
-
-	pack_start(*box,Gtk::PACK_SHRINK);
-	pack_start(holder_,Gtk::PACK_SHRINK);
+	append(*box);
+	append(holder_);
 	
 	Rebuild();
 
-	wCue->signal_changed().connect(sigc::mem_fun(*this, &StrokeMotionWidget::OnCueChanged));
+	wCue->property_selected().signal_changed().connect(sigc::mem_fun(*this, &StrokeMotionWidget::OnCueChanged));
 };
 
 void StrokeMotionWidget::OnCueChanged()
@@ -144,16 +150,14 @@ void StrokeMotionWidget::OnCueChanged()
 
 void StrokeMotionWidget::Rebuild()
 {
-	Gtk::Widget *wp = holder_.get_child();
-	holder_.remove();
-	delete wp;
+	holder_.unset_child();
 
 	Stroke::MotionCue cue = peer_->GetMotionCue();
 
 	velWidget_->set_sensitive(!(cue == Stroke::motion_cue_none));
 
-	auto box = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-	holder_.add(*box);
+	auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	holder_.set_child(*box);
 	if (cue == Stroke::motion_cue_none)
 	{
 	}
@@ -162,36 +166,43 @@ void StrokeMotionWidget::Rebuild()
 	}
 	else if (cue == Stroke::motion_cue_superposed)
 	{
-		auto hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-		hbox->pack_start(*Gtk::manage(new StrokeMinMotionWidthCtrl(peer_)));
-		hbox->pack_start(*Gtk::manage(new StrokeSuperposedMotionRatioCtrl(peer_)));
-		box->pack_start(*hbox);
-		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new OscillatorWidget(peer_->GetMotionOscillator())),Gtk::PACK_SHRINK);
+		auto hbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+		auto strokeMinMotionWidthCtrl = Gtk::make_managed<StrokeMinMotionWidthCtrl>(peer_);
+		auto strokeSuperposedMotionRatioCtrl = Gtk::make_managed<StrokeSuperposedMotionRatioCtrl>(peer_);
+		auto gratingPitchWidget = Gtk::make_managed<GratingPitchWidget>(peer_->GetMotionTexture());
+		auto oscillatorWidget = Gtk::make_managed<OscillatorWidget>(peer_->GetMotionOscillator());
+
+		strokeMinMotionWidthCtrl->set_hexpand();
+		strokeSuperposedMotionRatioCtrl->set_hexpand();
+		hbox->set_vexpand();
+
+		hbox->append(*strokeMinMotionWidthCtrl);
+		hbox->append(*strokeSuperposedMotionRatioCtrl);
+		box->append(*hbox);
+		box->append(*gratingPitchWidget);
+		box->append(*oscillatorWidget);
 	}
 	else if (cue == Stroke::motion_cue_suppressed)
 	{
-		box->pack_start(*Gtk::manage(new StrokeMinMotionWidthCtrl(peer_)),Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new OscillatorWidget(peer_->GetMotionOscillator())),Gtk::PACK_SHRINK);
+		box->append(*Gtk::make_managed<StrokeMinMotionWidthCtrl>(peer_));
+		box->append(*Gtk::make_managed<GratingPitchWidget>(peer_->GetMotionTexture()));
+		box->append(*Gtk::make_managed<OscillatorWidget>(peer_->GetMotionOscillator()));
 	}
 	else if (cue == Stroke::motion_cue_vib)
 	{
-		box->pack_start(*Gtk::manage(new StrokeMinMotionWidthCtrl(peer_)),Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
-		Gtk::Frame *frame = Gtk::manage(new Gtk::Frame("frequency"));
-		frame->add(*Gtk::manage(new OscillatorFreqCtrl(peer_->GetMotionOscillator())));
-		box->pack_start(*frame,Gtk::PACK_SHRINK);
+		box->append(*Gtk::make_managed<StrokeMinMotionWidthCtrl>(peer_));
+		box->append(*Gtk::make_managed<GratingPitchWidget>(peer_->GetMotionTexture()));
+		Gtk::Frame *frame = Gtk::make_managed<Gtk::Frame>("frequency");
+		frame->set_child(*Gtk::make_managed<OscillatorFreqCtrl>(peer_->GetMotionOscillator()));
+		box->append(*frame);
 	}
 	else if (cue == Stroke::motion_cue_blend)
 	{
-		box->pack_start(*Gtk::manage(new StrokeMinMotionWidthCtrl(peer_)),Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new GratingPitchWidget(peer_->GetMotionTexture())),Gtk::PACK_SHRINK);
-		box->pack_start(*Gtk::manage(new StrokeBlendMotionValueCtrl(peer_)),Gtk::PACK_SHRINK);
+		box->append(*Gtk::make_managed<StrokeMinMotionWidthCtrl>(peer_));
+		box->append(*Gtk::make_managed<GratingPitchWidget>(peer_->GetMotionTexture()));
+		box->append(*Gtk::make_managed<StrokeBlendMotionValueCtrl>(peer_));
 	}
-	show_all_children();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 

@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <cassert>
 #include "pattern.h"
 #include "group.h"
 #include "groupwidget.h"
@@ -27,8 +28,7 @@
 #include "modulator/dirmodulator.h"
 
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 const Group::Operation Group::op_multiply(0,"multiply");
 const Group::Operation Group::op_add(1,"add");
@@ -200,13 +200,13 @@ void Group::PlayAudio(AudioDevicePtr dev, Point pos)
 		objects_[i]->PlayAudio(dev,pos);
 }
 
-bool Group::OnKeyPress(GdkEventKey* event)
+bool Group::OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state)
 {
 	printf("Group::OnKeyPress\n");
 	// TODO: unsafe... should be locked!
 	bool rv = false;
 	for (unsigned int i=0; i<objects_.size(); ++i)
-		rv |= objects_[i]->OnKeyPress(event);
+		rv |= objects_[i]->OnKeyPress(keyval, keycode, state);
 	return rv;
 }
 
@@ -453,6 +453,7 @@ void Group::RemovePattern(PatternPtr obj)
 
 void Group::ReplacePattern(PatternPtr oldPattern, PatternPtr newPattern)
 {
+	assert(newPattern);
 	LATERO_GRAPHICS_GUARD;
 	RemoveModifiableChild_(oldPattern);
 	std::vector<PatternPtr>::iterator iter;
@@ -603,5 +604,4 @@ void Group::SetReactiveMod(ModulatorPtr mod)
 	SetLastModified_();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

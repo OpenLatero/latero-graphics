@@ -22,10 +22,7 @@
 #include "pixbufops.h"
 #include <assert.h>
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 /*
 void PixbufOps::CopyAlpha(Glib::RefPtr<Gdk::Pixbuf> &dest, const Glib::RefPtr<Gdk::Pixbuf> &src)
@@ -204,9 +201,6 @@ void PixbufOps::CopyChannel(Glib::RefPtr<Gdk::Pixbuf> &img, int src, int dest)
 	}
 }
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace
 
 

@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_STROKE_MOTION_WIDGET
-#define LATERO_GRAPHICS_PLANAR_STROKE_MOTION_WIDGET
+#pragma once
 
 #include "strokefwd.h"
 #include <gtkmm.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class StrokeMotionWidget : public Gtk::Box
 {
@@ -43,7 +41,5 @@ protected:
 
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

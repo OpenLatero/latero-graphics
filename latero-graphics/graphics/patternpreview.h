@@ -19,37 +19,33 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PATTERN_PREVIEW
-#define LATERO_GRAPHICS_PATTERN_PREVIEW
+#pragma once
 
 #include <gtkmm.h>
 #include "pattern.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
-class PatternPreview : public Gtk::EventBox
+class PatternPreview : public Gtk::Box
 {
 public:
 	static const Pattern::VizMode viz_mode = Pattern::viz_deflection_and_vibration;
 	static const int height = 200;
 
 	PatternPreview(PatternPtr peer);
-	virtual ~PatternPreview() {}
+	virtual ~PatternPreview() { if (popupMenu_) popupMenu_->unparent(); }
 protected:
 	void CreatePopupMenu();
 	void OnSave();
-	bool OnClick(GdkEventButton* event);
+	void OnClick(int n_press, double x, double y);
 	bool OnTimer();
 	void Refresh();
 
 	boost::posix_time::ptime refreshTime_;
-	Gtk::Image img_;
-	std::unique_ptr<Gtk::Menu> popupMenu_;
+	Gtk::Picture img_;
+	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	PatternPtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

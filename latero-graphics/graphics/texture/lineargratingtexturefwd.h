@@ -19,18 +19,14 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_LINEAR_GRATING_TEXTURE_FWD_H
-#define LATERO_GRAPHICS_PLANAR_LINEAR_GRATING_TEXTURE_FWD_H
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class LinearGratingTexture;
 typedef boost::shared_ptr<LinearGratingTexture> LinearGratingTexturePtr;
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

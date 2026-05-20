@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_RADIAL_GRATING_TEXTURE_WIDGET
-#define LATERO_GRAPHICS_PLANAR_RADIAL_GRATING_TEXTURE_WIDGET
+#pragma once
 
 //TODO: check why this is required
 #include "radialgratingtexture.h"
 #include "gratingtexturewidget.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class RadialGratingTextureWidget : public GratingTextureWidget
 {
@@ -49,7 +47,5 @@ protected:
 	RadialGratingTexturePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

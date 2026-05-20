@@ -22,10 +22,8 @@
 #include "gratingtexturewidget.h"
 #include "gratingtexture.h"
 #include "../../gtk/numwidget.h"
-#include <gtkmm/notebook.h>
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 
 // GratingTextureSeedCtrl ///////////////////////////////////////////////////////////////
@@ -35,7 +33,7 @@ GratingTextureSeedCtrl::GratingTextureSeedCtrl(GratingTexturePtr peer) :
 	peer_(peer),
 	widget_(peer->GetSeed(),0,peer->Dev()->GetSurfaceWidth(),0,peer->Dev()->GetSurfaceHeight())
 {
-	add(widget_);
+	set_child(widget_);
 	widget_.SignalValueChanged().connect(
 		sigc::mem_fun(*this, &GratingTextureSeedCtrl::OnChanged));
 
@@ -55,20 +53,19 @@ GratingTextureWidgetSet::GratingTextureWidgetSet(GratingTexturePtr peer) :
 }
 
 GratingRidgeSizeWidget* GratingTextureWidget::CreateRidgeSizeWidget()
-{ return Gtk::manage(new GratingRidgeSizeWidget(peer_->GetGrating())); }
+{ return Gtk::make_managed<GratingRidgeSizeWidget>(peer_->GetGrating()); }
 
 GratingGapSizeWidget* GratingTextureWidget::CreateGapSizeWidget()
-{ return Gtk::manage(new GratingGapSizeWidget(peer_->GetGrating())); }
+{ return Gtk::make_managed<GratingGapSizeWidget>(peer_->GetGrating()); }
 
 GratingVelocityWidget* GratingTextureWidget::CreateGratingVelocityWidget()
-{ return Gtk::manage(new GratingVelocityWidget(peer_->GetGrating())); }
+{ return Gtk::make_managed<GratingVelocityWidget>(peer_->GetGrating()); }
 
 GratingTextureSeedCtrl* GratingTextureWidget::CreateSeedWidget()
-{ return Gtk::manage(new GratingTextureSeedCtrl(peer_)); }
+{ return Gtk::make_managed<GratingTextureSeedCtrl>(peer_); }
 
 GratingRegularizeButton *GratingTextureWidget::CreateRegularizeButton()
-{ return Gtk::manage(new GratingRegularizeButton(peer_->GetGrating())); }
+{ return Gtk::make_managed<GratingRegularizeButton>(peer_->GetGrating()); }
 
 
-} // namespace graphics
-} // namespace latero
+} // namespace

@@ -19,14 +19,12 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_RIDGE_GRAPH_H
-#define LATERO_GRAPHICS_PLANAR_RIDGE_GRAPH_H
+#pragma once
 
 #include "ridgefwd.h"
 #include "graph.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class RidgeGraph : public Graph
 {
@@ -41,7 +39,5 @@ protected:
 	RidgePtr peer_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

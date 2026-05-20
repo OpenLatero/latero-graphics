@@ -22,37 +22,64 @@
 #include <filesystem>
 #include "plot.h"
 #include <assert.h>
-#include <gtkmm.h>
+#include <iostream>
 
-namespace latero {
-namespace graphics { 
-
-namespace gtk {
+namespace latero::graphics::gtk {
 
 
-class PlotSaveDlg : public Gtk::FileChooserDialog
+class PlotSaveDlg : public Gtk::Window
 {
 public:
+	sigc::signal<void(std::string, uint, uint)> signalSave;
+
 	PlotSaveDlg() :
-		Gtk::FileChooserDialog("Please select file name.", Gtk::FILE_CHOOSER_ACTION_SAVE),
-		wAdj_(Gtk::Adjustment::create(1000, 0, 1000)), hAdj_(Gtk::Adjustment::create(500, 0, 1000))
+		wAdj_(Gtk::Adjustment::create(1000, 1, 10000, 10)),
+		hAdj_(Gtk::Adjustment::create(500, 1, 10000, 10))
 	{
-		std::string dir = std::filesystem::current_path().string();
-		set_current_folder(dir);
-		add_button("Cancel", Gtk::RESPONSE_CANCEL);
-		add_button("Save", Gtk::RESPONSE_OK);
-		set_default_response(Gtk::RESPONSE_CANCEL);
-		set_current_name("plot.svg");
-	
-		// TODO...
-		get_content_area()->pack_start(*Gtk::manage(new Gtk::SpinButton(wAdj_)));
-		get_content_area()->pack_start(*Gtk::manage(new Gtk::SpinButton(hAdj_)));
+		set_title("Save Plot");
+		set_modal(true);
+		set_resizable(false);
+
+		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL, 6);
+		box->set_margin(12);
+
+		auto sizeBox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL, 6);
+		sizeBox->append(*Gtk::make_managed<Gtk::Label>("Width:"));
+		sizeBox->append(*Gtk::make_managed<Gtk::SpinButton>(wAdj_));
+		sizeBox->append(*Gtk::make_managed<Gtk::Label>("Height:"));
+		sizeBox->append(*Gtk::make_managed<Gtk::SpinButton>(hAdj_));
+		box->append(*sizeBox);
+
+		auto btnBox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL, 6);
+		auto cancelBtn = Gtk::make_managed<Gtk::Button>("Cancel");
+		auto saveBtn = Gtk::make_managed<Gtk::Button>("Save As...");
+		btnBox->append(*cancelBtn);
+		btnBox->append(*saveBtn);
+		box->append(*btnBox);
+
+		set_child(*box);
+
+		cancelBtn->signal_clicked().connect([this]() { close(); });
+		saveBtn->signal_clicked().connect([this]() { OnPickFile(); });
 	}
 
-	uint GetWidth() { return wAdj_->get_value(); }
-	uint GetHeight() { return hAdj_->get_value(); }
 protected:
-    Glib::RefPtr<Gtk::Adjustment> wAdj_, hAdj_;
+	void OnPickFile()
+	{
+		auto dialog = Gtk::FileDialog::create();
+		dialog->set_title("Save Plot");
+		dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
+		dialog->set_initial_name("plot.svg");
+		dialog->save(*this, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
+			try {
+				auto file = dialog->save_finish(result);
+				signalSave(file->get_path(), wAdj_->get_value(), hAdj_->get_value());
+				close();
+			} catch (const Gtk::DialogError&) {}
+		});
+	}
+
+	Glib::RefPtr<Gtk::Adjustment> wAdj_, hAdj_;
 };
 
 
@@ -68,11 +95,12 @@ Plot::Plot(const char *fgColor, const char *bgColor) :
 	AddChannel(fgColor);
 	CreatePopupMenu();
 
-    signal_draw().connect(sigc::mem_fun(*this, &Plot::OnDraw));
+    set_draw_func(sigc::mem_fun(*this, &Plot::OnDraw));
 }
 
 Plot::~Plot()
 {
+	if (popupMenu_) popupMenu_->unparent();
 }
 
 void Plot::Clear()
@@ -85,30 +113,22 @@ void Plot::Clear()
 
 void Plot::Draw()
 {
-	if (get_realized())
-	{
-		Gdk::Rectangle invRect(0, 0, get_allocation().get_width(), get_allocation().get_height());
-		get_window()->invalidate_rect(invRect, false);
-	}
+	queue_draw();
 }
 
 
-bool Plot::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr)
+void Plot::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int w, int h)
 {
-	uint w = get_allocation().get_width();
-	uint h = get_allocation().get_height();
-
 	Draw(cr,w,h);
-	return true;
 }
 
-void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
+void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, int w, int h, bool gtkmode)
 {
 	// clear background
 	if (gtkmode)
 		cr->set_source_rgb(1,1,1);
 	else
-		Gdk::Cairo::set_source_color(cr, bgColor_);
+		Gdk::Cairo::set_source_rgba(cr, bgColor_);
 	cr->rectangle(0, 0, w, h);
 	cr->fill();
 
@@ -125,9 +145,9 @@ void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
 	if (gtkmode)
 		cr->set_source_rgb(1.0,1.0,1.0);
 	else
-		Gdk::Cairo::set_source_color(cr, lineColor_);
+		Gdk::Cairo::set_source_rgba(cr, lineColor_);
 	cr->move_to(0, 0.45*h);
-       	cr->line_to(w, 0.45*h);
+    cr->line_to(w, 0.45*h);
 	cr->stroke();
 
 	// draw each curve
@@ -140,12 +160,14 @@ void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, uint w, uint h, bool gtkmode)
 			cr->set_source_rgb(0,0,0);
 		}
 		else
-			Gdk::Cairo::set_source_color(cr, channels_[c].color);
+			Gdk::Cairo::set_source_rgba(cr, channels_[c].color);
+
 		if (points.size())
 		{
-			cr->move_to(points[0].x * w, points[0].y * h);
-			for (unsigned int i=1; i<points.size(); i++)
+			cr->move_to(points[0].x * w, points[0].y * 0.9 * h);
+			for (unsigned int i=1; i<points.size(); i++) {
 				cr->line_to(points[i].x * w, points[i].y * 0.9 * h);
+			}
 			cr->stroke();
 		}
 	}
@@ -172,8 +194,7 @@ void Plot::SetRangeY(float min, float max)
 void Plot::AddChannel(const char *fgColor)
 {
 	Trace t;
-	const Gdk::Color* color = new Gdk::Color(fgColor);
-	t.color = *color; 
+	t.color = Gdk::RGBA(fgColor);
 	channels_.push_back(t);
 }
 
@@ -189,11 +210,13 @@ void Plot::InsertPoint(unsigned int channel, float x, float y)
 
 void Plot::OnSaveAs()
 {
-	PlotSaveDlg dialog;
-	if (Gtk::RESPONSE_OK == dialog.run())
-	{
-		SaveToFile(dialog.get_filename(), dialog.GetWidth(), dialog.GetHeight());
-	}
+	auto* dialog = new PlotSaveDlg();
+	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
+		dialog->set_transient_for(*win);
+	dialog->signalSave.connect([this](std::string path, uint w, uint h) {
+		SaveToFile(path, w, h);
+	});
+	dialog->set_visible();
 }
 
 void Plot::OnSave()
@@ -214,29 +237,25 @@ void Plot::SaveToFile(std::string filename, uint w, uint h)
 	}
 	else if (ext == "png")
 	{
-		Cairo::RefPtr<Cairo::Surface> surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, w, h);
+		Cairo::RefPtr<Cairo::Surface> surface = Cairo::ImageSurface::create(Cairo::Surface::Format::ARGB32, w, h);
 		Cairo::RefPtr<Cairo::Context> cr = Cairo::Context::create(surface);
 		Draw(cr,w,h,true);
 		surface->write_to_png(filename);
 	}
 }
 
-bool Plot::OnClick(GdkEventButton* event)
+void Plot::OnClick(int n_press, double x, double y)
 {
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		//((Gtk::Menu*)uiManager_->get_widget("/PopupMenu"))->popup(event->button, event->time);
-		return true;
-	}
-	else
-		return false;
+	popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
+	popupMenu_->popup();
 }
 
 void Plot::CreatePopupMenu()
 {
-	set_events(Gdk::BUTTON_PRESS_MASK);
-	signal_button_press_event().connect(sigc::mem_fun(*this, &Plot::OnClick));
+	auto gesture = Gtk::GestureClick::create();
+	gesture->set_button(GDK_BUTTON_SECONDARY);
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &Plot::OnClick));
+	add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
@@ -262,13 +281,10 @@ void Plot::CreatePopupMenu()
 	)");
 
 	// Get the menu and create a Gtk::Menu from it
-	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
-	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
-	popupMenu_->attach_to_widget(*this);
+	auto menu_model = std::dynamic_pointer_cast<Gio::MenuModel>(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu_model);
+	popupMenu_->set_parent(*this);
 }
 
 
-} // namespace gtk
-
-} // namespace graphics
-} // namespace latero
+} // namespace

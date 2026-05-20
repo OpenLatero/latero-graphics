@@ -1,7 +1,7 @@
 set(SRC_CPP
 	dirmodulator.cpp
 	dirmodulatorwidget.cpp
-	modulatorcombo.cpp
+	modulatordropdown.cpp
 	modulator.cpp
 	modulatorpreview.cpp
 	velmodulator.cpp
@@ -12,7 +12,7 @@ set(SRC_H
 	dirmodulatorfwd.h
 	dirmodulator.h
 	dirmodulatorwidget.h
-	modulatorcombo.h
+	modulatordropdown.h
 	modulatorfwd.h
 	modulator.h
 	modulatorpreview.h

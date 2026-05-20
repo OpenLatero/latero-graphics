@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_IMAGE_H
-#define LATERO_GRAPHICS_PLANAR_IMAGE_H
+#pragma once
 
 #include "texture/texturefwd.h"
 #include "pattern.h"
@@ -28,8 +27,7 @@
 #include "imagefwd.h"
 #include "../gtk/animation.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 
 class Image : public Pattern
@@ -91,7 +89,5 @@ protected:
 	Image(const latero::Tactograph *dev, const XMLInputNode &node);
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

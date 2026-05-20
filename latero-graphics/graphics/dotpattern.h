@@ -19,15 +19,13 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_PLANAR_DOT_PATTERN_H
-#define LATERO_GRAPHICS_PLANAR_DOT_PATTERN_H
+#pragma once
 
 #include "dotpatternfwd.h"
 #include "dots.h"
 #include "../vector.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class DotPattern : public Dots
 {
@@ -182,7 +180,5 @@ protected:
 	bool invertCornerVib_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

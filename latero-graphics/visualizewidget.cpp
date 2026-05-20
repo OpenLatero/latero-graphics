@@ -22,13 +22,11 @@
 #include "visualizewidget.h"
 #include "positiongen.h"
 #include <sstream>
-#include <gtkmm.h>
 #include "units.h"
 
 #define UPDATE_RATE_MS 30
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 #define mode_abstract "abstract"
 #define mode_vib_as_deflection "deflection"
@@ -38,7 +36,7 @@ namespace graphics {
 #define DEFAULT_WIDTH 500
 
 VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
-	Gtk::Dialog("Visualization"),
+	Gtk::Window(),
 	velMagAdj_(Gtk::Adjustment::create(0,0,10000)),
 	velDirAdj_(Gtk::Adjustment::create(0,0,360)),
 	intervalCtrl_(10, units::msec),
@@ -48,64 +46,79 @@ VisualizeWidget::VisualizeWidget(PositionGenPtr gen) :
 	heightAdj_(Gtk::Adjustment::create(DEFAULT_WIDTH*gen->Dev()->GetSurfaceHeight()/gen->Dev()->GetSurfaceWidth(),50,4000)),
     gen_(gen)
 {
-	modeCombo_.append(mode_abstract);
-	modeCombo_.append(mode_vib_as_deflection);
-	modeCombo_.append(mode_vib_as_noise);
-	modeCombo_.set_active_text(mode_vib_as_noise);
+	modeList_ = Gtk::StringList::create({});
+	modeList_->append(mode_abstract);
+	modeList_->append(mode_vib_as_deflection);
+	modeList_->append(mode_vib_as_noise);
+	modeDropDown_ = Gtk::make_managed<Gtk::DropDown>(modeList_);
+	modeDropDown_->set_selected(2); // mode_vib_as_noise
 
-	Gtk::ScrolledWindow *scrolledWindow = Gtk::manage(new Gtk::ScrolledWindow);
-	scrolledWindow->set_policy(Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
-	scrolledWindow->add(img_);
+	Gtk::ScrolledWindow *scrolledWindow = Gtk::make_managed<Gtk::ScrolledWindow>();
+	scrolledWindow->set_policy(Gtk::PolicyType::AUTOMATIC, Gtk::PolicyType::AUTOMATIC);
+	scrolledWindow->set_child(img_);
 	scrolledWindow->set_size_request(5 + widthAdj_->get_value(), 5 + heightAdj_->get_value());
 
-	auto hbox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
-	auto dlgArea = get_content_area();
-	dlgArea->pack_start(*scrolledWindow);
+	auto hbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
+	auto vbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	set_title("Visualization");
+	set_modal(true);
+	set_child(*vbox);
+	vbox->append(*scrolledWindow);
+	scrolledWindow->set_vexpand();
 	auto playbackWidget = GetPlaybackWidget();
-	dlgArea->pack_start(*playbackWidget, Gtk::PACK_SHRINK);
+	vbox->append(*playbackWidget);
 	playbackWidget->set_margin_bottom(18);
-	dlgArea->pack_start(*hbox, Gtk::PACK_SHRINK);
+	vbox->append(*hbox);
 
 	auto animWidget = GetAnimWidget();
 	animWidget->set_margin_start(12);
 	animWidget->set_margin_end(12);
-	hbox->pack_start(*animWidget);
+	hbox->append(*animWidget);
+	animWidget->set_hexpand();
 
 	CreateMenu();
-	scrolledWindow->set_events(Gdk::BUTTON_PRESS_MASK);
-	scrolledWindow->signal_button_press_event().connect(sigc::mem_fun(*this, &VisualizeWidget::OnClick));
+	auto leftGesture = Gtk::GestureClick::create();
+	leftGesture->set_button(GDK_BUTTON_PRIMARY);
+	leftGesture->signal_pressed().connect([this](int, double, double){ OnNext(); });
+	scrolledWindow->add_controller(leftGesture);
 
-	show_all_children();
+	auto rightGesture = Gtk::GestureClick::create();
+	rightGesture->set_button(GDK_BUTTON_SECONDARY);
+	rightGesture->signal_pressed().connect([this](int, double x, double y){
+		popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
+		popupMenu_->popup();
+	});
+	scrolledWindow->add_controller(rightGesture);
 }
 
 Gtk::Widget *VisualizeWidget::GetAnimWidget()
 {
-	auto grid = Gtk::manage(new Gtk::Grid());
+	auto grid = Gtk::make_managed<Gtk::Grid>();
 
-	grid->attach(*Gtk::manage(new Gtk::Label("Frames:", Gtk::ALIGN_START)),0,0,1,1); // 0,1, 0,1, Gtk::FILL);
-	grid->attach(*Gtk::manage(new Gtk::Label("Interval:   ", Gtk::ALIGN_START)),0,1,1,1); // 0,1, 1,2, Gtk::FILL);
-	grid->attach(*Gtk::manage(new Gtk::Label("Start:", Gtk::ALIGN_START)),0,2,1,1); //0,1, 2,3, Gtk::FILL);
+	grid->attach(*Gtk::make_managed<Gtk::Label>("Frames:", Gtk::Align::START),0,0,1,1); // 0,1, 0,1, Gtk::FILL);
+	grid->attach(*Gtk::make_managed<Gtk::Label>("Interval:   ", Gtk::Align::START),0,1,1,1); // 0,1, 1,2, Gtk::FILL);
+	grid->attach(*Gtk::make_managed<Gtk::Label>("Start:", Gtk::Align::START),0,2,1,1); //0,1, 2,3, Gtk::FILL);
 
-	grid->attach(*Gtk::manage(new Gtk::SpinButton(nbFramesAdj_)),1,0,1,1); // 1,2, 0,1);
+	grid->attach(*Gtk::make_managed<Gtk::SpinButton>(nbFramesAdj_),1,0,1,1); // 1,2, 0,1);
 	grid->attach(intervalCtrl_,1,1,1,1); // 1,2, 1,2);
 	grid->attach(startTimeCtrl_,1,2,1,1); // 1,2, 2,3);
 
-	grid->attach(*Gtk::manage(new Gtk::Label("      Mode:", Gtk::ALIGN_START)),2,0,1,1); // 2,3, 0,1, Gtk::FILL);
-	grid->attach(*Gtk::manage(new Gtk::Label("      Width:", Gtk::ALIGN_START)),2,1,1,1); // 2,3, 1,2, Gtk::FILL);
-	grid->attach(*Gtk::manage(new Gtk::Label("      Velocity:   ", Gtk::ALIGN_START)),2,2,1,1); // 2,3, 2,3, Gtk::FILL);
+	grid->attach(*Gtk::make_managed<Gtk::Label>("      Mode:", Gtk::Align::START),2,0,1,1); // 2,3, 0,1, Gtk::FILL);
+	grid->attach(*Gtk::make_managed<Gtk::Label>("      Width:", Gtk::Align::START),2,1,1,1); // 2,3, 1,2, Gtk::FILL);
+	grid->attach(*Gtk::make_managed<Gtk::Label>("      Velocity:   ", Gtk::Align::START),2,2,1,1); // 2,3, 2,3, Gtk::FILL);
 
-	grid->attach(modeCombo_,3,0,4,1); // 3,7, 0,1);
-	grid->attach(*Gtk::manage(new Gtk::SpinButton(widthAdj_)),3,1,1,1); // 3,4, 1,2);
-	grid->attach(*Gtk::manage(new Gtk::SpinButton(velMagAdj_)),3,2,1,1); // 3,4, 2,3);
+	grid->attach(*modeDropDown_,3,0,4,1); // 3,7, 0,1);
+	grid->attach(*Gtk::make_managed<Gtk::SpinButton>(widthAdj_),3,1,1,1); // 3,4, 1,2);
+	grid->attach(*Gtk::make_managed<Gtk::SpinButton>(velMagAdj_),3,2,1,1); // 3,4, 2,3);
 
-	grid->attach(*Gtk::manage(new Gtk::Label("x")),4,1,1,1); // 4,5, 1,2, Gtk::FILL);
-	grid->attach(*Gtk::manage(new Gtk::Label(" mm/s ", Gtk::ALIGN_START)),4,2,1,1); // 4,5, 2,3, Gtk::FILL);
+	grid->attach(*Gtk::make_managed<Gtk::Label>("x"),4,1,1,1); // 4,5, 1,2, Gtk::FILL);
+	grid->attach(*Gtk::make_managed<Gtk::Label>(" mm/s ", Gtk::Align::START),4,2,1,1); // 4,5, 2,3, Gtk::FILL);
 
-	grid->attach(*Gtk::manage(new Gtk::SpinButton(heightAdj_)),5,1,1,1); // 5,6, 1,2);
-	grid->attach(*Gtk::manage(new Gtk::SpinButton(velDirAdj_)),5,2,1,1); // 5,6, 2,3);
+	grid->attach(*Gtk::make_managed<Gtk::SpinButton>(heightAdj_),5,1,1,1); // 5,6, 1,2);
+	grid->attach(*Gtk::make_managed<Gtk::SpinButton>(velDirAdj_),5,2,1,1); // 5,6, 2,3);
 
-	grid->attach(*Gtk::manage(new Gtk::Label(" pixels", Gtk::ALIGN_START)),6,1,1,1); // 6,7, 1,2, Gtk::FILL);
-	grid->attach(*Gtk::manage(new Gtk::Label(" degrees", Gtk::ALIGN_START)),6,2,1,1); // 6,7, 2,3, Gtk::FILL);
+	grid->attach(*Gtk::make_managed<Gtk::Label>(" pixels", Gtk::Align::START),6,1,1,1); // 6,7, 1,2, Gtk::FILL);
+	grid->attach(*Gtk::make_managed<Gtk::Label>(" degrees", Gtk::Align::START),6,2,1,1); // 6,7, 2,3, Gtk::FILL);
 
 	widthAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &VisualizeWidget::OnWidthChanged));
 	heightAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &VisualizeWidget::OnHeightChanged));
@@ -132,71 +145,51 @@ void VisualizeWidget::OnHeightChanged()
 
 Gtk::Widget *VisualizeWidget::GetPlaybackWidget()
 {
-	auto pBox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_HORIZONTAL));
+	auto pBox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 
-	//Gtk::Label *frameLabel = Gtk::manage(new Gtk::Label("frame"));
-	//Gtk::SpinButton *frameCtrl = Gtk::manage(new Gtk::SpinButton(frameAdj_));
+	//Gtk::Label *frameLabel = Gtk::make_managed<Gtk::Label>("frame");
+	//Gtk::SpinButton *frameCtrl = Gtk::make_managed<Gtk::SpinButton>(frameAdj_);
 	//frameCtrl->set_sensitive(false);
 
-	//Gtk::Label *timeLabel = Gtk::manage(new Gtk::Label("time (ms)"));
-	//Gtk::SpinButton *timeCtrl = Gtk::manage(new Gtk::SpinButton(timeAdj_));
+	//Gtk::Label *timeLabel = Gtk::make_managed<Gtk::Label>("time (ms)");
+	//Gtk::SpinButton *timeCtrl = Gtk::make_managed<Gtk::SpinButton>(timeAdj_);
 	//timeCtrl->set_sensitive(false);
 
-	auto prevButton = Gtk::manage(new Gtk::Button);
-    prevButton->set_image_from_icon_name("media-skip-backward", Gtk::ICON_SIZE_BUTTON);
-	prevButton->set_always_show_image(true); 
+	auto prevButton = Gtk::make_managed<Gtk::Button>();
+    prevButton->set_icon_name("go-previous-symbolic");
 	prevButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnPrevious));
-	
-	auto playButton =  Gtk::manage(new Gtk::Button);
-	playButton->set_image_from_icon_name("media-playback-start", Gtk::ICON_SIZE_BUTTON);
-	playButton->set_always_show_image(true);
+
+	auto playButton =  Gtk::make_managed<Gtk::Button>();
+	playButton->set_icon_name("media-playback-start-symbolic");
 	playButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnPlay));
 
-	auto stopButton = Gtk::manage(new Gtk::Button);
-	stopButton->set_image_from_icon_name("media-playback-stop", Gtk::ICON_SIZE_BUTTON);
-	stopButton->set_always_show_image(true);
+	auto stopButton = Gtk::make_managed<Gtk::Button>();
+	stopButton->set_icon_name("media-playback-stop-symbolic");
 	stopButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnStop));
 
-	auto nextButton = Gtk::manage(new Gtk::Button);
-	nextButton->set_image_from_icon_name("media-skip-forward", Gtk::ICON_SIZE_BUTTON);
-	nextButton->set_always_show_image(true);
+	auto nextButton = Gtk::make_managed<Gtk::Button>();
+	nextButton->set_icon_name("go-next-symbolic");
 	nextButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnNext));
 
-	auto refreshButton = Gtk::manage(new Gtk::Button);
-	refreshButton->set_image_from_icon_name("view-refresh", Gtk::ICON_SIZE_BUTTON);
-	refreshButton->set_always_show_image(true);
+	auto refreshButton = Gtk::make_managed<Gtk::Button>();
+	refreshButton->set_icon_name("view-refresh-symbolic");
 	refreshButton->signal_clicked().connect(sigc::mem_fun(*this, &VisualizeWidget::OnApply));
 
-	pBox->pack_start(*prevButton, Gtk::PACK_SHRINK);
-	pBox->pack_start(*playButton, Gtk::PACK_SHRINK);
-	pBox->pack_start(*stopButton, Gtk::PACK_SHRINK);
-	pBox->pack_start(*nextButton, Gtk::PACK_SHRINK);
+	pBox->append(*prevButton);
+	pBox->append(*playButton);
+	pBox->append(*stopButton);
+	pBox->append(*nextButton);
 	nextButton->set_margin_end(12);
-	pBox->pack_start(*refreshButton, Gtk::PACK_SHRINK);
+	pBox->append(*refreshButton);
 
-	pBox->set_halign(Gtk::ALIGN_CENTER);
+	pBox->set_halign(Gtk::Align::CENTER);
 	return pBox;
 }
 
 
 VisualizeWidget::~VisualizeWidget()
 {
-}
-
-bool VisualizeWidget::OnClick(GdkEventButton* event)
-{
-	if ((event->type == GDK_BUTTON_PRESS) && (event->button == 1))
-	{
-		OnNext();
-        return true;
-	}
-	else if ((event->type == GDK_BUTTON_PRESS) && (event->button == 3))
-	{
-		popupMenu_->popup_at_pointer((GdkEvent*)event);
-		return true;
-	}
-	else
-		return false;
+	if (popupMenu_) popupMenu_->unparent();
 }
 
 
@@ -226,14 +219,14 @@ void VisualizeWidget::CreateMenu()
 	)");
 
 	// Get the menu and create a Gtk::Menu from it
-	auto menu_model = Glib::RefPtr<Gio::Menu>::cast_dynamic(builder->get_object("PopupMenu"));
-	popupMenu_ = std::make_unique<Gtk::Menu>(menu_model);
-	popupMenu_->attach_to_widget(*this);
+	auto menu_model = std::dynamic_pointer_cast<Gio::MenuModel>(builder->get_object("PopupMenu"));
+	popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu_model);
+	popupMenu_->set_parent(*this);
 }
 
 void VisualizeWidget::OnSaveAs()
 {
-	map_.SaveToFile();
+	map_.SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
 }
 
 void VisualizeWidget::OnSave()
@@ -249,9 +242,10 @@ latero::graphics::gtk::Animation VisualizeWidget::GetDeflectionMap(uint w, uint 
 	for (unsigned int i=0; i<n; ++i)
 	{
 		Glib::RefPtr<Gdk::Pixbuf> buf;
-		if (modeCombo_.get_active_text() == mode_vib_as_deflection)
+		auto modeText = std::string(modeList_->get_string(modeDropDown_->get_selected()));
+		if (modeText == mode_vib_as_deflection)
 			buf = gen_->GetDeflectionMap(w,timeElapsed,velMag,velDir,RenderMode(true,false,false));
-		else if (modeCombo_.get_active_text() == mode_vib_as_noise)
+		else if (modeText == mode_vib_as_noise)
 			buf = gen_->GetDeflectionMap(w,timeElapsed,velMag,velDir,RenderMode(true,true,false));
 		else
 			buf = gen_->GetIllustration(w,timeElapsed);
@@ -264,7 +258,7 @@ latero::graphics::gtk::Animation VisualizeWidget::GetDeflectionMap(uint w, uint 
 
 void VisualizeWidget::on_realize()
 {
-	Gtk::Dialog::on_realize();
+	Gtk::Window::on_realize();
 	ReloadAnimation();		
 
 	map_.Activate(UPDATE_RATE_MS);
@@ -276,8 +270,7 @@ void VisualizeWidget::RefreshImg()
 {
 	frameAdj_->set_value(map_.GetCurrentFrameIndex());
 	Glib::RefPtr<Gdk::Pixbuf> buf = map_.GetCurrentFrame();
-	img_.set(buf);
-	show_all_children();
+	img_.set_paintable(Gdk::Texture::create_for_pixbuf(buf));
 }
 
 void VisualizeWidget::ReloadAnimation()
@@ -316,5 +309,4 @@ void VisualizeWidget::OnPrevious()
 	RefreshImg();
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace

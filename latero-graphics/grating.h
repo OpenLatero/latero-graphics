@@ -19,8 +19,7 @@
 //
 // -----------------------------------------------------------
 
-#ifndef LATERO_GRAPHICS_GRATING_H
-#define LATERO_GRAPHICS_GRATING_H
+#pragma once
 
 #include "gratingfwd.h"
 #include "gratingmodulatorfwd.h"
@@ -28,8 +27,7 @@
 #include "xml.h"
 #include "units.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class Grating : public Modifiable
 {
@@ -193,7 +191,5 @@ protected:
 	bool regularizable_;
 };
 
-} // namespace graphics
-} // namespace latero
+} // namespace
 
-#endif

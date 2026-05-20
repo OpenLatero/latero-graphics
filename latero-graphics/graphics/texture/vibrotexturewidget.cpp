@@ -20,25 +20,23 @@
 // -----------------------------------------------------------
 
 #include "vibrotexturewidget.h"
-#include <gtkmm/spinbutton.h>
-#include <gtkmm/frame.h>
-#include <gtkmm/box.h>
 #include "vibrotexture.h"
 #include "texturewidget.h"
 #include "../../gtk/numwidget.h"
 #include "../../units.h"
 #include "../../graphics/patternpreview.h"
 
-namespace latero {
-namespace graphics { 
+namespace latero::graphics {
 
 class VibroTextureFreqCtrl : public Gtk::Box
 {
 public:
 	VibroTextureFreqCtrl(VibroTexturePtr peer) :
-		Gtk::Box(Gtk::ORIENTATION_VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),Oscillator::freq_min,Oscillator::freq_max)), peer_(peer)
+		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),Oscillator::freq_min,Oscillator::freq_max)), peer_(peer)
 	{
-		pack_start(*Gtk::manage(new gtk::HNumWidget("frequency", adj_,1, units::hz)));
+		auto widget = Gtk::make_managed<gtk::HNumWidget>("frequency", adj_,1, units::hz);
+		append(*widget);
+		widget->set_vexpand();
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VibroTextureFreqCtrl::OnChanged));
 	}
 protected:
@@ -49,15 +47,22 @@ protected:
 
 
 VibroTextureWidget::VibroTextureWidget(VibroTexturePtr peer) :
-	Gtk::Box(Gtk::ORIENTATION_HORIZONTAL), peer_(peer)
+	Gtk::Box(Gtk::Orientation::HORIZONTAL), peer_(peer)
 {
-	auto sidebox = Gtk::manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
-	sidebox->pack_start(*Gtk::manage(new TextureInvertCtrl(peer)), Gtk::PACK_SHRINK);
-	sidebox->pack_start(*Gtk::manage(new TextureAmplitudeCtrl(peer)));
-	pack_start(*sidebox, Gtk::PACK_SHRINK);
-	pack_start(*Gtk::manage(new VibroTextureFreqCtrl(peer)));
-	pack_start(*Gtk::manage(new PatternPreview(peer)), Gtk::PACK_SHRINK);
+	auto sidebox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
+	auto textureInvertCtrl = Gtk::make_managed<TextureInvertCtrl>(peer);
+	auto textureAmplitudeCtrl = Gtk::make_managed<TextureAmplitudeCtrl>(peer);
+	auto vibroTextureFreqCtrl = Gtk::make_managed<VibroTextureFreqCtrl>(peer);
+	auto patternPreview = Gtk::make_managed<PatternPreview>(peer);
+
+	textureAmplitudeCtrl->set_vexpand();
+	vibroTextureFreqCtrl->set_hexpand();
+
+	sidebox->append(*textureInvertCtrl);
+	sidebox->append(*textureAmplitudeCtrl);
+	append(*sidebox);
+	append(*vibroTextureFreqCtrl);
+	append(*patternPreview);
 }
 
-} // namespace graphics
-} // namespace latero
+} // namespace
