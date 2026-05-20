@@ -19,6 +19,7 @@
 //
 // -----------------------------------------------------------
 
+#include <cassert>
 #include "pattern.h"
 #include "group.h"
 #include "groupwidget.h"
@@ -452,6 +453,7 @@ void Group::RemovePattern(PatternPtr obj)
 
 void Group::ReplacePattern(PatternPtr oldPattern, PatternPtr newPattern)
 {
+	assert(newPattern);
 	LATERO_GRAPHICS_GUARD;
 	RemoveModifiableChild_(oldPattern);
 	std::vector<PatternPtr>::iterator iter;

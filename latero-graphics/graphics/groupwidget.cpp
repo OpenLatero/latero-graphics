@@ -68,16 +68,53 @@ void GroupOpDropDown::OnChange() { peer_->SetOperation(std::string(list_->get_st
 
 
 GroupTreeView::GroupTreeView(GroupPtr peer) :
-	peer_(peer)
+	peer_(peer),
+	selection_(Gtk::SingleSelection::create())
 {
+	auto factory = Gtk::SignalListItemFactory::create();
+	factory->signal_setup().connect([](const Glib::RefPtr<Gtk::ListItem>& item) {
+		auto expander = Gtk::make_managed<Gtk::TreeExpander>();
+		expander->set_child(*Gtk::make_managed<Gtk::Label>("", Gtk::Align::START));
+		item->set_child(*expander);
+	});
+	factory->signal_bind().connect([](const Glib::RefPtr<Gtk::ListItem>& item) {
+		auto row = std::dynamic_pointer_cast<Gtk::TreeListRow>(item->get_item());
+		if (!row) return;
+		auto expander = dynamic_cast<Gtk::TreeExpander*>(item->get_child());
+		if (!expander) return;
+		expander->set_list_row(row);
+		auto patItem = std::dynamic_pointer_cast<PatternItem>(row->get_item());
+		if (!patItem || !patItem->pattern) return;
+		auto label = dynamic_cast<Gtk::Label*>(expander->get_child());
+		if (label) label->set_label(patItem->pattern->GetName());
+	});
+	factory->signal_unbind().connect([](const Glib::RefPtr<Gtk::ListItem>& item) {
+		if (auto* expander = dynamic_cast<Gtk::TreeExpander*>(item->get_child()))
+			expander->set_list_row({});
+	});
+
+	selection_->set_autoselect(false);
+	selection_->set_can_unselect(true);
+	set_factory(factory);
+	set_model(selection_);
 	Refresh();
-	append_column("name", columns_.name_);
-	set_headers_visible (false);
 
 	auto gesture = Gtk::GestureClick::create();
 	gesture->set_button(GDK_BUTTON_SECONDARY);
 	gesture->signal_pressed().connect(sigc::mem_fun(*this, &GroupTreeView::OnClick));
 	add_controller(gesture);
+}
+
+Glib::RefPtr<Gio::ListModel> GroupTreeView::CreateChildModel(const Glib::RefPtr<Glib::ObjectBase>& item)
+{
+	auto patItem = std::dynamic_pointer_cast<PatternItem>(item);
+	if (!patItem) return {};
+	GroupPtr group = boost::dynamic_pointer_cast<Group>(patItem->pattern);
+	if (!group || !group->ChildrenArePublic()) return {};
+	auto store = Gio::ListStore<PatternItem>::create();
+	for (auto& child : group->GetPatterns())
+		if (child) store->append(PatternItem::create(child));
+	return store;
 }
 
 void GroupTreeView::RebuildMenu(PatternPtr pattern)
@@ -272,93 +309,62 @@ void GroupTreeView::OnPatternMoveDown()
 
 PatternPtr GroupTreeView::GetCurrentPattern()
 {
-	Gtk::TreeModel::iterator iter = get_selection()->get_selected();
-	if (iter)
-		return (*iter)[columns_.obj_];
-	else
-		return PatternPtr();
+	auto row = std::dynamic_pointer_cast<Gtk::TreeListRow>(selection_->get_selected_item());
+	if (!row) return PatternPtr();
+	auto patItem = std::dynamic_pointer_cast<PatternItem>(row->get_item());
+	return patItem ? patItem->pattern : PatternPtr();
 }
-
 
 
 void GroupTreeView::Refresh()
 {
-	Glib::RefPtr<Gtk::TreeStore> store = Gtk::TreeStore::create(columns_);
-	Gtk::TreeModel::Row row = *store->append();
-	InsertPattern(peer_, &row, store);
-	set_model(store);
-	expand_all();
-}
-
-
-void GroupTreeView::InsertPattern(PatternPtr pattern, Gtk::TreeModel::Row* row, Glib::RefPtr<Gtk::TreeStore> store)
-{
-	(*row)[columns_.name_] = pattern->GetName();
-	(*row)[columns_.obj_] = pattern;
-
-	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
-	if (!group) return;
-
-	if (group->ChildrenArePublic())
-	{
-		std::vector<PatternPtr> objects = group->GetPatterns();
-		for (unsigned int i=0; i<objects.size(); ++i)
-		{
-			Gtk::TreeModel::Row entry = *store->append(row->children());
-			InsertPattern(objects[i], &entry, store);
-		}
-	}
+	auto rootStore = Gio::ListStore<PatternItem>::create();
+	rootStore->append(PatternItem::create(peer_));
+	treeModel_ = Gtk::TreeListModel::create(rootStore,
+		sigc::mem_fun(*this, &GroupTreeView::CreateChildModel), false, true);
+	refreshing_ = true;
+	selection_->set_model(treeModel_);
+	refreshing_ = false;
 }
 
 
 void GroupTreeView::Select(PatternPtr pattern)
 {
-	Gtk::TreeModel::Children::iterator iter = GetIter(pattern, get_model()->children());
-	if (iter) get_selection()->select(iter);
-}
-
-
-Gtk::TreeModel::Children::iterator GroupTreeView::GetIter(PatternPtr pattern, Gtk::TreeModel::Children children)
-{
-	typedef Gtk::TreeModel::Children::iterator iterator;
-	for (iterator iter = children.begin(); iter != children.end(); ++iter)
-	{
-		Gtk::TreeModel::Row row = *iter;
-		PatternPtr curPattern = row[columns_.obj_];
-		if (curPattern == pattern)
-			return iter;
-
-		iterator rv = GetIter(pattern, row.children());
-		if (rv) return rv;
+	guint n = treeModel_->get_n_items();
+	for (guint i = 0; i < n; ++i) {
+		auto row = treeModel_->get_row(i);
+		if (!row) continue;
+		auto patItem = std::dynamic_pointer_cast<PatternItem>(row->get_item());
+		if (patItem && patItem->pattern == pattern) {
+			selection_->set_selected(i);
+			return;
+		}
 	}
-	return iterator();
 }
 
 
 GroupPtr GroupTreeView::GetParentGroup(PatternPtr pattern)
 {
 	if (!pattern) return GroupPtr();
-
-	Gtk::TreeModel::Children::iterator iter = GetIter(pattern, get_model()->children());
-	if (!iter) return GroupPtr();
-	
-	Gtk::TreeModel::Children::iterator parentIter = (*iter).parent();
-	if (!parentIter) return GroupPtr();
-
-	PatternPtr parent = (*parentIter)[columns_.obj_];
-	if (!parent) return GroupPtr();
-
-	return boost::dynamic_pointer_cast<Group>(parent);
+	guint n = treeModel_->get_n_items();
+	for (guint i = 0; i < n; ++i) {
+		auto row = treeModel_->get_row(i);
+		if (!row) continue;
+		auto patItem = std::dynamic_pointer_cast<PatternItem>(row->get_item());
+		if (!patItem || patItem->pattern != pattern) continue;
+		auto parentRow = row->get_parent();
+		if (!parentRow) return GroupPtr();
+		auto parentItem = std::dynamic_pointer_cast<PatternItem>(parentRow->get_item());
+		if (!parentItem) return GroupPtr();
+		return boost::dynamic_pointer_cast<Group>(parentItem->pattern);
+	}
+	return GroupPtr();
 }
 
 void GroupTreeView::SelectFirst()
 {
-    auto model = get_model();
-    if (!model || model->children().empty())
-        return;
-
-	auto iter = get_model()->children().begin();
-	if (iter) get_selection()->select(iter);
+	if (treeModel_ && treeModel_->get_n_items() > 0)
+		selection_->set_selected(0);
 }
 
 
@@ -494,16 +500,20 @@ void GroupTreeView::OnPatternLoad()
 	filter->add_suffix("pattern");
 	filter->add_suffix("tx");
 
+	auto filters = Gio::ListStore<Gtk::FileFilter>::create();
+	filters->append(filter);
+
 	auto dialog = Gtk::FileDialog::create();
 	dialog->set_title("Please select a file...");
 	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
-	dialog->set_default_filter(filter);
+	dialog->set_filters(filters);
 
 	auto* win = dynamic_cast<Gtk::Window*>(get_root());
 	dialog->open(*win, [this, pattern, parent, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
 		try {
 			auto f = dialog->open_finish(result);
 			PatternPtr newPattern = Pattern::Create(pattern->Dev(), f->get_path());
+			if (!newPattern) return;
 			parent->ReplacePattern(pattern, newPattern);
 			Refresh();
 			Select(newPattern);
@@ -650,12 +660,9 @@ GroupWidget::GroupWidget(GroupPtr peer) :
     append(objWidgetHolder_);
 	objWidgetHolder_.set_hexpand();
 
-	treeView_.get_selection()->signal_changed().connect(
-    		sigc::mem_fun(*this, &GroupWidget::OnSelectionChanged));
-    
-	// select the first item
-	auto iter = treeView_.get_model()->children().begin();
-	if (iter) treeView_.get_selection()->select(iter);
+	treeView_.selection_->property_selected_item().signal_changed().connect(
+		sigc::mem_fun(*this, &GroupWidget::OnSelectionChanged));
+	treeView_.SelectFirst();
 }
 
 
@@ -677,6 +684,7 @@ void GroupWidget::OnTextureChange()
 
 void GroupWidget::OnSelectionChanged()
 {
+	if (treeView_.refreshing_) return;
 	objWidgetHolder_.unset_child();
 
 	txWidget_ = NULL;

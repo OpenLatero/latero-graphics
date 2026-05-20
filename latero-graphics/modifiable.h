@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <cassert>
 #include <vector>
 #include <algorithm>
 #include <boost/shared_ptr.hpp>
@@ -75,6 +76,7 @@ public:
 	inline void AddModifiableChild(ModifiablePtr mod) { LATERO_GRAPHICS_GUARD; AddModifiableChild_(mod); }
 	inline void AddModifiableChild_(ModifiablePtr mod)
 	{
+		assert(mod);
 		schildren_.push_back(mod);
 	}
 

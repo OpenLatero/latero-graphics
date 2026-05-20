@@ -42,25 +42,26 @@ private:
 	GroupPtr peer_;
 };
 
-class GroupTreeView : public Gtk::TreeView
+class PatternItem : public Glib::Object
+{
+public:
+	PatternPtr pattern;
+	static Glib::RefPtr<PatternItem> create(PatternPtr p) {
+		return Glib::make_refptr_for_instance<PatternItem>(new PatternItem(p));
+	}
+protected:
+	explicit PatternItem(PatternPtr p) : Glib::ObjectBase(typeid(PatternItem)), pattern(p) {}
+};
+
+class GroupTreeView : public Gtk::ListView
 {
 public:
 	GroupTreeView(GroupPtr peer);
 	virtual ~GroupTreeView() { if (popupMenu_) popupMenu_->unparent(); }
 
-	class ListColumns : public Gtk::TreeModelColumnRecord
-	{
-	public:
-		ListColumns() { add(name_); add(obj_); }
-		Gtk::TreeModelColumn<std::string> name_;
-		Gtk::TreeModelColumn<PatternPtr> obj_;
-	};
-
 	void Select(PatternPtr pattern);
 	void SelectFirst();
 	void Refresh();
-	void InsertPattern(PatternPtr pattern, Gtk::TreeModel::Row* row, Glib::RefPtr<Gtk::TreeStore> store);
-	Gtk::TreeModel::Children::iterator GetIter(PatternPtr pattern, Gtk::TreeModel::Children children);
 	GroupPtr GetParentGroup(PatternPtr pattern);
 
 	PatternPtr GetCurrentPattern();
@@ -80,8 +81,13 @@ public:
 
 	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	Glib::RefPtr<Gio::SimpleActionGroup> actionGroup_;
-	ListColumns columns_;
+	Glib::RefPtr<Gtk::SingleSelection> selection_;
+	Glib::RefPtr<Gtk::TreeListModel> treeModel_;
 	GroupPtr peer_;
+	bool refreshing_ = false;
+
+private:
+	Glib::RefPtr<Gio::ListModel> CreateChildModel(const Glib::RefPtr<Glib::ObjectBase>& item);
 };
 
 
