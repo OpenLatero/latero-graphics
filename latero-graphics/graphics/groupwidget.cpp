@@ -212,7 +212,7 @@ void GroupTreeView::OnPatternAppend()
 			}
 			delete dlg;
 		});
-		dlg->show();
+		dlg->present();
 	}
 	else
 	{
@@ -230,7 +230,8 @@ void GroupTreeView::OnPatternAppend()
 			}
 			delete dlg;
 		});
-		dlg->show();
+		std::cout << "---- HERE ----" << std::endl;
+		dlg->present();
 	}
 }
 
@@ -259,7 +260,7 @@ void GroupTreeView::OnPatternPrepend()
 			}
 			delete dlg;
 		});
-		dlg->show();
+		dlg->present();
 	}
 	else
 	{
@@ -277,7 +278,7 @@ void GroupTreeView::OnPatternPrepend()
 			}
 			delete dlg;
 		});
-		dlg->show();
+		dlg->present();
 	}
 }
 
@@ -404,7 +405,7 @@ void GroupTreeView::OnGroupAddPattern()
 		}
 		delete dlg;
 	});
-	dlg->show();
+	dlg->present();
 }
 
 void GroupTreeView::OnGroupAddTexture()
@@ -429,7 +430,7 @@ void GroupTreeView::OnGroupAddTexture()
 		}
 		delete dlg;
 	});
-	dlg->show();
+	dlg->present();
 }
 
 

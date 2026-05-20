@@ -242,7 +242,7 @@ void TextureAdvancedButton::on_clicked()
 	adv_->set_vexpand();
 	if (auto win = dynamic_cast<Gtk::Window*>(get_root()))
 		dlg_.set_transient_for(*win);
-	dlg_.show();
+	dlg_.present();
 	Gtk::Button::on_clicked();
 }
 

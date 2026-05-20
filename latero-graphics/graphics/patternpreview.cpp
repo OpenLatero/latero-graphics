@@ -148,7 +148,7 @@ bool PatternPreview::OnTimer()
 void PatternPreview::Refresh()
 {
 	int w = height*peer_->Dev()->GetSurfaceWidth()/peer_->Dev()->GetSurfaceHeight();
-	img_.set_pixbuf(peer_->GetVisualization(w,boost::posix_time::seconds(0),viz_mode));
+	img_.set_paintable(Gdk::Texture::create_for_pixbuf(peer_->GetVisualization(w,boost::posix_time::seconds(0),viz_mode)));
 	refreshTime_ = boost::posix_time::microsec_clock::universal_time();
 }
 

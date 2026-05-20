@@ -122,7 +122,7 @@ void PatternTextureWidget::OnLoad()
 		}
 		delete dlg;
 	});
-	dlg->show();
+	dlg->present();
 }
 
 
@@ -190,7 +190,7 @@ void PatternTextureAdvancedWidget::OnLoad()
 		}
 		delete dlg;
 	});
-	dlg->show();
+	dlg->present();
 }
 
 } // namespace
