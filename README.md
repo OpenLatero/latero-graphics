@@ -22,21 +22,23 @@ See [OpenLatero.org](http://OpenLatero.org) for more information.
 
 ## Installation
 
-The latero-graphics library links to the latero library, which must be installed first.
+### MacOS
 
-### Mac OS X
+Last tested in May 2026 on MacOS Tahoe 26.5 with MacPorts 2.12.5.
 
-**Step 1: Install the latero library**
+#### Install the latero library
 
-See the INSTALL file in the latero project.
+Follow [these instructions](https://github.com/OpenLatero/latero) to install the latero library.
 
-**Step 2: Install dependencies**
+#### Install dependencies
+
+Other dependencies can be installed through [MacPorts](https://www.macports.org) with the following command:
 
 ```
 sudo port install ImageMagick gtkmm3 +quartz glib2 +quartz gsettings-desktop-schemas libxmlxx3 librsvg
 ```
 
-**Step 3: Install the audiere library (optional)**
+#### Install the audiere library (optional)
 
 The audiere library adds audio support and is not required for most users. It is old and difficult to install — skip this step unless needed.
 
@@ -51,7 +53,9 @@ make
 sudo make install
 ```
 
-**Step 4: Build and install latero-graphics**
+#### Build and install the library
+
+The library can be compiled and installed with the following commands:
 
 ```
 cmake --preset default
@@ -59,13 +63,11 @@ cmake --build build
 sudo cmake --install build
 ```
 
-Or all together:
+or in a single command:
 
 ```
 cmake --preset default && cmake --build build && sudo cmake --install build
 ```
-
-Run `latero-demo` to test the library.
 
 ### Cygwin
 
