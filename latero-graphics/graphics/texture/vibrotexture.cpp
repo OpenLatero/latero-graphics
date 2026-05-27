@@ -50,7 +50,7 @@ Gtk::Widget *VibroTexture::CreateWidget(TexturePtr ptr)
 {
 	VibroTexturePtr gen = boost::dynamic_pointer_cast<VibroTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new VibroTextureWidget(gen);
+	return Gtk::make_managed<VibroTextureWidget>(gen);
 }
 
 void VibroTexture::AppendXML(XMLOutputNode &root) const

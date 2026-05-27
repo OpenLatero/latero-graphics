@@ -534,7 +534,7 @@ void VirtualSurfaceWidget::OnEdit()
 	if (peer_)
 	{
 		auto dlg = new Gtk::Window();
-		auto widget = Gtk::manage(peer_->CreateWidget(peer_));
+		auto widget = peer_->CreateWidget(peer_);
 		dlg->set_child(*widget);
 		dlg->set_modal(true);
 		dlg->signal_hide().connect([dlg]{ delete dlg; });

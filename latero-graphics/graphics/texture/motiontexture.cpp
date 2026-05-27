@@ -76,7 +76,7 @@ Gtk::Widget *MotionTexture::CreateWidget(TexturePtr ptr)
 {
 	MotionTexturePtr gen = boost::dynamic_pointer_cast<MotionTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new MotionTextureWidget(gen);
+	return Gtk::make_managed<MotionTextureWidget>(gen);
 
 }
 

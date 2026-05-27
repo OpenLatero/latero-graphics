@@ -115,14 +115,14 @@ Gtk::Widget *AxialGratingTexture::CreateWidget(TexturePtr ptr)
 {
 	AxialGratingTexturePtr gen = boost::dynamic_pointer_cast<AxialGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new AxialGratingTextureWidget(gen);
+	return Gtk::make_managed<AxialGratingTextureWidget>(gen);
 }
 
 Gtk::Widget *AxialGratingTexture::CreateAdvancedWidget(TexturePtr ptr)
 {
 	AxialGratingTexturePtr gen = boost::dynamic_pointer_cast<AxialGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new AxialGratingTextureAdvancedWidget(gen);
+	return Gtk::make_managed<AxialGratingTextureAdvancedWidget>(gen);
 }
 
 

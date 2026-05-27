@@ -189,7 +189,7 @@ Gtk::Widget *Circle::CreateWidget(PatternPtr ptr)
 {
 	CirclePtr gen = boost::dynamic_pointer_cast<Circle>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
-	return new CircleWidget(gen);
+	return Gtk::make_managed<CircleWidget>(gen);
 }
 
 std::string Circle::GetName()

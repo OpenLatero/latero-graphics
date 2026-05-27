@@ -56,14 +56,14 @@ Gtk::Widget *DoubleLinearGratingTexture::CreateWidget(TexturePtr ptr)
 {
 	DoubleLinearGratingTexturePtr gen = boost::dynamic_pointer_cast<DoubleLinearGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new DoubleLinearGratingTextureWidget(gen);
+	return Gtk::make_managed<DoubleLinearGratingTextureWidget>(gen);
 }
 
 Gtk::Widget *DoubleLinearGratingTexture::CreateAdvancedWidget(TexturePtr ptr)
 {
 	DoubleLinearGratingTexturePtr gen = boost::dynamic_pointer_cast<DoubleLinearGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new DoubleLinearGratingTextureAdvancedWidget(gen);
+	return Gtk::make_managed<DoubleLinearGratingTextureAdvancedWidget>(gen);
 }
 
 

@@ -150,7 +150,7 @@ Gtk::Widget *Dots::CreateWidget(PatternPtr ptr)
 {
 	DotsPtr gen = boost::dynamic_pointer_cast<Dots>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
-	return new DotsWidget(gen);
+	return Gtk::make_managed<DotsWidget>(gen);
 }
 
 void Dots::SetDotRadius(float v)

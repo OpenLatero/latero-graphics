@@ -251,7 +251,7 @@ Gtk::Widget *Polygon::CreateWidget(PatternPtr ptr)
 {
 	PolygonPtr gen = boost::dynamic_pointer_cast<Polygon>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
-	return new PolygonWidget(gen);
+	return Gtk::make_managed<PolygonWidget>(gen);
 }
 
 

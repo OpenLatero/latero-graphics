@@ -83,14 +83,14 @@ Gtk::Widget *RadialGratingTexture::CreateWidget(TexturePtr ptr)
 {
 	RadialGratingTexturePtr gen = boost::dynamic_pointer_cast<RadialGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new RadialGratingTextureWidget(gen);
+	return Gtk::make_managed<RadialGratingTextureWidget>(gen);
 }
 
 Gtk::Widget *RadialGratingTexture::CreateAdvancedWidget(TexturePtr ptr)
 {
 	RadialGratingTexturePtr gen = boost::dynamic_pointer_cast<RadialGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new RadialGratingTextureAdvancedWidget(gen);
+	return Gtk::make_managed<RadialGratingTextureAdvancedWidget>(gen);
 }
 
 void RadialGratingTexture::AppendXML(XMLOutputNode &root) const

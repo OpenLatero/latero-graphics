@@ -193,7 +193,7 @@ Gtk::Widget *Image::CreateWidget(PatternPtr ptr)
 {
 	ImagePtr gen = boost::dynamic_pointer_cast<Image>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
-	return new ImageWidget(gen);
+	return Gtk::make_managed<ImageWidget>(gen);
 }
 
 void Image::SetTexture(TexturePtr texture)

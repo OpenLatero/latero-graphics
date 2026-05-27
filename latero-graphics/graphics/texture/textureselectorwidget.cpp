@@ -144,7 +144,7 @@ void TextureSelectorWidget::Build()
 	TexturePtr tx = ctrl_.GetTexture();
 	if (tx)
 	{
-		widget_ = Gtk::manage(tx->CreateWidget(tx));
+		widget_ = tx->CreateWidget(tx);
 		append(*widget_);
 		widget_->set_hexpand();
 	}

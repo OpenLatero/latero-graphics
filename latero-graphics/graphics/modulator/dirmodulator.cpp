@@ -62,7 +62,7 @@ Gtk::Widget *DirModulator::CreateWidget(ModulatorPtr ptr)
 {
 	DirModulatorPtr gen = boost::dynamic_pointer_cast<DirModulator>(ptr);
 	if (!gen) return Modulator::CreateWidget(ptr); // default
-	return new DirModulatorWidget(gen);
+	return Gtk::make_managed<DirModulatorWidget>(gen);
 }
 
 double DirModulator::GetValue_(const ActuatorState &state)

@@ -94,14 +94,14 @@ Gtk::Widget *PatternTexture::CreateWidget(TexturePtr ptr)
 {
 	PatternTexturePtr gen = boost::dynamic_pointer_cast<PatternTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new PatternTextureWidget(gen);
+	return Gtk::make_managed<PatternTextureWidget>(gen);
 }
 
 Gtk::Widget *PatternTexture::CreateAdvancedWidget(TexturePtr ptr)
 {
 	PatternTexturePtr gen = boost::dynamic_pointer_cast<PatternTexture>(ptr);
-	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new PatternTextureAdvancedWidget(gen);
+	if (!gen) return Texture::CreateAdvancedWidget(ptr); // default
+	return Gtk::make_managed<PatternTextureAdvancedWidget>(gen);
 }
 
 

@@ -54,7 +54,7 @@ Gtk::Widget *VelModulator::CreateWidget(ModulatorPtr ptr)
 {
 	VelModulatorPtr gen = boost::dynamic_pointer_cast<VelModulator>(ptr);
 	if (!gen) return Modulator::CreateWidget(ptr); // default
-	return new VelModulatorWidget(gen);
+	return Gtk::make_managed<VelModulatorWidget>(gen);
 } 
 
 double VelModulator::GetValue_(const ActuatorState &state)

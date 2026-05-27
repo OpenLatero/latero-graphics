@@ -108,7 +108,7 @@ latero::graphics::gtk::Animation Generator::GetIllustration(uint w, boost::posix
 
 Gtk::Widget *Generator::CreateWidget(GeneratorPtr ptr)
 { 
-	return new Gtk::Frame(); 
+	return Gtk::make_managed<Gtk::Frame>(); 
 };
 
 double Generator::GetDisplayOrientation() const

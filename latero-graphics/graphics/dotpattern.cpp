@@ -35,7 +35,7 @@ Gtk::Widget *DotPattern::CreateWidget(PatternPtr ptr)
 {
 	DotPatternPtr gen = boost::dynamic_pointer_cast<DotPattern>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
-	return new DotPatternWidget(gen);
+	return Gtk::make_managed<DotPatternWidget>(gen);
 }
 
 void DotPattern::AppendXML(XMLOutputNode &root) const

@@ -569,7 +569,7 @@ public:
 
 
 				modWidgetHolder_.unset_child();
-				modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
+				modWidgetHolder_.set_child(*mod->CreateWidget(mod));
 
 				modDropDown->SignalModulatorChanged().connect(
 					sigc::mem_fun(*this, &GroupPanel::OnModulatorChanged));
@@ -582,7 +582,7 @@ public:
 		peer_->SetReactiveMod(mod);
 
 		modWidgetHolder_.unset_child();
-		modWidgetHolder_.set_child(*Gtk::manage(mod->CreateWidget(mod)));
+		modWidgetHolder_.set_child(*mod->CreateWidget(mod));
 	}
 
 	virtual ~GroupPanel() {}
@@ -716,7 +716,7 @@ void GroupWidget::OnSelectionChanged()
 			}
 			else if (dots)
 			{
-				objWidgetHolder_.set_child(*Gtk::manage(dots->CreateWidget(dots)));
+				objWidgetHolder_.set_child(*dots->CreateWidget(dots));
 			}
 			else
 			{
@@ -732,7 +732,7 @@ void GroupWidget::OnSelectionChanged()
 		}
 		else
 		{
-			objWidgetHolder_.set_child(*Gtk::manage(pattern->CreateWidget(pattern)));
+			objWidgetHolder_.set_child(*pattern->CreateWidget(pattern));
 		}
 	}
 }

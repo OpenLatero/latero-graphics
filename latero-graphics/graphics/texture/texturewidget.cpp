@@ -235,7 +235,7 @@ void TextureAdvancedButton::on_clicked()
 	if (adv_)
 	{
 		dlg_.unset_child();
-		delete adv_;
+		//delete adv_;
 	}
 	adv_ = peer_->CreateAdvancedWidget(peer_);
 	dlg_.set_child(*adv_);
@@ -259,7 +259,7 @@ TextureWidget::~TextureWidget()
 
 Gtk::Widget *TextureWidget::CreateLeftPanel()
 {
-	auto lbox = new Gtk::Box(Gtk::Orientation::VERTICAL);
+	auto lbox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	
 	auto invertCtrl = Gtk::make_managed<TextureInvertCtrl>(peer_);
 	auto ampCtrl = Gtk::make_managed<TextureAmplitudeCtrl>(peer_);
@@ -300,7 +300,7 @@ void TextureWidget::SetContent(Gtk::Widget *widget, bool showPanel, bool showPre
 	widget->set_valign(Gtk::Align::FILL);
 
 	if (showPanel){
-		auto leftPanel = Gtk::manage(CreateLeftPanel());
+		auto leftPanel = CreateLeftPanel();
 		box->append(*leftPanel);
 		leftPanel->set_hexpand(false);
 	}

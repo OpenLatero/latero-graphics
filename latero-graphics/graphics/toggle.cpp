@@ -101,7 +101,7 @@ Gtk::Widget *Toggle::CreateWidget(PatternPtr ptr)
 {
 	TogglePtr gen = boost::dynamic_pointer_cast<Toggle>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
-	return new ToggleWidget(gen);
+	return Gtk::make_managed<ToggleWidget>(gen);
 }
 
 void Toggle::AppendXML(XMLOutputNode &root) const

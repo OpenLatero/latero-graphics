@@ -110,7 +110,7 @@ Gtk::Widget *Canvas::CreateWidget(GeneratorPtr ptr)
 {
 	CanvasPtr gen = boost::dynamic_pointer_cast<Canvas>(ptr);
 	if (!gen) return Generator::CreateWidget(ptr); // default
-	return new CanvasWidget(gen);
+	return Gtk::make_managed<CanvasWidget>(gen);
 }
 
 void Canvas::PlayAudio(AudioDevicePtr dev)

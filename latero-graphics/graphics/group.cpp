@@ -481,7 +481,7 @@ Gtk::Widget *Group::CreateWidget(PatternPtr ptr)
 {
 	GroupPtr gen = boost::dynamic_pointer_cast<Group>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
-	return new GroupWidget(gen);
+	return Gtk::make_managed<GroupWidget>(gen);
 }
 
 void Group::AppendXML(XMLOutputNode &root) const

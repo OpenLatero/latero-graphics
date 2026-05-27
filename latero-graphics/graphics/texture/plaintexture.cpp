@@ -51,7 +51,7 @@ Gtk::Widget *PlainTexture::CreateWidget(TexturePtr ptr)
 {
 	PlainTexturePtr gen = boost::dynamic_pointer_cast<PlainTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new PlainTextureWidget(gen);
+	return Gtk::make_managed<PlainTextureWidget>(gen);
 }
 
 void PlainTexture::AppendXML(XMLOutputNode &root) const

@@ -73,7 +73,7 @@ PatternTextureWidget::PatternTextureWidget(PatternTexturePtr peer) :
 	auto patternTextureGridWidthCtrl = Gtk::make_managed<PatternTextureGridWidthCtrl>(peer);
 	auto patternTextureGridHeightCtrl = Gtk::make_managed<PatternTextureGridHeightCtrl>(peer);
 	auto textureAdvancedButton = Gtk::make_managed<TextureAdvancedButton>(peer);
-	auto patternWidget = Gtk::manage(pattern->CreateWidget(pattern));
+	auto patternWidget = pattern->CreateWidget(pattern);
 	auto textureInvertCtrl = Gtk::make_managed<TextureInvertCtrl>(peer);
 	auto textureAmplitudeCtrl = Gtk::make_managed<TextureAmplitudeCtrl>(peer);
 	auto patternPreview = Gtk::make_managed<PatternPreview>(peer);
@@ -117,7 +117,7 @@ void PatternTextureWidget::OnLoad()
 				patternHolder_.unset_child();
 				delete wp;
 				peer_->SetPattern(newPattern);
-				patternHolder_.set_child(*Gtk::manage(newPattern->CreateWidget(newPattern)));
+				patternHolder_.set_child(*newPattern->CreateWidget(newPattern));
 			}
 		}
 		delete dlg;
@@ -159,7 +159,7 @@ PatternTextureAdvancedWidget::PatternTextureAdvancedWidget(PatternTexturePtr pee
 	mainbox->append(*topbox);
 	mainbox->append(*motionCtrl);
 	mainbox->append(patternHolder_);
-	patternHolder_.set_child(*Gtk::manage(pattern->CreateWidget(pattern)));
+	patternHolder_.set_child(*pattern->CreateWidget(pattern));
 	
 	auto sidebox = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 	sidebox->append(*invertCtrl);
@@ -185,7 +185,7 @@ void PatternTextureAdvancedWidget::OnLoad()
 				patternHolder_.unset_child();
 				delete wp;
 				peer_->SetPattern(newPattern);
-				patternHolder_.set_child(*Gtk::manage(newPattern->CreateWidget(newPattern)));
+				patternHolder_.set_child(*newPattern->CreateWidget(newPattern));
 			}
 		}
 		delete dlg;

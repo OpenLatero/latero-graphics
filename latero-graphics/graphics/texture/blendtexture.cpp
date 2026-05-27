@@ -152,7 +152,7 @@ Gtk::Widget *BlendTexture::CreateWidget(TexturePtr ptr)
 {
 	BlendTexturePtr gen = boost::dynamic_pointer_cast<BlendTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new BlendTextureWidget(gen);
+	return Gtk::make_managed<BlendTextureWidget>(gen);
 }
 
 void BlendTexture::AppendXML(XMLOutputNode &root) const

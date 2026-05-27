@@ -124,7 +124,7 @@ Gtk::Widget *Line::CreateWidget(PatternPtr ptr)
 {
 	LinePtr gen = boost::dynamic_pointer_cast<Line>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
-	return new LineWidget(gen);
+	return Gtk::make_managed<LineWidget>(gen);
 }
 
 std::string Line::GetName()

@@ -62,7 +62,7 @@ Gtk::Widget *ComboTexture::CreateWidget(TexturePtr ptr)
 {
 	ComboTexturePtr gen = boost::dynamic_pointer_cast<ComboTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
-	return new GroupWidget(gen);
+	return Gtk::make_managed<GroupWidget>(gen);
 }
 
 
