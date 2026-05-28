@@ -6,8 +6,6 @@ Tactile rendering library for the Latero device. See [OpenLatero.org](http://Ope
 
 ### MacOS
 
-Last tested in May 2026 on MacOS Tahoe 26.5 with MacPorts 2.12.5.
-
 #### Install the latero library
 
 Follow [these instructions](https://github.com/OpenLatero/latero) to install the latero library.
