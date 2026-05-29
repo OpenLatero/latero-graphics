@@ -6,7 +6,7 @@ Tactile rendering library for the Latero device. See [OpenLatero.org](http://Ope
 
 ### MacOS
 
-#### Install the OpenLatero libraries
+#### Install OpenLatero libraries
 
 Install the [latero](https://github.com/OpenLatero/latero) library.
 
