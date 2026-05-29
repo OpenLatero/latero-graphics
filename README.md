@@ -12,7 +12,7 @@ Follow [these instructions](https://github.com/OpenLatero/latero) to install the
 
 #### Install dependencies
 
-Other dependencies can be installed through [MacPorts](https://www.macports.org) with the following command:
+The dependencies can be installed through [MacPorts](https://www.macports.org) with the following command:
 
 ```
 sudo port install ImageMagick gtkmm3 +quartz glib2 +quartz gsettings-desktop-schemas libxmlxx3 librsvg
