@@ -169,18 +169,13 @@ std::vector<XMLInputNode> XMLInputNode::GetChildren(std::string name) const
 	std::vector<XMLInputNode> rv;
 	if (!node_) return rv;
 
-	xmlpp::Node::const_NodeList list = node_->get_children();
-	for(xmlpp::Node::const_NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
+	for (const auto* node : node_->get_children())
 	{
-		const xmlpp::Node* node = *iter;
-		if (node->get_children().size())
+		if (dynamic_cast<const xmlpp::Element*>(node) && node->get_name() == name)
 		{
-			if (std::string(node->get_name()) == name)
-			{
-				XMLInputNode n = node;
-				n.SetPath(GetPath());
-				rv.push_back(n);
-			}
+			XMLInputNode n = node;
+			n.SetPath(GetPath());
+			rv.push_back(n);
 		}
 	}
 	return rv;
@@ -195,18 +190,13 @@ XMLInputNode XMLInputNode::GetChild(std::string name) const
 		return n;
 	}
 
-	xmlpp::Node::const_NodeList list = node_->get_children();
-	for(xmlpp::Node::const_NodeList::iterator iter = list.begin(); iter != list.end(); ++iter)
+	for (const auto* node : node_->get_children())
 	{
-		const xmlpp::Node* node = *iter;
-		if (node->get_children().size())
+		if (dynamic_cast<const xmlpp::Element*>(node) && node->get_name() == name)
 		{
-			if (std::string(node->get_name()) == name)
-			{
-				XMLInputNode n = node;
-				n.SetPath(GetPath());
-				return n;
-			}
+			XMLInputNode n = node;
+			n.SetPath(GetPath());
+			return n;
 		}
 	}
 
