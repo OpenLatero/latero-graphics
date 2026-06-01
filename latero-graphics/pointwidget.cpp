@@ -10,8 +10,8 @@ PointWidget::PointWidget(const Point &init, double xlim_min, double xlim_max, do
 {
 	if (showSliders)
 	{
-		auto xWidget = Gtk::make_managed<latero::graphics::gtk::HNumWidget>(xAdj_, 3, "mm");
-		auto yWidget = Gtk::make_managed<latero::graphics::gtk::HNumWidget>(yAdj_, 3, "mm");
+		auto xWidget = Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, xAdj_, 3, "mm");
+		auto yWidget = Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, yAdj_, 3, "mm");
 
 		append(*xWidget);
 		append(*yWidget);

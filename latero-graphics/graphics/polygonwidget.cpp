@@ -47,7 +47,7 @@ public:
 	PolygonRoundingOffsetCtrl(PolygonPtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetRoundingOffset(), 0, 50)), peer_(peer)
 	{
-		append(*Gtk::make_managed<latero::graphics::gtk::HNumWidget>("rounding offset", adj_, 1, "mm"));
+		append(*Gtk::make_managed<latero::graphics::gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,"rounding offset", adj_, 1, "mm"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonRoundingOffsetCtrl::OnChanged));
 	}
 	virtual ~PolygonRoundingOffsetCtrl() {};
@@ -63,7 +63,7 @@ public:
 	PolygonCornerBlendSizeCtrl(PolygonPtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetCornerBlendSize(), 0, 10)), peer_(peer)
 	{
-		auto widget = Gtk::make_managed<latero::graphics::gtk::HNumWidget>("blending size", adj_, 1, "mm");
+		auto widget = Gtk::make_managed<latero::graphics::gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,"blending size", adj_, 1, "mm");
 		widget->set_vexpand(true);
 		append(*widget);
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &PolygonCornerBlendSizeCtrl::OnChanged));

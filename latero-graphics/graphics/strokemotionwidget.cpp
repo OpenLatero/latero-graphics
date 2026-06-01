@@ -43,7 +43,7 @@ public:
 	StrokeMinMotionWidthCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMinMotionWidth(),0,20)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::HNumWidget>("min width", adj_, 1, units::mm));
+		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, "min width", adj_, 1, units::mm));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMinMotionWidthCtrl::OnChanged));
 	}
 	virtual ~StrokeMinMotionWidthCtrl() {};
@@ -59,7 +59,7 @@ public:
 	StrokeMotionVelCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),-100,100)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::HNumWidget>("velocity", adj_, 1, units::mm_per_sec));
+		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, "velocity", adj_, 1, units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMotionVelCtrl::OnChanged));
 	}
 	virtual ~StrokeMotionVelCtrl() {};
@@ -75,7 +75,7 @@ public:
 	StrokeSuperposedMotionRatioCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetSuperposedMotionRatio()*100,0,100)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::HNumWidget>("ratio", adj_, 0, units::percent));
+		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,"ratio", adj_, 0, units::percent));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeSuperposedMotionRatioCtrl::OnChanged));
 	}
 	virtual ~StrokeSuperposedMotionRatioCtrl() {};
@@ -92,7 +92,7 @@ public:
 	StrokeBlendMotionValueCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetBlendMotionValue()*100,0,100)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::HNumWidget>("blend value", adj_, 0, units::percent));
+		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,"blend value", adj_, 0, units::percent));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeBlendMotionValueCtrl::OnChanged));
 	}
 	virtual ~StrokeBlendMotionValueCtrl() {};

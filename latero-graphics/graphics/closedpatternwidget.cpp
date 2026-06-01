@@ -10,7 +10,7 @@ public:
 	ClosedPatternFillTextureGapCtrl(ClosedPatternPtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFillTextureGap(), -1, 50)), peer_(peer)
 	{
-		append(*Gtk::make_managed<latero::graphics::gtk::HNumWidget>("gap", adj_, 1, "mm"));
+		append(*Gtk::make_managed<latero::graphics::gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,"gap", adj_, 1, "mm"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureGapCtrl::OnChanged));
 	}
 	virtual ~ClosedPatternFillTextureGapCtrl() {};
@@ -26,7 +26,7 @@ public:
 	ClosedPatternFillTextureEdgeSizeCtrl(ClosedPatternPtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFillTextureEdgeSize(), 0, 50)), peer_(peer)
 	{
-		append(*Gtk::make_managed<latero::graphics::gtk::HNumWidget>("edge size", adj_, 1, "mm"));
+		append(*Gtk::make_managed<latero::graphics::gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, "edge size", adj_, 1, "mm"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &ClosedPatternFillTextureEdgeSizeCtrl::OnChanged));
 	}
 	virtual ~ClosedPatternFillTextureEdgeSizeCtrl() {};

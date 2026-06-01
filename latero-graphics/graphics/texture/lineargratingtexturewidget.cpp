@@ -14,7 +14,7 @@ public:
 	AngleWidget(LinearGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetAngle(),0,360)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::HNumWidget>("orientation", adj_, 1, units::degree));
+		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, "orientation", adj_, 1, units::degree));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &AngleWidget::OnChanged));
 	}

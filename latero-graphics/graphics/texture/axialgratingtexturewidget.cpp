@@ -12,7 +12,7 @@ public:
 	SeedAngleCtrl(AxialGratingTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetSeedAngle(),0,360)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::HNumWidget>("seed angle", adj_, 0, units::degree));
+		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, "seed angle", adj_, 0, units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &SeedAngleCtrl::OnChanged));
 	}
 	virtual ~SeedAngleCtrl() {};

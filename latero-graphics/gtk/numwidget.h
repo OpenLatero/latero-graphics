@@ -39,21 +39,15 @@ protected:
 
 };
 
-class HNumWidget : public NumWidget
+// TODO: Replace HVNumWidget with NumWidget
+class HVNumWidget : public NumWidget
 {
 public:
-	HNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
-	HNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
-	virtual ~HNumWidget() {}
+	HVNumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
+	HVNumWidget(Gtk::Orientation orient, const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
+	virtual ~HVNumWidget() {}
 };
 
-class VNumWidget : public NumWidget
-{
-public:
-	VNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
-	VNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
-	virtual ~VNumWidget() {}
-};
 
 
 } // namespace

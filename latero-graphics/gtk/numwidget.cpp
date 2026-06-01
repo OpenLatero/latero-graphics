@@ -119,17 +119,12 @@ Glib::ustring NumWidget::OnFormat(double v)
 }
 
 
-HNumWidget::HNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(Gtk::Orientation::HORIZONTAL,adj,digits,"",units) {}
+HVNumWidget::HVNumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
+	NumWidget(orient,adj,digits,"",units) {}
 
-VNumWidget::VNumWidget(Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(Gtk::Orientation::VERTICAL,adj,digits,"",units) {}
+HVNumWidget::HVNumWidget(Gtk::Orientation orient, const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
+	NumWidget(orient,adj,digits,name,units) {}
 
-HNumWidget::HNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(Gtk::Orientation::HORIZONTAL,adj,digits,name,units) {}
-
-VNumWidget::VNumWidget(const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(Gtk::Orientation::VERTICAL,adj,digits,name,units) {}
 
 } // namespace
 
