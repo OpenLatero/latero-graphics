@@ -124,7 +124,7 @@ void GratingRhythmWidget::OnRemoveCycle()
 GratingGapSizeWidget::GratingGapSizeWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetGapSize(),0,100)), peer_(peer)
 {
-	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, "gap size", adj_, 2, peer->GetUnits()));
+	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 2, "gap size", peer->GetUnits()));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &GratingGapSizeWidget::OnChanged));
 }
 void GratingGapSizeWidget::OnChanged() { peer_->SetGapSize(adj_->get_value()); }
@@ -135,7 +135,7 @@ void GratingGapSizeWidget::OnChanged() { peer_->SetGapSize(adj_->get_value()); }
 GratingRidgeSizeWidget::GratingRidgeSizeWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetRidgeSize(),0,100)), peer_(peer)
 {
-	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, "ridge size", adj_, 2, peer->GetUnits()));
+	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 2, "ridge size", peer->GetUnits()));
 	adj_->signal_value_changed().connect(
 		sigc::mem_fun(*this, &GratingRidgeSizeWidget::OnChanged));
 }
@@ -147,7 +147,7 @@ void GratingRidgeSizeWidget::OnChanged() { peer_->SetRidgeSize(adj_->get_value()
 GratingVelocityWidget::GratingVelocityWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), distAdj_(Gtk::Adjustment::create(peer->GetVel(),-100,100)), hzAdj_(Gtk::Adjustment::create(peer->GetVel(),-10,10)), peer_(peer)
 {
-	gtk::HVNumWidget *widget = Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, "velocity", distAdj_, 0, peer->GetUnits() + units::per_sec);
+	gtk::HVNumWidget *widget = Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, distAdj_, 0, "velocity", peer->GetUnits() + units::per_sec);
 	widget->AddUnits(units::hz,hzAdj_,2);
 	widget->SelectUnits(peer->GetVelUnits());
 	append(*widget);
@@ -174,7 +174,7 @@ void GratingVelocityWidget::OnChangedUnits(std::string units)
 GratingCenterWidget::GratingCenterWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(100*peer->GetCenter(),100*Grating::center_min,100*Grating::center_max)), peer_(peer)
 {
-	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,"center", adj_, 0, "%"));	adj_->signal_value_changed().connect(
+	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, "center", "%"));	adj_->signal_value_changed().connect(
 		sigc::mem_fun(*this, &GratingCenterWidget::OnChanged));
 }
 
@@ -364,7 +364,7 @@ AdvancedGratingWidget::AdvancedGratingWidget(GratingPtr peer) :
 GratingAmplitudeWidget::GratingAmplitudeWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
-	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,"amplitude", adj_, 0, units::percent));
+	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, "amplitude", units::percent));
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &GratingAmplitudeWidget::OnChanged));
 }
 void GratingAmplitudeWidget::OnChanged() { peer_->SetAmplitude(adj_->get_value()/100); }

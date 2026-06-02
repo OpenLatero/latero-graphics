@@ -13,7 +13,7 @@ public:
 	VibroTextureFreqCtrl(VibroTexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),Oscillator::freq_min,Oscillator::freq_max)), peer_(peer)
 	{
-		auto widget = Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, "frequency", adj_,1, units::hz);
+		auto widget = Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, adj_,1, "frequency", units::hz);
 		append(*widget);
 		widget->set_vexpand();
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VibroTextureFreqCtrl::OnChanged));

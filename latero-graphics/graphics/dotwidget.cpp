@@ -13,7 +13,7 @@ DotRadiusCtrl::DotRadiusCtrl(DotPtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetDotRadius(), 0.01, 20.0))
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotRadiusCtrl::OnChanged));
-	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,"radius",adj_,1,"mm"));
+	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,adj_,1,"radius","mm"));
 }
 void DotRadiusCtrl::OnChanged() { peer_->SetDotRadius(adj_->get_value()); }
 
@@ -24,7 +24,7 @@ DotHeightCtrl::DotHeightCtrl(DotPtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetHeight()*100, 1, 100))
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotHeightCtrl::OnChanged));
-	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,"height",adj_,0,"%"));
+	append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,adj_,0,"height","%"));
 }
 void DotHeightCtrl::OnChanged() { peer_->SetHeight(adj_->get_value()/100); };
 

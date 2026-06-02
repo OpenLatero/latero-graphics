@@ -122,7 +122,7 @@ Glib::ustring NumWidget::OnFormat(double v)
 HVNumWidget::HVNumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
 	NumWidget(orient,adj,digits,"",units) {}
 
-HVNumWidget::HVNumWidget(Gtk::Orientation orient, const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
+HVNumWidget::HVNumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, const char *name, std::string units) :
 	NumWidget(orient,adj,digits,name,units) {}
 
 
