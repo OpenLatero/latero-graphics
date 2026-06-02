@@ -7,14 +7,14 @@
 
 namespace latero::graphics::gtk {
 
-static const std::string units_default = "";
-static const std::string name_default = "";
+static const std::string units_none = "";
+static const std::string name_none = "";
 
 
 class NumWidget : public Gtk::Frame
 {
 public:
-	NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name = name_default, std::string units = units_default);
+	NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name = name_none, std::string units = units_none);
 	virtual ~NumWidget() {}
 	void AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits);
 	void SelectUnits(std::string units);
@@ -43,8 +43,8 @@ protected:
 class HVNumWidget : public NumWidget
 {
 public:
-	HVNumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
-	HVNumWidget(Gtk::Orientation orient, const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_default);
+	HVNumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_none);
+	HVNumWidget(Gtk::Orientation orient, const char *name, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_none);
 	virtual ~HVNumWidget() {}
 };
 
