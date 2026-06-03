@@ -39,16 +39,5 @@ protected:
 
 };
 
-// TODO: Replace HVNumWidget with NumWidget
-class HVNumWidget : public NumWidget
-{
-public:
-	HVNumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units_none);
-	HVNumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, const char *name, std::string units = units_none);
-	virtual ~HVNumWidget() {}
-};
-
-
-
 } // namespace
 

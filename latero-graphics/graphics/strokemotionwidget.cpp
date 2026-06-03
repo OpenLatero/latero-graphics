@@ -43,7 +43,7 @@ public:
 	StrokeMinMotionWidthCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMinMotionWidth(),0,20)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, "min width", units::mm));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, "min width", units::mm));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMinMotionWidthCtrl::OnChanged));
 	}
 	virtual ~StrokeMinMotionWidthCtrl() {};
@@ -59,7 +59,7 @@ public:
 	StrokeMotionVelCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),-100,100)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, "velocity", units::mm_per_sec));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, "velocity", units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeMotionVelCtrl::OnChanged));
 	}
 	virtual ~StrokeMotionVelCtrl() {};
@@ -75,7 +75,7 @@ public:
 	StrokeSuperposedMotionRatioCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetSuperposedMotionRatio()*100,0,100)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 0, "ratio", units::percent));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 0, "ratio", units::percent));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeSuperposedMotionRatioCtrl::OnChanged));
 	}
 	virtual ~StrokeSuperposedMotionRatioCtrl() {};
@@ -92,7 +92,7 @@ public:
 	StrokeBlendMotionValueCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetBlendMotionValue()*100,0,100)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 0, "blend value", units::percent));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 0, "blend value", units::percent));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeBlendMotionValueCtrl::OnChanged));
 	}
 	virtual ~StrokeBlendMotionValueCtrl() {};

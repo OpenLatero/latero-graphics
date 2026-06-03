@@ -118,14 +118,6 @@ Glib::ustring NumWidget::OnFormat(double v)
 	return Glib::ustring(stm.str().c_str());
 }
 
-
-HVNumWidget::HVNumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units) :
-	NumWidget(orient,adj,digits,"",units) {}
-
-HVNumWidget::HVNumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, const char *name, std::string units) :
-	NumWidget(orient,adj,digits,name,units) {}
-
-
 } // namespace
 
 

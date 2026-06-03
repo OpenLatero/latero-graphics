@@ -48,7 +48,7 @@ class DirCtrl : public Ctrl
 public:
 	DirCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirection(), 0, 360))
 	{
-		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 0, "direction", units::degree));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 0, "direction", units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirCtrl::OnChanged));
 	}
 protected:
@@ -61,7 +61,7 @@ class DirToleranceCtrl : public Ctrl
 public:
 	DirToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirTolerance(), 0, 180))
 	{
-		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, "direction tolerance", units::degree));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, "direction tolerance", units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirToleranceCtrl::OnChanged));
 	}
 protected:
@@ -74,7 +74,7 @@ class DirTransitionCtrl : public Ctrl
 public:
 	DirTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetDirTransition(), 1, 180))
 	{
-		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, "direction transition rate", units::degree));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, "direction transition rate", units::degree));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirTransitionCtrl::OnChanged));
 	}
 protected:
@@ -87,7 +87,7 @@ class VelToleranceCtrl : public Ctrl
 public:
 	VelToleranceCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetVelTolerance(), 0, 100))
 	{
-		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, "velocity tolerance", units::mm_per_sec));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, "velocity tolerance", units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelToleranceCtrl::OnChanged));
 	}
 protected:
@@ -100,7 +100,7 @@ class VelTransitionCtrl : public Ctrl
 public:
 	VelTransitionCtrl(DirModulatorPtr peer) : Ctrl(peer), adj_(Gtk::Adjustment::create(peer->GetVelTransition(), 0, 100))
 	{
-		append(*Gtk::make_managed<gtk::HVNumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 0, "velocity transition rate", units::mm_per_sec));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 0, "velocity transition rate", units::mm_per_sec));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelTransitionCtrl::OnChanged));
 	}
 protected:
