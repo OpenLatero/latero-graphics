@@ -7,6 +7,8 @@
 namespace latero::graphics {
 namespace units {
 
+static const std::string none = "";
+
 static const std::string percent = "%";
 static const std::string hz = "Hz";
 static const std::string per_sec = "/s";
