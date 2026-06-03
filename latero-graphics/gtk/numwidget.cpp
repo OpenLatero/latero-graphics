@@ -7,7 +7,7 @@ NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj,
 	units_(units),
 	spin_(adj)
 {
-	if (name != "") set_label(name);
+	if (name != name_none) set_label(name);
 
 	auto mainBox = Gtk::make_managed<Gtk::Box>(orient);
 	set_child(*mainBox);
@@ -109,7 +109,7 @@ Glib::ustring NumWidget::OnFormat(double v)
 	stm.setf(std::ios::fixed,std::ios::floatfield);
 	stm.precision(scale_->get_digits());
 	stm << v;
-	if (units_ != "")
+	if (units_ != units::none)
 	{
 		if ((units_ != units::percent)&&(units_ != units::degree)&&(units_ != units::degree_per_sec))
 			stm << " ";

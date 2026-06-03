@@ -79,7 +79,7 @@ XMLOutputNode XMLOutputNode::AddFilenameChild(std::string name, std::string valu
 
 void XMLOutputNode::SetUnitsAttribute(std::string units)
 {
-	if (units=="") return;
+	if (units==units::none) return;
 	if (units == units::degree)
 		element_->set_attribute("units","degree");
 	else if (units == units::degree_per_sec)

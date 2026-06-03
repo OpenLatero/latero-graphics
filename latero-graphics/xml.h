@@ -3,6 +3,7 @@
 #include <libxml++/libxml++.h>
 #include "point.h"
 #include <string>
+#include "units.h"
 
 namespace latero::graphics {
 
@@ -13,21 +14,21 @@ public:
 	virtual ~XMLOutputNode() {}
 
 	XMLOutputNode AddChild(std::string name);
-	XMLOutputNode AddChild(std::string name, double value, std::string units="");
+	XMLOutputNode AddChild(std::string name, double value, std::string units=units::none);
 	XMLOutputNode AddChild(std::string name, bool value);
-	XMLOutputNode AddChild(std::string name, int value, std::string units="");
-	XMLOutputNode AddChild(std::string name, unsigned int value, std::string units="");
+	XMLOutputNode AddChild(std::string name, int value, std::string units=units::none);
+	XMLOutputNode AddChild(std::string name, unsigned int value, std::string units=units::none);
 	XMLOutputNode AddChild(std::string name, std::string value);
-	XMLOutputNode AddChild(std::string name, const Point &value, std::string units="");
+	XMLOutputNode AddChild(std::string name, const Point &value, std::string units=units::none);
 	XMLOutputNode AddChild(std::string name, const char *value);
 	XMLOutputNode AddFilenameChild(std::string name, std::string value);
 
-	void SetText(double value, std::string units="");
+	void SetText(double value, std::string units=units::none);
 	void SetText(bool value);
-	void SetText(int value, std::string units="");
-	void SetText(unsigned int value, std::string units="");
+	void SetText(int value, std::string units=units::none);
+	void SetText(unsigned int value, std::string units=units::none);
 	void SetText(std::string str);
-	void SetText(const Point &p, std::string units="");
+	void SetText(const Point &p, std::string units=units::none);
 	void SetText(const char* str);
 	void SetTextFilename(std::string str);
 

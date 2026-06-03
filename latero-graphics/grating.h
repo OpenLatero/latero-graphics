@@ -22,7 +22,7 @@ public:
     constexpr static const double gap_max = 0.9;
 	static const InterpMode interp_default = interp_linear;
 
-	static GratingPtr Create(std::string units="")
+	static GratingPtr Create(std::string units=units::none)
 	{
 		return GratingPtr(new Grating(units));
 	}

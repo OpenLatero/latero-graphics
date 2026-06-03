@@ -17,7 +17,7 @@ public:
 	typedef NamedIDSet ModeSet;
 	static const Mode mode_slope, mode_peak;
 
-	static GratingModulatorPtr Create(std::string units="")
+	static GratingModulatorPtr Create(std::string units=units::none)
 	{
 		return GratingModulatorPtr(new GratingModulator(units));
 	}

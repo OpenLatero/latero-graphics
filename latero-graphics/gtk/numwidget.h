@@ -9,7 +9,6 @@ namespace latero::graphics::gtk {
 
 static const std::string name_none = "";
 
-
 class NumWidget : public Gtk::Frame
 {
 public:
