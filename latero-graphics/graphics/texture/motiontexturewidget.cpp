@@ -48,7 +48,7 @@ public:
 	DirectionCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), MotionTextureCtrl(peer),
 		adj_(Gtk::Adjustment::create(peer->GetDirection(),0,360))
 	{
-		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, "direction", units::degree));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, units::degree, "direction"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DirectionCtrl::OnChanged));
 	}
 	virtual ~DirectionCtrl() {};
@@ -63,7 +63,7 @@ public:
 	VelocityCtrl(MotionTexturePtr peer) : Gtk::Box(Gtk::Orientation::HORIZONTAL), MotionTextureCtrl(peer),
 		adj_(Gtk::Adjustment::create(peer->GetVelocity(),0,100))
 	{
-		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, "velocity", units::mm_per_sec));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, units::mm_per_sec, "velocity"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &VelocityCtrl::OnChanged));
 	}
 	virtual ~VelocityCtrl() {};

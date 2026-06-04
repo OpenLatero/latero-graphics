@@ -35,7 +35,7 @@ public:
 	CircleRadiusCtrl(CirclePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetRadius(), 0.1, 100.0)), peer_(peer)
 	{
-		append(*Gtk::make_managed<latero::graphics::gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, "radius", "mm"));
+		append(*Gtk::make_managed<latero::graphics::gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, "mm", "radius"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &CircleRadiusCtrl::OnChanged));
 	}
 	virtual ~CircleRadiusCtrl() {};

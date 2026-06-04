@@ -186,7 +186,7 @@ public:
 		wAbsAdj_(Gtk::Adjustment::create(peer->GetWidth(units::mm),1,2000)),
 		hAbsAdj_(Gtk::Adjustment::create(peer->GetHeight(units::mm),1,2000))
 	{
-		gtk::NumWidget *wWidget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, wRelAdj_, 0, "width",units::percent);
+		gtk::NumWidget *wWidget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, wRelAdj_, 0, units::percent,"width");
 		wWidget->AddUnits(units::mm, wAbsAdj_, 0);
 		wWidget->SelectUnits(peer->GetWidthUnits());
 		append(*wWidget);
@@ -194,7 +194,7 @@ public:
 		wAbsAdj_->signal_value_changed().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnAbsWidthChanged));
 		wWidget->SignalUnitsChanged().connect(sigc::mem_fun(*this, &MaskSizeCtrl::OnWidthUnitsChanged));
 
-		gtk::NumWidget *hWidget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,hRelAdj_,0, "height",units::percent);
+		gtk::NumWidget *hWidget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,hRelAdj_,0, units::percent,"height");
 		hWidget->AddUnits(units::mm, hAbsAdj_, 0);
 		hWidget->SelectUnits(peer->GetHeightUnits());
 		append(*hWidget);

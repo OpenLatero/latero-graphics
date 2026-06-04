@@ -3,7 +3,7 @@
 
 namespace latero::graphics::gtk {
 
-NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string name, std::string units) :
+NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units, std::string name) :
 	units_(units),
 	spin_(adj)
 {

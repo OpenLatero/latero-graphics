@@ -16,7 +16,7 @@ public:
 	StrokeIntensityCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetIntensity()*100,0,100)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 1, "stroke intensity", "%"));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 1, "%", "stroke intensity"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeIntensityCtrl::OnChanged));
 	}
 	virtual ~StrokeIntensityCtrl() {};
@@ -33,7 +33,7 @@ public:
 	StrokeWidthCtrl(StrokePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetWidth(),0,50.0)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 1, "stroke width", "mm"));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_, 1, "mm", "stroke width"));
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &StrokeWidthCtrl::OnChanged));
 	}
 	virtual ~StrokeWidthCtrl() {};
