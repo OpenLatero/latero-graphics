@@ -38,7 +38,7 @@ public:
 	GratingModulatorFactorWidget(GratingModulatorPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetFactor(),0.1,10)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, units::none, gtk::name_none));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, units::none));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorFactorWidget::OnChanged));
 	}
@@ -55,7 +55,7 @@ public:
 	GratingModulatorLengthWidget(GratingModulatorPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetLength(),1,300)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, peer->GetUnits(), gtk::name_none));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, peer->GetUnits()));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorLengthWidget::OnChanged));
 	}
@@ -72,7 +72,7 @@ public:
 	GratingModulatorPosWidget(GratingModulatorPtr peer) :
 		Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(peer->GetPosition(),0,360)), peer_(peer)
 	{
-		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_,0,peer->GetUnits(),gtk::name_none));
+		append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_,0,peer->GetUnits()));
 		adj_->signal_value_changed().connect(
 			sigc::mem_fun(*this, &GratingModulatorPosWidget::OnChanged));
 	}

@@ -7,12 +7,10 @@
 
 namespace latero::graphics::gtk {
 
-static const std::string name_none = "";
-
 class NumWidget : public Gtk::Frame
 {
 public:
-	NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units = units::none, std::string name = name_none);
+	NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units, std::string name = "");
 	virtual ~NumWidget() {}
 	void AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits);
 	void SelectUnits(std::string units);

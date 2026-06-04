@@ -120,7 +120,7 @@ void TextureTDCentricCtrl::OnPosChanged() { peer_->SetTDCentricPos(point_.GetVal
 TextureAmplitudeCtrl::TextureAmplitudeCtrl(TexturePtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
-	auto widget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::VERTICAL, adj_,0, units::percent, gtk::name_none);
+	auto widget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::VERTICAL, adj_,0, units::percent);
 	append(*widget);
 	widget->set_hexpand();
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureAmplitudeCtrl::OnChanged));
@@ -146,7 +146,7 @@ public:
 	TextureMotionDirectionCtrl(TexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionDirection(),0,360)), peer_(peer)
 	{
-		auto widget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_,0, units::degree, gtk::name_none);
+		auto widget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_,0, units::degree);
 		append(*widget);
 		widget->set_vexpand();
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionDirectionCtrl::OnChanged));
@@ -166,7 +166,7 @@ public:
 	TextureMotionVelocityCtrl(TexturePtr peer) :
 		Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetMotionVelocity(),0,100)), peer_(peer)
 	{
-		auto widget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, units::mm_per_sec, gtk::name_none);
+		auto widget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 1, units::mm_per_sec);
 		append(*widget);
 		widget->set_vexpand();
 		adj_->signal_value_changed().connect(sigc::mem_fun(*this, &TextureMotionVelocityCtrl::OnChanged));

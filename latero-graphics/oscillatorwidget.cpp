@@ -41,7 +41,7 @@ OscillatorEnableCheck::OscillatorEnableCheck(OscillatorPtr peer) :
 OscillatorAmplitudeCtrl::OscillatorAmplitudeCtrl(OscillatorPtr peer) :
     Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetAmplitude()*100,0,100)), peer_(peer)
 {
-	auto widget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_,0, units::percent,gtk::name_none);
+	auto widget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_,0, units::percent);
 	append(*widget);
 	widget->set_vexpand();
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &OscillatorAmplitudeCtrl::OnChanged));
@@ -52,7 +52,7 @@ void OscillatorAmplitudeCtrl::OnChanged() { peer_->SetAmplitude(adj_->get_value(
 OscillatorFreqCtrl::OscillatorFreqCtrl(OscillatorPtr peer) :
     Gtk::Box(Gtk::Orientation::VERTICAL), adj_(Gtk::Adjustment::create(peer->GetFreq(),0.1,50)), peer_(peer)
 {
-	auto widget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_,0, units::hz, gtk::name_none);
+	auto widget = Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_,0, units::hz);
 	append(*widget);
 	widget->set_vexpand();
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &OscillatorFreqCtrl::OnChanged));

@@ -7,7 +7,7 @@ NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj,
 	units_(units),
 	spin_(adj)
 {
-	if (name != name_none) set_label(name);
+	if (name != "") set_label(name);
 
 	auto mainBox = Gtk::make_managed<Gtk::Box>(orient);
 	set_child(*mainBox);

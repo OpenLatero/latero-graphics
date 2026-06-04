@@ -146,8 +146,8 @@ public:
 	{
 		auto box = Gtk::make_managed<Gtk::Box>(Gtk::Orientation::HORIZONTAL);
 		set_child(*box);
-		box->append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::VERTICAL, adj0_,0, units::percent, gtk::name_none));
-		box->append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::VERTICAL, adj1_,0, units::percent, gtk::name_none));
+		box->append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::VERTICAL, adj0_,0, units::percent));
+		box->append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::VERTICAL, adj1_,0, units::percent));
 		adj0_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged0));
 		adj1_->signal_value_changed().connect(sigc::mem_fun(*this, &AmplitudeCtrl::OnChanged1));
 	}

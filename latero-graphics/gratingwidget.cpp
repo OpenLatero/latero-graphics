@@ -101,7 +101,7 @@ void GratingRhythmWidget::AppendCycle(double value)
 	adjVec_.push_back(adj);
 	adj->signal_value_changed().connect(sigc::mem_fun(*this, &GratingRhythmWidget::OnChanged));
 
-	auto widget = Gtk::make_managed<latero::graphics::gtk::NumWidget>(Gtk::Orientation::VERTICAL, adj,0,units::none,gtk::name_none);
+	auto widget = Gtk::make_managed<latero::graphics::gtk::NumWidget>(Gtk::Orientation::VERTICAL, adj,0,units::none);
 	widget_.push_back(widget);
 	sliderBox_.append(*widget);
 }
