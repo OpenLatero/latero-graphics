@@ -49,6 +49,14 @@ or in a single command:
 cmake --preset default && cmake --build build && sudo cmake --install build
 ```
 
+#### Build the documentation
+
+Run this command to build the documentation, which can then be found in /docs/html.
+
+```
+cmake --build build --target doc
+```
+
 ### Cygwin
 
 **Step 1: Install the latero library**

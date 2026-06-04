@@ -40,7 +40,8 @@ add_subdirectory (media)
 # generate doc if Doxygen is found
 FIND_PACKAGE(Doxygen)
 IF (DOXYGEN_FOUND)
-  ADD_CUSTOM_TARGET(doc ${DOXYGEN_EXECUTABLE} doxygen.cfg)
+  ADD_CUSTOM_TARGET(doc ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/doxygen.cfg
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 ENDIF(DOXYGEN_FOUND)
 
 # Create and install cmake config file
