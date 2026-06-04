@@ -51,11 +51,12 @@ cmake --preset default && cmake --build build && sudo cmake --install build
 
 #### Build the documentation
 
-Run this command to build the documentation, which can then be found in /docs/html.
+Run this command to build and open the documentation:
 
 ```
-cmake --build build --target doc
+cmake --build build --target doc && open docs/html/index.html
 ```
+
 
 ### Cygwin
 
