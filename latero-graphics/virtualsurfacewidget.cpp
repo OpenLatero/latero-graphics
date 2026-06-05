@@ -16,19 +16,14 @@
 
 #define UPDATE_RATE_MS 300
 
-/*
-Notes:
-- VirtualSurfaceArea is not use anywhere except here. There is a copy of it in latero-demo and latero-graphics-demo.
-*/
-
 namespace latero::graphics {
  
 VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
-	showCursor_(false), showBorder_(false), animateCursor_(true),
+	showCursor_(false), animateCursor_(true),
 	dev_(dev),
 	tdAngle_(0),
 	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY()),
-	rounded_(false),
+	//rounded_(false),
 	disablePopup_(false)
 {
 	Clear(0xffffffff);
@@ -109,13 +104,6 @@ void VirtualSurfaceArea::OnSave()
 	anim_.SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
 }
 
-
-
-void VirtualSurfaceArea::SetRounded(bool v)
-{
-	rounded_ = v;
-}
-
 VirtualSurfaceArea::~VirtualSurfaceArea()
 {
 	if (popupMenu_) popupMenu_->unparent();
@@ -124,12 +112,6 @@ VirtualSurfaceArea::~VirtualSurfaceArea()
 
 void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
-	if (rounded_)
-	{
-		DrawBorderPath(cr);
-    	cr->clip();
-    }
-
     if (!anim_.GetNbFrames())
     {
     	cr->set_source_rgb(1.0, 1.0, 1.0);
@@ -150,7 +132,6 @@ void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int wid
     }
 
     if (showCursor_)    DrawCursor(cr);
-    if (showBorder_)    DrawBorder(cr);
 }
 
 
@@ -260,33 +241,6 @@ void VirtualSurfaceArea::DrawCursor(const Cairo::RefPtr<Cairo::Context> &cr)
 	cr->paint();
 }
 
-void VirtualSurfaceArea::DrawBorderPath(const Cairo::RefPtr<Cairo::Context> &cr)
-{
-	int radius = 0.1 * GetWidth();
-
-	int l = 0;
-	int t = 0;
-	int r = l + GetWidth();
-	int b = t + GetHeight();
-
-	cr->set_line_width(5.0);
-
-	cr->move_to(l, b-radius);
-	cr->arc(l + radius, t + radius, radius, M_PI, 1.5*M_PI);
-	cr->arc(r - radius, t + radius, radius, 1.5*M_PI, 2.0*M_PI);
-	cr->arc(r - radius, b - radius, radius, 0.0*M_PI, 0.5*M_PI);
-	cr->arc(l + radius, b - radius, radius, 0.5*M_PI, 1.0*M_PI);
-}
-
-
-void VirtualSurfaceArea::DrawBorder(const Cairo::RefPtr<Cairo::Context> &cr)
-{
-	cr->save();
-	cr->set_source_rgba(0.0, 0.0, 1.0, 1.0);
-	DrawBorderPath(cr);
-	cr->stroke();
-	cr->restore();
-}
 
 Gdk::Rectangle VirtualSurfaceArea::GetDisplayFootprint(uint border)
 {
@@ -349,14 +303,6 @@ void VirtualSurfaceArea::ShowCursor(bool v)
 	}
 }
 
-void VirtualSurfaceArea::ShowBorder(bool v)
-{
-	if (showBorder_ != v)
-	{
-		showBorder_ = v;
-		Invalidate();
-	}
-}
 
 void VirtualSurfaceArea::Invalidate()
 {

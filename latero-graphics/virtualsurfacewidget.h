@@ -18,11 +18,9 @@ public:
 	void Set(latero::graphics::gtk::Animation &anim);
 	void Set(Glib::RefPtr<Gdk::Pixbuf> buf);
 	latero::graphics::gtk::Animation GetIllustration();
-	void SetRounded(bool v=true);
 
 	void SetDisplayState(const Point &position, double angle, const latero::BiasedImg &frame);
 
-	void ShowBorder(bool v = true);
 	void ShowCursor(bool v = true);
 	void AnimateCursor(bool v = true);
 
@@ -53,19 +51,16 @@ protected:
 	inline double dpmm_y() { return GetHeight() / dev_->GetSurfaceHeight(); }
 
 	Gdk::Rectangle GetDisplayFootprint(uint border);
-	void DrawBorder(const Cairo::RefPtr<Cairo::Context> &cr);
-	void DrawBorderPath(const Cairo::RefPtr<Cairo::Context> &cr);
 
 	Cairo::RefPtr<Cairo::Pattern> GetCursorDrawing(const Cairo::RefPtr<Cairo::Context> &cr);
 
 	void DrawCursor(const Cairo::RefPtr<Cairo::Context> &cr);
 
-	//virtual bool on_expose_event(GdkEventExpose* event);
     void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height);
 
 protected:
     
-	bool showCursor_, showBorder_, animateCursor_;
+	bool showCursor_, animateCursor_;
 
 	latero::graphics::gtk::Animation anim_;
 
@@ -75,7 +70,6 @@ protected:
 	Point tdPos_;
 	double tdAngle_;
 	latero::BiasedImg tdState_;
-	bool rounded_;
 	bool disablePopup_;
 };
 
@@ -111,20 +105,12 @@ public:
 		surface_.Set(buf);
 	}
 
-	inline void SetRounded(bool v=true) {
-		surface_.SetRounded(v);
-	}
-
 	inline latero::graphics::gtk::Animation GetIllustration() {
 		return surface_.GetIllustration();
 	}
 
 	inline void SetDisplayState(const Point &position, double angle, const latero::BiasedImg &frame) {
 		surface_.SetDisplayState(position, angle, frame);
-	}
-
-	inline void ShowBorder(bool v = true) {
-		surface_.ShowBorder(v);
 	}
 
 	inline void ShowCursor(bool v = true) {
