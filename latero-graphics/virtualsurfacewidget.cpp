@@ -16,6 +16,11 @@
 
 #define UPDATE_RATE_MS 300
 
+/*
+Notes:
+- VirtualSurfaceArea is not use anywhere except here. There is a copy of it in latero-demo and latero-graphics-demo.
+*/
+
 namespace latero::graphics {
  
 VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :

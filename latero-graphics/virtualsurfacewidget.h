@@ -1,10 +1,8 @@
 #pragma once
 
 #include <gtkmm.h>
-#include <latero/tactileimg.h>
 #include <latero/tactograph.h>
 #include "gtk/animation.h"
-#include "point.h"
 #include "generatorfwd.h"
 
 namespace latero::graphics {
