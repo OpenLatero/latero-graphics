@@ -2,6 +2,8 @@
 
 Tactile rendering library for the Latero device. See [OpenLatero.org](http://OpenLatero.org) for more information.
 
+Automatically-generated documentation for the latest version on GitHub can be found [here](https://openlatero.github.io/latero-graphics/).
+
 ## Installation
 
 ### MacOS
