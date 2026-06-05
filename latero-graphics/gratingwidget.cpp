@@ -174,7 +174,7 @@ void GratingVelocityWidget::OnChangedUnits(std::string units)
 GratingCenterWidget::GratingCenterWidget(GratingPtr peer) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL), adj_(Gtk::Adjustment::create(100*peer->GetCenter(),100*Grating::center_min,100*Grating::center_max)), peer_(peer)
 {
-	append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, "%", "center"));	adj_->signal_value_changed().connect(
+	append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL, adj_, 0, units::percent, "center"));	adj_->signal_value_changed().connect(
 		sigc::mem_fun(*this, &GratingCenterWidget::OnChanged));
 }
 

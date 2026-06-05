@@ -31,7 +31,7 @@ DotsRadiusCtrl::DotsRadiusCtrl(DotsPtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetDotRadius(), 0.01, 20.0))
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotsRadiusCtrl::OnChanged));
-	append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_,1,"mm","radius"));
+	append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_,1,units::mm,"radius"));
 }
 void DotsRadiusCtrl::OnChanged() { peer_->SetDotRadius(adj_->get_value()); }
 
@@ -42,7 +42,7 @@ DotsHeightCtrl::DotsHeightCtrl(DotsPtr peer) :
 	adj_(Gtk::Adjustment::create(peer->GetHeight()*100, 1, 100))
 {
 	adj_->signal_value_changed().connect(sigc::mem_fun(*this, &DotsHeightCtrl::OnChanged));
-	append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_,0,"%","height"));
+	append(*Gtk::make_managed<gtk::NumWidget>(Gtk::Orientation::HORIZONTAL,adj_,0,units::percent,"height"));
 }
 void DotsHeightCtrl::OnChanged() { peer_->SetHeight(adj_->get_value()/100); };
 
