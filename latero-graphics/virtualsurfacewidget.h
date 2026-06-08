@@ -32,7 +32,6 @@ protected:
 	const latero::Tactograph *dev_;
 };
 
-
 class VirtualSurfaceWidget : public Gtk::AspectFrame
 {
 public:

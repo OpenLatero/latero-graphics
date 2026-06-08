@@ -270,9 +270,6 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 	set_child(drawingArea_);
 	drawingArea_.set_expand();	
 
-	// TODO: enable these timeouts only when visible?!?
-	// TODO: when that's done, make sure everything 2D uses this version (e.g. Memory game)
-
 	drawingArea_.signal_resize().connect([this](int, int){ RefreshBackground(); });
 
 	Glib::signal_timeout().connect(
