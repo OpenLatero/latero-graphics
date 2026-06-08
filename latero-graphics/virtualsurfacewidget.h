@@ -8,7 +8,7 @@
 namespace latero::graphics {
 
 /** Use VirtualSurfaceWidget instead! */
-class VirtualSurfaceArea : public Gtk::DrawingArea
+class VirtualSurfaceArea
 {
 public:
 	VirtualSurfaceArea(const latero::Tactograph *dev);
@@ -24,8 +24,8 @@ public:
 	void ShowCursor(bool v = true);
 	void AnimateCursor(bool v = true);
 
-	inline uint GetWidth() { return get_width(); };
-	inline uint GetHeight() { return get_height(); };
+	inline uint GetWidth() { return drawingArea_.get_width(); };
+	inline uint GetHeight() { return drawingArea_.get_height(); };
 
 	void DisablePopup() { disablePopup_=true; }
 	void EnablePopup() { disablePopup_=false; }
@@ -34,6 +34,8 @@ public:
 
 	// tmp
 	inline Point GetDisplayPos() const { return tdPos_; }
+
+ 	Gtk::DrawingArea drawingArea_;
 
 protected:
 	void CreatePopupMenu();
@@ -85,8 +87,8 @@ public:
 		surface_(dev)
 	{
 		append(frame_);
-		frame_.set_child(surface_);
-		surface_.set_expand();
+		frame_.set_child(surface_.drawingArea_);
+		surface_.drawingArea_.set_expand();
 	}
 
 	virtual ~BaseVirtualSurfaceWidget()

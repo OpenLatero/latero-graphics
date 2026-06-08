@@ -54,9 +54,9 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 			if (drag->get_start_point(start_x, start_y))
 				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
 		});
-		add_controller(drag);
+		drawingArea_.add_controller(drag);
 	}
-    set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
+    drawingArea_.set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
 }
 
 void VirtualSurfaceArea::OnClick(int n_press, double x, double y)
@@ -73,12 +73,12 @@ void VirtualSurfaceArea::CreatePopupMenu()
 	auto gesture = Gtk::GestureClick::create();
 	gesture->set_button(GDK_BUTTON_SECONDARY);
 	gesture->signal_pressed().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnClick));
-	add_controller(gesture);
+	drawingArea_.add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
 	action_group->add_action("save", sigc::mem_fun(*this, &VirtualSurfaceArea::OnSave));
-	insert_action_group("virtualsurface", action_group);
+	drawingArea_.insert_action_group("virtualsurface", action_group);
 
 	// Define the popup menu using Builder XML
 	auto builder = Gtk::Builder::create_from_string(R"(
@@ -96,12 +96,12 @@ void VirtualSurfaceArea::CreatePopupMenu()
 	// Get the menu and create a Gtk::Menu from it
 	auto menu_model = std::dynamic_pointer_cast<Gio::MenuModel>(builder->get_object("PopupMenu"));
 	popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu_model);
-	popupMenu_->set_parent(*this);
+	popupMenu_->set_parent(drawingArea_);
 }
 
 void VirtualSurfaceArea::OnSave()
 {
-	anim_.SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
+	anim_.SaveToFile(dynamic_cast<Gtk::Window*>(drawingArea_.get_root()));
 }
 
 VirtualSurfaceArea::~VirtualSurfaceArea()
@@ -276,7 +276,7 @@ void VirtualSurfaceArea::SetDisplayState(const Point &pos, double angle, const l
 	Gdk::Rectangle invRect(oldBox);
 	invRect.join(newBox);
 
-	queue_draw();
+	drawingArea_.queue_draw();
 }
 
 void VirtualSurfaceArea::Clear(guint32 pixel)
@@ -306,7 +306,7 @@ void VirtualSurfaceArea::ShowCursor(bool v)
 
 void VirtualSurfaceArea::Invalidate()
 {
-    queue_draw();
+    drawingArea_.queue_draw();
 }
 
 
@@ -356,7 +356,7 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 	// TODO: enable these timeouts only when visible?!?
 	// TODO: when that's done, make sure everything 2D uses this version (e.g. Memory game)
 
-	surface_.signal_resize().connect([this](int, int){ RefreshBackground(); });
+	surface_.drawingArea_.signal_resize().connect([this](int, int){ RefreshBackground(); });
 
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &VirtualSurfaceWidget::RefreshCursor),
