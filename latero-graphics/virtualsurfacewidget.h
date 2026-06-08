@@ -18,9 +18,9 @@ public:
 	void AnimateCursor(bool v = true);
 
 
-	void Clear(guint32 pixel);
-	void Set(latero::graphics::gtk::Animation &anim);
-	void Set(Glib::RefPtr<Gdk::Pixbuf> buf);
+	void ClearBackground(guint32 pixel);
+	void SetBackground(latero::graphics::gtk::Animation &anim);
+	void SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf);
 
 
 
@@ -69,16 +69,18 @@ protected:
 class VirtualSurfaceWidget : public VirtualSurfaceArea
 {
 public:
+	/**
+	 * @param refreshBackground If true, VirtualSurfaceWidget will periodically check if the generator 
+	 * has been modified and will update the background if necessary.
+	 */
 	VirtualSurfaceWidget(const latero::Tactograph *dev, GeneratorPtr gen = GeneratorPtr(), bool refreshBackground=false);
 	virtual ~VirtualSurfaceWidget();
 	void SetGenerator(GeneratorPtr gen);
 
-	void RefreshBackground();
-	bool RefreshCursor();
 
 protected:
-	
-
+	void RefreshBackground();
+	bool RefreshCursor();
 
 	void OnEdit();
 	void OnSave();

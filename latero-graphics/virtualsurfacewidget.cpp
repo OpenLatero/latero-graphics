@@ -25,7 +25,7 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 	tdAngle_(0),
 	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY())
 {
-	Clear(0xffffffff);
+	ClearBackground(0xffffffff);
 
 	// TODO: The following was removed to temporarily disable animation. This saves a lot
 	// of processor time and makes the user interface much smoother.
@@ -232,11 +232,11 @@ void VirtualSurfaceArea::SetDisplayState(const Point &pos, double angle, const l
 	drawingArea_.queue_draw();
 }
 
-void VirtualSurfaceArea::Clear(guint32 pixel)
+void VirtualSurfaceArea::ClearBackground(guint32 pixel)
 {
 	if ((GetWidth()<=0)||(GetHeight()<=0))
 	{
-		std::cout << "VirtualSurfaceArea::Clear() called while width or height is zero. Ignoring.\n";
+		std::cout << "VirtualSurfaceArea::ClearBackground() called while width or height is zero. Ignoring.\n";
 		return;
 	}
 
@@ -244,7 +244,7 @@ void VirtualSurfaceArea::Clear(guint32 pixel)
 			Gdk::Colorspace::RGB, true, 8,
 			GetWidth(), GetHeight());
 	buf->fill(pixel);
-	Set(buf);
+	SetBackground(buf);
 }
 
 void VirtualSurfaceArea::ShowCursor(bool v)
@@ -263,13 +263,13 @@ void VirtualSurfaceArea::Invalidate()
 }
 
 
-void VirtualSurfaceArea::Set(latero::graphics::gtk::Animation &anim)
+void VirtualSurfaceArea::SetBackground(latero::graphics::gtk::Animation &anim)
 {
 	anim_ = anim;
 	Invalidate();
 }
 
-void VirtualSurfaceArea::Set(Glib::RefPtr<Gdk::Pixbuf> buf)
+void VirtualSurfaceArea::SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf)
 {
 	//std::stringstream stm;
 	//struct timeval tv;
@@ -282,7 +282,7 @@ void VirtualSurfaceArea::Set(Glib::RefPtr<Gdk::Pixbuf> buf)
 	//stm << time_string << ".png";
 	//buf->save(stm.str(), "png");
 	latero::graphics::gtk::Animation v(buf);
-	Set(v);
+	SetBackground(v);
 }
 
 void VirtualSurfaceArea::AnimateCursor(bool v)
@@ -379,7 +379,6 @@ void VirtualSurfaceWidget::CreatePopupMenu()
 
 void VirtualSurfaceWidget::OnClick(int n_press, double x, double y)
 {
-	std::cout << "VirtualSurfaceWidget::OnClick\n";
 	popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
 	popupMenu_->popup();
 }
@@ -422,7 +421,6 @@ void VirtualSurfaceWidget::OnEdit()
 
 void VirtualSurfaceWidget::OnSaveCanvasAs()
 {
-	std::cout << "VirtualSurfaceWidget::OnSaveCanvasAs\n";
 	if (peer_)
 	{
 		auto dialog = Gtk::FileDialog::create();
@@ -482,7 +480,7 @@ void VirtualSurfaceWidget::RefreshBackground()
 	if (peer_)
 	{
 		latero::graphics::gtk::Animation anim = peer_->GetIllustration(GetWidth(), boost::posix_time::seconds(0));
-		Set(anim);
+		SetBackground(anim);
 	}
 }
 
@@ -490,7 +488,7 @@ void VirtualSurfaceWidget::RefreshBackground()
 void VirtualSurfaceWidget::SetGenerator(GeneratorPtr gen)
 {
 	peer_ = gen;
-	//RefreshBackground();
+	RefreshBackground();
 }
 
 
