@@ -75,69 +75,7 @@ protected:
 	bool disablePopup_;
 };
 
-/**
- * This widget represents the virtual surface explored by a tactile display. It is implement as an AspectFrame enclosing a 
- * DrawingArea so that the aspect ratio can be maintained.
- */
-class BaseVirtualSurfaceWidget : public Gtk::Box
-{
-public:
-	BaseVirtualSurfaceWidget(const latero::Tactograph *dev) :
-		surface_(dev)
-	{
-		append(surface_);
-	}
-
-	virtual ~BaseVirtualSurfaceWidget()
-	{
-	}
-	
-	inline void Clear(guint32 pixel) {
-		surface_.Clear(pixel);
-	}
-
-	inline void Set(latero::graphics::gtk::Animation &anim) {
-		surface_.Set(anim);
-	}
-
-	inline void Set(Glib::RefPtr<Gdk::Pixbuf> buf) {
-		surface_.Set(buf);
-	}
-
-	inline latero::graphics::gtk::Animation GetIllustration() {
-		return surface_.GetIllustration();
-	}
-
-	inline void SetDisplayState(const Point &position, double angle, const latero::BiasedImg &frame) {
-		surface_.SetDisplayState(position, angle, frame);
-	}
-
-	inline void ShowCursor(bool v = true) {
-		surface_.ShowCursor(v);
-	}
-
-	inline uint GetWidth() {
-		return surface_.GetWidth();
-	}
-
-	inline uint GetHeight() {
-		return surface_.GetHeight();
-	}
-
-	inline void AnimateCursor(bool v = true) {
-		surface_.AnimateCursor(v);
-	}
-
-	inline Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext) {
-		return surface_.GetDisplayDrawing(mmContext);
-	}
-
-protected:
-	//Gtk::AspectFrame frame_;
-	VirtualSurfaceArea surface_;
-};
-
-class VirtualSurfaceWidget : public BaseVirtualSurfaceWidget
+class VirtualSurfaceWidget : public VirtualSurfaceArea
 {
 public:
 	VirtualSurfaceWidget(const latero::Tactograph *dev, GeneratorPtr gen = GeneratorPtr(), bool refreshBackground=false);
@@ -146,8 +84,6 @@ public:
 	void RefreshBackground();
 	bool RefreshCursor();
 
-	// tmp
-	Point GetDisplayPos();
 protected:
 	void OnEdit();
 	void OnSave();

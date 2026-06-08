@@ -45,7 +45,7 @@ public:
 		latero::graphics::VirtualSurfaceWidget(dev),
 		peer_(peer)
 	{
-		surface_.drawingArea_.signal_resize().connect([this](int, int){ RefreshBackground(); });
+		drawingArea_.signal_resize().connect([this](int, int){ RefreshBackground(); });
 		Glib::signal_timeout().connect(
 			sigc::mem_fun(*this, &MaskSurfaceWidget::OnCheckPeer),
 			(uint)333, Glib::PRIORITY_DEFAULT_IDLE);

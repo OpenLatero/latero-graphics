@@ -353,13 +353,13 @@ Point VirtualSurfaceArea::GetClickPos(double x, double y)
     
 
 VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, GeneratorPtr gen, bool refreshBackground) :
-	BaseVirtualSurfaceWidget(dev),
+	VirtualSurfaceArea(dev),
 	peer_(gen)
 {
 	// TODO: enable these timeouts only when visible?!?
 	// TODO: when that's done, make sure everything 2D uses this version (e.g. Memory game)
 
-	surface_.drawingArea_.signal_resize().connect([this](int, int){ RefreshBackground(); });
+	drawingArea_.signal_resize().connect([this](int, int){ RefreshBackground(); });
 
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &VirtualSurfaceWidget::RefreshCursor),
@@ -374,7 +374,7 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 			Glib::PRIORITY_DEFAULT_IDLE);
 	}
 
-	surface_.DisablePopup();
+	DisablePopup();
 	CreatePopupMenu();
 }
 
@@ -443,7 +443,7 @@ void VirtualSurfaceWidget::OnClick(int n_press, double x, double y)
 
 void VirtualSurfaceWidget::OnSave()
 {
-	surface_.GetIllustration().SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
+	GetIllustration().SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
 }
 
 void VirtualSurfaceWidget::OnVisualize()
@@ -550,10 +550,6 @@ void VirtualSurfaceWidget::SetGenerator(GeneratorPtr gen)
 	//RefreshBackground();
 }
 
-Point VirtualSurfaceWidget::GetDisplayPos()
-{
-	return surface_.GetDisplayPos();
-}
 
 
 } // namespace
