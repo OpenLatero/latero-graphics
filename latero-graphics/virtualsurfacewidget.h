@@ -13,34 +13,25 @@ class VirtualSurfaceArea : public Gtk::AspectFrame
 public:
 	VirtualSurfaceArea(const latero::Tactograph *dev);
 	virtual ~VirtualSurfaceArea();
-	
-	void Clear(guint32 pixel);
-	void Set(latero::graphics::gtk::Animation &anim);
-	void Set(Glib::RefPtr<Gdk::Pixbuf> buf);
-	latero::graphics::gtk::Animation GetIllustration();
-
-	void SetDisplayState(const Point &position, double angle, const latero::BiasedImg &frame);
 
 	void ShowCursor(bool v = true);
 	void AnimateCursor(bool v = true);
 
-	inline uint GetWidth() { return drawingArea_.get_width(); };
-	inline uint GetHeight() { return drawingArea_.get_height(); };
 
-	void DisablePopup() { disablePopup_=true; }
-	void EnablePopup() { disablePopup_=false; }
+	void Clear(guint32 pixel);
+	void Set(latero::graphics::gtk::Animation &anim);
+	void Set(Glib::RefPtr<Gdk::Pixbuf> buf);
+
+
+
+protected:
+	void SetDisplayState(const Point &position, double angle, const latero::BiasedImg &frame);
 
 	Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext);
 
-	// tmp
-	inline Point GetDisplayPos() const { return tdPos_; }
+	inline uint GetWidth() { return drawingArea_.get_width(); };
+	inline uint GetHeight() { return drawingArea_.get_height(); };
 
- 	Gtk::DrawingArea drawingArea_;
-
-protected:
-	void CreatePopupMenu();
-	void OnClick(int n_press, double x, double y);
-	void OnSave();
     Point GetClickPos(double x, double y);
 
 	// invalidate the entire window
@@ -66,13 +57,13 @@ protected:
 
 	latero::graphics::gtk::Animation anim_;
 
-	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	const latero::Tactograph *dev_;
 
 	Point tdPos_;
 	double tdAngle_;
 	latero::BiasedImg tdState_;
-	bool disablePopup_;
+
+	Gtk::DrawingArea drawingArea_;
 };
 
 class VirtualSurfaceWidget : public VirtualSurfaceArea
@@ -81,10 +72,14 @@ public:
 	VirtualSurfaceWidget(const latero::Tactograph *dev, GeneratorPtr gen = GeneratorPtr(), bool refreshBackground=false);
 	virtual ~VirtualSurfaceWidget();
 	void SetGenerator(GeneratorPtr gen);
+
 	void RefreshBackground();
 	bool RefreshCursor();
 
 protected:
+	
+
+
 	void OnEdit();
 	void OnSave();
 	void OnSaveCanvas();

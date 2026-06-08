@@ -23,9 +23,7 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 	showCursor_(false), animateCursor_(true),
 	dev_(dev),
 	tdAngle_(0),
-	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY()),
-	//rounded_(false),
-	disablePopup_(false)
+	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY())
 {
 	Clear(0xffffffff);
 
@@ -36,8 +34,6 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 	//anim_.signal_current_frame_changed.connect(
 	//	sigc::mem_fun(*this, &VirtualSurfaceArea::Invalidate));
 
-	CreatePopupMenu();
-    
     if (dev->IsEmulated())
 	{
 		auto drag = Gtk::GestureDrag::create();
@@ -62,54 +58,8 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 	drawingArea_.set_expand();	
 }
 
-void VirtualSurfaceArea::OnClick(int n_press, double x, double y)
-{
-	if (!disablePopup_)
-	{
-		popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
-		popupMenu_->popup();
-	}
-}
-
-void VirtualSurfaceArea::CreatePopupMenu()
-{
-	auto gesture = Gtk::GestureClick::create();
-	gesture->set_button(GDK_BUTTON_SECONDARY);
-	gesture->signal_pressed().connect(sigc::mem_fun(*this, &VirtualSurfaceArea::OnClick));
-	drawingArea_.add_controller(gesture);
-
-	// Create action group and add actions
-	auto action_group = Gio::SimpleActionGroup::create();
-	action_group->add_action("save", sigc::mem_fun(*this, &VirtualSurfaceArea::OnSave));
-	drawingArea_.insert_action_group("virtualsurface", action_group);
-
-	// Define the popup menu using Builder XML
-	auto builder = Gtk::Builder::create_from_string(R"(
-	<?xml version="1.0" encoding="UTF-8"?>
-	<interface>
-  		<menu id="PopupMenu">
-    		<item>
-      			<attribute name="label">save</attribute>
-      			<attribute name="action">virtualsurface.save</attribute>
-    		</item>
-  		</menu>
-	</interface>
-	)");
-
-	// Get the menu and create a Gtk::Menu from it
-	auto menu_model = std::dynamic_pointer_cast<Gio::MenuModel>(builder->get_object("PopupMenu"));
-	popupMenu_ = std::make_unique<Gtk::PopoverMenu>(menu_model);
-	popupMenu_->set_parent(drawingArea_);
-}
-
-void VirtualSurfaceArea::OnSave()
-{
-	anim_.SaveToFile(dynamic_cast<Gtk::Window*>(drawingArea_.get_root()));
-}
-
 VirtualSurfaceArea::~VirtualSurfaceArea()
 {
-	if (popupMenu_) popupMenu_->unparent();
 	anim_.Deactivate();
 }
 
@@ -335,12 +285,6 @@ void VirtualSurfaceArea::Set(Glib::RefPtr<Gdk::Pixbuf> buf)
 	Set(v);
 }
 
-
-latero::graphics::gtk::Animation VirtualSurfaceArea::GetIllustration()
-{
-	return anim_;
-}
-
 void VirtualSurfaceArea::AnimateCursor(bool v)
 {
 	animateCursor_ = v;
@@ -374,7 +318,6 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 			Glib::PRIORITY_DEFAULT_IDLE);
 	}
 
-	DisablePopup();
 	CreatePopupMenu();
 }
 
@@ -443,7 +386,7 @@ void VirtualSurfaceWidget::OnClick(int n_press, double x, double y)
 
 void VirtualSurfaceWidget::OnSave()
 {
-	GetIllustration().SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
+	anim_.SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
 }
 
 void VirtualSurfaceWidget::OnVisualize()
