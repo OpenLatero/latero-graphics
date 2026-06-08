@@ -147,50 +147,9 @@ Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetDisplayDrawing(const Cairo::RefPtr
 	return mmContext->pop_group();
 }
  
-VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
- 	Gtk::AspectFrame(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
-	dev_(dev),
-	cursorLayer_(dev)
-{
-	ClearBackground(0xffffffff);
 
-	// TODO: The following was removed to temporarily disable animation. This saves a lot
-	// of processor time and makes the user interface much smoother.
 
-	//anim_.Activate(UPDATE_RATE_MS);
-	//anim_.signal_current_frame_changed.connect(
-	//	sigc::mem_fun(*this, &VirtualSurfaceArea::Invalidate)); // Invalidate -> drawingArea_.queue_draw();
-
-    if (dev->IsEmulated())
-	{
-		auto drag = Gtk::GestureDrag::create();
-		drag->set_button(GDK_BUTTON_PRIMARY);
-		drag->signal_drag_begin().connect([this](double x, double y) {
-			dev_->SetEmulatedState(GetClickPos(x, y));
-		});
-		drag->signal_drag_update().connect([this, drag](double offset_x, double offset_y) {
-			double start_x, start_y;
-			if (drag->get_start_point(start_x, start_y))
-				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
-		});
-		drag->signal_drag_end().connect([this, drag](double offset_x, double offset_y) {
-			double start_x, start_y;
-			if (drag->get_start_point(start_x, start_y))
-				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
-		});
-		drawingArea_.add_controller(drag);
-	}
-    drawingArea_.set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
-	set_child(drawingArea_);
-	drawingArea_.set_expand();	
-}
-
-VirtualSurfaceArea::~VirtualSurfaceArea()
-{
-	anim_.Deactivate();
-}
-
-void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
+void VirtualSurfaceWidget::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
     if (!anim_.GetNbFrames())
     {
@@ -229,7 +188,7 @@ void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int wid
 
 
 
-void VirtualSurfaceArea::ClearBackground(guint32 pixel)
+void VirtualSurfaceWidget::ClearBackground(guint32 pixel)
 {
 	if ((drawingArea_.get_width()<=0)||(drawingArea_.get_height()<=0))
 	{
@@ -244,39 +203,73 @@ void VirtualSurfaceArea::ClearBackground(guint32 pixel)
 	SetBackground(buf);
 }
 
-void VirtualSurfaceArea::ShowCursor(bool v)
+void VirtualSurfaceWidget::ShowCursor(bool v)
 {
 	cursorLayer_.SetEnable(v);
 }
 
 
-void VirtualSurfaceArea::SetBackground(latero::graphics::gtk::Animation &anim)
+void VirtualSurfaceWidget::SetBackground(latero::graphics::gtk::Animation &anim)
 {
 	anim_ = anim;
 	drawingArea_.queue_draw();
 }
 
-void VirtualSurfaceArea::SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf)
+void VirtualSurfaceWidget::SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf)
 {
 	latero::graphics::gtk::Animation v(buf);
 	SetBackground(v);
 }
 
-void VirtualSurfaceArea::AnimateCursor(bool v)
+void VirtualSurfaceWidget::AnimateCursor(bool v)
 {
 	cursorLayer_.SetAnimate(v);
 }
     
-Point VirtualSurfaceArea::GetClickPos(double x, double y)
+Point VirtualSurfaceWidget::GetClickPos(double x, double y)
 {
     return Point(x * dev_->GetSurfaceWidth() / drawingArea_.get_width(), y * dev_->GetSurfaceHeight() / drawingArea_.get_height());
 }
     
 
 VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, GeneratorPtr gen, bool refreshBackground) :
-	VirtualSurfaceArea(dev),
+ 	Gtk::AspectFrame(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
+	dev_(dev),
+	cursorLayer_(dev),
 	peer_(gen)
 {
+	ClearBackground(0xffffffff);
+
+	// TODO: The following was removed to temporarily disable animation. This saves a lot
+	// of processor time and makes the user interface much smoother.
+
+	//anim_.Activate(UPDATE_RATE_MS);
+	//anim_.signal_current_frame_changed.connect(
+	//	sigc::mem_fun(*this, &VirtualSurfaceArea::Invalidate)); // Invalidate -> drawingArea_.queue_draw();
+
+    if (dev->IsEmulated())
+	{
+		auto drag = Gtk::GestureDrag::create();
+		drag->set_button(GDK_BUTTON_PRIMARY);
+		drag->signal_drag_begin().connect([this](double x, double y) {
+			dev_->SetEmulatedState(GetClickPos(x, y));
+		});
+		drag->signal_drag_update().connect([this, drag](double offset_x, double offset_y) {
+			double start_x, start_y;
+			if (drag->get_start_point(start_x, start_y))
+				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
+		});
+		drag->signal_drag_end().connect([this, drag](double offset_x, double offset_y) {
+			double start_x, start_y;
+			if (drag->get_start_point(start_x, start_y))
+				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
+		});
+		drawingArea_.add_controller(drag);
+	}
+    drawingArea_.set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceWidget::OnDraw));
+	set_child(drawingArea_);
+	drawingArea_.set_expand();	
+
 	// TODO: enable these timeouts only when visible?!?
 	// TODO: when that's done, make sure everything 2D uses this version (e.g. Memory game)
 
@@ -423,6 +416,7 @@ void VirtualSurfaceWidget::OnSaveCanvas()
 
 VirtualSurfaceWidget::~VirtualSurfaceWidget()
 {
+	anim_.Deactivate();
 	if (popupMenu_) popupMenu_->unparent();
 }
 

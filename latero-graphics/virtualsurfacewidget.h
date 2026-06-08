@@ -33,35 +33,7 @@ protected:
 };
 
 
-
-
-/** Use VirtualSurfaceWidget instead! */
-class VirtualSurfaceArea : public Gtk::AspectFrame
-{
-public:
-	VirtualSurfaceArea(const latero::Tactograph *dev);
-	virtual ~VirtualSurfaceArea();
-
-	void ShowCursor(bool v = true);
-	void AnimateCursor(bool v = true);
-
-	void ClearBackground(guint32 pixel);
-	void SetBackground(latero::graphics::gtk::Animation &anim);
-	void SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf);
-
-protected:
-
-    Point GetClickPos(double x, double y);
-    void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height);
-
-
-	latero::graphics::gtk::Animation anim_;
-	const latero::Tactograph *dev_;
-	CursorLayer cursorLayer_;
-	Gtk::DrawingArea drawingArea_;
-};
-
-class VirtualSurfaceWidget : public VirtualSurfaceArea
+class VirtualSurfaceWidget : public Gtk::AspectFrame
 {
 public:
 	/**
@@ -84,10 +56,18 @@ public:
 	 */
 	void SetGenerator(GeneratorPtr gen);
 
+	void ShowCursor(bool v = true);
+	void AnimateCursor(bool v = true);
+
+	void ClearBackground(guint32 pixel);
+	void SetBackground(latero::graphics::gtk::Animation &anim);
+	void SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf);
 
 protected:
 	void RefreshBackground();
 	bool RefreshCursor();
+    Point GetClickPos(double x, double y);
+    void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height);
 
 	void OnEdit();
 	void OnSave();
@@ -100,9 +80,16 @@ protected:
 	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	bool OnCheckPeer();
 
+	latero::graphics::gtk::Animation anim_;
+	const latero::Tactograph *dev_;
+	CursorLayer cursorLayer_;
+	Gtk::DrawingArea drawingArea_;
+
 private:
 	GeneratorPtr peer_;
 	boost::posix_time::ptime bgUpdateTime_;
+
+
 };
 
 } // namespace
