@@ -62,7 +62,7 @@ protected:
 	void RefreshBackground()
 	{
 		bgUpdateTime_ = boost::posix_time::microsec_clock::universal_time();
-		SetBackground(peer_->GetIllustration(GetWidth(),GetHeight()));
+		SetBackground(peer_->GetIllustration(drawingArea_.get_width(), drawingArea_.get_height()));
 	}
 
 private:

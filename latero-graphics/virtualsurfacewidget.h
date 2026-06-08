@@ -7,6 +7,34 @@
 
 namespace latero::graphics {
 
+class CursorLayer
+{
+public:
+	CursorLayer(const latero::Tactograph *dev);
+	~CursorLayer() {};
+	void Draw(const Cairo::RefPtr<Cairo::Context> &mmContext, double dpmm_x);
+
+	void SetAnimate(bool v=true) { animate_ = v; }
+	void SetEnable(bool v=true) { enable_ = v; }
+
+	void SetDisplayState(const Point &position, double angle, const latero::BiasedImg &frame);
+
+protected:
+	Cairo::RefPtr<Cairo::Pattern> GetCursorDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, double dpmm_x);
+	Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext);
+
+	Point tdPos_;
+	double tdAngle_;
+	latero::BiasedImg tdState_;
+
+	bool enable_;
+	bool animate_;
+	const latero::Tactograph *dev_;
+};
+
+
+
+
 /** Use VirtualSurfaceWidget instead! */
 class VirtualSurfaceArea : public Gtk::AspectFrame
 {
@@ -17,52 +45,19 @@ public:
 	void ShowCursor(bool v = true);
 	void AnimateCursor(bool v = true);
 
-
 	void ClearBackground(guint32 pixel);
 	void SetBackground(latero::graphics::gtk::Animation &anim);
 	void SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf);
 
-
-
 protected:
-	void SetDisplayState(const Point &position, double angle, const latero::BiasedImg &frame);
-
-	Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext);
-
-	inline uint GetWidth() { return drawingArea_.get_width(); };
-	inline uint GetHeight() { return drawingArea_.get_height(); };
 
     Point GetClickPos(double x, double y);
-
-	// invalidate the entire window
-	void Invalidate();
-
-	/** dots per mm in x */
-	inline double dpmm_x() { return GetWidth() / dev_->GetSurfaceWidth(); }
-
-	/** dots per mm in y */
-	inline double dpmm_y() { return GetHeight() / dev_->GetSurfaceHeight(); }
-
-	Gdk::Rectangle GetDisplayFootprint(uint border);
-
-	Cairo::RefPtr<Cairo::Pattern> GetCursorDrawing(const Cairo::RefPtr<Cairo::Context> &cr);
-
-	void DrawCursor(const Cairo::RefPtr<Cairo::Context> &cr);
-
     void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height);
 
-protected:
-    
-	bool showCursor_, animateCursor_;
 
 	latero::graphics::gtk::Animation anim_;
-
 	const latero::Tactograph *dev_;
-
-	Point tdPos_;
-	double tdAngle_;
-	latero::BiasedImg tdState_;
-
+	CursorLayer cursorLayer_;
 	Gtk::DrawingArea drawingArea_;
 };
 
@@ -70,11 +65,23 @@ class VirtualSurfaceWidget : public VirtualSurfaceArea
 {
 public:
 	/**
+	 * Constructor.
+	 * @param dev A const pointer to the Tactograph device used by the widget for dimensions and other specifications.
+	 * @param gen An optional pointer to the currently active Generator.
 	 * @param refreshBackground If true, VirtualSurfaceWidget will periodically check if the generator 
 	 * has been modified and will update the background if necessary.
 	 */
 	VirtualSurfaceWidget(const latero::Tactograph *dev, GeneratorPtr gen = GeneratorPtr(), bool refreshBackground=false);
+
+	/**
+	 * Destructor.
+	 */
 	virtual ~VirtualSurfaceWidget();
+
+	/**
+	 * Update the current generator. Triggers an update of the background.
+	 * @param gen The new generator to use.
+	 */
 	void SetGenerator(GeneratorPtr gen);
 
 

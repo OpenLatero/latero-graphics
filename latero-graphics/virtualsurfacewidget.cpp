@@ -17,80 +17,43 @@
 #define UPDATE_RATE_MS 300
 
 namespace latero::graphics {
- 
-VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
- 	Gtk::AspectFrame(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
-	showCursor_(false), animateCursor_(true),
-	dev_(dev),
+
+CursorLayer::CursorLayer(const latero::Tactograph *dev) : 
+	dev_(dev), 
+	enable_(false), 
+	animate_(true),
 	tdAngle_(0),
 	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY())
+ {
+
+ };
+
+void CursorLayer::SetDisplayState(const Point &pos, double angle, const latero::BiasedImg &f)
 {
-	ClearBackground(0xffffffff);
+	assert(f.Size() ==  tdState_.Size());
 
-	// TODO: The following was removed to temporarily disable animation. This saves a lot
-	// of processor time and makes the user interface much smoother.
+	if (std::isnan(angle)) angle = 0; // for some reason angle is sometimes nan
+	tdAngle_ = angle;
+	tdPos_ = pos;
+	tdState_ = f;
+}
 
-	//anim_.Activate(UPDATE_RATE_MS);
-	//anim_.signal_current_frame_changed.connect(
-	//	sigc::mem_fun(*this, &VirtualSurfaceArea::Invalidate));
-
-    if (dev->IsEmulated())
+void CursorLayer::Draw(const Cairo::RefPtr<Cairo::Context> &mmContext, double dpmm_x)
+{
+	if (enable_) 
 	{
-		auto drag = Gtk::GestureDrag::create();
-		drag->set_button(GDK_BUTTON_PRIMARY);
-		drag->signal_drag_begin().connect([this](double x, double y) {
-			dev_->SetEmulatedState(GetClickPos(x, y));
-		});
-		drag->signal_drag_update().connect([this, drag](double offset_x, double offset_y) {
-			double start_x, start_y;
-			if (drag->get_start_point(start_x, start_y))
-				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
-		});
-		drag->signal_drag_end().connect([this, drag](double offset_x, double offset_y) {
-			double start_x, start_y;
-			if (drag->get_start_point(start_x, start_y))
-				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
-		});
-		drawingArea_.add_controller(drag);
+		auto cursorDrawing = GetCursorDrawing(mmContext, dpmm_x);
+		mmContext->set_source(cursorDrawing);
+		mmContext->paint();
 	}
-    drawingArea_.set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
-	set_child(drawingArea_);
-	drawingArea_.set_expand();	
-}
-
-VirtualSurfaceArea::~VirtualSurfaceArea()
-{
-	anim_.Deactivate();
-}
-
-void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
-{
-    if (!anim_.GetNbFrames())
-    {
-    	cr->set_source_rgb(1.0, 1.0, 1.0);
-    	cr->paint();
-        return;
-    }
-
-	if (GetWidth() <= 0 || GetHeight() <= 0)
-		return;
-
-    Glib::RefPtr<Gdk::Pixbuf> buf = anim_.GetCurrentFrame();
-    if (buf)
-    {
-        // the animation might not have the right size
-        buf = buf->scale_simple(GetWidth(),GetHeight(),Gdk::InterpType::NEAREST);
-        Gdk::Cairo::set_source_pixbuf(cr, buf, 0, 0);
-        cr->paint();
-    }
-
-    if (showCursor_)    DrawCursor(cr);
 }
 
 
-Cairo::RefPtr<Cairo::Pattern> VirtualSurfaceArea::GetCursorDrawing(const Cairo::RefPtr<Cairo::Context> &cr)
+Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetCursorDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, double dpmm_x)
 {
-	cr->push_group();
+	mmContext->push_group();
+
+	double tdWidthPix = dev_->GetWidth() * dpmm_x; 
 
 	/**
 	 * @todo
@@ -99,33 +62,30 @@ Cairo::RefPtr<Cairo::Pattern> VirtualSurfaceArea::GetCursorDrawing(const Cairo::
 	 * catch any mistakes...
 	 */
 
-	cr->scale(dpmm_x(), dpmm_y());		// scale to mm
-
-	if ((GetWidth() < 300)||!animateCursor_) // TODO: find a good value
+	if ((tdWidthPix < 15)||!animate_) // TODO: find a good value
 	{
-		cr->translate(tdPos_.x, tdPos_.y);	// shift origin to center of TD
-		cr->rotate(-tdAngle_);			// line up with TD
+		mmContext->translate(tdPos_.x, tdPos_.y);	// shift origin to center of TD
+		mmContext->rotate(-tdAngle_);			// line up with TD
 
-		cr->set_line_width(0.0);
-		cr->set_source_rgba(1.0, 0.0, 0.0, 0.5);
-		cr->rectangle(
+		mmContext->set_line_width(0.0);
+		mmContext->set_source_rgba(1.0, 0.0, 0.0, 0.5);
+		mmContext->rectangle(
 			-dev_->GetWidth()/2.0,
 			-dev_->GetHeight()/2.0,
 			dev_->GetWidth(),
 			dev_->GetHeight());
-		cr->fill();
-		cr->stroke();
+		mmContext->fill();
+		mmContext->stroke();
 	}
 	else
 	{
-		cr->set_source(GetDisplayDrawing(cr));
-		cr->paint();
+		mmContext->set_source(GetDisplayDrawing(mmContext));
+		mmContext->paint();
 	}
-	return cr->pop_group();
+	return mmContext->pop_group();
 }
 
-Cairo::RefPtr<Cairo::Pattern>
-VirtualSurfaceArea::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext)
+Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext)
 {
 	mmContext->push_group();
 
@@ -186,55 +146,92 @@ VirtualSurfaceArea::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmCon
 	}
 	return mmContext->pop_group();
 }
-
-
-void VirtualSurfaceArea::DrawCursor(const Cairo::RefPtr<Cairo::Context> &cr)
+ 
+VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
+ 	Gtk::AspectFrame(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
+	dev_(dev),
+	cursorLayer_(dev)
 {
-	cr->set_source(GetCursorDrawing(cr));
-	cr->paint();
+	ClearBackground(0xffffffff);
+
+	// TODO: The following was removed to temporarily disable animation. This saves a lot
+	// of processor time and makes the user interface much smoother.
+
+	//anim_.Activate(UPDATE_RATE_MS);
+	//anim_.signal_current_frame_changed.connect(
+	//	sigc::mem_fun(*this, &VirtualSurfaceArea::Invalidate)); // Invalidate -> drawingArea_.queue_draw();
+
+    if (dev->IsEmulated())
+	{
+		auto drag = Gtk::GestureDrag::create();
+		drag->set_button(GDK_BUTTON_PRIMARY);
+		drag->signal_drag_begin().connect([this](double x, double y) {
+			dev_->SetEmulatedState(GetClickPos(x, y));
+		});
+		drag->signal_drag_update().connect([this, drag](double offset_x, double offset_y) {
+			double start_x, start_y;
+			if (drag->get_start_point(start_x, start_y))
+				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
+		});
+		drag->signal_drag_end().connect([this, drag](double offset_x, double offset_y) {
+			double start_x, start_y;
+			if (drag->get_start_point(start_x, start_y))
+				dev_->SetEmulatedState(GetClickPos(start_x + offset_x, start_y + offset_y));
+		});
+		drawingArea_.add_controller(drag);
+	}
+    drawingArea_.set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
+	set_child(drawingArea_);
+	drawingArea_.set_expand();	
+}
+
+VirtualSurfaceArea::~VirtualSurfaceArea()
+{
+	anim_.Deactivate();
+}
+
+void VirtualSurfaceArea::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
+{
+    if (!anim_.GetNbFrames())
+    {
+    	cr->set_source_rgb(1.0, 1.0, 1.0);
+    	cr->paint();
+        return;
+    }
+
+	if (width <= 0 || height <= 0)
+		return;
+
+    Glib::RefPtr<Gdk::Pixbuf> buf = anim_.GetCurrentFrame();
+    if (buf)
+    {
+        // the animation might not have the right size
+        buf = buf->scale_simple(width, height, Gdk::InterpType::NEAREST);
+        Gdk::Cairo::set_source_pixbuf(cr, buf, 0, 0);
+        cr->paint();
+    }
+
+	double dpmm_x = drawingArea_.get_width() / dev_->GetSurfaceWidth();
+	double dpmm_y = drawingArea_.get_height() / dev_->GetSurfaceHeight();
+
+	cr->save();
+	cr->scale(dpmm_x, dpmm_y); // scale to mm
+	cursorLayer_.Draw(cr, dpmm_x);
+	cr->restore();
 }
 
 
-Gdk::Rectangle VirtualSurfaceArea::GetDisplayFootprint(uint border)
-{
-	// to take into account any angle...
-	double diam = sqrt(dev_->GetWidth()*dev_->GetWidth() + dev_->GetHeight()*dev_->GetHeight());
 
-	float x0 = dpmm_x()*(tdPos_.x-diam/2.0) - border;
-	float y0 = dpmm_y()*(tdPos_.y-diam/2.0) - border;
-	float w = dpmm_x()*diam + 2*border;
-	float h = dpmm_y()*diam + 2*border;
-	
-	Gdk::Rectangle rv;
-	rv.set_x((int)floor(x0));
- 	rv.set_y((int)floor(y0));
-	rv.set_width((int)ceil(w));
-	rv.set_height((int)ceil(h));
 
-	return rv;
-}
 
-// TODO: pass State???
-void VirtualSurfaceArea::SetDisplayState(const Point &pos, double angle, const latero::BiasedImg &f)
-{
-	assert(f.Size() ==  tdState_.Size());
 
-	Gdk::Rectangle oldBox = GetDisplayFootprint(20);
-	if (std::isnan(angle)) angle = 0; // for some reason angle is sometimes nan
-	tdAngle_ = angle;
-	tdPos_ = pos;
-	tdState_ = f;
-	Gdk::Rectangle newBox = GetDisplayFootprint(20);
 
-	Gdk::Rectangle invRect(oldBox);
-	invRect.join(newBox);
 
-	drawingArea_.queue_draw();
-}
+
 
 void VirtualSurfaceArea::ClearBackground(guint32 pixel)
 {
-	if ((GetWidth()<=0)||(GetHeight()<=0))
+	if ((drawingArea_.get_width()<=0)||(drawingArea_.get_height()<=0))
 	{
 		std::cout << "VirtualSurfaceArea::ClearBackground() called while width or height is zero. Ignoring.\n";
 		return;
@@ -242,57 +239,37 @@ void VirtualSurfaceArea::ClearBackground(guint32 pixel)
 
 	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(
 			Gdk::Colorspace::RGB, true, 8,
-			GetWidth(), GetHeight());
+			drawingArea_.get_width(), drawingArea_.get_height());
 	buf->fill(pixel);
 	SetBackground(buf);
 }
 
 void VirtualSurfaceArea::ShowCursor(bool v)
 {
-	if (showCursor_ != v)
-	{
-		showCursor_ = v;
-		Invalidate();
-	}
-}
-
-
-void VirtualSurfaceArea::Invalidate()
-{
-    drawingArea_.queue_draw();
+	cursorLayer_.SetEnable(v);
 }
 
 
 void VirtualSurfaceArea::SetBackground(latero::graphics::gtk::Animation &anim)
 {
 	anim_ = anim;
-	Invalidate();
+	drawingArea_.queue_draw();
 }
 
 void VirtualSurfaceArea::SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf)
 {
-	//std::stringstream stm;
-	//struct timeval tv;
-	//struct tm* ptm;
-	//char time_string[40];
-	//long milliseconds;
-	//gettimeofday (&tv, NULL);
-	//ptm = localtime (&tv.tv_sec);
-	//strftime (time_string, sizeof (time_string), "%Y-%m-%d %H:%M:%S", ptm);
-	//stm << time_string << ".png";
-	//buf->save(stm.str(), "png");
 	latero::graphics::gtk::Animation v(buf);
 	SetBackground(v);
 }
 
 void VirtualSurfaceArea::AnimateCursor(bool v)
 {
-	animateCursor_ = v;
+	cursorLayer_.SetAnimate(v);
 }
     
 Point VirtualSurfaceArea::GetClickPos(double x, double y)
 {
-    return Point(x * dev_->GetSurfaceWidth() / GetWidth(), y * dev_->GetSurfaceHeight() / GetHeight());
+    return Point(x * dev_->GetSurfaceWidth() / drawingArea_.get_width(), y * dev_->GetSurfaceHeight() / drawingArea_.get_height());
 }
     
 
@@ -456,7 +433,8 @@ bool VirtualSurfaceWidget::RefreshCursor()
 		Point pos = peer_->GetDisplayCenter();
 		double angle = peer_->GetDisplayOrientation();
 		latero::BiasedImg frame = peer_->GetLatestFrame();
-		SetDisplayState(pos, angle, frame);
+		cursorLayer_.SetDisplayState(pos, angle, frame);
+		drawingArea_.queue_draw();
 	}
 	return true;
 }
@@ -479,7 +457,7 @@ void VirtualSurfaceWidget::RefreshBackground()
 	bgUpdateTime_ = boost::posix_time::microsec_clock::universal_time();
 	if (peer_)
 	{
-		latero::graphics::gtk::Animation anim = peer_->GetIllustration(GetWidth(), boost::posix_time::seconds(0));
+		auto anim = peer_->GetIllustration(drawingArea_.get_width(), boost::posix_time::seconds(0));
 		SetBackground(anim);
 	}
 }
