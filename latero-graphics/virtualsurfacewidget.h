@@ -8,7 +8,7 @@
 namespace latero::graphics {
 
 /** Use VirtualSurfaceWidget instead! */
-class VirtualSurfaceArea
+class VirtualSurfaceArea : public Gtk::AspectFrame
 {
 public:
 	VirtualSurfaceArea(const latero::Tactograph *dev);
@@ -83,12 +83,9 @@ class BaseVirtualSurfaceWidget : public Gtk::Box
 {
 public:
 	BaseVirtualSurfaceWidget(const latero::Tactograph *dev) :
- 		frame_(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
 		surface_(dev)
 	{
-		append(frame_);
-		frame_.set_child(surface_.drawingArea_);
-		surface_.drawingArea_.set_expand();
+		append(surface_);
 	}
 
 	virtual ~BaseVirtualSurfaceWidget()
@@ -136,7 +133,7 @@ public:
 	}
 
 protected:
-	Gtk::AspectFrame frame_;
+	//Gtk::AspectFrame frame_;
 	VirtualSurfaceArea surface_;
 };
 

@@ -19,6 +19,7 @@
 namespace latero::graphics {
  
 VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
+ 	Gtk::AspectFrame(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
 	showCursor_(false), animateCursor_(true),
 	dev_(dev),
 	tdAngle_(0),
@@ -57,6 +58,8 @@ VirtualSurfaceArea::VirtualSurfaceArea(const latero::Tactograph *dev) :
 		drawingArea_.add_controller(drag);
 	}
     drawingArea_.set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceArea::OnDraw));
+	set_child(drawingArea_);
+	drawingArea_.set_expand();	
 }
 
 void VirtualSurfaceArea::OnClick(int n_press, double x, double y)
