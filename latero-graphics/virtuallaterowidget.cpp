@@ -4,7 +4,7 @@
 
 namespace latero::graphics {
 
-VirtualLateroWidget::VirtualLateroWidget(const latero::Tactograph *dev, latero::graphics::GeneratorPtr gen) :
+VirtualLateroWidget::VirtualLateroWidget(const latero::TactileDisplay *dev, latero::graphics::GeneratorPtr gen) :
  	Gtk::AspectFrame(0.5, 0.5, dev->GetWidth()/dev->GetHeight(), false),
 	peer_(gen),
 	dev_(dev),

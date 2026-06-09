@@ -2,7 +2,7 @@
 
 #include <gtkmm.h>
 #include <latero/tactileimg.h>
-#include <latero/tactograph.h>
+#include <latero/tactiledisplay.h>
 #include <laterographics/generatorfwd.h>
 
 namespace latero::graphics {
@@ -10,7 +10,7 @@ namespace latero::graphics {
 class VirtualLateroWidget : public Gtk::AspectFrame
 {
 public:
-	VirtualLateroWidget(const latero::Tactograph *dev, latero::graphics::GeneratorPtr gen = latero::graphics::GeneratorPtr());
+	VirtualLateroWidget(const latero::TactileDisplay *dev, latero::graphics::GeneratorPtr gen = latero::graphics::GeneratorPtr());
 	virtual ~VirtualLateroWidget();
 	void SetGenerator(latero::graphics::GeneratorPtr gen);
 	
@@ -21,7 +21,7 @@ protected:
 
 	latero::graphics::GeneratorPtr peer_;
 	boost::posix_time::ptime bgUpdateTime_;
-    const latero::Tactograph *dev_;
+    const latero::TactileDisplay *dev_;
 	latero::BiasedImg tdState_;
 	Gtk::DrawingArea drawingArea_;
 };
