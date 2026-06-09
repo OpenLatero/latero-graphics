@@ -1,5 +1,5 @@
 #include <filesystem>
-#include "virtualsurfacewidget.h"
+#include "tactographview.h"
 #include "gtk/pixbufops.h"
 #include <math.h>
 #include "generator.h"
@@ -149,7 +149,7 @@ Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetDisplayDrawing(const Cairo::RefPtr
  
 
 
-void VirtualSurfaceWidget::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
+void TactographView::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
     if (!anim_.GetNbFrames())
     {
@@ -188,7 +188,7 @@ void VirtualSurfaceWidget::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int w
 
 
 
-void VirtualSurfaceWidget::ClearBackground(guint32 pixel)
+void TactographView::ClearBackground(guint32 pixel)
 {
 	if ((drawingArea_.get_width()<=0)||(drawingArea_.get_height()<=0))
 	{
@@ -203,36 +203,36 @@ void VirtualSurfaceWidget::ClearBackground(guint32 pixel)
 	SetBackground(buf);
 }
 
-void VirtualSurfaceWidget::ShowCursor(bool v)
+void TactographView::ShowCursor(bool v)
 {
 	cursorLayer_.SetEnable(v);
 }
 
 
-void VirtualSurfaceWidget::SetBackground(latero::graphics::gtk::Animation &anim)
+void TactographView::SetBackground(latero::graphics::gtk::Animation &anim)
 {
 	anim_ = anim;
 	drawingArea_.queue_draw();
 }
 
-void VirtualSurfaceWidget::SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf)
+void TactographView::SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf)
 {
 	latero::graphics::gtk::Animation v(buf);
 	SetBackground(v);
 }
 
-void VirtualSurfaceWidget::AnimateCursor(bool v)
+void TactographView::AnimateCursor(bool v)
 {
 	cursorLayer_.SetAnimate(v);
 }
     
-Point VirtualSurfaceWidget::GetClickPos(double x, double y)
+Point TactographView::GetClickPos(double x, double y)
 {
     return Point(x * dev_->GetSurfaceWidth() / drawingArea_.get_width(), y * dev_->GetSurfaceHeight() / drawingArea_.get_height());
 }
     
 
-VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, GeneratorPtr gen, bool refreshBackground) :
+TactographView::TactographView(const latero::Tactograph *dev, GeneratorPtr gen, bool refreshBackground) :
  	Gtk::AspectFrame(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
 	dev_(dev),
 	cursorLayer_(dev),
@@ -266,21 +266,21 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 		});
 		drawingArea_.add_controller(drag);
 	}
-    drawingArea_.set_draw_func(sigc::mem_fun(*this, &VirtualSurfaceWidget::OnDraw));
+    drawingArea_.set_draw_func(sigc::mem_fun(*this, &TactographView::OnDraw));
 	set_child(drawingArea_);
 	drawingArea_.set_expand();	
 
 	drawingArea_.signal_resize().connect([this](int, int){ RefreshBackground(); });
 
 	Glib::signal_timeout().connect(
-		sigc::mem_fun(*this, &VirtualSurfaceWidget::RefreshCursor),
+		sigc::mem_fun(*this, &TactographView::RefreshCursor),
 		(uint)33, // ms
 		Glib::PRIORITY_DEFAULT_IDLE);
 
 	if (refreshBackground)
 	{
 		Glib::signal_timeout().connect(
-			sigc::mem_fun(*this, &VirtualSurfaceWidget::OnCheckPeer),
+			sigc::mem_fun(*this, &TactographView::OnCheckPeer),
 			(uint)333, // ms
 			Glib::PRIORITY_DEFAULT_IDLE);
 	}
@@ -288,21 +288,21 @@ VirtualSurfaceWidget::VirtualSurfaceWidget(const latero::Tactograph *dev, Genera
 	CreatePopupMenu();
 }
 
-void VirtualSurfaceWidget::CreatePopupMenu()
+void TactographView::CreatePopupMenu()
 {
 	auto gesture = Gtk::GestureClick::create();
 	gesture->set_button(GDK_BUTTON_SECONDARY);
-	gesture->signal_pressed().connect(sigc::mem_fun(*this, &VirtualSurfaceWidget::OnClick));
+	gesture->signal_pressed().connect(sigc::mem_fun(*this, &TactographView::OnClick));
 	add_controller(gesture);
 
 	// Create action group and add actions
 	auto action_group = Gio::SimpleActionGroup::create();
-	action_group->add_action("save",     sigc::mem_fun(*this, &VirtualSurfaceWidget::OnSave));
-	action_group->add_action("visualize",sigc::mem_fun(*this, &VirtualSurfaceWidget::OnVisualize));
-	action_group->add_action("refresh",  sigc::mem_fun(*this, &VirtualSurfaceWidget::RefreshBackground));
-	action_group->add_action("edit",     sigc::mem_fun(*this, &VirtualSurfaceWidget::OnEdit));
-	action_group->add_action("savecanvas",   sigc::mem_fun(*this, &VirtualSurfaceWidget::OnSaveCanvas));
-	action_group->add_action("savecanvases", sigc::mem_fun(*this, &VirtualSurfaceWidget::OnSaveCanvasAs));
+	action_group->add_action("save",     sigc::mem_fun(*this, &TactographView::OnSave));
+	action_group->add_action("visualize",sigc::mem_fun(*this, &TactographView::OnVisualize));
+	action_group->add_action("refresh",  sigc::mem_fun(*this, &TactographView::RefreshBackground));
+	action_group->add_action("edit",     sigc::mem_fun(*this, &TactographView::OnEdit));
+	action_group->add_action("savecanvas",   sigc::mem_fun(*this, &TactographView::OnSaveCanvas));
+	action_group->add_action("savecanvases", sigc::mem_fun(*this, &TactographView::OnSaveCanvasAs));
 	insert_action_group("vsw", action_group);
 
 	// Define the popup menu using Builder XML
@@ -344,18 +344,18 @@ void VirtualSurfaceWidget::CreatePopupMenu()
 	popupMenu_->set_parent(*this);
 }
 
-void VirtualSurfaceWidget::OnClick(int n_press, double x, double y)
+void TactographView::OnClick(int n_press, double x, double y)
 {
 	popupMenu_->set_pointing_to(Gdk::Rectangle(x, y, 1, 1));
 	popupMenu_->popup();
 }
 
-void VirtualSurfaceWidget::OnSave()
+void TactographView::OnSave()
 {
 	anim_.SaveToFile(dynamic_cast<Gtk::Window*>(get_root()));
 }
 
-void VirtualSurfaceWidget::OnVisualize()
+void TactographView::OnVisualize()
 {
 	if (peer_)
 	{
@@ -371,7 +371,7 @@ void VirtualSurfaceWidget::OnVisualize()
 	}
 }
 
-void VirtualSurfaceWidget::OnEdit()
+void TactographView::OnEdit()
 {
 	if (peer_)
 	{
@@ -386,7 +386,7 @@ void VirtualSurfaceWidget::OnEdit()
 	}
 }
 
-void VirtualSurfaceWidget::OnSaveCanvasAs()
+void TactographView::OnSaveCanvasAs()
 {
 	if (peer_)
 	{
@@ -405,19 +405,19 @@ void VirtualSurfaceWidget::OnSaveCanvasAs()
 	}
 }
 
-void VirtualSurfaceWidget::OnSaveCanvas()
+void TactographView::OnSaveCanvas()
 {
 	if (peer_) peer_->SaveToFile("canvas.gen");
 }
 
 
-VirtualSurfaceWidget::~VirtualSurfaceWidget()
+TactographView::~TactographView()
 {
 	anim_.Deactivate();
 	if (popupMenu_) popupMenu_->unparent();
 }
 
-bool VirtualSurfaceWidget::RefreshCursor()
+bool TactographView::RefreshCursor()
 {
 	if (peer_)
 	{
@@ -431,7 +431,7 @@ bool VirtualSurfaceWidget::RefreshCursor()
 }
 
 
-bool VirtualSurfaceWidget::OnCheckPeer()
+bool TactographView::OnCheckPeer()
 {
 	if (peer_)
 	{
@@ -443,7 +443,7 @@ bool VirtualSurfaceWidget::OnCheckPeer()
 }
 
 
-void VirtualSurfaceWidget::RefreshBackground()
+void TactographView::RefreshBackground()
 {
 	bgUpdateTime_ = boost::posix_time::microsec_clock::universal_time();
 	if (peer_)
@@ -454,7 +454,7 @@ void VirtualSurfaceWidget::RefreshBackground()
 }
 
 
-void VirtualSurfaceWidget::SetGenerator(GeneratorPtr gen)
+void TactographView::SetGenerator(GeneratorPtr gen)
 {
 	peer_ = gen;
 	RefreshBackground();

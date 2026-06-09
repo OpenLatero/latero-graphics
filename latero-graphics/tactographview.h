@@ -32,22 +32,22 @@ protected:
 	const latero::Tactograph *dev_;
 };
 
-class VirtualSurfaceWidget : public Gtk::AspectFrame
+class TactographView : public Gtk::AspectFrame
 {
 public:
 	/**
 	 * Constructor.
 	 * @param dev A const pointer to the Tactograph device used by the widget for dimensions and other specifications.
 	 * @param gen An optional pointer to the currently active Generator.
-	 * @param refreshBackground If true, VirtualSurfaceWidget will periodically check if the generator 
+	 * @param refreshBackground If true, TactographView will periodically check if the generator
 	 * has been modified and will update the background if necessary.
 	 */
-	VirtualSurfaceWidget(const latero::Tactograph *dev, GeneratorPtr gen = GeneratorPtr(), bool refreshBackground=false);
+	TactographView(const latero::Tactograph *dev, GeneratorPtr gen = GeneratorPtr(), bool refreshBackground=false);
 
 	/**
 	 * Destructor.
 	 */
-	virtual ~VirtualSurfaceWidget();
+	virtual ~TactographView();
 
 	/**
 	 * Update the current generator. Triggers an update of the background.

@@ -27,7 +27,7 @@ set(SRC_ROOT_CPP
 	vector.cpp
 	velocityestimator.cpp
 	tactiledisplayview.cpp
-	virtualsurfacewidget.cpp
+	tactographview.cpp
 	visualizewidget.cpp
 	xml.cpp
 )
@@ -79,7 +79,7 @@ set(SRC_ROOT_H
 	vector.h
 	velocityestimator.h
 	tactiledisplayview.h
-	virtualsurfacewidget.h
+	tactographview.h
 	visualizewidget.h
 	xml.h
 )

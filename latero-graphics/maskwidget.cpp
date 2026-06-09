@@ -4,7 +4,7 @@
 #include "generator.h"
 #include "gtk/numwidget.h"
 #include "pointwidget.h"
-#include "virtualsurfacewidget.h"
+#include "tactographview.h"
 #include <glibmm/main.h>
 #include <iostream>
 
@@ -38,11 +38,11 @@ protected:
 };
 
 
-class MaskSurfaceWidget : public latero::graphics::VirtualSurfaceWidget
+class MaskSurfaceWidget : public latero::graphics::TactographView
 {
 public:
 	MaskSurfaceWidget(const latero::Tactograph* dev, MaskPtr peer) :
-		latero::graphics::VirtualSurfaceWidget(dev),
+		latero::graphics::TactographView(dev),
 		peer_(peer)
 	{
 		drawingArea_.signal_resize().connect([this](int, int){ RefreshBackground(); });
