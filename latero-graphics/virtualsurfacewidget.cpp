@@ -460,7 +460,5 @@ void VirtualSurfaceWidget::SetGenerator(GeneratorPtr gen)
 	RefreshBackground();
 }
 
-
-
 } // namespace
 
