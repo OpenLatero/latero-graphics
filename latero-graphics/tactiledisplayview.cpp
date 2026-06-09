@@ -1,10 +1,10 @@
-#include "virtuallaterowidget.h"
-#include <laterographics/generator.h>
+#include "tactiledisplayview.h"
+#include "generator.h"
 #include <iostream>
 
 namespace latero::graphics {
 
-VirtualLateroWidget::VirtualLateroWidget(const latero::TactileDisplay *dev, latero::graphics::GeneratorPtr gen) :
+TactileDisplayView::TactileDisplayView(const latero::TactileDisplay *dev, latero::graphics::GeneratorPtr gen) :
  	Gtk::AspectFrame(0.5, 0.5, dev->GetWidth()/dev->GetHeight(), false),
 	peer_(gen),
 	dev_(dev),
@@ -14,20 +14,20 @@ VirtualLateroWidget::VirtualLateroWidget(const latero::TactileDisplay *dev, late
 	drawingArea_.set_expand();
 
 	Glib::signal_timeout().connect(
-		sigc::mem_fun(*this, &VirtualLateroWidget::RefreshCursor),
+		sigc::mem_fun(*this, &TactileDisplayView::RefreshCursor),
 		(uint)33, // ms
 		Glib::PRIORITY_DEFAULT_IDLE);
 
-	drawingArea_.set_draw_func(sigc::mem_fun(*this, &VirtualLateroWidget::OnDraw));
+	drawingArea_.set_draw_func(sigc::mem_fun(*this, &TactileDisplayView::OnDraw));
 }
 
 
-VirtualLateroWidget::~VirtualLateroWidget()
+TactileDisplayView::~TactileDisplayView()
 {
 }
 
 
-void VirtualLateroWidget::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
+void TactileDisplayView::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
 	if ((width<=0)||(height<=0))
 		return;
@@ -44,7 +44,7 @@ void VirtualLateroWidget::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int wi
 }
 
 
-Cairo::RefPtr<Cairo::Pattern> VirtualLateroWidget::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext)
+Cairo::RefPtr<Cairo::Pattern> TactileDisplayView::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext)
 {
 	mmContext->push_group();
 
@@ -82,7 +82,7 @@ Cairo::RefPtr<Cairo::Pattern> VirtualLateroWidget::GetDisplayDrawing(const Cairo
 }
 
 
-bool VirtualLateroWidget::RefreshCursor()
+bool TactileDisplayView::RefreshCursor()
 {
 	if (peer_)
 	{
@@ -93,7 +93,7 @@ bool VirtualLateroWidget::RefreshCursor()
 }
 
 
-void VirtualLateroWidget::SetGenerator(latero::graphics::GeneratorPtr gen)
+void TactileDisplayView::SetGenerator(latero::graphics::GeneratorPtr gen)
 {
 	peer_ = gen;
 }

@@ -3,15 +3,15 @@
 #include <gtkmm.h>
 #include <latero/tactileimg.h>
 #include <latero/tactiledisplay.h>
-#include <laterographics/generatorfwd.h>
+#include "generatorfwd.h"
 
 namespace latero::graphics {
 
-class VirtualLateroWidget : public Gtk::AspectFrame
+class TactileDisplayView : public Gtk::AspectFrame
 {
 public:
-	VirtualLateroWidget(const latero::TactileDisplay *dev, latero::graphics::GeneratorPtr gen = latero::graphics::GeneratorPtr());
-	virtual ~VirtualLateroWidget();
+	TactileDisplayView(const latero::TactileDisplay *dev, latero::graphics::GeneratorPtr gen = latero::graphics::GeneratorPtr());
+	virtual ~TactileDisplayView();
 	void SetGenerator(latero::graphics::GeneratorPtr gen);
 	
 protected:
