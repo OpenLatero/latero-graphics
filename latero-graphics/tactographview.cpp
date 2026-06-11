@@ -13,6 +13,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
+#include "tactiledisplayview.h"
 
 #define UPDATE_RATE_MS 300
 
@@ -40,12 +41,12 @@ void CursorLayer::SetDisplayState(const Point &pos, double angle, const latero::
 
 void CursorLayer::Draw(const Cairo::RefPtr<Cairo::Context> &mmContext, double dpmm_x)
 {
-	if (enable_) 
-	{
-		auto cursorDrawing = GetCursorDrawing(mmContext, dpmm_x);
-		mmContext->set_source(cursorDrawing);
-		mmContext->paint();
-	}
+	if (!enable_) 
+		return;
+	
+	auto cursorDrawing = GetCursorDrawing(mmContext, dpmm_x);
+	mmContext->set_source(cursorDrawing);
+	mmContext->paint();
 }
 
 
@@ -92,58 +93,10 @@ Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetDisplayDrawing(const Cairo::RefPtr
 	mmContext->translate(tdPos_.x, tdPos_.y);	// shift origin to center of TD
 	mmContext->rotate(-tdAngle_);			// line up with TD
 
-	double tdw = dev_->GetWidth()*1.4;
-	double tdh = dev_->GetHeight()*1.2;
-	mmContext->rectangle(-tdw/2, -tdh/2, tdw, tdh);
-	mmContext->set_source_rgb(1.0, 1.0, 1.0);
-	mmContext->set_line_width(1.5);
-	mmContext->fill_preserve();
-	mmContext->set_line_width(1.5);
-	mmContext->set_source_rgb(1.0, 1.0, 1.0);
-	mmContext->stroke_preserve();
-	mmContext->set_line_width(0.5);
-	mmContext->set_source_rgb(1.0, 0.0, 0.0);
-	mmContext->stroke();
+	auto pattern = TactileDisplayView::GetTactileDisplayDrawing(mmContext, dev_, tdState_);
+	mmContext->set_source(pattern);
+	mmContext->paint();
 
-	float motionRange = 0.7 * dev_->GetPitchX();
-	int hPiezo = dev_->GetContactorSizeY();
-
-	/*
-	mmContext->set_source_rgb(0.0, 0.0, 1.0);
-	for (uint j=0; j< dev_->GetFrameSizeY(); ++j)
-	{
-		for (uint i=0; i< dev_->GetFrameSizeX(); ++i)
-		{
-			latero::graphics::Point p = dev_->GetActuatorOffset(i,j);
-			float x = p.x;
-			mmContext->move_to(x, p.y - 0.5*tdh);
-	        	mmContext->line_to(x, p.y + 0.5*tdh);
-			mmContext->set_line_width(0.2*dev_->GetPitchX());
-			mmContext->stroke();
-		}
-	}
-	*/
-
-
-	mmContext->set_source_rgb(1.0, 0.0, 0.0);
-	for (uint j=0; j< dev_->GetFrameSizeY(); ++j)
-	{
-		for (uint i=0; i< dev_->GetFrameSizeX(); ++i)
-		{
-			latero::graphics::Point p = dev_->GetActuatorOffset(i,j);
-			float x = p.x + (0.5-tdState_.Get(i,j))*motionRange;
-			mmContext->move_to(x, p.y - 0.5*hPiezo);
-	        	mmContext->line_to(x, p.y + 0.5*hPiezo);
-
-			//mmContext->set_source_rgb(1.0, 1.0, 1.0);
-			//mmContext->set_line_width(0.8*dev_->GetPitchX());
-			//mmContext->stroke_preserve();
-
-			mmContext->set_source_rgb(1.0, 0.0, 0.0);
-			mmContext->set_line_width(0.3*dev_->GetPitchX());
-			mmContext->stroke();
-		}
-	}
 	return mmContext->pop_group();
 }
  

@@ -43,13 +43,12 @@ void TactileDisplayView::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int wid
 	cr->restore();
 }
 
-
-Cairo::RefPtr<Cairo::Pattern> TactileDisplayView::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext)
+Cairo::RefPtr<Cairo::Pattern> TactileDisplayView::GetTactileDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::TactileDisplay *dev, const latero::BiasedImg &tdState)
 {
-	mmContext->push_group();
+	mmContext->push_group();	
+	double tdw = dev->GetWidth()*1.4;
+	double tdh = dev->GetHeight()*1.2;
 
-	double tdw = dev_->GetWidth()*1.4;
-	double tdh = dev_->GetHeight()*1.2;
 	mmContext->rectangle(-tdw/2, -tdh/2, tdw, tdh);
 	mmContext->set_source_rgb(1.0, 1.0, 1.0);
 	mmContext->set_line_width(1.5);
@@ -61,24 +60,29 @@ Cairo::RefPtr<Cairo::Pattern> TactileDisplayView::GetDisplayDrawing(const Cairo:
 	mmContext->set_source_rgb(1.0, 0.0, 0.0);
 	mmContext->stroke();
 
-	float motionRange = 0.7 * dev_->GetPitchX();
-	int hPiezo = dev_->GetContactorSizeY();
+	float motionRange = 0.7 * dev->GetPitchX();
+	int hPiezo = dev->GetContactorSizeY();
 
 	mmContext->set_source_rgb(1.0, 0.0, 0.0);
-	for (uint j=0; j< dev_->GetFrameSizeY(); ++j)
+	for (uint j=0; j< dev->GetFrameSizeY(); ++j)
 	{
-		for (uint i=0; i< dev_->GetFrameSizeX(); ++i)
+		for (uint i=0; i< dev->GetFrameSizeX(); ++i)
 		{
-			latero::graphics::Point p = dev_->GetActuatorOffset(i,j);
-			float x = p.x + (0.5-tdState_.Get(i,j))*motionRange;
+			latero::graphics::Point p = dev->GetActuatorOffset(i,j);
+			float x = p.x + (0.5-tdState.Get(i,j))*motionRange;
 			mmContext->move_to(x, p.y - 0.5*hPiezo);
 	        mmContext->line_to(x, p.y + 0.5*hPiezo);
 			mmContext->set_source_rgb(1.0, 0.0, 0.0);
-			mmContext->set_line_width(0.3*dev_->GetPitchX());
+			mmContext->set_line_width(0.3*dev->GetPitchX());
 			mmContext->stroke();
 		}
-	}
-	return mmContext->pop_group();
+	}	
+	return mmContext->pop_group();	
+}
+
+Cairo::RefPtr<Cairo::Pattern> TactileDisplayView::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext)
+{
+	return GetTactileDisplayDrawing(mmContext, dev_, tdState_);
 }
 
 

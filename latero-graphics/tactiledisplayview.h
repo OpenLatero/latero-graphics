@@ -14,6 +14,9 @@ public:
 	virtual ~TactileDisplayView();
 	void SetGenerator(latero::graphics::GeneratorPtr gen);
 	
+	/** @todo temporary solution to share this code... */
+	static Cairo::RefPtr<Cairo::Pattern> GetTactileDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::TactileDisplay *dev, const latero::BiasedImg &tdState);
+
 protected:
 	bool RefreshCursor();
 	Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext);
