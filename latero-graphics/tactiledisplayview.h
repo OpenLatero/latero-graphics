@@ -15,11 +15,10 @@ public:
 	void SetGenerator(latero::graphics::GeneratorPtr gen);
 	
 	/** @todo temporary solution to share this code... */
-	static Cairo::RefPtr<Cairo::Pattern> GetTactileDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::TactileDisplay *dev, const latero::BiasedImg &tdState);
+	static Cairo::RefPtr<Cairo::Pattern> GetTactileDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::TactileDisplay *dev, const latero::BiasedImg &tdState, bool drawOutline=true);
 
 protected:
 	bool RefreshCursor();
-	Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext);
 	void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height);
 
 	latero::graphics::GeneratorPtr peer_;

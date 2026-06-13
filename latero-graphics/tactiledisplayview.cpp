@@ -38,27 +38,31 @@ void TactileDisplayView::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int wid
 	cr->save();
     cr->scale(width / mmTDWidth, height / mmTDHeight); // scale to mm
 	cr->translate(mmTDWidth/2, mmTDHeight/2);
-	cr->set_source(GetDisplayDrawing(cr));
+	auto pattern = GetTactileDisplayDrawing(cr, dev_, tdState_);
+	cr->set_source(pattern);
 	cr->paint();
 	cr->restore();
 }
 
-Cairo::RefPtr<Cairo::Pattern> TactileDisplayView::GetTactileDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::TactileDisplay *dev, const latero::BiasedImg &tdState)
+Cairo::RefPtr<Cairo::Pattern> TactileDisplayView::GetTactileDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::TactileDisplay *dev, const latero::BiasedImg &tdState, bool drawOutline)
 {
 	mmContext->push_group();	
 	double tdw = dev->GetWidth()*1.4;
 	double tdh = dev->GetHeight()*1.2;
 
-	mmContext->rectangle(-tdw/2, -tdh/2, tdw, tdh);
-	mmContext->set_source_rgb(1.0, 1.0, 1.0);
-	mmContext->set_line_width(1.5);
-	mmContext->fill_preserve();
-	mmContext->set_line_width(1.5);
-	mmContext->set_source_rgb(1.0, 1.0, 1.0);
-	mmContext->stroke_preserve();
-	mmContext->set_line_width(0.5);
-	mmContext->set_source_rgb(1.0, 0.0, 0.0);
-	mmContext->stroke();
+	if (drawOutline)
+	{
+		mmContext->rectangle(-tdw/2, -tdh/2, tdw, tdh);
+		mmContext->set_source_rgb(1.0, 1.0, 1.0);
+		mmContext->set_line_width(1.5);
+		mmContext->fill_preserve();
+		mmContext->set_line_width(1.5);
+		mmContext->set_source_rgb(1.0, 1.0, 1.0);
+		mmContext->stroke_preserve();
+		mmContext->set_line_width(0.5);
+		mmContext->set_source_rgb(1.0, 0.0, 0.0);
+		mmContext->stroke();
+	}
 
 	float motionRange = 0.7 * dev->GetPitchX();
 	int hPiezo = dev->GetContactorSizeY();
@@ -80,10 +84,6 @@ Cairo::RefPtr<Cairo::Pattern> TactileDisplayView::GetTactileDisplayDrawing(const
 	return mmContext->pop_group();	
 }
 
-Cairo::RefPtr<Cairo::Pattern> TactileDisplayView::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext)
-{
-	return GetTactileDisplayDrawing(mmContext, dev_, tdState_);
-}
 
 
 bool TactileDisplayView::RefreshCursor()
