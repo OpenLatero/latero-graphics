@@ -13,7 +13,7 @@
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
-#include "tactiledisplayview.h"
+
 
 #define UPDATE_RATE_MS 300
 
@@ -24,7 +24,8 @@ CursorLayer::CursorLayer(const latero::Tactograph *dev) :
 	enable_(false), 
 	animate_(true),
 	tdAngle_(0),
-	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY())
+	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY()),
+	tdPainter_(dev)
  {
 
  };
@@ -89,14 +90,9 @@ Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetCursorDrawing(const Cairo::RefPtr<
 Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext)
 {
 	mmContext->push_group();
-
 	mmContext->translate(tdPos_.x, tdPos_.y);	// shift origin to center of TD
 	mmContext->rotate(-tdAngle_);			// line up with TD
-
-	auto pattern = TactileDisplayView::GetTactileDisplayDrawing(mmContext, dev_, tdState_);
-	mmContext->set_source(pattern);
-	mmContext->paint();
-
+	tdPainter_.Paint(mmContext, tdState_);
 	return mmContext->pop_group();
 }
  

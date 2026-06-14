@@ -4,6 +4,7 @@
 #include <latero/tactileimg.h>
 #include <latero/tactiledisplay.h>
 #include "generatorfwd.h"
+#include "tactiledisplaypainter.h"
 
 namespace latero::graphics {
 
@@ -13,9 +14,6 @@ public:
 	TactileDisplayView(const latero::TactileDisplay *dev, latero::graphics::GeneratorPtr gen = latero::graphics::GeneratorPtr());
 	virtual ~TactileDisplayView();
 	void SetGenerator(latero::graphics::GeneratorPtr gen);
-	
-	/** @todo temporary solution to share this code... */
-	static Cairo::RefPtr<Cairo::Pattern> GetTactileDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::TactileDisplay *dev, const latero::BiasedImg &tdState, bool drawOutline=true);
 
 protected:
 	bool RefreshCursor();
@@ -26,6 +24,7 @@ protected:
     const latero::TactileDisplay *dev_;
 	latero::BiasedImg tdState_;
 	Gtk::DrawingArea drawingArea_;
+	TactileDisplayPainter tdPainter_;
 };
 
 } // namespace

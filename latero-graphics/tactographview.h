@@ -4,6 +4,7 @@
 #include <latero/tactograph.h>
 #include "gtk/animation.h"
 #include "generatorfwd.h"
+#include "tactiledisplayview.h"
 
 namespace latero::graphics {
 
@@ -30,6 +31,7 @@ protected:
 	bool enable_;
 	bool animate_;
 	const latero::Tactograph *dev_;
+	TactileDisplayPainter tdPainter_;
 };
 
 class TactographView : public Gtk::AspectFrame

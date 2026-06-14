@@ -8,7 +8,8 @@ TactileDisplayView::TactileDisplayView(const latero::TactileDisplay *dev, latero
  	Gtk::AspectFrame(0.5, 0.5, dev->GetWidth()/dev->GetHeight(), false),
 	peer_(gen),
 	dev_(dev),
-	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY())
+	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY()),
+	tdPainter_(dev_)
 {
 	set_child(drawingArea_);
 	drawingArea_.set_expand();
@@ -38,51 +39,11 @@ void TactileDisplayView::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int wid
 	cr->save();
     cr->scale(width / mmTDWidth, height / mmTDHeight); // scale to mm
 	cr->translate(mmTDWidth/2, mmTDHeight/2);
-	auto pattern = GetTactileDisplayDrawing(cr, dev_, tdState_);
-	cr->set_source(pattern);
-	cr->paint();
+	tdPainter_.Paint(cr, tdState_);
 	cr->restore();
 }
 
-Cairo::RefPtr<Cairo::Pattern> TactileDisplayView::GetTactileDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::TactileDisplay *dev, const latero::BiasedImg &tdState, bool drawOutline)
-{
-	mmContext->push_group();	
-	double tdw = dev->GetWidth()*1.4;
-	double tdh = dev->GetHeight()*1.2;
 
-	if (drawOutline)
-	{
-		mmContext->rectangle(-tdw/2, -tdh/2, tdw, tdh);
-		mmContext->set_source_rgb(1.0, 1.0, 1.0);
-		mmContext->set_line_width(1.5);
-		mmContext->fill_preserve();
-		mmContext->set_line_width(1.5);
-		mmContext->set_source_rgb(1.0, 1.0, 1.0);
-		mmContext->stroke_preserve();
-		mmContext->set_line_width(0.5);
-		mmContext->set_source_rgb(1.0, 0.0, 0.0);
-		mmContext->stroke();
-	}
-
-	float motionRange = 0.7 * dev->GetPitchX();
-	int hPiezo = dev->GetContactorSizeY();
-
-	mmContext->set_source_rgb(1.0, 0.0, 0.0);
-	for (uint j=0; j< dev->GetFrameSizeY(); ++j)
-	{
-		for (uint i=0; i< dev->GetFrameSizeX(); ++i)
-		{
-			latero::graphics::Point p = dev->GetActuatorOffset(i,j);
-			float x = p.x + (0.5-tdState.Get(i,j))*motionRange;
-			mmContext->move_to(x, p.y - 0.5*hPiezo);
-	        mmContext->line_to(x, p.y + 0.5*hPiezo);
-			mmContext->set_source_rgb(1.0, 0.0, 0.0);
-			mmContext->set_line_width(0.3*dev->GetPitchX());
-			mmContext->stroke();
-		}
-	}	
-	return mmContext->pop_group();	
-}
 
 
 
