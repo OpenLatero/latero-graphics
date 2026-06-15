@@ -3,17 +3,19 @@
 
 namespace latero::graphics {
 
-TactileDisplayPainter::TactileDisplayPainter(const latero::TactileDisplay *dev) : dev_(dev)
+TactileDisplayPainter::TactileDisplayPainter(const latero::TactileDisplay *dev) : 
+	dev_(dev),
+	drawOutline_(true)
 {
 }
 
-void TactileDisplayPainter::Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, bool drawOutline)
+void TactileDisplayPainter::Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState)
 {
 	mmContext->push_group();
 	double tdw = dev_->GetWidth()*1.4;
 	double tdh = dev_->GetHeight()*1.2;
 
-	if (drawOutline)
+	if (drawOutline_)
 	{
 		mmContext->rectangle(-tdw/2, -tdh/2, tdw, tdh);
 		mmContext->set_source_rgb(1.0, 1.0, 1.0);
@@ -47,6 +49,15 @@ void TactileDisplayPainter::Paint(const Cairo::RefPtr<Cairo::Context> &mmContext
 	auto pattern = mmContext->pop_group();
 	mmContext->set_source(pattern);
 	mmContext->paint();
+}
+
+void TactileDisplayPainter::Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, double x, double y, double angle)
+{
+	mmContext->save();
+	mmContext->translate(x, y);
+	mmContext->rotate(-angle);
+	Paint(mmContext, tdState);
+	mmContext->restore();
 }
 
 } // namespace

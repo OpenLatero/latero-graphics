@@ -22,8 +22,7 @@ public:
 
 protected:
 	Cairo::RefPtr<Cairo::Pattern> GetCursorDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, double dpmm_x);
-	Cairo::RefPtr<Cairo::Pattern> GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext);
-
+	
 	Point tdPos_;
 	double tdAngle_;
 	latero::BiasedImg tdState_;

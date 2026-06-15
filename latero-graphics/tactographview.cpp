@@ -57,13 +57,6 @@ Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetCursorDrawing(const Cairo::RefPtr<
 
 	double tdWidthPix = dev_->GetWidth() * dpmm_x; 
 
-	/**
-	 * @todo
-	 * Use the actual position of the piezos used for computations rather
-	 * than rotating the frame as done here. This will allow us to
-	 * catch any mistakes...
-	 */
-
 	if ((tdWidthPix < 15)||!animate_) // TODO: find a good value
 	{
 		mmContext->translate(tdPos_.x, tdPos_.y);	// shift origin to center of TD
@@ -81,23 +74,11 @@ Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetCursorDrawing(const Cairo::RefPtr<
 	}
 	else
 	{
-		mmContext->set_source(GetDisplayDrawing(mmContext));
-		mmContext->paint();
+		tdPainter_.Paint(mmContext, tdState_, tdPos_.x, tdPos_.y, tdAngle_);
 	}
 	return mmContext->pop_group();
 }
-
-Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetDisplayDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext)
-{
-	mmContext->push_group();
-	mmContext->translate(tdPos_.x, tdPos_.y);	// shift origin to center of TD
-	mmContext->rotate(-tdAngle_);			// line up with TD
-	tdPainter_.Paint(mmContext, tdState_);
-	return mmContext->pop_group();
-}
  
-
-
 void TactographView::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
     if (!anim_.GetNbFrames())
