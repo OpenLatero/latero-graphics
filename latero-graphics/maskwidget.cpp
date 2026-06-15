@@ -38,13 +38,14 @@ protected:
 };
 
 
-class MaskSurfaceWidget : public latero::graphics::TactographView
+class MaskSurfaceWidget : public TactographView
 {
 public:
 	MaskSurfaceWidget(const latero::Tactograph* dev, MaskPtr peer) :
-		latero::graphics::TactographView(dev),
+		TactographView(dev),
 		peer_(peer)
 	{
+		ShowCursor(false);
 		drawingArea_.signal_resize().connect([this](int, int){ RefreshBackground(); });
 		Glib::signal_timeout().connect(
 			sigc::mem_fun(*this, &MaskSurfaceWidget::OnCheckPeer),

@@ -10,25 +10,70 @@ namespace latero::graphics {
 class TactileDisplayPainter
 {
 public:
+	/**
+	 * Constructor.
+	 * @param dev Tactile display handle
+	 */
 	TactileDisplayPainter(const latero::TactileDisplay *dev);
 	
+	/**
+	 * Draw the tactile display centered on the current location in a mm-scaled drawing context. The tactile display
+	 * rendering automatically changes from a detailed animation to a simple rectangle depending on its size in pixels.
+	 * 
+	 * @param mmContext Drawing context scaled to mm.
+	 * @param tdState Latest state of the tactile display.
+	 */
 	void Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState);
-	void Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, double x, double y, double angle);
 
-	void PaintDetailed(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState);
-	void PaintDetailed(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, double x, double y, double angle);
+	/**
+	 * Draw the tactile display centered on the current location in a mm-scaled drawing context. The tactile display
+	 * rendering automatically changes from a detailed animation to a simple rectangle depending on its size in pixels.
+	 * 
+	 * @param mmContext Drawing context scaled to mm.
+	 * @param tdState Latest state of the tactile display.
+	 * @param x Position (x) at which to draw the center of the tactile display (in mm).
+	 * @param y Position (y) at which to draw the center of the tactile display (in mm).
+	 * @param angle Angle at which to draw the tactile display.
+	 */
+	void Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, double x, double y, double angle);
 	
-	void PaintSimple(const Cairo::RefPtr<Cairo::Context> &mmContext);
-	void PaintSimple(const Cairo::RefPtr<Cairo::Context> &mmContext, double x, double y, double angle);
-	
+	/**
+	 * Enable or disable drawing when \ref Paint is called.
+	 * @param v Enable if true.
+	 */
 	void Enable(bool v) { drawEnable_=v; };
+
+	/**
+	 * If enabled, the tactile display will be drawn with an outline and an opaque background when \ref Paint is called.
+	 * @param v Enable if true.
+	 */
 	void EnableOutline(bool v) { drawOutline_=v; };
-	void EnableAnimate(bool v) { drawAnimate_=v; };
+
+	/**
+	 * Set whether the tactile display should always be drawn as a simple rectangle no matter its size in pixels.
+	 * @param v Always drawn as a simple rectangle if true.
+	 */
+	void ForceSimple(bool v) { forceSimple_=v; };
+
 protected:
-	bool drawEnable_;
-	bool drawOutline_;
-	bool drawAnimate_;
-	const latero::TactileDisplay *dev_;
+	/**
+	 * Paint a detailed view of the tactile display centered at current location.
+	 * @param mmContext Drawing context scaled to mm.
+	 * @param tdState Latest state of the tactile display.
+	 */
+	void PaintDetailed(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState);
+
+	/**
+	 * Paint a simplified view of the tactile display centered at current location.
+	 * @param mmContext Drawing context scaled to mm.
+	 */
+	void PaintSimple(const Cairo::RefPtr<Cairo::Context> &mmContext);
+
+	bool drawEnable_;  ///< If false, nothing happens when \ref Paint is called.
+	bool drawOutline_; ///< If true, the tactile display is rendered with an outline and an opaque background
+	bool forceSimple_; ///< If true, always render the simplified view of the tactile display.
+
+	const latero::TactileDisplay *dev_; ///< Tactile display handle
 };
 
 } // namespace

@@ -6,8 +6,8 @@ namespace latero::graphics {
 TactileDisplayPainter::TactileDisplayPainter(const latero::TactileDisplay *dev) : 
 	dev_(dev),
 	drawOutline_(true),
-	drawAnimate_(true),
-	drawEnable_(false) // @todo make true the default
+	forceSimple_(false),
+	drawEnable_(true)
 {
 }
 
@@ -20,19 +20,19 @@ void TactileDisplayPainter::Paint(const Cairo::RefPtr<Cairo::Context> &mmContext
 	double tdHeightPix = dev_->GetWidth(); 
 	mmContext->user_to_device_distance(tdWidthPix, tdHeightPix);
 
-	if ((tdWidthPix < 15) || !drawAnimate_)
-	{
+	if ((tdWidthPix < 15) || forceSimple_)
 		PaintSimple(mmContext);
-	}
 	else
-	{
 		PaintDetailed(mmContext, tdState);
-	}
 }
 
 void TactileDisplayPainter::Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, double x, double y, double angle)
 {
-	PaintDetailed(mmContext, tdState, x, y, angle);
+	mmContext->save();
+	mmContext->translate(x, y);
+	mmContext->rotate(angle);
+	Paint(mmContext, tdState);
+	mmContext->restore();
 }
 
 void TactileDisplayPainter::PaintDetailed(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState)
@@ -77,14 +77,6 @@ void TactileDisplayPainter::PaintDetailed(const Cairo::RefPtr<Cairo::Context> &m
 	mmContext->paint();
 }
 
-void TactileDisplayPainter::PaintDetailed(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, double x, double y, double angle)
-{
-	mmContext->save();
-	mmContext->translate(x, y);
-	mmContext->rotate(-angle);
-	PaintDetailed(mmContext, tdState);
-	mmContext->restore();
-}
 
 void TactileDisplayPainter::PaintSimple(const Cairo::RefPtr<Cairo::Context> &mmContext)
 {
@@ -99,14 +91,6 @@ void TactileDisplayPainter::PaintSimple(const Cairo::RefPtr<Cairo::Context> &mmC
 	mmContext->stroke();
 }
 
-void TactileDisplayPainter::PaintSimple(const Cairo::RefPtr<Cairo::Context> &mmContext, double x, double y, double angle)
-{
-	mmContext->save();
-	mmContext->translate(x, y);
-	mmContext->rotate(-angle);
-	PaintSimple(mmContext);
-	mmContext->restore();
-}
 
 
 } // namespace

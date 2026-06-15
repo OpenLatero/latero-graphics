@@ -85,7 +85,7 @@ void TactographView::SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf)
 
 void TactographView::AnimateCursor(bool v)
 {
-	tdPainter_.EnableAnimate(v);
+	tdPainter_.ForceSimple(!v);
 }
     
 Point TactographView::GetClickPos(double x, double y)
