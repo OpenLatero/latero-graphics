@@ -13,7 +13,7 @@ class CursorLayer
 public:
 	CursorLayer(const latero::Tactograph *dev);
 	~CursorLayer() {};
-	void Draw(const Cairo::RefPtr<Cairo::Context> &mmContext, double dpmm_x);
+	void Draw(const Cairo::RefPtr<Cairo::Context> &mmContext);
 
 	void SetAnimate(bool v=true) { animate_ = v; }
 	void SetEnable(bool v=true) { enable_ = v; }
@@ -21,7 +21,6 @@ public:
 	void SetDisplayState(const Point &position, double angle, const latero::BiasedImg &frame);
 
 protected:
-	Cairo::RefPtr<Cairo::Pattern> GetCursorDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, double dpmm_x);
 	
 	Point tdPos_;
 	double tdAngle_;

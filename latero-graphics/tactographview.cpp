@@ -40,22 +40,16 @@ void CursorLayer::SetDisplayState(const Point &pos, double angle, const latero::
 	tdState_ = f;
 }
 
-void CursorLayer::Draw(const Cairo::RefPtr<Cairo::Context> &mmContext, double dpmm_x)
+void CursorLayer::Draw(const Cairo::RefPtr<Cairo::Context> &mmContext)
 {
 	if (!enable_) 
 		return;
 	
-	auto cursorDrawing = GetCursorDrawing(mmContext, dpmm_x);
-	mmContext->set_source(cursorDrawing);
-	mmContext->paint();
-}
+	mmContext->save();
 
-
-Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetCursorDrawing(const Cairo::RefPtr<Cairo::Context> &mmContext, double dpmm_x)
-{
-	mmContext->push_group();
-
-	double tdWidthPix = dev_->GetWidth() * dpmm_x; 
+	double tdWidthPix = dev_->GetWidth();
+	double tdHeightPix = dev_->GetWidth(); 
+	mmContext->user_to_device_distance(tdWidthPix, tdHeightPix);
 
 	if ((tdWidthPix < 15)||!animate_) // TODO: find a good value
 	{
@@ -76,7 +70,7 @@ Cairo::RefPtr<Cairo::Pattern> CursorLayer::GetCursorDrawing(const Cairo::RefPtr<
 	{
 		tdPainter_.Paint(mmContext, tdState_, tdPos_.x, tdPos_.y, tdAngle_);
 	}
-	return mmContext->pop_group();
+	mmContext->restore();
 }
  
 void TactographView::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
@@ -105,7 +99,7 @@ void TactographView::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, 
 
 	cr->save();
 	cr->scale(dpmm_x, dpmm_y); // scale to mm
-	cursorLayer_.Draw(cr, dpmm_x);
+	cursorLayer_.Draw(cr);
 	cr->restore();
 }
 
