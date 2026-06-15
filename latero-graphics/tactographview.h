@@ -8,30 +8,6 @@
 
 namespace latero::graphics {
 
-class CursorLayer
-{
-public:
-	CursorLayer(const latero::Tactograph *dev);
-	~CursorLayer() {};
-	void Draw(const Cairo::RefPtr<Cairo::Context> &mmContext);
-
-	void SetAnimate(bool v=true) { animate_ = v; }
-	void SetEnable(bool v=true) { enable_ = v; }
-
-	void SetDisplayState(const Point &position, double angle, const latero::BiasedImg &frame);
-
-protected:
-	
-	Point tdPos_;
-	double tdAngle_;
-	latero::BiasedImg tdState_;
-
-	bool enable_;
-	bool animate_;
-	const latero::Tactograph *dev_;
-	TactileDisplayPainter tdPainter_;
-};
-
 class TactographView : public Gtk::AspectFrame
 {
 public:
@@ -63,6 +39,9 @@ public:
 	void SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf);
 
 protected:
+	void SetDisplayState(const Point &position, double angle, const latero::BiasedImg &frame);
+
+
 	void RefreshBackground();
 	bool RefreshCursor();
     Point GetClickPos(double x, double y);
@@ -81,14 +60,17 @@ protected:
 
 	latero::graphics::gtk::Animation anim_;
 	const latero::Tactograph *dev_;
-	CursorLayer cursorLayer_;
 	Gtk::DrawingArea drawingArea_;
 
 private:
 	GeneratorPtr peer_;
 	boost::posix_time::ptime bgUpdateTime_;
 
+	Point tdPos_;
+	double tdAngle_;
+	latero::BiasedImg tdState_;
 
+	TactileDisplayPainter tdPainter_;
 };
 
 } // namespace

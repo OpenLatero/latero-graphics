@@ -18,60 +18,6 @@
 #define UPDATE_RATE_MS 300
 
 namespace latero::graphics {
-
-CursorLayer::CursorLayer(const latero::Tactograph *dev) : 
-	dev_(dev), 
-	enable_(false), 
-	animate_(true),
-	tdAngle_(0),
-	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY()),
-	tdPainter_(dev)
- {
-
- };
-
-void CursorLayer::SetDisplayState(const Point &pos, double angle, const latero::BiasedImg &f)
-{
-	assert(f.Size() ==  tdState_.Size());
-
-	if (std::isnan(angle)) angle = 0; // for some reason angle is sometimes nan
-	tdAngle_ = angle;
-	tdPos_ = pos;
-	tdState_ = f;
-}
-
-void CursorLayer::Draw(const Cairo::RefPtr<Cairo::Context> &mmContext)
-{
-	if (!enable_) 
-		return;
-	
-	mmContext->save();
-
-	double tdWidthPix = dev_->GetWidth();
-	double tdHeightPix = dev_->GetWidth(); 
-	mmContext->user_to_device_distance(tdWidthPix, tdHeightPix);
-
-	if ((tdWidthPix < 15)||!animate_) // TODO: find a good value
-	{
-		mmContext->translate(tdPos_.x, tdPos_.y);	// shift origin to center of TD
-		mmContext->rotate(-tdAngle_);			// line up with TD
-
-		mmContext->set_line_width(0.0);
-		mmContext->set_source_rgba(1.0, 0.0, 0.0, 0.5);
-		mmContext->rectangle(
-			-dev_->GetWidth()/2.0,
-			-dev_->GetHeight()/2.0,
-			dev_->GetWidth(),
-			dev_->GetHeight());
-		mmContext->fill();
-		mmContext->stroke();
-	}
-	else
-	{
-		tdPainter_.Paint(mmContext, tdState_, tdPos_.x, tdPos_.y, tdAngle_);
-	}
-	mmContext->restore();
-}
  
 void TactographView::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
 {
@@ -99,17 +45,9 @@ void TactographView::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, 
 
 	cr->save();
 	cr->scale(dpmm_x, dpmm_y); // scale to mm
-	cursorLayer_.Draw(cr);
+	tdPainter_.Paint(cr, tdState_, tdPos_.x, tdPos_.y, tdAngle_);
 	cr->restore();
 }
-
-
-
-
-
-
-
-
 
 
 void TactographView::ClearBackground(guint32 pixel)
@@ -129,7 +67,7 @@ void TactographView::ClearBackground(guint32 pixel)
 
 void TactographView::ShowCursor(bool v)
 {
-	cursorLayer_.SetEnable(v);
+	tdPainter_.Enable(v);
 }
 
 
@@ -147,7 +85,7 @@ void TactographView::SetBackground(Glib::RefPtr<Gdk::Pixbuf> buf)
 
 void TactographView::AnimateCursor(bool v)
 {
-	cursorLayer_.SetAnimate(v);
+	tdPainter_.EnableAnimate(v);
 }
     
 Point TactographView::GetClickPos(double x, double y)
@@ -159,8 +97,10 @@ Point TactographView::GetClickPos(double x, double y)
 TactographView::TactographView(const latero::Tactograph *dev, GeneratorPtr gen, bool refreshBackground) :
  	Gtk::AspectFrame(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
 	dev_(dev),
-	cursorLayer_(dev),
-	peer_(gen)
+	peer_(gen),
+	tdAngle_(0),
+	tdState_(dev->GetFrameSizeX(), dev->GetFrameSizeY()),
+	tdPainter_(dev)
 {
 	ClearBackground(0xffffffff);
 
@@ -348,7 +288,7 @@ bool TactographView::RefreshCursor()
 		Point pos = peer_->GetDisplayCenter();
 		double angle = peer_->GetDisplayOrientation();
 		latero::BiasedImg frame = peer_->GetLatestFrame();
-		cursorLayer_.SetDisplayState(pos, angle, frame);
+		SetDisplayState(pos, angle, frame);
 		drawingArea_.queue_draw();
 	}
 	return true;
@@ -383,6 +323,17 @@ void TactographView::SetGenerator(GeneratorPtr gen)
 	peer_ = gen;
 	RefreshBackground();
 }
+
+void TactographView::SetDisplayState(const Point &pos, double angle, const latero::BiasedImg &f)
+{
+	assert(f.Size() ==  tdState_.Size());
+
+	if (std::isnan(angle)) angle = 0; // for some reason angle is sometimes nan
+	tdAngle_ = angle;
+	tdPos_ = pos;
+	tdState_ = f;
+}
+
 
 } // namespace
 
