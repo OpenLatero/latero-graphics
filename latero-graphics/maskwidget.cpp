@@ -7,6 +7,21 @@
 #include "tactographview.h"
 #include <glibmm/main.h>
 #include <iostream>
+#include <filesystem>
+#include "tactographview.h"
+#include "gtk/pixbufops.h"
+#include <math.h>
+#include "generator.h"
+#include "positiongen.h"
+#include "visualizewidget.h"
+#include <iostream>
+#include "boost/date_time/posix_time/posix_time.hpp"
+#include "boost/date_time/local_time_adjustor.hpp"
+#include "boost/date_time/c_local_time_adjustor.hpp"
+#include <stdio.h>
+#include <sys/time.h>
+#include <time.h>
+#include <unistd.h>
 
 namespace latero::graphics {
 
@@ -38,37 +53,62 @@ protected:
 };
 
 
-class MaskSurfaceWidget : public TactographView
+class MaskView : public Gtk::AspectFrame
 {
 public:
-	MaskSurfaceWidget(const latero::Tactograph* dev, MaskPtr peer) :
-		TactographView(dev),
+	MaskView(const latero::Tactograph* dev, MaskPtr peer) :
+ 		Gtk::AspectFrame(0.5, 0.5, dev->GetSurfaceWidth()/dev->GetSurfaceHeight(), false),
 		peer_(peer)
 	{
-		ShowCursor(false);
+    	drawingArea_.set_draw_func(sigc::mem_fun(*this, &MaskView::OnDraw));
+		set_child(drawingArea_);
+		drawingArea_.set_vexpand();
+
 		drawingArea_.signal_resize().connect([this](int, int){ RefreshBackground(); });
+
 		Glib::signal_timeout().connect(
-			sigc::mem_fun(*this, &MaskSurfaceWidget::OnCheckPeer),
+			sigc::mem_fun(*this, &MaskView::OnCheckPeer),
 			(uint)333, Glib::PRIORITY_DEFAULT_IDLE);
 	}
-	virtual ~MaskSurfaceWidget() {};
+
+	virtual ~MaskView() {};
+
+	void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height)
+	{
+		if (width <= 0 || height <= 0)
+			return;
+
+    	if (bg_)
+        	Gdk::Cairo::set_source_pixbuf(cr, bg_, 0, 0);
+        else
+			cr->set_source_rgb(1.0, 1.0, 1.0);
+		cr->paint();
+	}
 
 protected:
 	bool OnCheckPeer()
 	{
-		if (peer_->GetLastModified() > bgUpdateTime_) RefreshBackground();
+		if (bgUpdateTime_.is_not_a_date_time() || (peer_->GetLastModified() > bgUpdateTime_))
+			RefreshBackground();
 		return true;
 	}
 
 	void RefreshBackground()
 	{
+		int w = drawingArea_.get_width();
+		int h = drawingArea_.get_height();
+		if (w <= 0 || h <= 0)
+			return;
 		bgUpdateTime_ = boost::posix_time::microsec_clock::universal_time();
-		SetBackground(peer_->GetIllustration(drawingArea_.get_width(), drawingArea_.get_height()));
+		bg_ = peer_->GetIllustration(w, h);
+		drawingArea_.queue_draw();
 	}
 
 private:
 	MaskPtr peer_;
 	boost::posix_time::ptime bgUpdateTime_;
+	Glib::RefPtr<Gdk::Pixbuf> bg_;
+	Gtk::DrawingArea drawingArea_;
 };
 
 
@@ -345,7 +385,7 @@ MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev) :
 	auto maskLockAspectRatioCheck = Gtk::make_managed<MaskLockAspectRatioCheck>(peer);
 	auto refMaxWidget = Gtk::make_managed<MaskRefMaximizedCheck>(peer);
 	auto maskDefaultCtrl = Gtk::make_managed<MaskDefaultCtrl>(peer);
-	auto maskSurfaceWidget = Gtk::make_managed<MaskSurfaceWidget>(dev,peer);
+	auto maskView = Gtk::make_managed<MaskView>(dev,peer);
 
 	MaskSizeCtrl *sizeWidget = Gtk::make_managed<MaskSizeCtrl>(peer);
 	ctrls_.push_back(sizeWidget);
@@ -353,7 +393,7 @@ MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev) :
 	MaskPositionCtrl *posWidget = Gtk::make_managed<MaskPositionCtrl>(peer);
 	ctrls_.push_back(posWidget);
 
-	maskImageWidget->set_vexpand();
+	maskView->set_vexpand();
 	posWidget->set_vexpand();
 	sizeWidget->set_vexpand();
 	checkbox->set_vexpand();
@@ -362,7 +402,6 @@ MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev) :
 	refMaxWidget->set_hexpand();
 	maskDefaultCtrl->set_hexpand();
 	box->set_hexpand();
-	maskSurfaceWidget->set_hexpand();
 
 	box->append(*maskImageWidget);
 	box->append(*posWidget);
@@ -375,7 +414,7 @@ MaskWidget::MaskWidget(MaskPtr peer, const latero::Tactograph *dev) :
 	checkbox->append(*maskDefaultCtrl);
 
 	append(*box);
-	append(*maskSurfaceWidget);	
+	append(*maskView);	
 
  	refMaxWidget->signal_toggled().connect(sigc::mem_fun(*this, &MaskWidget::SynchFromPeer));
 	sizeWidget->SignalChanged().connect(sigc::mem_fun(*this, &MaskWidget::SynchFromPeer));

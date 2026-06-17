@@ -17,9 +17,12 @@ public:
 	TactileDisplayPainter(const latero::TactileDisplay *dev);
 	
 	/**
-	 * Draw the tactile display in a mm-scaled drawing context. The tactile display rendering automatically changes
-	 * from a detailed animation to a simple rectangle depending on its size in pixels. If specified, the tactile display
-	 * is centered on position (\p x, \p y) and drawn at \p angle. If not, the tactile is centered on the current position (0,0).
+	 * Draw the tactile display.
+	 * 
+	 * The tactile display is drawn with animated pins according to current state (\p tdState) in a mm-scaled drawing context (\p mmContext). 
+	 * The tactile display rendering automatically changes from a detailed animation to a simple rectangle depending on its size in pixels. 
+	 * If specified, the tactile display is centered on position (\p x, \p y) and drawn at \p angle. If not, the tactile is centered on the
+	 * current position (0,0).
 	 * 
 	 * @param mmContext Drawing context scaled to mm.
 	 * @param tdState Latest state of the tactile display.
