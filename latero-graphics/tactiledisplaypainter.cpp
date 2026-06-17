@@ -11,29 +11,30 @@ TactileDisplayPainter::TactileDisplayPainter(const latero::TactileDisplay *dev) 
 {
 }
 
-void TactileDisplayPainter::Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState)
+
+void TactileDisplayPainter::Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, double x, double y, double angle)
 {
 	if (!drawEnable_)
 		return;
 
+	mmContext->save();
+	if ((x!=0)||(y!=0))
+		mmContext->translate(x, y);
+	if (angle!=0)
+		mmContext->rotate(angle);
+
 	double tdWidthPix = dev_->GetWidth();
 	double tdHeightPix = dev_->GetWidth(); 
 	mmContext->user_to_device_distance(tdWidthPix, tdHeightPix);
-
 	if ((tdWidthPix < 15) || forceSimple_)
 		PaintSimple(mmContext);
 	else
 		PaintDetailed(mmContext, tdState);
-}
 
-void TactileDisplayPainter::Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, double x, double y, double angle)
-{
-	mmContext->save();
-	mmContext->translate(x, y);
-	mmContext->rotate(angle);
-	Paint(mmContext, tdState);
+
 	mmContext->restore();
 }
+
 
 void TactileDisplayPainter::PaintDetailed(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState)
 {
@@ -63,7 +64,7 @@ void TactileDisplayPainter::PaintDetailed(const Cairo::RefPtr<Cairo::Context> &m
 	{
 		for (uint i=0; i< dev_->GetFrameSizeX(); ++i)
 		{
-			latero::graphics::Point p = dev_->GetActuatorOffset(i,j);
+			Point p = dev_->GetActuatorOffset(i,j);
 			float x = p.x + (0.5-tdState.Get(i,j))*motionRange;
 			mmContext->move_to(x, p.y - 0.5*hPiezo);
 			mmContext->line_to(x, p.y + 0.5*hPiezo);

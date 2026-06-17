@@ -17,25 +17,17 @@ public:
 	TactileDisplayPainter(const latero::TactileDisplay *dev);
 	
 	/**
-	 * Draw the tactile display centered on the current location in a mm-scaled drawing context. The tactile display
-	 * rendering automatically changes from a detailed animation to a simple rectangle depending on its size in pixels.
+	 * Draw the tactile display in a mm-scaled drawing context. The tactile display rendering automatically changes
+	 * from a detailed animation to a simple rectangle depending on its size in pixels. If specified, the tactile display
+	 * is centered on position (\p x, \p y) and drawn at \p angle. If not, the tactile is centered on the current position (0,0).
 	 * 
 	 * @param mmContext Drawing context scaled to mm.
 	 * @param tdState Latest state of the tactile display.
+	 * @param x (optional) Position (x) at which to draw the center of the tactile display (in mm).
+	 * @param y (optional) Position (y) at which to draw the center of the tactile display (in mm).
+	 * @param angle (optional) Angle at which to draw the tactile display.
 	 */
-	void Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState);
-
-	/**
-	 * Draw the tactile display centered on the current location in a mm-scaled drawing context. The tactile display
-	 * rendering automatically changes from a detailed animation to a simple rectangle depending on its size in pixels.
-	 * 
-	 * @param mmContext Drawing context scaled to mm.
-	 * @param tdState Latest state of the tactile display.
-	 * @param x Position (x) at which to draw the center of the tactile display (in mm).
-	 * @param y Position (y) at which to draw the center of the tactile display (in mm).
-	 * @param angle Angle at which to draw the tactile display.
-	 */
-	void Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, double x, double y, double angle);
+	void Paint(const Cairo::RefPtr<Cairo::Context> &mmContext, const latero::BiasedImg &tdState, double x=0, double y=0, double angle=0);
 	
 	/**
 	 * Enable or disable drawing when \ref Paint is called.
