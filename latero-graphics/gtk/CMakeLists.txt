@@ -1,6 +1,5 @@
 set(SRC_CPP 
 	animation.cpp
-	blobdetector.cpp
 	checkframe.cpp
 	imagedropdown.cpp
 	numwidget.cpp
@@ -10,7 +9,6 @@ set(SRC_CPP
 
 set(SRC_H 
 	animation.h
-	blobdetector.h
 	checkframe.h
 	imagedropdown.h
 	numwidget.h
