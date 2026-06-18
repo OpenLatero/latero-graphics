@@ -75,6 +75,13 @@ Plot::Plot(const char *fgColor, const char *bgColor) :
 	CreatePopupMenu();
 
     set_draw_func(sigc::mem_fun(*this, &Plot::OnDraw));
+
+	signal_destroy().connect([this]() {
+		if (popupMenu_) {
+			popupMenu_->unparent();
+			popupMenu_.reset();
+		}
+	});
 }
 
 Plot::~Plot()
