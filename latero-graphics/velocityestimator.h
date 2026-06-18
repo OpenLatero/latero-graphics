@@ -1,7 +1,7 @@
 #pragma once
 
 #include <math.h>
-#include "point.h"
+#include <latero/point.h>
 #include "averagefilter.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 

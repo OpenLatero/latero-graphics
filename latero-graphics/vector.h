@@ -1,6 +1,6 @@
 #pragma once
 
-#include "point.h"
+#include <latero/point.h>
 #include <vector>
 
 // TODO clean this up

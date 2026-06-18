@@ -5,7 +5,7 @@
 #include <latero/tactiledisplay.h>
 #include "generatorfwd.h"
 #include "tactiledisplaypainter.h"
-#include "point.h"
+#include <latero/point.h>
 
 namespace latero::graphics {
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <libxml++/libxml++.h>
-#include "point.h"
+#include <latero/point.h>
 #include <string>
 #include "units.h"
 

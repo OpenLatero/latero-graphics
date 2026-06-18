@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gdkmm/pixbuf.h>
-#include "../point.h"
+#include <latero/point.h>
 
 namespace latero::graphics::gtk {
 

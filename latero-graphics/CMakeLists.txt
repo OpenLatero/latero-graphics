@@ -63,7 +63,6 @@ set(SRC_ROOT_H
 	oscillator.h
 	oscillatorfwd.h
 	oscillatorwidget.h
-	point.h
 	pointlistwidget.h
 	pointwidget.h
 	positiongen.h

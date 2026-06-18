@@ -4,7 +4,7 @@
 #include "closedpattern.h"
 #include "stroke.h"
 #include "../vector.h"
-#include "../point.h"
+#include <latero/point.h>
 #include "../oscillatorfwd.h"
 #include "../units.h"
 #include <iostream>
