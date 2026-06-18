@@ -39,7 +39,7 @@ DirModulator::DirModulator(const latero::Tactograph *dev, const XMLInputNode &no
 
 Gtk::Widget *DirModulator::CreateWidget(ModulatorPtr ptr)
 {
-	DirModulatorPtr gen = boost::dynamic_pointer_cast<DirModulator>(ptr);
+	DirModulatorPtr gen = std::dynamic_pointer_cast<DirModulator>(ptr);
 	if (!gen) return Modulator::CreateWidget(ptr); // default
 	return Gtk::make_managed<DirModulatorWidget>(gen);
 }

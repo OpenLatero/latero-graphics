@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class VelModulator;
-typedef boost::shared_ptr<VelModulator> VelModulatorPtr;
+typedef std::shared_ptr<VelModulator> VelModulatorPtr;
 
 } // namespace
 

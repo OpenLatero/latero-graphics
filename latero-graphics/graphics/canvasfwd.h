@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Canvas;
-typedef boost::shared_ptr<Canvas> CanvasPtr;
+typedef std::shared_ptr<Canvas> CanvasPtr;
 
 } // namespace
 

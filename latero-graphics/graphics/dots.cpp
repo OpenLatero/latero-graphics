@@ -127,7 +127,7 @@ void Dots::SetPoints(const std::vector<Point> &points)
 
 Gtk::Widget *Dots::CreateWidget(PatternPtr ptr)
 {
-	DotsPtr gen = boost::dynamic_pointer_cast<Dots>(ptr);
+	DotsPtr gen = std::dynamic_pointer_cast<Dots>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
 	return Gtk::make_managed<DotsWidget>(gen);
 }
@@ -210,7 +210,7 @@ std::vector<DotPtr> Dots::GetDots() const
 	std::vector<PatternPtr> patterns = Group::GetPatterns();
 	for (unsigned int i=0; i<patterns.size(); ++i)
 	{
-		DotPtr dot = boost::dynamic_pointer_cast<Dot>(patterns[i]);
+		DotPtr dot = std::dynamic_pointer_cast<Dot>(patterns[i]);
 		rv.push_back(dot);
 	}
 	return rv;

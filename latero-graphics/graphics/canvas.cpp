@@ -87,7 +87,7 @@ void Canvas::PostRender_(const State *state)
 
 Gtk::Widget *Canvas::CreateWidget(GeneratorPtr ptr)
 {
-	CanvasPtr gen = boost::dynamic_pointer_cast<Canvas>(ptr);
+	CanvasPtr gen = std::dynamic_pointer_cast<Canvas>(ptr);
 	if (!gen) return Generator::CreateWidget(ptr); // default
 	return Gtk::make_managed<CanvasWidget>(gen);
 }

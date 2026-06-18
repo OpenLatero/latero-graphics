@@ -27,7 +27,7 @@ Cairo::RefPtr<Cairo::Pattern> VibroTexture::GetNormDrawingPattern(Cairo::RefPtr<
 
 Gtk::Widget *VibroTexture::CreateWidget(TexturePtr ptr)
 {
-	VibroTexturePtr gen = boost::dynamic_pointer_cast<VibroTexture>(ptr);
+	VibroTexturePtr gen = std::dynamic_pointer_cast<VibroTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<VibroTextureWidget>(gen);
 }

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Dots;
-typedef boost::shared_ptr<Dots> DotsPtr;
+typedef std::shared_ptr<Dots> DotsPtr;
 
 
 } // namespace

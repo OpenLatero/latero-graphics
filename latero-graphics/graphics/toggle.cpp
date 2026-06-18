@@ -78,7 +78,7 @@ std::string Toggle::GetName()
 
 Gtk::Widget *Toggle::CreateWidget(PatternPtr ptr)
 {
-	TogglePtr gen = boost::dynamic_pointer_cast<Toggle>(ptr);
+	TogglePtr gen = std::dynamic_pointer_cast<Toggle>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
 	return Gtk::make_managed<ToggleWidget>(gen);
 }

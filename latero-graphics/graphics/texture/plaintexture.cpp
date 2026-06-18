@@ -28,7 +28,7 @@ Cairo::RefPtr<Cairo::Pattern> PlainTexture::GetNormDrawingPattern(Cairo::RefPtr<
 
 Gtk::Widget *PlainTexture::CreateWidget(TexturePtr ptr)
 {
-	PlainTexturePtr gen = boost::dynamic_pointer_cast<PlainTexture>(ptr);
+	PlainTexturePtr gen = std::dynamic_pointer_cast<PlainTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<PlainTextureWidget>(gen);
 }

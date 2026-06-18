@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Ridge;
-typedef boost::shared_ptr<Ridge> RidgePtr;
+typedef std::shared_ptr<Ridge> RidgePtr;
 
 } // namespace
 

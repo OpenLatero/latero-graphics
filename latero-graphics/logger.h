@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/thread.hpp>
+#include <memory>
 #include <boost/thread/condition.hpp>
 #include <queue>
 #include "timer.h"
@@ -33,7 +34,7 @@ private:
 	
 private:
     volatile bool m_stopRequested;
-    boost::shared_ptr<boost::thread> m_thread;
+    std::shared_ptr<boost::thread> m_thread;
 	boost::mutex m_mutex;
     boost::condition m_cond;
     std::queue<Message> m_fifo;

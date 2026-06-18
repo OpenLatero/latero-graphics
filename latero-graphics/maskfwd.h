@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Mask;
-typedef boost::shared_ptr<Mask> MaskPtr;
+typedef std::shared_ptr<Mask> MaskPtr;
 
 } // namespace
 

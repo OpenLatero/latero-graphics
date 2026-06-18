@@ -242,7 +242,7 @@ Cairo::RefPtr<Cairo::Pattern> Texture::GetDrawingPattern(Cairo::RefPtr<Cairo::Co
 
 Gtk::Widget *Texture::CreateWidget(PatternPtr ptr)
 {
-	TexturePtr gen = boost::dynamic_pointer_cast<Texture>(ptr);
+	TexturePtr gen = std::dynamic_pointer_cast<Texture>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
 	return CreateWidget(gen);
 }

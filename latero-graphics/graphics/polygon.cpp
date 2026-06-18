@@ -228,7 +228,7 @@ Cairo::RefPtr<Cairo::Pattern> Polygon::GetDrawingPattern(Cairo::RefPtr<Cairo::Co
 
 Gtk::Widget *Polygon::CreateWidget(PatternPtr ptr)
 {
-	PolygonPtr gen = boost::dynamic_pointer_cast<Polygon>(ptr);
+	PolygonPtr gen = std::dynamic_pointer_cast<Polygon>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
 	return Gtk::make_managed<PolygonWidget>(gen);
 }

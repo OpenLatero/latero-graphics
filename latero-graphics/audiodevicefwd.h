@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
         
         class AudioDevice;
-        typedef boost::shared_ptr<AudioDevice> AudioDevicePtr;
+        typedef std::shared_ptr<AudioDevice> AudioDevicePtr;
         
     } // namespace
 

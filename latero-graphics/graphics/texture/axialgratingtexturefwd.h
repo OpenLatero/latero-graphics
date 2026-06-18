@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class AxialGratingTexture;
-typedef boost::shared_ptr<AxialGratingTexture> AxialGratingTexturePtr;
+typedef std::shared_ptr<AxialGratingTexture> AxialGratingTexturePtr;
 
 } // namespace
 

@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class ClosedPattern;
-typedef boost::shared_ptr<ClosedPattern> ClosedPatternPtr;
+typedef std::shared_ptr<ClosedPattern> ClosedPatternPtr;
 
 } // namespace
 

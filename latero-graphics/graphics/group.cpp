@@ -458,7 +458,7 @@ void Group::ClearPatterns_()
 
 Gtk::Widget *Group::CreateWidget(PatternPtr ptr)
 {
-	GroupPtr gen = boost::dynamic_pointer_cast<Group>(ptr);
+	GroupPtr gen = std::dynamic_pointer_cast<Group>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
 	return Gtk::make_managed<GroupWidget>(gen);
 }

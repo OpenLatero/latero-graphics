@@ -19,7 +19,7 @@ void Logger::Start()
 {
 	assert(!m_thread);
     m_timer.Reset();
-	m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Logger::Loop, this)));
+	m_thread = std::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Logger::Loop, this)));
     // todo: see if the priority of this thread can be decreased
 }
 

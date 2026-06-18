@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Toggle;
-typedef boost::shared_ptr<Toggle> TogglePtr;
+typedef std::shared_ptr<Toggle> TogglePtr;
 
 } // namespace
 

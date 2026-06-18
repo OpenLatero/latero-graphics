@@ -39,7 +39,7 @@ Cairo::RefPtr<Cairo::Pattern> ComboTexture::GetNormDrawingPattern(Cairo::RefPtr<
 
 Gtk::Widget *ComboTexture::CreateWidget(TexturePtr ptr)
 {
-	ComboTexturePtr gen = boost::dynamic_pointer_cast<ComboTexture>(ptr);
+	ComboTexturePtr gen = std::dynamic_pointer_cast<ComboTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<GroupWidget>(gen);
 }
@@ -80,7 +80,7 @@ std::vector<TexturePtr> ComboTexture::GetTextures() const
 	std::vector<PatternPtr> patterns = GetPatterns();
 	for (unsigned int i=0; i<patterns.size(); ++i)
 	{
-		TexturePtr tx = boost::dynamic_pointer_cast<Texture>(patterns[i]);
+		TexturePtr tx = std::dynamic_pointer_cast<Texture>(patterns[i]);
 		if (tx) rv.push_back(tx);
 	}
 	return rv;

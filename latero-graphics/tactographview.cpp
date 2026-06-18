@@ -223,7 +223,7 @@ void TactographView::OnVisualize()
 {
 	if (peer_)
 	{
-		PositionGenPtr gen = boost::dynamic_pointer_cast<PositionGen>(peer_);
+		PositionGenPtr gen = std::dynamic_pointer_cast<PositionGen>(peer_);
 		if (gen)
 		{
 			auto dlg = new VisualizeWidget(gen);

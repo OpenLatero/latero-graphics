@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Group;
-typedef boost::shared_ptr<Group> GroupPtr;
+typedef std::shared_ptr<Group> GroupPtr;
 
 } // namespace
 

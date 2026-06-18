@@ -142,7 +142,7 @@ double Dot::DoRenderShadow_(const ActuatorState &state)
 
 Gtk::Widget *Dot::CreateWidget(PatternPtr ptr)
 {
-	DotPtr gen = boost::dynamic_pointer_cast<Dot>(ptr);
+	DotPtr gen = std::dynamic_pointer_cast<Dot>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
 	return Gtk::make_managed<DotWidget>(gen);
 }

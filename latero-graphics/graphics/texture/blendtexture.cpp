@@ -129,7 +129,7 @@ Cairo::RefPtr<Cairo::Pattern> BlendTexture::GetNormDrawingPattern(Cairo::RefPtr<
 
 Gtk::Widget *BlendTexture::CreateWidget(TexturePtr ptr)
 {
-	BlendTexturePtr gen = boost::dynamic_pointer_cast<BlendTexture>(ptr);
+	BlendTexturePtr gen = std::dynamic_pointer_cast<BlendTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<BlendTextureWidget>(gen);
 }

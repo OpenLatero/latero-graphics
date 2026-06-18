@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Stroke;
-typedef boost::shared_ptr<Stroke> StrokePtr;
+typedef std::shared_ptr<Stroke> StrokePtr;
 
 } // namespace
 

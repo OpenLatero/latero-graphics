@@ -67,14 +67,14 @@ Cairo::RefPtr<Cairo::Pattern> LinearGratingTexture::GetGratingDrawingPattern(Cai
 
 Gtk::Widget *LinearGratingTexture::CreateWidget(TexturePtr ptr)
 {
-	LinearGratingTexturePtr gen = boost::dynamic_pointer_cast<LinearGratingTexture>(ptr);
+	LinearGratingTexturePtr gen = std::dynamic_pointer_cast<LinearGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<LinearGratingTextureWidget>(gen);
 }
 
 Gtk::Widget *LinearGratingTexture::CreateAdvancedWidget(TexturePtr ptr)
 {
-	LinearGratingTexturePtr gen = boost::dynamic_pointer_cast<LinearGratingTexture>(ptr);
+	LinearGratingTexturePtr gen = std::dynamic_pointer_cast<LinearGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<LinearGratingTextureAdvancedWidget>(gen);
 }

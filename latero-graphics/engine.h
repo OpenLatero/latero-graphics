@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/thread.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
@@ -24,7 +25,7 @@ public:
 	bool GetEnabled() { return enabled_; }
 private:
 	bool enabled_;
-    boost::shared_ptr<boost::thread> m_thread;
+    std::shared_ptr<boost::thread> m_thread;
     bool highPriority_;
 };
 

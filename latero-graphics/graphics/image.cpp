@@ -94,7 +94,7 @@ double Image::DoRenderShadow_(const ActuatorState &state)
 
 latero::graphics::gtk::Animation Image::GetVibroIllustration(uint w, uint h)
 {
-	VibroTexturePtr vibroTx = boost::dynamic_pointer_cast<VibroTexture>(GetTexture());
+	VibroTexturePtr vibroTx = std::dynamic_pointer_cast<VibroTexture>(GetTexture());
 	double stroke = vibroTx->GetAmplitude();
 
 	Glib::RefPtr<Gdk::Pixbuf> buf = mask_->GetSurfaceAlpha(w, h);
@@ -170,7 +170,7 @@ void Image::Enable(bool v)
 
 Gtk::Widget *Image::CreateWidget(PatternPtr ptr)
 {
-	ImagePtr gen = boost::dynamic_pointer_cast<Image>(ptr);
+	ImagePtr gen = std::dynamic_pointer_cast<Image>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
 	return Gtk::make_managed<ImageWidget>(gen);
 }

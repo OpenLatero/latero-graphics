@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Pattern;
-typedef boost::shared_ptr<Pattern> PatternPtr;
+typedef std::shared_ptr<Pattern> PatternPtr;
 
 } // namespace
 

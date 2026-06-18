@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Generator;
-typedef boost::shared_ptr<Generator> GeneratorPtr;
+typedef std::shared_ptr<Generator> GeneratorPtr;
 
 } // namespace
 

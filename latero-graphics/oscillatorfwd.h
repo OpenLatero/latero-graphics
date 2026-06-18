@@ -1,10 +1,10 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Oscillator;
-typedef boost::shared_ptr<Oscillator> OscillatorPtr;
+typedef std::shared_ptr<Oscillator> OscillatorPtr;
 
 } // namespace

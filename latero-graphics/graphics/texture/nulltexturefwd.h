@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class NullTexture;
-typedef boost::shared_ptr<NullTexture> NullTexturePtr;
+typedef std::shared_ptr<NullTexture> NullTexturePtr;
 
 } // namespace
 

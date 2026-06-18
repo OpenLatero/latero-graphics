@@ -3,14 +3,14 @@
 #include <cassert>
 #include <vector>
 #include <algorithm>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include "mutex.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
 namespace latero::graphics {
 
 class Modifiable;
-typedef boost::shared_ptr<Modifiable> ModifiablePtr;
+typedef std::shared_ptr<Modifiable> ModifiablePtr;
 
 /**
  * A Modifiable class keeps track of the last time it was modified. If a Modifiable object

@@ -101,7 +101,7 @@ Cairo::RefPtr<Cairo::Pattern> Line::GetDrawingPattern(Cairo::RefPtr<Cairo::Conte
 
 Gtk::Widget *Line::CreateWidget(PatternPtr ptr)
 {
-	LinePtr gen = boost::dynamic_pointer_cast<Line>(ptr);
+	LinePtr gen = std::dynamic_pointer_cast<Line>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
 	return Gtk::make_managed<LineWidget>(gen);
 }

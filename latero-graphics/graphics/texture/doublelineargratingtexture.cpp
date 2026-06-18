@@ -33,14 +33,14 @@ DoubleLinearGratingTexture::DoubleLinearGratingTexture(const latero::Tactograph 
 
 Gtk::Widget *DoubleLinearGratingTexture::CreateWidget(TexturePtr ptr)
 {
-	DoubleLinearGratingTexturePtr gen = boost::dynamic_pointer_cast<DoubleLinearGratingTexture>(ptr);
+	DoubleLinearGratingTexturePtr gen = std::dynamic_pointer_cast<DoubleLinearGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<DoubleLinearGratingTextureWidget>(gen);
 }
 
 Gtk::Widget *DoubleLinearGratingTexture::CreateAdvancedWidget(TexturePtr ptr)
 {
-	DoubleLinearGratingTexturePtr gen = boost::dynamic_pointer_cast<DoubleLinearGratingTexture>(ptr);
+	DoubleLinearGratingTexturePtr gen = std::dynamic_pointer_cast<DoubleLinearGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<DoubleLinearGratingTextureAdvancedWidget>(gen);
 }

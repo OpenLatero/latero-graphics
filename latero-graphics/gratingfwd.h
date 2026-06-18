@@ -1,10 +1,10 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Grating;
-typedef boost::shared_ptr<Grating> GratingPtr;
+typedef std::shared_ptr<Grating> GratingPtr;
 
 } // namespace

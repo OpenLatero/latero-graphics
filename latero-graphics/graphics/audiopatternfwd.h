@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class AudioPattern;
-typedef boost::shared_ptr<AudioPattern> AudioPatternPtr;
+typedef std::shared_ptr<AudioPattern> AudioPatternPtr;
 
 } // namespace
 

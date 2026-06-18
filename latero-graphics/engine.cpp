@@ -16,7 +16,7 @@ Engine::~Engine()
 int Engine::Start()
 {
 	assert(!m_thread);
-	m_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Engine::EntryPoint, this)));
+	m_thread = std::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Engine::EntryPoint, this)));
 	if (highPriority_) SetHighPriority();
 	return 0;
 }

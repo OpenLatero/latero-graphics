@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class Circle;
-typedef boost::shared_ptr<Circle> CirclePtr;
+typedef std::shared_ptr<Circle> CirclePtr;
 
 } // namespace
 

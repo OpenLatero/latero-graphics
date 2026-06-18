@@ -88,7 +88,7 @@ Glib::RefPtr<Gio::ListModel> GroupTreeView::CreateChildModel(const Glib::RefPtr<
 {
 	auto patItem = std::dynamic_pointer_cast<PatternItem>(item);
 	if (!patItem) return {};
-	GroupPtr group = boost::dynamic_pointer_cast<Group>(patItem->pattern);
+	GroupPtr group = std::dynamic_pointer_cast<Group>(patItem->pattern);
 	if (!group || !group->ChildrenArePublic()) return {};
 	auto store = Gio::ListStore<PatternItem>::create();
 	for (auto& child : group->GetPatterns())
@@ -98,9 +98,9 @@ Glib::RefPtr<Gio::ListModel> GroupTreeView::CreateChildModel(const Glib::RefPtr<
 
 void GroupTreeView::RebuildMenu(PatternPtr pattern)
 {
-	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
+	GroupPtr group = std::dynamic_pointer_cast<Group>(pattern);
 	bool has_parent = (bool)GetParentGroup(pattern);
-	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(pattern);
+	TexturePtr tx = std::dynamic_pointer_cast<Texture>(pattern);
 
 	// Build action group
 	actionGroup_ = Gio::SimpleActionGroup::create();
@@ -172,7 +172,7 @@ void GroupTreeView::OnPatternAppend()
 	if (!curPattern || !parent) return;
 
 	// TODO: try to reduce duplication of code below
-	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(parent);
+	TexturePtr tx = std::dynamic_pointer_cast<Texture>(parent);
 	if (tx)
 	{
 		// TODO: Consider making CreateTextureDlg a PatternCreatorDialog (or derive both from the same class) so that we don't need to duplicate the code below. This is needed
@@ -222,7 +222,7 @@ void GroupTreeView::OnPatternPrepend()
 	GroupPtr parent = GetParentGroup(curPattern);
 	if (!curPattern || !parent) return;
 
-	TexturePtr tx = boost::dynamic_pointer_cast<Texture>(parent);
+	TexturePtr tx = std::dynamic_pointer_cast<Texture>(parent);
 	if (!tx)
 	{
 		auto dlg = new PatternCreatorDialog(peer_->Dev());
@@ -336,7 +336,7 @@ GroupPtr GroupTreeView::GetParentGroup(PatternPtr pattern)
 		if (!parentRow) return GroupPtr();
 		auto parentItem = std::dynamic_pointer_cast<PatternItem>(parentRow->get_item());
 		if (!parentItem) return GroupPtr();
-		return boost::dynamic_pointer_cast<Group>(parentItem->pattern);
+		return std::dynamic_pointer_cast<Group>(parentItem->pattern);
 	}
 	return GroupPtr();
 }
@@ -365,7 +365,7 @@ void GroupTreeView::OnPatternRemove()
 void GroupTreeView::OnGroupAddPattern()
 {
 	PatternPtr pattern = GetCurrentPattern();
-	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
+	GroupPtr group = std::dynamic_pointer_cast<Group>(pattern);
 	if (!group) return;
 
 	auto dlg = new PatternCreatorDialog(peer_->Dev());
@@ -390,7 +390,7 @@ void GroupTreeView::OnGroupAddPattern()
 void GroupTreeView::OnGroupAddTexture()
 {
 	PatternPtr pattern = GetCurrentPattern();
-	GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
+	GroupPtr group = std::dynamic_pointer_cast<Group>(pattern);
 	if (!group) return;
 
 	auto dlg = new CreateTextureDlg(peer_->Dev());
@@ -673,16 +673,16 @@ void GroupWidget::OnSelectionChanged()
 	PatternPtr pattern = treeView_.GetCurrentPattern();
 	if (pattern)
 	{
-		GroupPtr group = boost::dynamic_pointer_cast<Group>(pattern);
-		TexturePtr tx = boost::dynamic_pointer_cast<Texture>(pattern);
-		ComboTexturePtr combotx = boost::dynamic_pointer_cast<ComboTexture>(pattern);
-		DotsPtr dots = boost::dynamic_pointer_cast<Dots>(pattern);
+		GroupPtr group = std::dynamic_pointer_cast<Group>(pattern);
+		TexturePtr tx = std::dynamic_pointer_cast<Texture>(pattern);
+		ComboTexturePtr combotx = std::dynamic_pointer_cast<ComboTexture>(pattern);
+		DotsPtr dots = std::dynamic_pointer_cast<Dots>(pattern);
 		bool hasParent = (bool)(treeView_.GetParentGroup(pattern));
 
 		if (group)
 		{
-			if (boost::dynamic_pointer_cast<DoubleLinearGratingTexture>(tx) ||
-			    boost::dynamic_pointer_cast<MotionTexture>(tx))
+			if (std::dynamic_pointer_cast<DoubleLinearGratingTexture>(tx) ||
+			    std::dynamic_pointer_cast<MotionTexture>(tx))
 			{
 				txWidget_ = Gtk::make_managed<TextureSelectorWidget>(tx);
 				currentTx_ = tx;

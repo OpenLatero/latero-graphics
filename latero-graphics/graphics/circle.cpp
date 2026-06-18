@@ -166,7 +166,7 @@ Cairo::RefPtr<Cairo::Pattern> Circle::GetDrawingPattern(Cairo::RefPtr<Cairo::Con
 
 Gtk::Widget *Circle::CreateWidget(PatternPtr ptr)
 {
-	CirclePtr gen = boost::dynamic_pointer_cast<Circle>(ptr);
+	CirclePtr gen = std::dynamic_pointer_cast<Circle>(ptr);
 	if (!gen) return Pattern::CreateWidget(ptr); // default
 	return Gtk::make_managed<CircleWidget>(gen);
 }

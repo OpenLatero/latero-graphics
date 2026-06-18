@@ -60,14 +60,14 @@ Cairo::RefPtr<Cairo::Pattern> RadialGratingTexture::GetGratingDrawingPattern(Cai
 
 Gtk::Widget *RadialGratingTexture::CreateWidget(TexturePtr ptr)
 {
-	RadialGratingTexturePtr gen = boost::dynamic_pointer_cast<RadialGratingTexture>(ptr);
+	RadialGratingTexturePtr gen = std::dynamic_pointer_cast<RadialGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<RadialGratingTextureWidget>(gen);
 }
 
 Gtk::Widget *RadialGratingTexture::CreateAdvancedWidget(TexturePtr ptr)
 {
-	RadialGratingTexturePtr gen = boost::dynamic_pointer_cast<RadialGratingTexture>(ptr);
+	RadialGratingTexturePtr gen = std::dynamic_pointer_cast<RadialGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<RadialGratingTextureAdvancedWidget>(gen);
 }

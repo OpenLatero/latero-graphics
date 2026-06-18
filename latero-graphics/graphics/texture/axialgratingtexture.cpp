@@ -92,14 +92,14 @@ Cairo::RefPtr<Cairo::Pattern> AxialGratingTexture::GetGratingDrawingPattern(Cair
 
 Gtk::Widget *AxialGratingTexture::CreateWidget(TexturePtr ptr)
 {
-	AxialGratingTexturePtr gen = boost::dynamic_pointer_cast<AxialGratingTexture>(ptr);
+	AxialGratingTexturePtr gen = std::dynamic_pointer_cast<AxialGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<AxialGratingTextureWidget>(gen);
 }
 
 Gtk::Widget *AxialGratingTexture::CreateAdvancedWidget(TexturePtr ptr)
 {
-	AxialGratingTexturePtr gen = boost::dynamic_pointer_cast<AxialGratingTexture>(ptr);
+	AxialGratingTexturePtr gen = std::dynamic_pointer_cast<AxialGratingTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<AxialGratingTextureAdvancedWidget>(gen);
 }

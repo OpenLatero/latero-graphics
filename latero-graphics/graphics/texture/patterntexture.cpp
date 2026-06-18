@@ -71,14 +71,14 @@ Cairo::RefPtr<Cairo::Pattern> PatternTexture::GetNormDrawingPattern(Cairo::RefPt
 
 Gtk::Widget *PatternTexture::CreateWidget(TexturePtr ptr)
 {
-	PatternTexturePtr gen = boost::dynamic_pointer_cast<PatternTexture>(ptr);
+	PatternTexturePtr gen = std::dynamic_pointer_cast<PatternTexture>(ptr);
 	if (!gen) return Texture::CreateWidget(ptr); // default
 	return Gtk::make_managed<PatternTextureWidget>(gen);
 }
 
 Gtk::Widget *PatternTexture::CreateAdvancedWidget(TexturePtr ptr)
 {
-	PatternTexturePtr gen = boost::dynamic_pointer_cast<PatternTexture>(ptr);
+	PatternTexturePtr gen = std::dynamic_pointer_cast<PatternTexture>(ptr);
 	if (!gen) return Texture::CreateAdvancedWidget(ptr); // default
 	return Gtk::make_managed<PatternTextureAdvancedWidget>(gen);
 }

@@ -31,7 +31,7 @@ VelModulator::VelModulator(const latero::Tactograph *dev, const XMLInputNode &no
 
 Gtk::Widget *VelModulator::CreateWidget(ModulatorPtr ptr)
 {
-	VelModulatorPtr gen = boost::dynamic_pointer_cast<VelModulator>(ptr);
+	VelModulatorPtr gen = std::dynamic_pointer_cast<VelModulator>(ptr);
 	if (!gen) return Modulator::CreateWidget(ptr); // default
 	return Gtk::make_managed<VelModulatorWidget>(gen);
 } 

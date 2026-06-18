@@ -1,11 +1,11 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace latero::graphics {
 
 class PlainTexture;
-typedef boost::shared_ptr<PlainTexture> PlainTexturePtr;
+typedef std::shared_ptr<PlainTexture> PlainTexturePtr;
 
 } // namespace
 
