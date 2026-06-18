@@ -62,7 +62,7 @@ void DottedLine::UpdateDots()
 	delta = delta / (n-1);
 
 	ClearPoints();
-	latero::graphics::Point dot = p0;
+	latero::Point dot = p0;
 	for (int j=0; j<n; ++j)
 	{
 		InsertPoint(dot);
@@ -175,10 +175,10 @@ void DottedPolygon::UpdateDots()
 	{
 		double min_dot_dist = minDotDist;
 
-		latero::graphics::Point p0 = vertices[(nVertex+i-1)%nVertex];
-		latero::graphics::Point p1 = vertices[i];
-		latero::graphics::Point p2 = vertices[(i+1)%nVertex];
-		latero::graphics::Point p3 = vertices[(i+2)%nVertex];
+		latero::Point p0 = vertices[(nVertex+i-1)%nVertex];
+		latero::Point p1 = vertices[i];
+		latero::Point p2 = vertices[(i+1)%nVertex];
+		latero::Point p3 = vertices[(i+2)%nVertex];
 		
 		// check effect of angles
 		// Todo: conservative, doesn't take into account position of dots on the adjacent lines
@@ -197,7 +197,7 @@ void DottedPolygon::UpdateDots()
 		// n: number of dots on the line
 		int n = floor((d/min_dot_dist)+1);
 
-		latero::graphics::Point dot = p1;
+		latero::Point dot = p1;
 		for (int j=0; j<n-1; ++j)
 		{
 			InsertPoint(dot, (j==0)&&invertCornerVib);

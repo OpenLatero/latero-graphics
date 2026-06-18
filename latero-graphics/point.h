@@ -4,8 +4,6 @@
 
 namespace latero::graphics {
 
-typedef latero::Point Point;
-typedef latero::pair_T<int> INTPoint; // TODO
-typedef latero::pair_T<unsigned int> UINTPoint;
+//typedef latero::Point Point;
 
 } // namespace
