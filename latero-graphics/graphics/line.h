@@ -1,11 +1,13 @@
 #pragma once
 
-#include "linefwd.h"
-#include "dotpatternfwd.h"
+#include <memory>
 #include "pattern.h"
 #include "stroke.h"
+#include "dotpattern.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Line> LinePtr;
 
 class Line : public Pattern
 {

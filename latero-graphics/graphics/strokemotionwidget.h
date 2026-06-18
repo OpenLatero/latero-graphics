@@ -1,6 +1,6 @@
 #pragma once
 
-#include "strokefwd.h"
+#include "stroke.h"
 #include <gtkmm.h>
 
 namespace latero::graphics {

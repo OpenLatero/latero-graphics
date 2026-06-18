@@ -1,10 +1,12 @@
 #pragma once
 
-#include "closedpatternfwd.h"
+#include <memory>
 #include "pattern.h"
-#include "texture/texturefwd.h"
+#include "texture/texture.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class ClosedPattern> ClosedPatternPtr;
 
 class ClosedPattern : public Pattern
 {

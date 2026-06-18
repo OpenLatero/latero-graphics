@@ -1,7 +1,7 @@
 #pragma once
 
+#include <memory>
 #include <cairomm/context.h>
-#include "oscillatorfwd.h"
 #include "modifiable.h"
 #include "xml.h"
 #include "state.h"
@@ -9,7 +9,9 @@
 
 namespace latero::graphics {
 
-/** 
+typedef std::shared_ptr<class Oscillator> OscillatorPtr;
+
+/**
  * The oscillator efficiently handles the rendering of vibrations.
  */
 class Oscillator  : public Modifiable

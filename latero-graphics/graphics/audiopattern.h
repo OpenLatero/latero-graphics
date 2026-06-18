@@ -1,11 +1,13 @@
 #pragma once
 
+#include <memory>
 #include "pattern.h"
-#include "../maskfwd.h"
-#include "audiopatternfwd.h"
+#include "../mask.h"
 #include "../audiodevice.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class AudioPattern> AudioPatternPtr;
 
 class Sound
 {

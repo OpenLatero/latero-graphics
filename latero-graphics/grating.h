@@ -1,12 +1,14 @@
 #pragma once
 
-#include "gratingfwd.h"
-#include "gratingmodulatorfwd.h"
+#include <memory>
 #include "modifiable.h"
 #include "xml.h"
 #include "units.h"
+#include "gratingmodulator.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Grating> GratingPtr;
 
 class Grating : public Modifiable
 {

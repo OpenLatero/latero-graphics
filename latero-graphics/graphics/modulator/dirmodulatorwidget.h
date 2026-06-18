@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "dirmodulatorfwd.h"
+#include "dirmodulator.h"
 
 namespace latero::graphics {
 

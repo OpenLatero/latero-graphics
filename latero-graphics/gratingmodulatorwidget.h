@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "gratingmodulatorfwd.h"
+#include "gratingmodulator.h"
 
 namespace latero::graphics {
 

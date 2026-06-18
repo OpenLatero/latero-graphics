@@ -1,9 +1,11 @@
 #pragma once
 
+#include <memory>
 #include "texture.h"
-#include "patterntexturefwd.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class PatternTexture> PatternTexturePtr;
 
 class PatternTexture : public Texture
 {

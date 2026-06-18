@@ -1,11 +1,13 @@
 #pragma once
 
-#include "canvasfwd.h"
+#include <memory>
 #include "../positiongen.h"
-#include "groupfwd.h"
-#include "patternfwd.h"
+#include "group.h"
+#include "pattern.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Canvas> CanvasPtr;
 
 /**
  * The Canvas is a specialization of the PositionGen, and hence indirectly of Generator, which is used for the rendering of

@@ -1,11 +1,13 @@
 #pragma once
 
-#include "dotfwd.h"
+#include <memory>
 #include "pattern.h"
-#include "../ridgefwd.h"
+#include "../ridge.h"
 #include "../oscillator.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Dot> DotPtr;
 
 class Dot : public Pattern
 {

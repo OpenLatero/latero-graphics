@@ -1,6 +1,6 @@
 #pragma once
 
-#include "linefwd.h"
+#include "line.h"
 #include <gtkmm.h>
 
 namespace latero::graphics {

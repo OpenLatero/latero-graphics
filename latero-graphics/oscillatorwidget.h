@@ -2,7 +2,7 @@
 
 #include <gtkmm.h>
 #include "gtk/checkframe.h"
-#include "oscillatorfwd.h"
+#include "oscillator.h"
 
 namespace latero::graphics {
 

@@ -1,12 +1,13 @@
 #pragma once
 
+#include <memory>
 #include "closedpattern.h"
-#include "circlefwd.h"
-#include "strokefwd.h"
-#include "dotpatternfwd.h"
+#include "stroke.h"
+#include "dotpattern.h"
 
 namespace latero::graphics {
 
+typedef std::shared_ptr<class Circle> CirclePtr;
 
 class Circle : public ClosedPattern
 {

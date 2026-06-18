@@ -2,7 +2,7 @@
 
 #include "strokemotionwidget.h"
 
-#include "strokefwd.h"
+#include "stroke.h"
 #include <gtkmm.h>
 
 

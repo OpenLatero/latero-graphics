@@ -1,6 +1,6 @@
 #pragma once
 
-#include "togglefwd.h"
+#include "toggle.h"
 #include <gtkmm.h>
 
 namespace latero::graphics {

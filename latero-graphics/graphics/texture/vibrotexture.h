@@ -1,9 +1,11 @@
 #pragma once
 
+#include <memory>
 #include "texture.h"
-#include "vibrotexturefwd.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class VibroTexture> VibroTexturePtr;
 
 class VibroTexture : public Texture
 {

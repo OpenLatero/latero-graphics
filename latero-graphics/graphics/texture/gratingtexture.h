@@ -1,10 +1,12 @@
 #pragma once
 
-#include "gratingtexturefwd.h"
+#include <memory>
 #include "texture.h"
-#include "../../gratingfwd.h"
+#include "../../grating.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class GratingTexture> GratingTexturePtr;
 
 class GratingTexture : public Texture
 {

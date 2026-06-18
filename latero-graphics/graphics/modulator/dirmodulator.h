@@ -1,11 +1,13 @@
 #pragma once
 
-#include "dirmodulatorfwd.h"
+#include <memory>
 #include "modulator.h"
 #include "../../units.h"
 #include <string>
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class DirModulator> DirModulatorPtr;
 
 /**
  * Modulates based on the direction of the exloration velocity (and to some extend the magnitude).

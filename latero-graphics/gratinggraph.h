@@ -1,6 +1,6 @@
 #pragma once
 
-#include "gratingfwd.h"
+#include "grating.h"
 #include "graph.h"
 
 namespace latero::graphics {

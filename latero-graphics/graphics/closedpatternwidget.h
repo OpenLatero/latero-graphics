@@ -1,6 +1,6 @@
 #pragma once
 
-#include "closedpatternfwd.h"
+#include "closedpattern.h"
 #include "../gtk/checkframe.h"
 #include "texture/textureselectorwidget.h"
 

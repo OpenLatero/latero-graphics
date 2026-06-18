@@ -3,7 +3,7 @@
 #include <gtkmm.h>
 #include "texture/textureselectorwidget.h"
 #include "../maskwidget.h"
-#include "imagefwd.h"
+#include "image.h"
 
 namespace latero::graphics {
 

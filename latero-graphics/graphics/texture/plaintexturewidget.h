@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "plaintexturefwd.h"
+#include "plaintexture.h"
 
 namespace latero::graphics {
 

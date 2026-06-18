@@ -1,8 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <latero/tactograph.h>
 #include <gtkmm.h>
-#include "patternfwd.h"
 #include "../modifiable.h"
 #include "../state.h"
 #include "../xml.h"
@@ -10,6 +10,8 @@
 #include "../audiodevice.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Pattern> PatternPtr;
 
 /** 
  * A Pattern is a basic tactile graphics element which knows how to render itself,

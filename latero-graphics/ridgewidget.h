@@ -2,7 +2,7 @@
 
 #include <gtkmm.h>
 #include "gtk/checkframe.h"
-#include "ridgefwd.h"
+#include "ridge.h"
 #include "ridgegraph.h"
 
 namespace latero::graphics {

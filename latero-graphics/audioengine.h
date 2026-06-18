@@ -1,8 +1,8 @@
 #pragma once
 
 #include "engine.h"
-#include "generatorfwd.h"
-#include "audiodevicefwd.h"
+#include "generator.h"
+#include "audiodevice.h"
 #include <latero/tactograph.h>
 
 namespace latero::graphics {

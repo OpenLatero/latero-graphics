@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "motiontexturefwd.h"
+#include "motiontexture.h"
 #include "textureselectorwidget.h"
 
 namespace latero::graphics {

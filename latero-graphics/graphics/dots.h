@@ -1,12 +1,14 @@
 #pragma once
 
-#include "dotsfwd.h"
+#include <memory>
 #include "group.h"
-#include "../ridgefwd.h"
+#include "../ridge.h"
 #include "../oscillator.h"
 #include "dot.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Dots> DotsPtr;
 
 /** Set of dots with all the same properties (except location). */
 class Dots : public Group

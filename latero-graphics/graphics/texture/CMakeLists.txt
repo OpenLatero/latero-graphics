@@ -1,12 +1,8 @@
 set(SRC_H
 	texture.h
- 	texturefwd.h
 	texturewidget.h
 	gratingtexture.h
-	gratingtexturefwd.h
 	gratingtexturewidget.h
-	axialgratingtexturefwd.h
-	combotexturefwd.h
 	motiontexture.h
 	patterntexture.h
 	radialgratingtexture.h
@@ -17,13 +13,7 @@ set(SRC_H
 	patterntexturewidget.h
 	radialgratingtexturewidget.h
 	axialgratingtexturewidget.h
-	doublelineargratingtexturefwd.h
-	lineargratingtexturefwd.h
-	nulltexturefwd.h
-	plaintexturefwd.h
 	stock.h
-	vibrotexturefwd.h
-	blendtexturefwd.h
 	doublelineargratingtexture.h
 	lineargratingtexture.h
 	nulltexture.h
@@ -37,9 +27,6 @@ set(SRC_H
 	plaintexturewidget.h
 	vibrotexturewidget.h
 	blendtexturewidget.h
-	motiontexturefwd.h
-	patterntexturefwd.h
-	radialgratingtexturefwd.h
 )
 
 set(SRC_CPP

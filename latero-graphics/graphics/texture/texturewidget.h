@@ -1,7 +1,7 @@
 #pragma once
 
 #include "texturedropdown.h"
-#include "texturefwd.h"
+#include "texture.h"
 #include <gtkmm.h>
 #include "../../pointwidget.h"
 #include "../../gtk/checkframe.h"

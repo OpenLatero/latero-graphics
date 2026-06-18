@@ -1,17 +1,19 @@
 #pragma once
 
-#include "strokefwd.h"
+#include <memory>
 #include "../modifiable.h"
 #include <latero/tactograph.h>
-#include "../gratingfwd.h"
-#include "texture/vibrotexturefwd.h"
-#include "../ridgefwd.h"
+#include "../grating.h"
+#include "texture/vibrotexture.h"
+#include "../ridge.h"
 #include "../oscillator.h"
 #include "../namedid.h"
 #include <sigc++/signal.h>
 #include "dotpattern.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Stroke> StrokePtr;
 
 class StrokeState
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "positiongenfwd.h"
+#include "positiongen.h"
 #include "gtk/animation.h"
 #include "units.h"
 #include <boost/date_time/posix_time/posix_time_types.hpp>

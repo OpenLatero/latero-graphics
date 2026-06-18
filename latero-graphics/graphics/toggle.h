@@ -1,9 +1,11 @@
 #pragma once
 
+#include <memory>
 #include "pattern.h"
-#include "togglefwd.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Toggle> TogglePtr;
 
 class Toggle : virtual public Pattern
 {

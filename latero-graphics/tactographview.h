@@ -3,7 +3,7 @@
 #include <gtkmm.h>
 #include <latero/tactograph.h>
 #include "gtk/animation.h"
-#include "generatorfwd.h"
+#include "generator.h"
 #include "tactiledisplayview.h"
 
 namespace latero::graphics {

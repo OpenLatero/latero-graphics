@@ -1,10 +1,12 @@
 #pragma once
 
-#include "velmodulatorfwd.h"
+#include <memory>
 #include "modulator.h"
 #include "../../units.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class VelModulator> VelModulatorPtr;
 
 class VelModulator : public Modulator
 {

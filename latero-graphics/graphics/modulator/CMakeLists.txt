@@ -9,14 +9,11 @@ set(SRC_CPP
 )
 
 set(SRC_H
-	dirmodulatorfwd.h
 	dirmodulator.h
 	dirmodulatorwidget.h
 	modulatordropdown.h
-	modulatorfwd.h
 	modulator.h
 	modulatorpreview.h
-	velmodulatorfwd.h
 	velmodulator.h
 	velmodulatorwidget.h
 )

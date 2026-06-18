@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "patterntexturefwd.h"
+#include "patterntexture.h"
 
 namespace latero::graphics {
 

@@ -3,7 +3,7 @@
 #include <gtkmm.h>
 #include <latero/tactileimg.h>
 #include <latero/tactiledisplay.h>
-#include "generatorfwd.h"
+#include "generator.h"
 #include "tactiledisplaypainter.h"
 #include <latero/point.h>
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "velmodulatorfwd.h"
+#include "velmodulator.h"
 
 namespace latero::graphics {
 

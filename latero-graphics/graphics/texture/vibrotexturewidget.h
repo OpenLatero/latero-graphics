@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "vibrotexturefwd.h"
+#include "vibrotexture.h"
 
 namespace latero::graphics {
 

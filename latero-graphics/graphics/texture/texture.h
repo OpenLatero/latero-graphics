@@ -1,6 +1,6 @@
 #pragma once
 
-#include "texturefwd.h"
+#include <memory>
 #include "../../modifiable.h"
 #include <latero/tactograph.h>
 #include "../../xml.h"
@@ -11,6 +11,8 @@
 #include "../pattern.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Texture> TexturePtr;
 
 class Texture : virtual public Pattern
 {

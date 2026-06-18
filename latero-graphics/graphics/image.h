@@ -1,13 +1,14 @@
 #pragma once
 
-#include "texture/texturefwd.h"
+#include <memory>
+#include "texture/texture.h"
 #include "pattern.h"
-#include "../maskfwd.h"
-#include "imagefwd.h"
+#include "../mask.h"
 #include "../gtk/animation.h"
 
 namespace latero::graphics {
 
+typedef std::shared_ptr<class Image> ImagePtr;
 
 class Image : public Pattern
 {

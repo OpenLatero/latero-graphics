@@ -1,6 +1,6 @@
 #pragma once
 
-#include "canvasfwd.h"
+#include "canvas.h"
 #include <gtkmm.h>
 
 namespace latero::graphics {

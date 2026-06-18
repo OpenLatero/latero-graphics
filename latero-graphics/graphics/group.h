@@ -1,11 +1,13 @@
 #pragma once
 
+#include <memory>
 #include "pattern.h"
-#include "groupfwd.h"
 #include "../namedid.h"
-#include "modulator/modulatorfwd.h"
+#include "modulator/modulator.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Group> GroupPtr;
 
 // TODO: turn into a template for different types of patterns?
 class Group : virtual public Pattern

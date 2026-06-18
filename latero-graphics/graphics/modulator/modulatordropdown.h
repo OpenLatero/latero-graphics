@@ -1,6 +1,6 @@
 #pragma once
 
-#include "modulatorfwd.h"
+#include "modulator.h"
 #include <gtkmm.h>
 #include <latero/tactograph.h>
 

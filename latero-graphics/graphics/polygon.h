@@ -1,17 +1,19 @@
 #pragma once
 
-#include "polygonfwd.h"
+#include <memory>
 #include "closedpattern.h"
 #include "stroke.h"
 #include "../vector.h"
 #include <latero/point.h>
-#include "../oscillatorfwd.h"
+#include "../oscillator.h"
 #include "../units.h"
 #include <iostream>
 #include "dotpattern.h"
 
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Polygon> PolygonPtr;
 
 class Vertex
 {

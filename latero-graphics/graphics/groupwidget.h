@@ -1,7 +1,7 @@
 #pragma once
 
-#include "patternfwd.h"
-#include "groupfwd.h"
+#include "pattern.h"
+#include "group.h"
 #include <gtkmm.h>
 #include "texture/textureselectorwidget.h"
 

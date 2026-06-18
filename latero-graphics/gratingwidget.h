@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "gratingfwd.h"
+#include "grating.h"
 #include "gratinggraph.h"
 #include "gratingmodulatorwidget.h"
 #include "gtk/checkframe.h"

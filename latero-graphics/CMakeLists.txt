@@ -35,45 +35,35 @@ set(SRC_ROOT_CPP
 
 set(SRC_ROOT_H
 	audiodevice.h
-	audiodevicefwd.h
 	audioengine.h
-	audioenginefwd.h
 	averagefilter.h
 	buttonevent.h
 	engine.h
 	external.h
 	generator.h
-	generatorfwd.h
 	graph.h
 	grating.h
-	gratingfwd.h
 	gratinggraph.h
 	gratingmodulator.h
-	gratingmodulatorfwd.h
 	gratingmodulatorwidget.h
 	gratingwidget.h
 	logger.h
 	mainpage.h
 	mask.h
-	maskfwd.h
 	maskwidget.h
 	modifiable.h
 	mutex.h
 	namedid.h
 	oscillator.h
-	oscillatorfwd.h
 	oscillatorwidget.h
 	pointlistwidget.h
 	pointwidget.h
 	positiongen.h
-	positiongenfwd.h
 	ridge.h
-	ridgefwd.h
 	ridgegraph.h
 	ridgewidget.h
 	state.h
 	tactileengine.h
-	tactileenginefwd.h
 	timer.h
 	units.h
 	vector.h

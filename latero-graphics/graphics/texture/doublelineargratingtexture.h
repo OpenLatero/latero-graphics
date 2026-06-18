@@ -1,10 +1,12 @@
 #pragma once
 
-#include "doublelineargratingtexturefwd.h"
+#include <memory>
 #include "combotexture.h"
-#include "lineargratingtexturefwd.h"
- 
+#include "lineargratingtexture.h"
+
 namespace latero::graphics {
+
+typedef std::shared_ptr<class DoubleLinearGratingTexture> DoubleLinearGratingTexturePtr;
 
 /** TODO: integrate velocity, support radial mode */
 

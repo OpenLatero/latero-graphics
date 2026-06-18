@@ -1,6 +1,6 @@
 #pragma once
 
-#include "blendtexturefwd.h"
+#include "blendtexture.h"
 #include "textureselectorwidget.h"
 #include <gtkmm.h>
 #include "../modulator/modulatordropdown.h"

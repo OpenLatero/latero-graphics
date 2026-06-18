@@ -1,10 +1,12 @@
 #pragma once
 
+#include <memory>
 #include "texture.h"
-#include "blendtexturefwd.h"
-#include "../modulator/modulatorfwd.h"
+#include "../modulator/modulator.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class BlendTexture> BlendTexturePtr;
 
 // TODO: This could be implemented as part of ComboTexture using Group's reactive operator.
 class BlendTexture : public Texture

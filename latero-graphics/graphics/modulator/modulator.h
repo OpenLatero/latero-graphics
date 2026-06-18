@@ -1,6 +1,6 @@
 #pragma once
 
-#include "modulatorfwd.h"
+#include <memory>
 #include "../../modifiable.h"
 #include <latero/tactograph.h>
 #include "../../xml.h"
@@ -8,6 +8,8 @@
 #include "../../state.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Modulator> ModulatorPtr;
 
 /**
  * A modulator takes as input a number of variables (typically sensor readings) and returns

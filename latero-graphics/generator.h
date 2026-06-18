@@ -1,8 +1,8 @@
 #pragma once
 
+#include <memory>
 #include <latero/tactograph.h>
 #include <gtkmm.h>
-#include "generatorfwd.h"
 #include "modifiable.h"
 #include "gtk/animation.h"
 #include "xml.h"
@@ -45,6 +45,8 @@ namespace latero::graphics {
  * of its corresponding widget class. This functionality should perhaps be implemented by 
  * another factory class or factory methods which would decouple the two classes.
  */
+typedef std::shared_ptr<class Generator> GeneratorPtr;
+
 class Generator : public Modifiable
 {
 public:

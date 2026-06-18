@@ -1,9 +1,11 @@
 #pragma once
 
+#include <memory>
 #include "gratingtexture.h"
-#include "radialgratingtexturefwd.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class RadialGratingTexture> RadialGratingTexturePtr;
 
 class RadialGratingTexture : public GratingTexture
 {

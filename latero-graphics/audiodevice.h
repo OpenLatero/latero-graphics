@@ -1,13 +1,15 @@
 #pragma once
 
-#include "audiodevicefwd.h"
+#include <memory>
 #ifdef ENABLE_AUDIERE
 #include <audiere.h>
 #endif
 
 
 namespace latero::graphics {
-        
+
+typedef std::shared_ptr<class AudioDevice> AudioDevicePtr;
+
         class AudioDevice
         {
         public:
@@ -30,6 +32,6 @@ namespace latero::graphics {
             audiere::AudioDevicePtr audioDev_;
 #endif
         };
-        
-    } // namespace
+
+} // namespace
 

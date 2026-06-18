@@ -1,8 +1,8 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "maskfwd.h"
-#include "generatorfwd.h"
+#include "mask.h"
+#include "generator.h"
 #include <latero/tactograph.h>
 
 namespace latero::graphics {

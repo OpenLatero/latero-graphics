@@ -1,9 +1,11 @@
 #pragma once
 
+#include <memory>
 #include "generator.h"
-#include "positiongenfwd.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class PositionGen> PositionGenPtr;
 
 /**
  * This class represents a Generator in which the deflection of an actuator is determined

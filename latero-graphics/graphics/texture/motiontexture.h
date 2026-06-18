@@ -1,13 +1,15 @@
 #pragma once
 
-#include "motiontexturefwd.h"
+#include <memory>
 #include "combotexture.h"
 #include "vibrotexture.h"
 #include "plaintexture.h"
 #include "../../grating.h"
 #include "lineargratingtexture.h"
- 
+
 namespace latero::graphics {
+
+typedef std::shared_ptr<class MotionTexture> MotionTexturePtr;
 
 class MotionTexture : public ComboTexture
 {

@@ -1,13 +1,15 @@
 #pragma once
 
+#include <memory>
 #include <gdkmm/pixbuf.h>
 
-#include "maskfwd.h"
 #include "modifiable.h"
 #include "units.h"
 #include "xml.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Mask> MaskPtr;
 
 /**
  * A Mask maps a bitmapped image to a window within the virtual surface.

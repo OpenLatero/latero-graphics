@@ -2,7 +2,7 @@
 
 #include <latero/tactograph.h>
 #include "engine.h"
-#include "generatorfwd.h"
+#include "generator.h"
 
 namespace latero::graphics {
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "texturefwd.h"
+#include "texture.h"
 #include <gtkmm.h>
 #include <latero/tactograph.h>
 

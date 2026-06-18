@@ -1,10 +1,12 @@
 #pragma once
 
-#include "combotexturefwd.h"
+#include <memory>
 #include "texture.h"
 #include "../../graphics/group.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class ComboTexture> ComboTexturePtr;
 
 class ComboTexture : public Texture, public Group
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "circlefwd.h"
+#include "circle.h"
 #include <gtkmm.h>
 
 namespace latero::graphics {

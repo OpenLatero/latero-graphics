@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ridgefwd.h"
+#include "ridge.h"
 #include "graph.h"
 
 namespace latero::graphics {

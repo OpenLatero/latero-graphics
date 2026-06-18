@@ -1,13 +1,15 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 
-#include "ridgefwd.h"
 #include "modifiable.h"
 #include "xml.h"
 
 namespace latero::graphics {
+
+typedef std::shared_ptr<class Ridge> RidgePtr;
 
 class Ridge : public Modifiable
 {

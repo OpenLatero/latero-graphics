@@ -1,11 +1,12 @@
 #pragma once
 
-#include "dotpatternfwd.h"
+#include <memory>
 #include "dots.h"
 #include "../vector.h"
 
 namespace latero::graphics {
 
+typedef std::shared_ptr<class DotPattern> DotPatternPtr;
 class DotPattern : public Dots
 {
 public:
@@ -33,6 +34,7 @@ protected:
 };
 
 
+typedef std::shared_ptr<class DottedLine> DottedLinePtr;
 class DottedLine : public DotPattern
 {
 public:
@@ -72,6 +74,7 @@ protected:
 };
 
 
+typedef std::shared_ptr<class DottedCircle> DottedCirclePtr;
 class DottedCircle : public DotPattern
 {
 public:
@@ -120,6 +123,7 @@ protected:
 	boost::posix_time::time_duration period_;
 };
 
+typedef std::shared_ptr<class DottedPolygon> DottedPolygonPtr;
 class DottedPolygon : public DotPattern
 {
 public:

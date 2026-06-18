@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gtkmm.h>
-#include "dotpatternfwd.h"
+#include "dotpattern.h"
 
 namespace latero::graphics {
 

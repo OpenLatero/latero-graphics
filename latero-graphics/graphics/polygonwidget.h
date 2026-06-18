@@ -1,6 +1,6 @@
 #pragma once
 
-#include "polygonfwd.h"
+#include "polygon.h"
 #include <gtkmm.h>
 
 namespace latero::graphics {
