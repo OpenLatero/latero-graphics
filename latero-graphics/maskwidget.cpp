@@ -199,8 +199,8 @@ protected:
 		dialog->open(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
 			try {
 				auto file = dialog->open_finish(result);
-				std::string filename = file->get_path();
-				fileEntry_.set_text(filename);
+				std::filesystem::path filename = file->get_path();
+				fileEntry_.set_text(filename.string());
 				peer_->SetImage(filename, false); // TODO
 			} catch (const Gtk::DialogError&) {}
 		});

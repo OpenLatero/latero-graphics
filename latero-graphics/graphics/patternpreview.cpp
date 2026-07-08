@@ -102,8 +102,8 @@ void PatternPreview::OnSave()
 	dialog->save(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
 		try {
 			auto file = dialog->save_finish(result);
-			std::string filename = file->get_path();
-			peer_->GetVisualization(1000,boost::posix_time::seconds(0),viz_mode)->save(filename,"png");
+			std::filesystem::path filename = file->get_path();
+			peer_->GetVisualization(1000,boost::posix_time::seconds(0),viz_mode)->save(filename.string(),"png");
 			chmod(filename.c_str(), 0666);
 		} catch (const Gtk::DialogError&) {}
 	});

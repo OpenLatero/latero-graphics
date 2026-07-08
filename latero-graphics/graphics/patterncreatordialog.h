@@ -21,7 +21,7 @@ protected:
 	Gtk::DropDown* typeDropDown_;
 	TextureDropDown txDropDown_;
 	const latero::Tactograph *dev_;
-	std::string loadedFile_;
+	std::filesystem::path loadedFile_;
 	sigc::signal<void(int)> signalResponse_;
 };
 

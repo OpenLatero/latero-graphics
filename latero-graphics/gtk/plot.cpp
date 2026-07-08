@@ -9,7 +9,7 @@ namespace latero::graphics::gtk {
 class PlotSaveDlg : public Gtk::Window
 {
 public:
-	sigc::signal<void(std::string, uint, uint)> signalSave;
+	sigc::signal<void(std::filesystem::path, uint, uint)> signalSave;
 
 	PlotSaveDlg() :
 		wAdj_(Gtk::Adjustment::create(1000, 1, 10000, 10)),
@@ -183,7 +183,7 @@ void Plot::OnSaveAs()
 	auto* dialog = new PlotSaveDlg();
 	if (auto* win = dynamic_cast<Gtk::Window*>(get_root()))
 		dialog->set_transient_for(*win);
-	dialog->signalSave.connect([this](std::string path, uint w, uint h) {
+	dialog->signalSave.connect([this](std::filesystem::path path, uint w, uint h) {
 		SaveToFile(path, w, h);
 	});
 	dialog->set_visible();
