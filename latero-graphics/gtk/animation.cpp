@@ -5,7 +5,6 @@
 #include <sstream>
 #include <iostream>
 #include <assert.h>
-#include <boost/filesystem/convenience.hpp>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <gtkmm.h>
@@ -149,12 +148,9 @@ void Animation::CompositeMult(const Animation &src)
 	}	
 }
 
-void Animation::SaveToFile(std::string file, bool trim)
+void Animation::SaveToFile(const std::filesystem::path& file, bool trim)
 {
-	namespace fs = boost::filesystem;	
-
-	std::string ext = fs::path(file).extension().string();
-	std::string base = (fs::path(file).parent_path() / fs::path(file).stem()).string();
+	std::string base = (file.parent_path() / file.stem()).string();
 	
 	try
 	{

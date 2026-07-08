@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <gdkmm.h>
 #include <gtkmm/window.h>
 
@@ -66,7 +67,7 @@ public:
 	 * saves each frame of the animation to a file 
 	 * @param trim auto-crops the image if true
 	 */
-	void SaveToFile(std::string file, bool trim = false);
+	void SaveToFile(const std::filesystem::path& file, bool trim = false);
 
 	/**
 	 * Interaction version of SaveToFile. Popups a dialog to select the filename.

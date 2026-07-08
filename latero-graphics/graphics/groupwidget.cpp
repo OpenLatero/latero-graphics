@@ -436,7 +436,7 @@ void GroupTreeView::OnPatternSave()
 	dialog->save(*win, [pattern, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
 		try {
 			auto f = dialog->save_finish(result);
-pattern->SaveToFile(f->get_path());
+			pattern->SaveToFile(f->get_path());
 		} catch (const Gtk::DialogError&) {}
 	});
 }
