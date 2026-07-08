@@ -1,5 +1,4 @@
 #include <sys/stat.h>
-#include <filesystem>
 #include "pattern.h"
 #include "circle.h"
 #include "line.h"
@@ -42,23 +41,22 @@ PatternPtr Pattern::Create(const latero::Tactograph *dev, const XMLInputNode &no
 	}
 }
 
-PatternPtr Pattern::Create(const latero::Tactograph *dev, std::string xmlFile)
+PatternPtr Pattern::Create(const latero::Tactograph *dev, const std::filesystem::path& xmlFile)
 {
 	try
 	{
 		xmlpp::DomParser parser;
 		parser.set_substitute_entities();
-		parser.parse_file(xmlFile);
+		parser.parse_file(xmlFile.string());
 		if (parser)
 		{
-			XMLInputNode root = parser.get_document()->get_root_node();			
-			std::filesystem::path p(xmlFile);
-			root.SetPath(p.parent_path().string() + "/");
+			XMLInputNode root = parser.get_document()->get_root_node();
+			root.SetPath(xmlFile.parent_path().string() + "/");
 			XMLInputNode txNode = root.GetChild("Pattern");
 			if (txNode)
 			{
 				PatternPtr rv = Create(dev,txNode);
-				rv->SetXMLFile(xmlFile);
+				rv->SetXMLFile(xmlFile.string());
 				return rv;
 			}
 		}
@@ -145,17 +143,16 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, boost::posix_time::t
 	}
 }
 
-void Pattern::SaveToFile(std::string xmlFile)
+void Pattern::SaveToFile(const std::filesystem::path& xmlFile)
 {
 	xmlpp::Document document;
 	XMLOutputNode root = document.create_root_node("laterographics_xml");
-	std::filesystem::path p(xmlFile);
-	root.SetPath(p.parent_path().string() + "/");
+	root.SetPath(xmlFile.parent_path().string() + "/");
 	root.SetAttribute("type","Pattern");
 	AppendXML(root);
-	document.write_to_file_formatted(xmlFile);
+	document.write_to_file_formatted(xmlFile.string());
 	chmod(xmlFile.c_str(), 0666); // make accessible to others than root
-	SetXMLFile(xmlFile);
+	SetXMLFile(xmlFile.string());
 }
 
 double Pattern::Render_(const ActuatorState &state, bool ignoreVisibility)

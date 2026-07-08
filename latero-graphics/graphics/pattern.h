@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <filesystem>
 #include <latero/tactograph.h>
 #include <gtkmm.h>
 #include "../modifiable.h"
@@ -35,7 +36,7 @@ public:
 	static PatternPtr Create(const latero::Tactograph *dev, const XMLInputNode &node);
 
 	/** Create Pattern from an XML file */
-	static PatternPtr Create(const latero::Tactograph *dev, std::string xmlFile);
+	static PatternPtr Create(const latero::Tactograph *dev, const std::filesystem::path& xmlFile);
 
 	/** Destructor */
 	virtual ~Pattern() {}
@@ -79,7 +80,7 @@ public:
 	virtual void AppendXML(XMLOutputNode &root) const = 0;
 
 	/** Save pattern to an XML file */
-	void SaveToFile(std::string xmlFile);
+	void SaveToFile(const std::filesystem::path& xmlFile);
 
 	/**
 	 * Updates the visibility of the Pattern based on the current state. This

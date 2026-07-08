@@ -234,7 +234,7 @@ void Animation::SaveToFile(Gtk::Window* parent)
 	dialog->save(*parent, [self, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
 		try {
 			auto file = dialog->save_finish(result);
-			std::string path = file->get_path();
+			std::filesystem::path path = file->get_path();
 			std::cout << "Animation::SaveToFile: saving to " << path << "\n";
 			self->SaveToFile(path);
 			std::cout << "Animation::SaveToFile: done\n";
