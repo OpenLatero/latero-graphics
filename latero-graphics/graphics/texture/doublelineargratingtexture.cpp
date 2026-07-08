@@ -106,7 +106,7 @@ void DoubleLinearGratingTexture::LoadXML(const XMLInputNode &root)
 	LoadMotion(root);
 }
 
-std::string DoubleLinearGratingTexture::GetDefaultIconFile() const
+std::filesystem::path DoubleLinearGratingTexture::GetDefaultIconFile() const
 {
 	return tx_icon_double_linear_grating;
 }

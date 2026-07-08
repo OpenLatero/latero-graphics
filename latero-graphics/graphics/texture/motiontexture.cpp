@@ -89,7 +89,7 @@ void MotionTexture::LoadXML(const XMLInputNode &root)
 	if (node) SetTexture(Texture::Create(Dev(),node));
 }
 
-std::string MotionTexture::GetDefaultIconFile() const
+std::filesystem::path MotionTexture::GetDefaultIconFile() const
 {
 	return tx_icon_motion; // todo
 }

@@ -28,7 +28,7 @@ public:
 
 	virtual void LoadXML(const XMLInputNode &node);
 	virtual void AppendXML(XMLOutputNode &root) const;
-	virtual std::string GetDefaultIconFile() const;
+	virtual std::filesystem::path GetDefaultIconFile() const;
 
 	virtual double NormRender_(const ActuatorState &state);
 

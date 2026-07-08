@@ -48,7 +48,7 @@ void VibroTexture::LoadXML(const XMLInputNode &node)
 	Texture::LoadXML(node);
 }
 
-std::string VibroTexture::GetDefaultIconFile() const
+std::filesystem::path VibroTexture::GetDefaultIconFile() const
 {
 	return tx_icon_vibration;
 }

@@ -419,9 +419,8 @@ void GroupTreeView::OnPatternSave()
 	PatternPtr pattern = GetCurrentPattern();
 	if (!pattern) return;
 
-	std::string file = pattern->GetXMLFile();
-	if (file == "") file = "new.pattern";
-	file = std::filesystem::path(file).filename().string();
+	std::filesystem::path file = pattern->GetXMLFile();
+	if (file.empty()) file = "new.pattern";
 
 	auto filter = Gtk::FileFilter::create();
 	filter->add_suffix("pattern");
@@ -429,7 +428,7 @@ void GroupTreeView::OnPatternSave()
 	auto dialog = Gtk::FileDialog::create();
 	dialog->set_title("Please select a file...");
 	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
-	dialog->set_initial_name(file);
+	dialog->set_initial_name(file.filename().string());
 	dialog->set_default_filter(filter);
 
 	auto* win = dynamic_cast<Gtk::Window*>(get_root());
@@ -447,9 +446,8 @@ void GroupTreeView::OnTextureSave()
 	PatternPtr pattern = GetCurrentPattern();
 	if (!pattern) return;
 
-	std::string file = pattern->GetXMLFile();
-	if (file == "") file = "new.tx";
-	file = std::filesystem::path(file).filename().string();
+	std::filesystem::path file = pattern->GetXMLFile();
+	if (file.empty()) file = "new.tx";
 
 	auto filter = Gtk::FileFilter::create();
 	filter->add_suffix("tx");
@@ -457,7 +455,7 @@ void GroupTreeView::OnTextureSave()
 	auto dialog = Gtk::FileDialog::create();
 	dialog->set_title("Please select a file...");
 	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
-	dialog->set_initial_name(file);
+	dialog->set_initial_name(file.filename().string());
 	dialog->set_default_filter(filter);
 
 	auto* win = dynamic_cast<Gtk::Window*>(get_root());

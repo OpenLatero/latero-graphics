@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <filesystem>
 #include "pattern.h"
 #include "../mask.h"
 #include "../audiodevice.h"
@@ -13,8 +14,8 @@ class Sound
 {
 public:
 	Sound(const Point &surfaceSize);
-	void SetFile(std::string file);
-	std::string GetFile();
+	void SetFile(const std::filesystem::path& file);
+	std::filesystem::path GetFile();
 	void Play(AudioDevicePtr dev);
 	MaskPtr mask_;
 
@@ -26,7 +27,7 @@ protected:
 	audiere::OutputStreamPtr stream_;
 #endif
     
-    std::string file_;
+    std::filesystem::path file_;
 };
 
 class AudioPattern : public Pattern
@@ -42,7 +43,7 @@ public:
 		return AudioPatternPtr(new AudioPattern(dev,node));
 	}
 	
-	static AudioPatternPtr Create(const latero::Tactograph *dev, std::string file)
+	static AudioPatternPtr Create(const latero::Tactograph *dev, const std::filesystem::path& file)
 	{
 		return AudioPatternPtr(new AudioPattern(dev,file));
 	}
@@ -61,7 +62,7 @@ public:
     // @warning: This class currently doesn't use locks. This function should therefore be called ONLY while the AudioPattern
     // is not used by any other threads, i.e. before it gets inserted into a Generator such as Canvas.
     // @todo: fix this!
-    void AddSound(MaskPtr mask, std::string audioFile);
+    void AddSound(MaskPtr mask, const std::filesystem::path& audioFile);
 
 protected:
 	std::vector<Sound*> sounds_;
@@ -70,7 +71,7 @@ protected:
 private:
 	AudioPattern(const latero::Tactograph *dev);
 	AudioPattern(const latero::Tactograph *dev, const XMLInputNode &node);
-	AudioPattern(const latero::Tactograph *dev, std::string file);
+	AudioPattern(const latero::Tactograph *dev, const std::filesystem::path& file);
 };
 
 } // namespace

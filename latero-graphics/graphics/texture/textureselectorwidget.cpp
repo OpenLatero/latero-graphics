@@ -43,14 +43,13 @@ void TextureSelectorCtrl::OnSave()
 	auto filters = Gio::ListStore<Gtk::FileFilter>::create();
 	filters->append(filter);
 
-	std::string file = texture_->GetXMLFile();
-	if (file == "") file = "texture.tx";
-	file = std::filesystem::path(file).stem().string();
+	std::filesystem::path file = texture_->GetXMLFile();
+	if (file.empty()) file = "texture.tx";
 
 	auto dialog = Gtk::FileDialog::create();
 	dialog->set_title("Please select a file...");
 	dialog->set_initial_folder(Gio::File::create_for_path(std::filesystem::current_path().string()));
-	dialog->set_initial_name(file);
+	dialog->set_initial_name(file.stem().string());
 	dialog->set_filters(filters);
 	dialog->set_default_filter(filter);
 

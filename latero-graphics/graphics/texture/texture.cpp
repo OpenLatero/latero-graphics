@@ -50,18 +50,17 @@ TexturePtr Texture::Create(const latero::Tactograph *dev, const XMLInputNode &no
 }
 
 
-TexturePtr Texture::Create(const latero::Tactograph *dev, std::string xmlFile)
+TexturePtr Texture::Create(const latero::Tactograph *dev, const std::filesystem::path& xmlFile)
 {
 	try
 	{
 		xmlpp::DomParser parser;
 		parser.set_substitute_entities();
-		parser.parse_file(xmlFile);
+		parser.parse_file(xmlFile.string());
 		if (parser)
 		{
 			XMLInputNode root = parser.get_document()->get_root_node();
-			std::filesystem::path p(xmlFile);
-			root.SetPath(p.parent_path().string() + "/");
+			root.SetPath(xmlFile.parent_path().string() + "/");
 			XMLInputNode txNode = root.GetChild("Pattern");
 			if (txNode)
 			{
@@ -98,16 +97,15 @@ Texture::~Texture()
 {
 }
 
-void Texture::Save(std::string xmlFile)
+void Texture::Save(const std::filesystem::path& xmlFile)
 {
 	printf("Saving texture to %s...\n", xmlFile.c_str());
 	xmlpp::Document document;
 	XMLOutputNode root = document.create_root_node("laterographics_xml");
-	std::filesystem::path p(xmlFile);
-	root.SetPath(p.parent_path().string() + "/");
+	root.SetPath(xmlFile.parent_path().string() + "/");
 	root.SetAttribute("type","Texture");
 	AppendXML(root);
-	document.write_to_file_formatted(xmlFile);
+	document.write_to_file_formatted(xmlFile.string());
 	chmod(xmlFile.c_str(), 0666); // make accessible to others than root
 	SetXMLFile(xmlFile);
 }
@@ -129,9 +127,9 @@ void Texture::AppendAmplitude(XMLOutputNode &root) const
 
 void Texture::AppendIcon(XMLOutputNode &root) const
 {
-	if (GetIconFile() != "")
+	if (!iconfile_.empty())
 		if (GetIconFile() != GetDefaultIconFile())
-			root.AddFilenameChild("icon", GetIconFile());
+			root.AddFilenameChild("icon", GetIconFile().string());
 }
 
 void Texture::AppendInvert(XMLOutputNode &root) const

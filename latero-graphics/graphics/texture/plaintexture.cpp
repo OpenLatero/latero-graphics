@@ -46,7 +46,7 @@ void PlainTexture::LoadXML(const XMLInputNode &node)
 	Texture::LoadXML(node);
 }
 
-std::string PlainTexture::GetDefaultIconFile() const
+std::filesystem::path PlainTexture::GetDefaultIconFile() const
 {
 	return tx_icon_null;
 }

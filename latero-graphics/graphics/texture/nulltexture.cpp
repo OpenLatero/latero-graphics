@@ -35,7 +35,7 @@ void NullTexture::AppendXML(XMLOutputNode &root) const
 	Texture::AppendXML(node);
 }
 
-std::string NullTexture::GetDefaultIconFile() const
+std::filesystem::path NullTexture::GetDefaultIconFile() const
 {
 	return tx_icon_null;
 }

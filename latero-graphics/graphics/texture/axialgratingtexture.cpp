@@ -121,7 +121,7 @@ void AxialGratingTexture::LoadXML(const XMLInputNode &node)
 	if (n) SetSeedAngle(n.GetFloat());
 }
 
-std::string AxialGratingTexture::GetDefaultIconFile() const
+std::filesystem::path AxialGratingTexture::GetDefaultIconFile() const
 {
 	return tx_icon_axial_grating;
 }

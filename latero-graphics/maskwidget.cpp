@@ -145,7 +145,7 @@ public:
 	MaskImageWidget(MaskPtr peer) :
 		Gtk::Frame("image"), peer_(peer)
 	{
-		fileEntry_.set_text(peer->GetImgFile());
+		fileEntry_.set_text(peer->GetImgFile().string());
 
 		auto pOpenButton = Gtk::make_managed<Gtk::Button>();
 		pOpenButton->set_icon_name("document-open");
@@ -171,7 +171,7 @@ protected:
 	void OnOpen()
 	{
 		std::string dir;
-		std::string currentFile = peer_->GetImgFile();
+		std::filesystem::path currentFile = peer_->GetImgFile();
 		if (currentFile.empty())
 		{
 			dir = std::filesystem::current_path().string();
@@ -179,7 +179,7 @@ protected:
 		}
 		else
 		{
-			dir = currentFile.substr(0, currentFile.find_last_of('/'));
+			dir = currentFile.parent_path().string();
 		}
 
 		auto filter = Gtk::FileFilter::create();

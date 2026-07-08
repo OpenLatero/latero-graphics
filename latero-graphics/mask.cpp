@@ -34,14 +34,12 @@ Mask::~Mask()
 {
 };
 
-Glib::RefPtr<Gdk::Pixbuf> Mask::GetBlurredImage(std::string filename) const
+Glib::RefPtr<Gdk::Pixbuf> Mask::GetBlurredImage(const std::filesystem::path& filename) const
 {
 	namespace fs = boost::filesystem;
 
-	// created cache of blurred images if it doesn't already exist
-	std::filesystem::path p(filename);
-	std::string cachePath = p.parent_path().string() + "/.blurred";
-	fs::path boost_path(cachePath); //,fs::native);
+	std::string cachePath = (filename.parent_path() / ".blurred").string();
+	fs::path boost_path(cachePath);
 	if (!fs::exists(boost_path))
 	{
 		fs::create_directories(boost_path);
@@ -50,48 +48,46 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetBlurredImage(std::string filename) const
 	else if (!fs::is_directory(boost_path))
 		printf("can't create cachePath!\n");
 
-	// handle SVG images
-	// must be converted to png before blurring
-	if(filename.substr(filename.find_last_of(".")+1) == "svg")
+	// handle SVG images — must be converted to PNG before blurring
+	std::filesystem::path actualFile = filename;
+	if (filename.extension() == ".svg")
 	{
-		std::string svgbitmap = cachePath + "/" + Glib::path_get_basename(filename) + ".png";
+		std::string svgbitmap = cachePath + "/" + filename.filename().string() + ".png";
 
-		fs::path boost_svg(filename); //,fs::native);
-		fs::path boost_svgbitmap(svgbitmap); // ,fs::native);
-		if (!fs::exists(boost_svgbitmap) || 
+		fs::path boost_svg(filename.string());
+		fs::path boost_svgbitmap(svgbitmap);
+		if (!fs::exists(boost_svgbitmap) ||
 			(fs::last_write_time(boost_svgbitmap) < fs::last_write_time(boost_svg)))
 		{
-			Glib::RefPtr<Gdk::Pixbuf> svgbuf = Gdk::Pixbuf::create_from_file(filename);
-			svgbuf->save(svgbitmap,"png");
+			Glib::RefPtr<Gdk::Pixbuf> svgbuf = Gdk::Pixbuf::create_from_file(filename.string());
+			svgbuf->save(svgbitmap, "png");
 			chmod(svgbitmap.c_str(), 0666); // make accessible to others than root
 		}
-		filename = svgbitmap;
+		actualFile = svgbitmap;
 	}
 
-	// create blurred file if it doesn't exist or is too old
-	std::string blurredFile = cachePath + "/" + "blurred_" + Glib::path_get_basename(filename);
-	fs::path boost_blurred(blurredFile); //,fs::native);
-	fs::path boost_normal(filename); // ,fs::native);
-	if (!fs::exists(boost_blurred) || 
+	std::string blurredFile = cachePath + "/" + "blurred_" + actualFile.filename().string();
+	fs::path boost_blurred(blurredFile);
+	fs::path boost_normal(actualFile.string());
+	if (!fs::exists(boost_blurred) ||
 		(fs::last_write_time(boost_blurred) < fs::last_write_time(boost_normal)))
 	{
 		printf("Updating blurred cache: %s...\n", blurredFile.c_str());
- 		if (srcTypeAlpha_)
+		if (srcTypeAlpha_)
 		{
 			// can't use Magick++ until version with blurChannel is available
 			std::stringstream cmd;
-			cmd << "convert " << filename << " -channel A -blur 4x2 "<< blurredFile; 
+			cmd << "convert " << actualFile.string() << " -channel A -blur 4x2 " << blurredFile;
 			system(cmd.str().c_str());
 		}
 		else
 		{
-			Magick::Image image; 
-			image.read(filename);
-			image.blur(4,2); // gaussian blur, radius of 4, sigma of 2
+			Magick::Image image;
+			image.read(actualFile.string());
+			image.blur(4, 2); // gaussian blur, radius of 4, sigma of 2
 			image.write(blurredFile.c_str());
 		}
 		chmod(blurredFile.c_str(), 0666); // make accessible to others than root
-
 	}
 
 	return Gdk::Pixbuf::create_from_file(blurredFile);
@@ -106,7 +102,7 @@ bool Mask::SetImage(Glib::RefPtr<Gdk::Pixbuf> img, bool alpha)
 
 	// we're doing the strict mininum inside this lock...
 	LATERO_GRAPHICS_GUARD;
-	srcFile_ = "";
+	srcFile_.clear();
 	float hscale = GetWidth(units::percent);
 	float vscale = GetHeight(units::percent);
 	img_=cp;
@@ -120,12 +116,12 @@ bool Mask::SetImage(Glib::RefPtr<Gdk::Pixbuf> img, bool alpha)
 	return true;
 }
 
-bool Mask::SetImage(std::string filename, bool alpha)
+bool Mask::SetImage(const std::filesystem::path& filename, bool alpha)
 {
 	namespace fs = boost::filesystem;
 
 	// check if the file exists
-	fs::path boost_filename(filename); //,fs::native);
+	fs::path boost_filename(filename.string());
 	if (!fs::exists(boost_filename))
 	{
 		std::cout << "Mask::SetImage(" << filename << "): file doesn't exist" << std::endl;
@@ -137,17 +133,17 @@ bool Mask::SetImage(std::string filename, bool alpha)
 	try
 	{
 		Glib::RefPtr<Gdk::Pixbuf> buf =
-			IsBlurred()?GetBlurredImage(filename):Gdk::Pixbuf::create_from_file(filename);
+			IsBlurred() ? GetBlurredImage(filename) : Gdk::Pixbuf::create_from_file(filename.string());
 
 		// we're doing the strict mininum inside this lock...
 		LATERO_GRAPHICS_GUARD;
 		srcFile_ = filename;
 		float hscale = GetWidth(units::percent);
 		float vscale = GetHeight(units::percent);
-		img_=buf;
+		img_ = buf;
 		if (!alpha)
 		{
-			img_=img_->add_alpha(false,0,0,0);
+			img_ = img_->add_alpha(false,0,0,0);
 			gtk::PixbufOps::CopyChannel(img_,0,3);
 		}
 		SetSize(hscale, vscale, units::percent);
@@ -215,7 +211,7 @@ void Mask::AppendXML(XMLOutputNode &root) const
 {
 	XMLOutputNode maskNode = root.AddChild("mask");
 
-	XMLOutputNode imgfileNode = maskNode.AddFilenameChild("imgfile", GetImgFile());
+	XMLOutputNode imgfileNode = maskNode.AddFilenameChild("imgfile", GetImgFile().string());
 	imgfileNode.SetAttribute("type",(srcTypeAlpha_?"alpha":"gray"));
 
 	if (IsBlurred()) maskNode.AddChild("blur", IsBlurred());
@@ -329,7 +325,7 @@ void Mask::SetBlurred(bool v)
 	LATERO_GRAPHICS_UNLOCK;
 
 	// reload image if necessary
-	if (changed && (srcFile_!=""))
+	if (changed && (!srcFile_.empty()))
 		SetImage(srcFile_,srcTypeAlpha_);
 }
 
@@ -486,7 +482,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetSurfaceAlpha(uint w, uint h)
 
 void Mask::ReloadImage()
 {
-	if (srcFile_!="")
+	if (!srcFile_.empty())
 		SetImage(srcFile_, srcTypeAlpha_);
 }
 

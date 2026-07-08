@@ -32,7 +32,7 @@ public:
 	virtual void LoadXML(const XMLInputNode &node);
 	virtual void AppendXML(XMLOutputNode &root) const;
 
-	virtual std::string GetDefaultIconFile() const;
+	virtual std::filesystem::path GetDefaultIconFile() const;
 
 	void SetGridWidth(double v) { LATERO_GRAPHICS_GUARD; gridWidth_=v; SetLastModified_(); }
 	double GetGridWidth() const { LATERO_GRAPHICS_GUARD; return gridWidth_; }

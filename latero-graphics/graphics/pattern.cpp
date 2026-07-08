@@ -56,7 +56,7 @@ PatternPtr Pattern::Create(const latero::Tactograph *dev, const std::filesystem:
 			if (txNode)
 			{
 				PatternPtr rv = Create(dev,txNode);
-				rv->SetXMLFile(xmlFile.string());
+				rv->SetXMLFile(xmlFile);
 				return rv;
 			}
 		}
@@ -152,7 +152,7 @@ void Pattern::SaveToFile(const std::filesystem::path& xmlFile)
 	AppendXML(root);
 	document.write_to_file_formatted(xmlFile.string());
 	chmod(xmlFile.c_str(), 0666); // make accessible to others than root
-	SetXMLFile(xmlFile.string());
+	SetXMLFile(xmlFile);
 }
 
 double Pattern::Render_(const ActuatorState &state, bool ignoreVisibility)

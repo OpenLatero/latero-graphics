@@ -13,14 +13,13 @@ Sound::Sound(const Point &surfaceSize) :
 {
 };
 
-void Sound::SetFile(std::string file)
+void Sound::SetFile(const std::filesystem::path& file)
 {
-	//printf("Sound: setting file to %s\n", file.c_str());
 	file_ = file;
 	UpdateStream();
 }
 
-std::string Sound::GetFile()
+std::filesystem::path Sound::GetFile()
 {
 	return file_;
 }
@@ -28,7 +27,7 @@ std::string Sound::GetFile()
 void Sound::UpdateStream()
 {
 #ifdef ENABLE_AUDIERE
-	if ((dev_) && (file_!=""))
+	if (dev_ && !file_.empty())
 	{
 		printf("Sound: opening stream %s... ", file_.c_str());
 		stream_ = audiere::OpenSound(dev_->Dev(), file_.c_str(), false);
@@ -86,16 +85,16 @@ AudioPattern::AudioPattern(const latero::Tactograph *dev, const XMLInputNode &ro
 	}
 }	
 	
-AudioPattern::AudioPattern(const latero::Tactograph *dev, std::string file) :
+AudioPattern::AudioPattern(const latero::Tactograph *dev, const std::filesystem::path& file) :
 Pattern(dev),
 prevSound_(-1)
-{		
+{
 	Sound *sound = new Sound(dev->GetSurfaceSize());
 	sound->SetFile(file);
 	sounds_.push_back(sound);
 }
-    
-void AudioPattern::AddSound(MaskPtr mask, std::string audioFile)
+
+void AudioPattern::AddSound(MaskPtr mask, const std::filesystem::path& audioFile)
 {
     // NOT SAFE, SHOULD BE DONE WITHIN LOCKS
     Sound *sound = new Sound(Dev()->GetSurfaceSize());
@@ -122,7 +121,7 @@ void AudioPattern::AppendXML(XMLOutputNode &root) const
 	for (unsigned int i=0; i<sounds_.size(); ++i)
 	{
 		XMLOutputNode soundnode = node.AddChild("sound");
-		soundnode.AddFilenameChild("audiofile", sounds_[i]->GetFile());
+		soundnode.AddFilenameChild("audiofile", sounds_[i]->GetFile().string());
 		sounds_[i]->mask_->AppendXML(soundnode);
 	}
 }

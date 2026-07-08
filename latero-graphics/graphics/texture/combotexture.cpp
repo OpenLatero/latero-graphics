@@ -66,7 +66,7 @@ void ComboTexture::LoadXML(const XMLInputNode &root)
 
 
 
-std::string ComboTexture::GetDefaultIconFile() const
+std::filesystem::path ComboTexture::GetDefaultIconFile() const
 {
 	return tx_icon_combo;
 }

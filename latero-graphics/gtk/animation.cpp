@@ -151,13 +151,13 @@ void Animation::CompositeMult(const Animation &src)
 void Animation::SaveToFile(const std::filesystem::path& file, bool trim)
 {
 	std::string base = (file.parent_path() / file.stem()).string();
-	
+
 	try
 	{
 		if (GetNbFrames() == 1)
 		{
-			std::string filename = base+".png";
-			imgs_[0]->save(filename,"png");
+			std::filesystem::path filename = base + ".png";
+			imgs_[0]->save(filename.string(), "png");
 			chmod(filename.c_str(), 0666); // make accessible to others than root
 		}
 		else

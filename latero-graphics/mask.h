@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <filesystem>
 #include <gdkmm/pixbuf.h>
 
 #include "modifiable.h"
@@ -68,7 +69,7 @@ public:
 	 * @param alpha alpha channel is used if true
 	 * @return true on success
 	 */
-	bool SetImage(std::string filename, bool alpha=false);
+	bool SetImage(const std::filesystem::path& filename, bool alpha=false);
 
 	/**
 	 * @param img buffer to copy
@@ -117,7 +118,7 @@ public:
 	void SetSize(float width, float height, std::string units = units::mm);
 
 	/** @return filename of image file */
-	inline std::string GetImgFile() const
+	inline std::filesystem::path GetImgFile() const
 	{
 		LATERO_GRAPHICS_GUARD;
 		return srcFile_;
@@ -191,7 +192,7 @@ protected:
 	 * @param filename path of the source image file before blurring
 	 * @return image buffer of blurred image
 	 */
-	Glib::RefPtr<Gdk::Pixbuf> GetBlurredImage(std::string filename) const;
+	Glib::RefPtr<Gdk::Pixbuf> GetBlurredImage(const std::filesystem::path& filename) const;
 
 protected:
 
@@ -207,7 +208,7 @@ protected:
 	Point size_;			/** size of window that the mask occupies (mm) */
 	Glib::RefPtr<Gdk::Pixbuf> img_;	/** image buffer (alpha is all that counts) */
 	Glib::RefPtr<Gdk::Pixbuf> shadow_; /** image buffer (alpha is all that counts) */
-	std::string srcFile_;		/** source file for image buffer (if available) */
+	std::filesystem::path srcFile_;	/** source file for image buffer (if available) */
 	bool srcTypeAlpha_;		/** if true, the alpha channel of the source is used */
 	bool blur_;			/** image is blurred if true */
 	bool lockAspectRatio_;		/** aspect ratio is maintained when locked */

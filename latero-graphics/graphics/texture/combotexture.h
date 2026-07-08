@@ -26,7 +26,7 @@ public:
 	virtual void LoadXML(const XMLInputNode &node);
 	virtual void AppendXML(XMLOutputNode &root) const;
 
-	virtual std::string GetDefaultIconFile() const;
+	virtual std::filesystem::path GetDefaultIconFile() const;
 
 	virtual double DoRender_(const ActuatorState &state) { return Texture::DoRender_(state); }
 	virtual double DoRenderShadow_(const ActuatorState &state) { return Texture::DoRenderShadow_(state); }

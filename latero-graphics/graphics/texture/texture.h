@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <filesystem>
 #include "../../modifiable.h"
 #include <latero/tactograph.h>
 #include "../../xml.h"
@@ -26,8 +27,8 @@ public:
 	static const Point motionVector_default;
 
 	static TexturePtr Create(const latero::Tactograph *dev, const XMLInputNode &node);
-	static TexturePtr Create(const latero::Tactograph *dev, std::string xmlFile);
-	void Save(std::string xmlFile);
+	static TexturePtr Create(const latero::Tactograph *dev, const std::filesystem::path& xmlFile);
+	void Save(const std::filesystem::path& xmlFile);
 
 	virtual ~Texture();
 
@@ -138,9 +139,9 @@ public:
 	double GetAmplitude() const 	{ LATERO_GRAPHICS_GUARD; return amplitude_; }
 	void SetAmplitude(double v)	{ LATERO_GRAPHICS_GUARD; amplitude_ = v; SetLastModified_(); }
 
-	std::string GetIconFile() const	{ LATERO_GRAPHICS_GUARD; return (iconfile_!="")?iconfile_:GetDefaultIconFile(); }
-	void SetIconFile(std::string v)	{ LATERO_GRAPHICS_GUARD; iconfile_ = v; }
-	virtual std::string GetDefaultIconFile() const = 0;
+	std::filesystem::path GetIconFile() const { LATERO_GRAPHICS_GUARD; return !iconfile_.empty() ? iconfile_ : GetDefaultIconFile(); }
+	void SetIconFile(const std::filesystem::path& v) { LATERO_GRAPHICS_GUARD; iconfile_ = v; }
+	virtual std::filesystem::path GetDefaultIconFile() const = 0;
 
 	inline bool GetInvert() const { LATERO_GRAPHICS_GUARD; return invert_; }
 	inline void SetInvert(bool v) { LATERO_GRAPHICS_GUARD; invert_=v; SetLastModified_(); }
@@ -181,7 +182,7 @@ protected:
 	// TODO: automate amplitude modulation and inversion
 	bool invert_;			// invert the output (1-0 instead of 0-1)
 	double amplitude_;		// amplitude of the texture, between 0 and 1
-	std::string iconfile_;		// path of the image file used as an icon (if specified)
+	std::filesystem::path iconfile_;	// path of the image file used as an icon (if specified)
 	OscillatorPtr vib_;		// vibration generator
 	bool tdCentric_;		// if true the rendering is independent of the user's motion
 	Point tdCentricPos_;		// simulated display position when in tdCentric mode

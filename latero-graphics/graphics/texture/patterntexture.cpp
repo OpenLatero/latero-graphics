@@ -111,7 +111,7 @@ void PatternTexture::LoadXML(const XMLInputNode &root)
 	Texture::LoadXML(node);
 }
 
-std::string PatternTexture::GetDefaultIconFile() const
+std::filesystem::path PatternTexture::GetDefaultIconFile() const
 {
 	return tx_icon_pattern_grid;
 }

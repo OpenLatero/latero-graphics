@@ -96,7 +96,7 @@ void LinearGratingTexture::LoadXML(const XMLInputNode &node)
 	GratingTexture::LoadXML(node);
 }
 
-std::string LinearGratingTexture::GetDefaultIconFile() const
+std::filesystem::path LinearGratingTexture::GetDefaultIconFile() const
 {
 	return tx_icon_linear_grating;
 }

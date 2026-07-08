@@ -167,7 +167,7 @@ void BlendTexture::SetModulator(ModulatorPtr mod)
 	AddModifiableChild(mod_);
 }
 
-std::string BlendTexture::GetDefaultIconFile() const
+std::filesystem::path BlendTexture::GetDefaultIconFile() const
 {
 	return tx_icon_blend;
 }

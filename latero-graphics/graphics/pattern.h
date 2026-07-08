@@ -118,11 +118,11 @@ public:
 	 */
 	virtual bool OnKeyPress(guint keyval, guint keycode, Gdk::ModifierType state) { return false; }
 
-	/** @return path of the source XML file, if created from a file */ 
-	std::string GetXMLFile() const { LATERO_GRAPHICS_GUARD; return xmlfile_; }
+	/** @return path of the source XML file, if created from a file */
+	std::filesystem::path GetXMLFile() const { LATERO_GRAPHICS_GUARD; return xmlfile_; }
 
 	/** set the path of the source XML file */
-	void SetXMLFile(const std::string file)	{ LATERO_GRAPHICS_GUARD; xmlfile_ = file; }
+	void SetXMLFile(const std::filesystem::path& file) { LATERO_GRAPHICS_GUARD; xmlfile_ = file; }
 
 	/** @return pointer to Tactograph */
 	inline const latero::Tactograph *Dev() const { return dev_; }
@@ -156,7 +156,7 @@ private:
 	const latero::Tactograph *dev_;
 
 	/** path to the xml source file, if created from a file */
-	std::string xmlfile_;
+	std::filesystem::path xmlfile_;
 };
 
 } // namespace

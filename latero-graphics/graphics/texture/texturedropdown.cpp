@@ -59,7 +59,7 @@ TextureDropDown::TextureDropDown(const latero::Tactograph *dev, std::vector<std:
 void TextureDropDown::Append(std::string txfile)
 {
 	TexturePtr tx = Texture::Create(dev_, txfile);
-	std::string imgFile = tx->GetIconFile();
+	std::string imgFile = tx->GetIconFile().string();
 
 	txFileList_.push_back(txfile);
 	imgFileList_.push_back(imgFile);
@@ -75,7 +75,7 @@ void TextureDropDown::SetActive(TexturePtr tx)
 {
 	if (!tx) return;
 	tx_ = tx;
-	std::string txfile = tx->GetXMLFile();
+	std::string txfile = tx->GetXMLFile().string();
 
 	// check if the txfile is already in the tree
 	for (unsigned int i=0; i<txFileList_.size(); ++i)
@@ -90,7 +90,7 @@ void TextureDropDown::SetActive(TexturePtr tx)
 	}
 
 	// Try to find a matching icon file
-	std::string iconfile = tx->GetDefaultIconFile();
+	std::string iconfile = tx->GetDefaultIconFile().string();
 	for (unsigned int i=0; i<imgFileList_.size(); ++i)
 	{
 		std::string imgfile = imgFileList_[i];
@@ -111,7 +111,7 @@ void TextureDropDown::SetActive(TexturePtr tx)
 		snprintf(file, sizeof(file), ".tmp-%d.tx", rand()%1024);
 		tx->Save(file); // TODO: make sure we don't overwrite an existing file
 	}
-	Append(tx->GetXMLFile());
+	Append(tx->GetXMLFile().string());
 	SetActive(tx);
 }
 

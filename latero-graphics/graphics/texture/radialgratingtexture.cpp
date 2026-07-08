@@ -85,7 +85,7 @@ void RadialGratingTexture::LoadXML(const XMLInputNode &node)
 	GratingTexture::LoadXML(node);
 }
 
-std::string RadialGratingTexture::GetDefaultIconFile() const
+std::filesystem::path RadialGratingTexture::GetDefaultIconFile() const
 {
 	return tx_icon_radial_grating;
 }
