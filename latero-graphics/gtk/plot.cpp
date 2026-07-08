@@ -108,52 +108,36 @@ void Plot::OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int w, int h)
 	Draw(cr,w,h);
 }
 
-void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, int w, int h, bool gtkmode)
+void Plot::Draw(Cairo::RefPtr<Cairo::Context> cr, int w, int h)
 {
 	// clear background
-	if (gtkmode)
-		cr->set_source_rgb(1,1,1);
-	else
-		Gdk::Cairo::set_source_rgba(cr, bgColor_);
+	Gdk::Cairo::set_source_rgba(cr, bgColor_);
 	cr->rectangle(0, 0, w, h);
 	cr->fill();
-
-	// only draw up to 0.9h
 
 	// invert so that +y is towards top
 	cr->scale(1,-1);
 	cr->translate(0,-h);
 
-	// TODO: let cairo take care of the scaling...
-
 	// draw middle axis
 	cr->set_line_width(2.0);
-	if (gtkmode)
-		cr->set_source_rgb(1.0,1.0,1.0);
-	else
-		Gdk::Cairo::set_source_rgba(cr, lineColor_);
+	Gdk::Cairo::set_source_rgba(cr, lineColor_);
 	cr->move_to(0, 0.45*h);
-    cr->line_to(w, 0.45*h);
+	cr->line_to(w, 0.45*h);
 	cr->stroke();
 
 	// draw each curve
 	for(unsigned int c =0; c<channels_.size(); c++)
 	{
 		std::vector<Point> &points = channels_[c].points;
-		if (gtkmode)
-		{
-			cr->set_line_width(10.0);
-			cr->set_source_rgb(0,0,0);
-		}
-		else
-			Gdk::Cairo::set_source_rgba(cr, channels_[c].color);
+		Gdk::Cairo::set_source_rgba(cr, channels_[c].color);
+		cr->set_line_width(2.0);
 
 		if (points.size())
 		{
 			cr->move_to(points[0].x * w, points[0].y * 0.9 * h);
-			for (unsigned int i=1; i<points.size(); i++) {
+			for (unsigned int i=1; i<points.size(); i++)
 				cr->line_to(points[i].x * w, points[i].y * 0.9 * h);
-			}
 			cr->stroke();
 		}
 	}
@@ -218,13 +202,13 @@ void Plot::SaveToFile(const std::filesystem::path& filename, uint w, uint h)
 	{
 		Cairo::RefPtr<Cairo::Surface> surface = Cairo::SvgSurface::create(filename.string(), w, h);
 		Cairo::RefPtr<Cairo::Context> cr = Cairo::Context::create(surface);
-		Draw(cr,w,h,true);
+		Draw(cr,w,h);
 	}
 	else if (filename.extension() == ".png")
 	{
 		Cairo::RefPtr<Cairo::Surface> surface = Cairo::ImageSurface::create(Cairo::Surface::Format::ARGB32, w, h);
 		Cairo::RefPtr<Cairo::Context> cr = Cairo::Context::create(surface);
-		Draw(cr,w,h,true);
+		Draw(cr,w,h);
 		surface->write_to_png(filename.string());
 	}
 }

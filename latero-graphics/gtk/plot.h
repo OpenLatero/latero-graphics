@@ -43,7 +43,7 @@ public:
 	float GetMinY() { return yMin_; }
 	float GetMaxY() { return yMax_; }
 
-	void Draw(Cairo::RefPtr<Cairo::Context> cr, int w, int h, bool gtkmode = false);
+	void Draw(Cairo::RefPtr<Cairo::Context> cr, int w, int h);
 	void SaveToFile(const std::filesystem::path& filename, uint w, uint h);
 	void OnSaveAs();
 	void OnSave();
