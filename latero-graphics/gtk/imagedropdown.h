@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <gtkmm.h>
 
 namespace latero::graphics::gtk {
@@ -18,7 +19,7 @@ public:
 	virtual ~ImageDropDown();
 
 	/** Append an image with its associated ID. */
-	void Append(int id, std::string imgfile);
+	void Append(int id, const std::filesystem::path& imgfile);
 
 	/** Set activce the image with a given ID. */
 	void SetActive(int id);

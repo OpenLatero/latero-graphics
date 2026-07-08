@@ -13,7 +13,7 @@ public:
 	TextureDropDown(const latero::Tactograph *dev, std::vector<std::string> textures = std::vector<std::string>());
 
 	virtual ~TextureDropDown() {};
-	void Append(std::string txfile);
+	void Append(const std::filesystem::path& txfile);
 	void SetActive(TexturePtr tx);
 	sigc::signal<void(TexturePtr)> SignalTextureChanged() { return signalTextureChanged_; }
 
@@ -32,8 +32,8 @@ protected:
     const latero::Tactograph *dev_; // tmp?
 
 	// TODO: merge those three items in a single struct/class
-	std::vector<std::string> txFileList_;
-	std::vector<std::string> imgFileList_;
+	std::vector<std::filesystem::path> txFileList_;
+	std::vector<std::filesystem::path> imgFileList_;
 	std::vector<Glib::RefPtr<Gdk::Pixbuf>> pixbufList_;
 	std::vector<std::string> textureList_;
 };

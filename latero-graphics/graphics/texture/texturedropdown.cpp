@@ -56,15 +56,15 @@ TextureDropDown::TextureDropDown(const latero::Tactograph *dev, std::vector<std:
 	SetActive(Texture::Create(dev, tx_grating_vertical));
 }
 
-void TextureDropDown::Append(std::string txfile)
+void TextureDropDown::Append(const std::filesystem::path& txfile)
 {
 	TexturePtr tx = Texture::Create(dev_, txfile);
-	std::string imgFile = tx->GetIconFile().string();
+	std::filesystem::path imgFile = tx->GetIconFile();
 
 	txFileList_.push_back(txfile);
 	imgFileList_.push_back(imgFile);
 
-	auto img = Gdk::Pixbuf::create_from_file(imgFile);
+	auto img = Gdk::Pixbuf::create_from_file(imgFile.string());
 	if ((img->get_width() != 50) || (img->get_height() != 50))
 		img = img->scale_simple(50, 50, Gdk::InterpType::BILINEAR);
 	pixbufList_.push_back(img);
@@ -75,7 +75,7 @@ void TextureDropDown::SetActive(TexturePtr tx)
 {
 	if (!tx) return;
 	tx_ = tx;
-	std::string txfile = tx->GetXMLFile().string();
+	std::filesystem::path txfile = tx->GetXMLFile();
 
 	// check if the txfile is already in the tree
 	for (unsigned int i=0; i<txFileList_.size(); ++i)
@@ -90,11 +90,10 @@ void TextureDropDown::SetActive(TexturePtr tx)
 	}
 
 	// Try to find a matching icon file
-	std::string iconfile = tx->GetDefaultIconFile().string();
+	std::filesystem::path iconfile = tx->GetDefaultIconFile();
 	for (unsigned int i=0; i<imgFileList_.size(); ++i)
 	{
-		std::string imgfile = imgFileList_[i];
-		if (imgfile == iconfile)
+		if (imgFileList_[i] == iconfile)
 		{
 			signalEnable_ = false;
 			dropDown_.set_selected(i); //  don't reload!
@@ -104,14 +103,14 @@ void TextureDropDown::SetActive(TexturePtr tx)
 	}
 
 	// Last resort... add a new icon
-	if (txfile=="")
+	if (txfile.empty())
 	{
  		// this texture was not loaded from a file, let's create a temporary file
 		char file[255];
 		snprintf(file, sizeof(file), ".tmp-%d.tx", rand()%1024);
 		tx->Save(file); // TODO: make sure we don't overwrite an existing file
 	}
-	Append(tx->GetXMLFile().string());
+	Append(tx->GetXMLFile());
 	SetActive(tx);
 }
 

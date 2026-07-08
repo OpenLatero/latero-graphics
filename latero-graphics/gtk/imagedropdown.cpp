@@ -28,11 +28,11 @@ ImageDropDown::~ImageDropDown()
 {
 }
 
-void ImageDropDown::Append(int id, std::string imgfile)
+void ImageDropDown::Append(int id, const std::filesystem::path& imgfile)
 {
 	try
 	{
-		items_.push_back({id, Gdk::Pixbuf::create_from_file(imgfile)});
+		items_.push_back({id, Gdk::Pixbuf::create_from_file(imgfile.string())});
 		list_->append("");
 	}
 	catch (Glib::Error &e)
