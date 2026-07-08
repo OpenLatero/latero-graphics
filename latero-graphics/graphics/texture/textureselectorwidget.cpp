@@ -80,7 +80,7 @@ void TextureSelectorCtrl::OnLoad()
 	dialog->open(*win, [this, dialog](Glib::RefPtr<Gio::AsyncResult>& result) {
 		try {
 			auto file = dialog->open_finish(result);
-			texture_ = Texture::Create(texture_->Dev(), file->get_path().c_str());
+			texture_ = Texture::Create(texture_->Dev(), file->get_path());
 			modeDropDown_.SetActive(texture_);
 			SignalTextureChanged_();
 		} catch (const Gtk::DialogError&) {}
