@@ -1,4 +1,3 @@
-#include <filesystem>
 #include <iostream>
 #include <sys/stat.h>
 #include "generator.h"
@@ -7,29 +6,25 @@
 
 namespace latero::graphics {
 
-void Generator::SaveToFile(std::string filename) const
+void Generator::SaveToFile(const std::filesystem::path& filename) const
 {
 	xmlpp::Document document;
 	XMLOutputNode root = document.create_root_node("laterographics_xml");
 	root.SetAttribute("type","Generator");
-	std::filesystem::path p(filename);
-	root.SetPath(p.parent_path().string());
+	root.SetPath(filename.parent_path().string());
 	AppendXML(root);
-	document.write_to_file_formatted(filename);
+	document.write_to_file_formatted(filename.string());
 	chmod(filename.c_str(), 0666); // make accessible to others than root
 }
 
-GeneratorPtr Generator::Create(std::string xmlFile, const latero::Tactograph *dev)
+GeneratorPtr Generator::Create(const std::filesystem::path& xmlFile, const latero::Tactograph *dev)
 {
 	try
 	{
-		std::filesystem::path p(xmlFile);
-		std::string path = p.parent_path().string() + "/";
-		//Generator *gen = NULL;
+		std::string path = xmlFile.parent_path().string() + "/";
 		xmlpp::DomParser parser;
-		//parser.set_validate();
 		parser.set_substitute_entities();
-		parser.parse_file(xmlFile);
+		parser.parse_file(xmlFile.string());
 		if (parser)
 		{
 			XMLInputNode root = parser.get_document()->get_root_node();
@@ -40,11 +35,10 @@ GeneratorPtr Generator::Create(std::string xmlFile, const latero::Tactograph *de
 		return GeneratorPtr();
 	}
 	catch (const std::exception& ex)
-  	{
-    		std::cout << "Exception caught while loading generator from file " << xmlFile << ": " << ex.what() << std::endl;
+	{
+		std::cout << "Exception caught while loading generator from file " << xmlFile << ": " << ex.what() << std::endl;
 		return GeneratorPtr();
-  	}
-
+	}
 }
 
 GeneratorPtr Generator::Create(const XMLInputNode &node, const latero::Tactograph *dev)

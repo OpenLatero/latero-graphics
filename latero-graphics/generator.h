@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <filesystem>
 #include <latero/tactograph.h>
 #include <gtkmm.h>
 #include "modifiable.h"
@@ -51,7 +52,7 @@ class Generator : public Modifiable
 {
 public:
 	/** Creates a Generator based on an XML file. */
-	static GeneratorPtr Create(std::string xmlFile, const latero::Tactograph *dev);
+	static GeneratorPtr Create(const std::filesystem::path& xmlFile, const latero::Tactograph *dev);
 
 	/** Creates a Generator based on an XML node. */
 	static GeneratorPtr Create(const XMLInputNode &node, const latero::Tactograph *dev);
@@ -68,7 +69,7 @@ public:
 	void Render_(const State *state, latero::BiasedImg &frame);
 
 	/** Serialize Generator to an XML file. */
-	void SaveToFile(std::string filename) const;
+	void SaveToFile(const std::filesystem::path& filename) const;
 
 	/** Serialize Generator by appending its information to an XML node. */
 	virtual void AppendXML(XMLOutputNode &root) const = 0;
