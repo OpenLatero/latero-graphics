@@ -6,7 +6,7 @@
 
 namespace latero::graphics {
 
-Logger::Logger(std::string filename) : 
+Logger::Logger(const std::filesystem::path& filename) :
 	m_stopRequested(false), m_filename(filename)
 {
 }
@@ -43,16 +43,16 @@ void Logger::Write(std::string str, bool wait)
     if (!wait) m_cond.notify_all();
 }
 	
-void Logger::SetNewFilename(std::string filename)
+void Logger::SetNewFilename(const std::filesystem::path& filename)
 {
     {
         boost::mutex::scoped_lock lock(m_mutex);
         Message msg;
-        msg.str = filename;
+        msg.str = filename.string();
         msg.code = code_new_filename;
         m_fifo.push(msg);
     }
-    m_cond.notify_all();    
+    m_cond.notify_all();
 }
 
 void Logger::Loop()

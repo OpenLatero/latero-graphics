@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <boost/thread.hpp>
 #include <memory>
 #include <boost/thread/condition.hpp>
@@ -18,14 +19,14 @@ protected:
     enum { code_print, code_new_filename };
     
 public:
-    Logger(std::string filename="logger.txt");
+    Logger(const std::filesystem::path& filename = "logger.txt");
     virtual ~Logger();
 	
     void Start();
     void Stop();
 
     void Write(std::string str, bool wait=false);
-    void SetNewFilename(std::string filename);
+    void SetNewFilename(const std::filesystem::path& filename);
     
     long GetTimestamp() const { return m_timer.GetElapsed().total_milliseconds(); }
     
@@ -38,7 +39,7 @@ private:
 	boost::mutex m_mutex;
     boost::condition m_cond;
     std::queue<Message> m_fifo;
-    std::string m_filename;
+    std::filesystem::path m_filename;
     Timer m_timer;
 };
 
