@@ -212,21 +212,20 @@ void Plot::OnSave()
 }
 
 
-void Plot::SaveToFile(std::string filename, uint w, uint h)
+void Plot::SaveToFile(const std::filesystem::path& filename, uint w, uint h)
 {
-	std::string ext = filename.substr(filename.find_last_of(".")+1);
-	if (ext == "svg")
+	if (filename.extension() == ".svg")
 	{
-		Cairo::RefPtr<Cairo::Surface> surface = Cairo::SvgSurface::create(filename, w, h);
+		Cairo::RefPtr<Cairo::Surface> surface = Cairo::SvgSurface::create(filename.string(), w, h);
 		Cairo::RefPtr<Cairo::Context> cr = Cairo::Context::create(surface);
 		Draw(cr,w,h,true);
 	}
-	else if (ext == "png")
+	else if (filename.extension() == ".png")
 	{
 		Cairo::RefPtr<Cairo::Surface> surface = Cairo::ImageSurface::create(Cairo::Surface::Format::ARGB32, w, h);
 		Cairo::RefPtr<Cairo::Context> cr = Cairo::Context::create(surface);
 		Draw(cr,w,h,true);
-		surface->write_to_png(filename);
+		surface->write_to_png(filename.string());
 	}
 }
 

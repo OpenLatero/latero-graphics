@@ -1,6 +1,7 @@
 #pragma once
 
 #include <queue>
+#include <filesystem>
 #include <gtkmm.h>
 
 namespace latero::graphics::gtk {
@@ -43,7 +44,7 @@ public:
 	float GetMaxY() { return yMax_; }
 
 	void Draw(Cairo::RefPtr<Cairo::Context> cr, int w, int h, bool gtkmode = false);
-	void SaveToFile(std::string filename, uint w, uint h);
+	void SaveToFile(const std::filesystem::path& filename, uint w, uint h);
 	void OnSaveAs();
 	void OnSave();
 
