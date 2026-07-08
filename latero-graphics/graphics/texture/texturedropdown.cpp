@@ -28,7 +28,7 @@ void TextureDropDown::Init()
 	dropDown_.property_selected().signal_changed().connect(sigc::mem_fun(*this, &TextureDropDown::OnDropDownChanged));
 }
 
-TextureDropDown::TextureDropDown(TexturePtr tx, std::vector<std::string> textures) :
+TextureDropDown::TextureDropDown(TexturePtr tx, std::vector<std::filesystem::path> textures) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	countingList_(Gtk::StringList::create({})),
 	dropDown_(countingList_),
@@ -42,7 +42,7 @@ TextureDropDown::TextureDropDown(TexturePtr tx, std::vector<std::string> texture
 	SetActive(tx);
 }
 
-TextureDropDown::TextureDropDown(const latero::Tactograph *dev, std::vector<std::string> textures) :
+TextureDropDown::TextureDropDown(const latero::Tactograph *dev, std::vector<std::filesystem::path> textures) :
 	Gtk::Box(Gtk::Orientation::HORIZONTAL),
 	countingList_(Gtk::StringList::create({})),
 	dropDown_(countingList_),

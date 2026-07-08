@@ -9,8 +9,8 @@ namespace latero::graphics {
 class TextureDropDown : public Gtk::Box
 {
 public:
-	TextureDropDown(TexturePtr tx, std::vector<std::string> textures = std::vector<std::string>());
-	TextureDropDown(const latero::Tactograph *dev, std::vector<std::string> textures = std::vector<std::string>());
+	TextureDropDown(TexturePtr tx, std::vector<std::filesystem::path> textures = {});
+	TextureDropDown(const latero::Tactograph *dev, std::vector<std::filesystem::path> textures = {});
 
 	virtual ~TextureDropDown() {};
 	void Append(const std::filesystem::path& txfile);
@@ -35,7 +35,7 @@ protected:
 	std::vector<std::filesystem::path> txFileList_;
 	std::vector<std::filesystem::path> imgFileList_;
 	std::vector<Glib::RefPtr<Gdk::Pixbuf>> pixbufList_;
-	std::vector<std::string> textureList_;
+	std::vector<std::filesystem::path> textureList_;
 };
 
 } // namespace
