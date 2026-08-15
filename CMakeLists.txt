@@ -10,7 +10,7 @@ pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-4.0)
 pkg_check_modules(LIBXML REQUIRED IMPORTED_TARGET libxml++-5.0)
 
 set(Boost_USE_MULTITHREADED ON)
-find_package(Boost CONFIG COMPONENTS system filesystem thread REQUIRED)
+find_package(Boost CONFIG COMPONENTS system filesystem thread date_time REQUIRED)
 find_package(latero REQUIRED)
 find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
 
