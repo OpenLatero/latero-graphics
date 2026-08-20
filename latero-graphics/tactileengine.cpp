@@ -8,7 +8,7 @@
 namespace latero::graphics {
 
 TactileEngine::TactileEngine(latero::Tactograph *dev, boost::posix_time::time_duration period) :
-		Engine(true), dev_(dev), period_(period)
+		Engine(true), dev_(dev), period_(period.total_microseconds())
 {
 }
 
@@ -18,7 +18,7 @@ TactileEngine::~TactileEngine()
 
 void TactileEngine::EntryPoint()
 {
-	std::cout << "Refresh rate: " << 1E6/period_.total_microseconds() << " Hz (" << period_.total_microseconds()/1000.0 << " ms)\n";
+	std::cout << "Refresh rate: " << 1E6/period_.count() << " Hz (" << period_.count()/1000.0 << " ms)\n";
 
 	//long nb_ticks = 0;
 	latero::RangeImg frame(dev_->GetFrameSizeX(), dev_->GetFrameSizeY());
@@ -91,7 +91,7 @@ void TactileEngine::EntryPoint()
 		LATERO_GRAPHICS_UNLOCK;
 
 		boost::posix_time::ptime cycleEnd = boost::posix_time::microsec_clock::universal_time();
-		boost::this_thread::sleep(period_ - (cycleEnd-cycleStart));
+		boost::this_thread::sleep(boost::posix_time::microseconds(period_.count()) - (cycleEnd-cycleStart));
 	}
 	}
 	catch (boost::thread_interrupted &e)

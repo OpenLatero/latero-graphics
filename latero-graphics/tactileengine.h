@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <latero/tactograph.h>
 #include "engine.h"
 #include "generator.h"
@@ -19,7 +20,7 @@ private:
 	latero::Tactograph *dev_;
 	GeneratorPtr gen_;
 	bool genMod_;
-	boost::posix_time::time_duration period_;
+	std::chrono::microseconds period_;
 };
 
 } // namespace
