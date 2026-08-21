@@ -7,8 +7,8 @@
 
 namespace latero::graphics {
 
-TactileEngine::TactileEngine(latero::Tactograph *dev, boost::posix_time::time_duration period) :
-		Engine(true), dev_(dev), period_(period.total_microseconds())
+TactileEngine::TactileEngine(latero::Tactograph *dev, double frequency) :
+		Engine(true), dev_(dev), period_(std::chrono::microseconds((long long)(1e6 / frequency)))
 {
 }
 
