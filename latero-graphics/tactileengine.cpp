@@ -32,7 +32,7 @@ void TactileEngine::EntryPoint()
 	try {
 	while (1)
 	{
-		boost::posix_time::ptime cycleStart = boost::posix_time::microsec_clock::universal_time();
+		auto cycleStart = std::chrono::steady_clock::now();
 
 		LATERO_GRAPHICS_LOCK;
 		state.tick++;
@@ -90,8 +90,8 @@ void TactileEngine::EntryPoint()
 		}
 		LATERO_GRAPHICS_UNLOCK;
 
-		boost::posix_time::ptime cycleEnd = boost::posix_time::microsec_clock::universal_time();
-		boost::this_thread::sleep(boost::posix_time::microseconds(period_.count()) - (cycleEnd-cycleStart));
+		auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - cycleStart);
+		boost::this_thread::sleep(boost::posix_time::microseconds(period_.count() - elapsed.count()));
 	}
 	}
 	catch (boost::thread_interrupted &e)
