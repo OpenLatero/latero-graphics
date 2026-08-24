@@ -1,5 +1,5 @@
 #include "positiongen.h"
-#include <boost/thread.hpp>
+#include <thread>
 
 namespace latero::graphics {
 
@@ -67,7 +67,7 @@ Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, boost::posix_tim
 				basePixel[n] = (unsigned char)v;
 		}
 		LATERO_GRAPHICS_UNLOCK;
-		boost::this_thread::yield();
+		std::this_thread::yield();
 	}
 	
 	return buf;

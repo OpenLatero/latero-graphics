@@ -9,7 +9,7 @@
 #include "audiopattern.h"
 #include "toggle.h"
 #include "texture/texture.h"
-#include <boost/thread.hpp>
+#include <thread>
 
 namespace latero::graphics {
 
@@ -137,7 +137,7 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, boost::posix_time::t
 					basePixel[n] = (unsigned char)v;
 			}
 			LATERO_GRAPHICS_UNLOCK;
-			boost::this_thread::yield();
+			std::this_thread::yield();
 		}
 		return buf;
 	}

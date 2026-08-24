@@ -1,10 +1,10 @@
 #pragma once
 
-#include <boost/thread/recursive_mutex.hpp>
+#include <mutex>
 
 namespace latero::graphics {
 
-typedef boost::recursive_mutex Mutex;
+typedef std::recursive_mutex Mutex;
 
 class Context
 {
@@ -16,7 +16,7 @@ protected:
 
 
 /** This DEFINE instantiates a scoped lock for the global mutex. */
-#define LATERO_GRAPHICS_GUARD boost::recursive_mutex::scoped_lock laterographicsguard(*latero::graphics::Context::GetLock());
+#define LATERO_GRAPHICS_GUARD std::lock_guard<std::recursive_mutex> laterographicsguard(*latero::graphics::Context::GetLock());
 
 /** This DEFINE locks the global mutex. */
 #define LATERO_GRAPHICS_LOCK latero::graphics::Context::GetLock()->lock();
