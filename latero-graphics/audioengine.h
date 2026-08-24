@@ -11,7 +11,7 @@ namespace latero::graphics {
 class AudioEngine : public Engine
 {
 public:
-	AudioEngine(latero::Tactograph *dev, double updateRate);
+	AudioEngine(latero::Tactograph *dev, double updateRate = 30.0);
 	virtual ~AudioEngine();
 	virtual void EntryPoint();
 	void SetGenerator(GeneratorPtr gen);
