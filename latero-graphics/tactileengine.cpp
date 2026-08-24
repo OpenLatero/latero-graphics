@@ -29,8 +29,7 @@ void TactileEngine::EntryPoint()
 	VelocityEstimator velEstimator;
     ButtonEvent buttonEvent;
 
-	try {
-	while (1)
+	while (!ShouldStop())
 	{
 		auto cycleStart = std::chrono::steady_clock::now();
 
@@ -91,16 +90,12 @@ void TactileEngine::EntryPoint()
 		LATERO_GRAPHICS_UNLOCK;
 
 		auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - cycleStart);
-		boost::this_thread::sleep(boost::posix_time::microseconds(period_.count() - elapsed.count()));
+		std::this_thread::sleep_for(period_ - elapsed);
 	}
-	}
-	catch (boost::thread_interrupted &e)
-	{
-		boost::posix_time::time_duration duration = boost::posix_time::microsec_clock::universal_time() - start;
-		printf("effective rate: %f Hz (%ld ticks / %f minutes)\n",
-				(double)state.tick / (double)duration.total_seconds(),
-				state.tick, duration.total_seconds()/60.0);
-	}
+	boost::posix_time::time_duration duration = boost::posix_time::microsec_clock::universal_time() - start;
+	printf("effective rate: %f Hz (%ld ticks / %f minutes)\n",
+			(double)state.tick / (double)duration.total_seconds(),
+			state.tick, duration.total_seconds()/60.0);
 }
 
 void TactileEngine::SetGenerator(GeneratorPtr gen)

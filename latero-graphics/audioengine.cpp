@@ -29,9 +29,9 @@ void AudioEngine::EntryPoint()
 	else
 		std::cout << "audiere could not be opened\n";
     
-	while(1)
+	while (!ShouldStop())
 	{
-		boost::this_thread::sleep(boost::posix_time::microseconds(period_.count()));
+		std::this_thread::sleep_for(period_);
         LATERO_GRAPHICS_LOCK;
 		GeneratorPtr gen = gen_;
 		LATERO_GRAPHICS_UNLOCK;
