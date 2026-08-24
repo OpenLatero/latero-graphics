@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include "engine.h"
 #include "generator.h"
 #include "audiodevice.h"
@@ -10,7 +11,7 @@ namespace latero::graphics {
 class AudioEngine : public Engine
 {
 public:
-	AudioEngine(latero::Tactograph *dev, boost::posix_time::time_duration period);
+	AudioEngine(latero::Tactograph *dev, double updateRate);
 	virtual ~AudioEngine();
 	virtual void EntryPoint();
 	void SetGenerator(GeneratorPtr gen);
@@ -19,7 +20,7 @@ public:
 private:
 	latero::Tactograph *dev_;
 	GeneratorPtr gen_;
-	boost::posix_time::time_duration period_;
+	const std::chrono::microseconds period_;
     AudioDevicePtr audioDevPtr_;
 };
 

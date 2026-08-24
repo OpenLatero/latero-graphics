@@ -7,8 +7,8 @@
 
 namespace latero::graphics {
 
-AudioEngine::AudioEngine(latero::Tactograph *dev, boost::posix_time::time_duration period) :
-	dev_(dev), period_(period)
+AudioEngine::AudioEngine(latero::Tactograph *dev, double updateRate) :
+	dev_(dev), period_(std::chrono::microseconds((long long)(1e6 / updateRate)))
 {
     audioDevPtr_ = AudioDevice::Create();
 }
@@ -31,7 +31,7 @@ void AudioEngine::EntryPoint()
     
 	while(1)
 	{
-		boost::this_thread::sleep(period_);
+		boost::this_thread::sleep(boost::posix_time::microseconds(period_.count()));
         LATERO_GRAPHICS_LOCK;
 		GeneratorPtr gen = gen_;
 		LATERO_GRAPHICS_UNLOCK;

@@ -20,7 +20,7 @@ private:
 	latero::Tactograph *dev_;
 	GeneratorPtr gen_;
 	bool genMod_;
-	std::chrono::microseconds period_;
+	const std::chrono::microseconds period_;
 };
 
 } // namespace
