@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <latero/tactograph.h>
 #include <latero/point.h>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
@@ -26,11 +27,12 @@ public:
 	double velMag; // magnitude of the velocity (mm/s)
 	double velDir; // direction of the velocity (rad) 
 
-	inline boost::posix_time::time_duration GetTimeElapsed() const { return timeElapsed_; }
-	inline void SetTimeElapsed(boost::posix_time::time_duration t) { timeElapsed_ = t; }
+	inline boost::posix_time::time_duration GetTimeElapsedBoost() const { return boost::posix_time::microseconds(timeElapsed_.count()); }
+	inline std::chrono::microseconds GetTimeElapsed() const { return timeElapsed_; }
+	inline void SetTimeElapsed(std::chrono::microseconds t) { timeElapsed_ = t; }
 
 protected:
-	boost::posix_time::time_duration timeElapsed_; // time since program was started - TODO: rename to simply "time"?
+	std::chrono::microseconds timeElapsed_;
 };
 
 
@@ -67,7 +69,8 @@ public:
 		mode(RenderMode()),
 		pos(-1,-1), relativePos(-1,-1), i(0), j(0),
         velMag(state.velMag), velDir(state.velDir),
-		timeElapsed_(state.GetTimeElapsed())    
+		timeElapsed_(state.GetTimeElapsedBoost()),
+		timeElapsedChrono_(state.GetTimeElapsed())
 	{
     }
 
@@ -78,10 +81,14 @@ public:
 	double velMag; // magnitude of the velocity (mm/s)
 	double velDir; // direction of the velocity (rad) 
 	inline boost::posix_time::time_duration GetTimeElapsed() const { return timeElapsed_; }
-	inline void SetTimeElapsed(boost::posix_time::time_duration &t) { timeElapsed_ = t; }
+	inline void SetTimeElapsed(boost::posix_time::time_duration &t) { timeElapsed_ = t; timeElapsedChrono_ = std::chrono::microseconds(t.total_microseconds()); }
+
+	inline std::chrono::microseconds GetTimeElapsedChrono() const { return timeElapsedChrono_; }
+	inline void SetTimeElapsedChrono(std::chrono::microseconds t) { timeElapsedChrono_ = t; timeElapsed_ = boost::posix_time::microseconds(t.count()); }
 
 protected:
 	boost::posix_time::time_duration timeElapsed_;
+	std::chrono::microseconds timeElapsedChrono_;
 };
 
 

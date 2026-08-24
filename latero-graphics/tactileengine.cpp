@@ -48,7 +48,7 @@ void TactileEngine::EntryPoint()
         */
         
 		boost::posix_time::ptime time = boost::posix_time::microsec_clock::universal_time();
-		state.SetTimeElapsed(time - start);
+		state.SetTimeElapsed(std::chrono::microseconds((time - start).total_microseconds()));
 		if (gen_ && GetEnabled()) // minimize work when there is no generator,,,
 		{
 			if (genMod_ || (gen_->GetLastModified() > lastUpdate))
@@ -60,7 +60,7 @@ void TactileEngine::EntryPoint()
 			}
 
 			dev_->ReadCarrierState(state.pos, state.angle);
-			velEstimator.Insert(state.pos, state.GetTimeElapsed());
+			velEstimator.Insert(state.pos, state.GetTimeElapsedBoost());
 			state.velMag = velEstimator.GetMagnitude();
 			state.velDir = velEstimator.GetDirection();
 			state.actuatorPositions = dev_->GetActuatorPositions(state.pos, state.angle);
