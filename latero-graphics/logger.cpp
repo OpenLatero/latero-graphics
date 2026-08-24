@@ -7,7 +7,7 @@
 namespace latero::graphics {
 
 Logger::Logger(const std::filesystem::path& filename) :
-	m_stopRequested(false), m_filename(filename)
+	stopRequested_(false), filename_(filename)
 {
 }
 	
@@ -17,61 +17,61 @@ Logger::~Logger()
 
 void Logger::Start() 
 {
-	assert(!m_thread);
-    m_timer.Reset();
-	m_thread = std::make_shared<std::thread>(&Logger::Loop, this);
+	assert(!thread_);
+    timer_.Reset();
+	thread_ = std::make_shared<std::thread>(&Logger::Loop, this);
     // todo: see if the priority of this thread can be decreased
 }
 
 void Logger::Stop()
 {
-	assert(m_thread);
-	m_stopRequested = true;
-    m_cond.notify_all();    
-	m_thread->join();
+	assert(thread_);
+	stopRequested_ = true;
+    cond_.notify_all();    
+	thread_->join();
 }
 
 void Logger::Write(std::string str, bool wait)
 {
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock(mutex_);
         Message msg;
         msg.str = str;
         msg.code = code_print;
-        m_fifo.push(msg);
+        fifo_.push(msg);
     }
-    if (!wait) m_cond.notify_all();
+    if (!wait) cond_.notify_all();
 }
 	
 void Logger::SetNewFilename(const std::filesystem::path& filename)
 {
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock(mutex_);
         Message msg;
         msg.str = filename.string();
         msg.code = code_new_filename;
-        m_fifo.push(msg);
+        fifo_.push(msg);
     }
-    m_cond.notify_all();
+    cond_.notify_all();
 }
 
 void Logger::Loop()
 {
 	std::ofstream myfile;
-	myfile.open(m_filename.c_str());
+	myfile.open(filename_.c_str());
     // todo... boost::filesystem::exists( "myfile.txt" )
     
-	while (!m_stopRequested)
+	while (!stopRequested_)
 	{
         Message msg;
         {
-            std::unique_lock<std::mutex> lock(m_mutex);
-            m_cond.wait(lock, [this]{ return m_fifo.size() > 0 || m_stopRequested; });
+            std::unique_lock<std::mutex> lock(mutex_);
+            cond_.wait(lock, [this]{ return fifo_.size() > 0 || stopRequested_; });
 
-            if (m_fifo.size())
+            if (fifo_.size())
             {
-                msg =  m_fifo.front();
-                m_fifo.pop();
+                msg =  fifo_.front();
+                fifo_.pop();
             }
         }
         
@@ -81,9 +81,9 @@ void Logger::Loop()
         }
         else if (msg.code == code_new_filename)
         {
-            m_filename = msg.str;
+            filename_ = msg.str;
             myfile.close();
-            myfile.open(m_filename.c_str());
+            myfile.open(filename_.c_str());
         }
 	}
 
