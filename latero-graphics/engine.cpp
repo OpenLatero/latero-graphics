@@ -15,9 +15,9 @@ Engine::~Engine()
 	
 int Engine::Start()
 {
-	assert(!m_thread);
-	m_stop_ = false;
-	m_thread = std::make_shared<std::thread>(&Engine::EntryPoint, this);
+	assert(!thread_);
+	stop_ = false;
+	thread_ = std::make_shared<std::thread>(&Engine::EntryPoint, this);
 	if (highPriority_) SetHighPriority();
 	return 0;
 }
@@ -33,8 +33,8 @@ void Engine::SetHighPriority()
 	//
 	// @note This code was taken from http://stackoverflow.com/questions/1479945
 
-	if (!m_thread) return;
-	pthread_t threadID = m_thread->native_handle();
+	if (!thread_) return;
+	pthread_t threadID = thread_->native_handle();
 	int policy;
 	struct sched_param param;
 	int rv = pthread_getschedparam(threadID, &policy, &param);
@@ -57,9 +57,9 @@ void Engine::SetHighPriority()
 
 void Engine::Stop()
 {
-	if (!m_thread) return;
-	m_stop_ = true;
-	m_thread->join();
+	if (!thread_) return;
+	stop_ = true;
+	thread_->join();
 }
 
 } // namespace

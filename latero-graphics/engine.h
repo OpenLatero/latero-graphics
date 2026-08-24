@@ -23,11 +23,11 @@ public:
 	void SetEnabled(bool v=true) { enabled_ = v; }
 	bool GetEnabled() { return enabled_; }
 protected:
-	bool ShouldStop() const { return m_stop_; }
+	bool ShouldStop() const { return stop_; }
 private:
 	bool enabled_;
-	std::shared_ptr<std::thread> m_thread;
-	std::atomic<bool> m_stop_{false};
+	std::shared_ptr<std::thread> thread_;
+	std::atomic<bool> stop_{false};
 	bool highPriority_;
 };
 
