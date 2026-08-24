@@ -19,7 +19,7 @@ void Logger::Start()
 {
 	assert(!m_thread);
     m_timer.Reset();
-	m_thread = std::shared_ptr<boost::thread>(new boost::thread(boost::bind(&Logger::Loop, this)));
+	m_thread = std::make_shared<std::thread>(&Logger::Loop, this);
     // todo: see if the priority of this thread can be decreased
 }
 
@@ -34,7 +34,7 @@ void Logger::Stop()
 void Logger::Write(std::string str, bool wait)
 {
     {
-        boost::mutex::scoped_lock lock(m_mutex);
+        std::lock_guard<std::mutex> lock(m_mutex);
         Message msg;
         msg.str = str;
         msg.code = code_print;
@@ -46,7 +46,7 @@ void Logger::Write(std::string str, bool wait)
 void Logger::SetNewFilename(const std::filesystem::path& filename)
 {
     {
-        boost::mutex::scoped_lock lock(m_mutex);
+        std::lock_guard<std::mutex> lock(m_mutex);
         Message msg;
         msg.str = filename.string();
         msg.code = code_new_filename;
@@ -65,9 +65,8 @@ void Logger::Loop()
 	{
         Message msg;
         {
-            boost::mutex::scoped_lock lock(m_mutex);
-            while ((m_fifo.size()==0) && !m_stopRequested)
-                m_cond.wait(lock);
+            std::unique_lock<std::mutex> lock(m_mutex);
+            m_cond.wait(lock, [this]{ return m_fifo.size() > 0 || m_stopRequested; });
 
             if (m_fifo.size())
             {

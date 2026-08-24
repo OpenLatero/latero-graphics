@@ -1,10 +1,11 @@
 #pragma once
 
+#include <condition_variable>
 #include <filesystem>
-#include <boost/thread.hpp>
 #include <memory>
-#include <boost/thread/condition.hpp>
+#include <mutex>
 #include <queue>
+#include <thread>
 #include "timer.h"
 
 namespace latero::graphics {
@@ -35,9 +36,9 @@ private:
 	
 private:
     volatile bool m_stopRequested;
-    std::shared_ptr<boost::thread> m_thread;
-	boost::mutex m_mutex;
-    boost::condition m_cond;
+    std::shared_ptr<std::thread> m_thread;
+	std::mutex m_mutex;
+    std::condition_variable m_cond;
     std::queue<Message> m_fifo;
     std::filesystem::path m_filename;
     Timer m_timer;
