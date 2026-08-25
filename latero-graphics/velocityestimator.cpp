@@ -8,21 +8,21 @@ VelocityEstimator::VelocityEstimator()
 	for (int i=0; i<window_size; ++i)
     {
 		positions_[i] = Point(0,0);
-        times_[i] = boost::posix_time::milliseconds(0);
+        times_[i] = std::chrono::microseconds(0);
     }
 	oldest_=0;
 	velx.SetSize(average_size);
 	vely.SetSize(average_size);
 }
 
-void VelocityEstimator::Insert(const Point &pos, const boost::posix_time::time_duration &time)
+void VelocityEstimator::Insert(const Point &pos, std::chrono::microseconds time)
 {
 	positions_[oldest_] = pos; 			// override oldest value
     times_[oldest_] = time;
 	oldest_=(oldest_+1)%window_size; 	// move oldest pointer
 
 	// compute velocity
-	double seconds = (time - times_[oldest_]).total_microseconds() / 1E6;
+	double seconds = (time - times_[oldest_]).count() / 1E6;
 	Point vel = (seconds > 0) ? ((pos - positions_[oldest_])/seconds) : Point(0,0);
 
 	// compute averages

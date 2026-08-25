@@ -3,7 +3,7 @@
 #include <math.h>
 #include <latero/point.h>
 #include "averagefilter.h"
-#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <chrono>
 
 namespace latero::graphics {
 
@@ -21,7 +21,7 @@ public:
 	virtual ~VelocityEstimator() {}
 
 	// insert latest position of the device
-	void Insert(const Point &pos, const boost::posix_time::time_duration &time);
+	void Insert(const Point &pos, std::chrono::microseconds time);
 
 	// @return estimated velocity as a vector
 	Point GetVelocity();
@@ -35,7 +35,7 @@ public:
 protected:
 	unsigned int oldest_;
 	Point positions_[window_size];
-	boost::posix_time::time_duration times_[window_size];
+	std::chrono::microseconds times_[window_size];
 	AverageFilter<double> velx,vely; // cannot average direction since it's circular
 };
 

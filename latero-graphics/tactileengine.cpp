@@ -60,7 +60,7 @@ void TactileEngine::EntryPoint()
 			}
 
 			dev_->ReadCarrierState(state.pos, state.angle);
-			velEstimator.Insert(state.pos, boost::posix_time::microseconds(state.GetTimeElapsed().count()));
+			velEstimator.Insert(state.pos, state.GetTimeElapsed());
 			state.velMag = velEstimator.GetMagnitude();
 			state.velDir = velEstimator.GetDirection();
 			state.actuatorPositions = dev_->GetActuatorPositions(state.pos, state.angle);
