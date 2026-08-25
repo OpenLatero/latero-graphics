@@ -1,4 +1,5 @@
 #include "logger.h"
+#include <cassert>
 #include <iostream>
 #include <fstream>
 #include <math.h>

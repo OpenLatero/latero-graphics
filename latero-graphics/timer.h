@@ -1,6 +1,6 @@
 #pragma once
 
-#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <chrono>
 
 namespace latero::graphics {
 
@@ -14,27 +14,26 @@ public:
 
 	void Reset()
 	{
-		initTime_ = boost::posix_time::microsec_clock::universal_time();
+		initTime_ = std::chrono::steady_clock::now();
 	}
 
-    inline boost::posix_time::time_duration GetElapsed() const
+    inline std::chrono::microseconds GetElapsed() const
     {
-        return (boost::posix_time::microsec_clock::universal_time() - initTime_);
+        return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - initTime_);
     }
-    
+
 	inline double GetElapsedMicro() const
 	{
-		return (boost::posix_time::microsec_clock::universal_time() - initTime_).total_microseconds();
+		return GetElapsed().count();
 	}
 
 	inline double GetElapsedSecond() const
 	{
-		return (boost::posix_time::microsec_clock::universal_time() - initTime_).total_microseconds() / 1E6;
+		return GetElapsed().count() / 1E6;
 	}
 
 protected:
-	boost::posix_time::ptime initTime_;
+	std::chrono::steady_clock::time_point initTime_;
 };
 
 } // namespace
-

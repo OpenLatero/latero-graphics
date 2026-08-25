@@ -29,7 +29,7 @@ public:
     void Write(std::string str, bool wait=false);
     void SetNewFilename(const std::filesystem::path& filename);
     
-    long GetTimestamp() const { return timer_.GetElapsed().total_milliseconds(); }
+    long GetTimestamp() const { return timer_.GetElapsed().count() / 1000; }
     
 private:
     void Loop();
