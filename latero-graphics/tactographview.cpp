@@ -312,7 +312,7 @@ void TactographView::RefreshBackground()
 	bgUpdateTime_ = std::chrono::steady_clock::now();
 	if (peer_)
 	{
-		auto anim = peer_->GetIllustration(drawingArea_.get_width(), boost::posix_time::seconds(0));
+		auto anim = peer_->GetIllustration(drawingArea_.get_width(), std::chrono::microseconds(0));
 		SetBackground(anim);
 	}
 }

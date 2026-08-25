@@ -20,7 +20,7 @@ VelModulator::VelModulator(const latero::Tactograph *dev, const XMLInputNode &no
 	Modulator(dev),
     delay_(delay_default),
     stateOut_(true),
-	startTime_(boost::posix_time::min_date_time),
+	startTime_(std::chrono::microseconds(0)),
     toggleCount_(0)
 {
 	SetLimit(limit_default);

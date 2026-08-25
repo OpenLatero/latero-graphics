@@ -21,7 +21,7 @@ protected:
 	void OnDraw(const Cairo::RefPtr<Cairo::Context>& cr, int width, int height);
 
 	latero::graphics::GeneratorPtr peer_;
-	boost::posix_time::ptime bgUpdateTime_;
+	std::chrono::steady_clock::time_point bgUpdateTime_;
     const latero::TactileDisplay *dev_;
 	latero::BiasedImg tdState_;
 	Gtk::DrawingArea drawingArea_;

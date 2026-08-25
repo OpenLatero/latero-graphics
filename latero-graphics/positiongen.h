@@ -38,7 +38,7 @@ public:
 	 *
 	 * @warning returns mapping for the actuator in upper-left corner
 	 */
-	Glib::RefPtr<Gdk::Pixbuf> GetDeflectionMap(uint w, boost::posix_time::time_duration timeElapsed=boost::posix_time::seconds(0), double velMag=0, double velDir=0, RenderMode mode = RenderMode(true,true));
+	Glib::RefPtr<Gdk::Pixbuf> GetDeflectionMap(uint w, std::chrono::microseconds timeElapsed=std::chrono::microseconds(0), double velMag=0, double velDir=0, RenderMode mode = RenderMode(true,true));
 
 protected:
 	/** constructor */

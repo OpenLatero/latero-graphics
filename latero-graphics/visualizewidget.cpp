@@ -222,13 +222,12 @@ latero::graphics::gtk::Animation VisualizeWidget::GetDeflectionMap(uint w, uint 
 	{
 		Glib::RefPtr<Gdk::Pixbuf> buf;
 		auto modeText = std::string(modeList_->get_string(modeDropDown_->get_selected()));
-		auto timeElapsedBoost = boost::posix_time::microseconds(timeElapsed.count());
 		if (modeText == mode_vib_as_deflection)
-			buf = gen_->GetDeflectionMap(w,timeElapsedBoost,velMag,velDir,RenderMode(true,false,false));
+			buf = gen_->GetDeflectionMap(w,timeElapsed,velMag,velDir,RenderMode(true,false,false));
 		else if (modeText == mode_vib_as_noise)
-			buf = gen_->GetDeflectionMap(w,timeElapsedBoost,velMag,velDir,RenderMode(true,true,false));
+			buf = gen_->GetDeflectionMap(w,timeElapsed,velMag,velDir,RenderMode(true,true,false));
 		else
-			buf = gen_->GetIllustration(w,timeElapsedBoost);
+			buf = gen_->GetIllustration(w,timeElapsed);
 		rv.AppendFrame(buf);
 
 		timeElapsed += delta/1000;

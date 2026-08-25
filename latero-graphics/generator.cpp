@@ -64,7 +64,7 @@ Generator::Generator(const latero::Tactograph *dev) :
 	assert(dev_);
 };
 
-latero::graphics::gtk::Animation Generator::GetIllustration(uint w, boost::posix_time::time_duration t) const
+latero::graphics::gtk::Animation Generator::GetIllustration(uint w, std::chrono::microseconds t) const
 {
 	if (w == 0) {
 		std::cout << "Generator::GetIllustration: Invalid width" << std::endl;

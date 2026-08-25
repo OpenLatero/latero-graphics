@@ -30,7 +30,7 @@ void PositionGen::DoRender_(const State *state, latero::BiasedImg &frame)
 	PostRender_(state);
 }
 
-Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, boost::posix_time::time_duration timeElapsed, double velMag, double velDir, RenderMode mode)
+Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, std::chrono::microseconds timeElapsed, double velMag, double velDir, RenderMode mode)
 {
 	double ws_x = Dev()->GetSurfaceWidth();
 	double ws_y = Dev()->GetSurfaceHeight();
@@ -42,7 +42,7 @@ Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, boost::posix_tim
 	ActuatorState state;
 	state.mode = mode;
 	state.i = state.j = 0; 
-	state.SetTimeElapsed(std::chrono::microseconds(timeElapsed.total_microseconds()));
+	state.SetTimeElapsed(timeElapsed);
 	state.velMag = velMag;
 	state.velDir = velDir;
 
