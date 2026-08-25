@@ -4,7 +4,7 @@
 #include "positiongen.h"
 #include "gtk/animation.h"
 #include "units.h"
-#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <chrono>
 
 
 namespace latero::graphics {
@@ -35,10 +35,11 @@ public:
 
 	virtual ~TimeWidget() {};
 
-	boost::posix_time::time_duration GetTime()
+	std::chrono::microseconds GetTime()
 	{
 		auto idx = unitsDropDown_->get_selected();
-		return units::ConvertTime(adj_->get_value(), std::string(unitsList_->get_string(idx)));
+		auto t = units::ConvertTime(adj_->get_value(), std::string(unitsList_->get_string(idx)));
+		return std::chrono::microseconds(t.total_microseconds());
 	}
 
 protected:
@@ -75,7 +76,7 @@ public:
 
 	void OnModeChanged() { timeCtrl_.set_sensitive(timeRadio_.get_active()); }
 
-	boost::posix_time::time_duration GetTime()
+	std::chrono::microseconds GetTime()
 	{
 		// TODO: get this to work again?
 		//if (currentRadio_.get_active())

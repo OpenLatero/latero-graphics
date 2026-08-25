@@ -216,18 +216,19 @@ void VisualizeWidget::OnSave()
 latero::graphics::gtk::Animation VisualizeWidget::GetDeflectionMap(uint w, uint n, double velMag, double velDir)
 {
 	latero::graphics::gtk::Animation rv;
-	boost::posix_time::time_duration timeElapsed = startTimeCtrl_.GetTime();
-	boost::posix_time::time_duration delta = intervalCtrl_.GetTime();
+	std::chrono::microseconds timeElapsed = startTimeCtrl_.GetTime();
+	std::chrono::microseconds delta = intervalCtrl_.GetTime();
 	for (unsigned int i=0; i<n; ++i)
 	{
 		Glib::RefPtr<Gdk::Pixbuf> buf;
 		auto modeText = std::string(modeList_->get_string(modeDropDown_->get_selected()));
+		auto timeElapsedBoost = boost::posix_time::microseconds(timeElapsed.count());
 		if (modeText == mode_vib_as_deflection)
-			buf = gen_->GetDeflectionMap(w,timeElapsed,velMag,velDir,RenderMode(true,false,false));
+			buf = gen_->GetDeflectionMap(w,timeElapsedBoost,velMag,velDir,RenderMode(true,false,false));
 		else if (modeText == mode_vib_as_noise)
-			buf = gen_->GetDeflectionMap(w,timeElapsed,velMag,velDir,RenderMode(true,true,false));
+			buf = gen_->GetDeflectionMap(w,timeElapsedBoost,velMag,velDir,RenderMode(true,true,false));
 		else
-			buf = gen_->GetIllustration(w,timeElapsed);
+			buf = gen_->GetIllustration(w,timeElapsedBoost);
 		rv.AppendFrame(buf);
 
 		timeElapsed += delta/1000;
