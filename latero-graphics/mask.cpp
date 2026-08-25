@@ -2,7 +2,6 @@
 #include <sys/stat.h>
 #include <iostream>
 #include <Magick++.h>
-#include <boost/filesystem/convenience.hpp>
 #include <glibmm/miscutils.h>
 #include <glibmm/fileutils.h>
 #include <filesystem>
@@ -36,48 +35,43 @@ Mask::~Mask()
 
 Glib::RefPtr<Gdk::Pixbuf> Mask::GetBlurredImage(const std::filesystem::path& filename) const
 {
-	namespace fs = boost::filesystem;
+	namespace fs = std::filesystem;
 
-	std::string cachePath = (filename.parent_path() / ".blurred").string();
-	fs::path boost_path(cachePath);
-	if (!fs::exists(boost_path))
+	std::filesystem::path cachePath = filename.parent_path() / ".blurred";
+	if (!fs::exists(cachePath))
 	{
-		fs::create_directories(boost_path);
+		fs::create_directories(cachePath);
 		chmod(cachePath.c_str(), 0777); // make accessible to others than root
 	}
-	else if (!fs::is_directory(boost_path))
+	else if (!fs::is_directory(cachePath))
 		printf("can't create cachePath!\n");
 
 	// handle SVG images — must be converted to PNG before blurring
 	std::filesystem::path actualFile = filename;
 	if (filename.extension() == ".svg")
 	{
-		std::string svgbitmap = cachePath + "/" + filename.filename().string() + ".png";
+		std::filesystem::path svgbitmap = cachePath / (filename.filename().string() + ".png");
 
-		fs::path boost_svg(filename.string());
-		fs::path boost_svgbitmap(svgbitmap);
-		if (!fs::exists(boost_svgbitmap) ||
-			(fs::last_write_time(boost_svgbitmap) < fs::last_write_time(boost_svg)))
+		if (!fs::exists(svgbitmap) ||
+			(fs::last_write_time(svgbitmap) < fs::last_write_time(filename)))
 		{
 			Glib::RefPtr<Gdk::Pixbuf> svgbuf = Gdk::Pixbuf::create_from_file(filename.string());
-			svgbuf->save(svgbitmap, "png");
+			svgbuf->save(svgbitmap.string(), "png");
 			chmod(svgbitmap.c_str(), 0666); // make accessible to others than root
 		}
 		actualFile = svgbitmap;
 	}
 
-	std::string blurredFile = cachePath + "/" + "blurred_" + actualFile.filename().string();
-	fs::path boost_blurred(blurredFile);
-	fs::path boost_normal(actualFile.string());
-	if (!fs::exists(boost_blurred) ||
-		(fs::last_write_time(boost_blurred) < fs::last_write_time(boost_normal)))
+	std::filesystem::path blurredFile = cachePath / ("blurred_" + actualFile.filename().string());
+	if (!fs::exists(blurredFile) ||
+		(fs::last_write_time(blurredFile) < fs::last_write_time(actualFile)))
 	{
 		printf("Updating blurred cache: %s...\n", blurredFile.c_str());
 		if (srcTypeAlpha_)
 		{
 			// can't use Magick++ until version with blurChannel is available
 			std::stringstream cmd;
-			cmd << "convert " << actualFile.string() << " -channel A -blur 4x2 " << blurredFile;
+			cmd << "convert " << actualFile.string() << " -channel A -blur 4x2 " << blurredFile.string();
 			system(cmd.str().c_str());
 		}
 		else
@@ -85,12 +79,12 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetBlurredImage(const std::filesystem::path& fil
 			Magick::Image image;
 			image.read(actualFile.string());
 			image.blur(4, 2); // gaussian blur, radius of 4, sigma of 2
-			image.write(blurredFile.c_str());
+			image.write(blurredFile.string());
 		}
 		chmod(blurredFile.c_str(), 0666); // make accessible to others than root
 	}
 
-	return Gdk::Pixbuf::create_from_file(blurredFile);
+	return Gdk::Pixbuf::create_from_file(blurredFile.string());
 }
 
 bool Mask::SetImage(Glib::RefPtr<Gdk::Pixbuf> img, bool alpha)
@@ -118,11 +112,8 @@ bool Mask::SetImage(Glib::RefPtr<Gdk::Pixbuf> img, bool alpha)
 
 bool Mask::SetImage(const std::filesystem::path& filename, bool alpha)
 {
-	namespace fs = boost::filesystem;
-
 	// check if the file exists
-	fs::path boost_filename(filename.string());
-	if (!fs::exists(boost_filename))
+	if (!std::filesystem::exists(filename))
 	{
 		std::cout << "Mask::SetImage(" << filename << "): file doesn't exist" << std::endl;
 		return false;

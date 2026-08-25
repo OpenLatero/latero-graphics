@@ -3,7 +3,6 @@
 include(CMakeFindDependencyMacro)
 
 # Re-find dependencies for consumers
-find_dependency(Boost REQUIRED COMPONENTS filesystem)
 find_dependency(latero REQUIRED)
 find_dependency(ImageMagick REQUIRED COMPONENTS Magick++ )
 
