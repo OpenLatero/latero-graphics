@@ -60,7 +60,6 @@ void Logger::Loop()
 {
 	std::ofstream myfile;
 	myfile.open(filename_.c_str());
-    // todo... boost::filesystem::exists( "myfile.txt" )
     
 	while (!stopRequested_)
 	{

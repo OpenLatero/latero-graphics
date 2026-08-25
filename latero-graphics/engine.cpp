@@ -24,7 +24,7 @@ int Engine::Start()
 
 void Engine::SetHighPriority()
 {
-	// Boost doesn't provide any support for priorities. We
+	// std::thread doesn't provide any support for priorities. We
 	// therefore have to use the native handle exposed by
 	// native_handle() and non-portable native functions.
 	//

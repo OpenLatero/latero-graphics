@@ -3,9 +3,6 @@
 #include <latero/point.h>
 #include <vector>
 
-// TODO clean this up
-// use this? http://www.boost.org/doc/libs/1_37_0/libs/numeric/ublas/doc/index.htm
-
 namespace latero::graphics {
 
 class Vector : public Point

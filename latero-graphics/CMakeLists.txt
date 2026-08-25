@@ -91,7 +91,7 @@ add_library (laterographics ${SRC})
 add_library(laterographics::laterographics ALIAS laterographics)
 target_link_libraries(laterographics PUBLIC 
 	latero::latero
-	Boost::system Boost::filesystem
+	Boost::filesystem
 	ImageMagick::Magick++
 	PkgConfig::GTKMM
 	PkgConfig::LIBXML)
