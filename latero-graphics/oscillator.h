@@ -51,8 +51,8 @@ public:
 			lastTime_=state.GetTimeElapsed();
 			mod_=false;
 
-			double t = state.GetTimeElapsed().count() % period_.total_microseconds(); // take the modulus of the time to keep good resolution
-			values[0] = 0.5 + 0.5*sin(2.0*M_PI*t/period_.total_microseconds());
+			double t = state.GetTimeElapsed().count() % period_.count(); // take the modulus of the time to keep good resolution
+			values[0] = 0.5 + 0.5*sin(2.0*M_PI*t/period_.count());
 			values[1] = 1-values[0];
 		}
 
@@ -94,13 +94,13 @@ public:
 	inline double GetFreq() const { LATERO_GRAPHICS_GUARD; return GetFreq_(); }
 
 	/** @return frequency in Hz (non-locking) */
-	inline double GetFreq_() const { return 1E6/period_.total_microseconds(); }
+	inline double GetFreq_() const { return 1E6/period_.count(); }
 
 	/** set frequency in Hz (locking) */
 	inline void SetFreq(double v) { LATERO_GRAPHICS_GUARD; SetFreq_(v); }
 
 	/** set frequency in Hz (non-locking) */
-	inline void SetFreq_(double v) { SetLastModified_(); v = fmin(freq_max,fmax(freq_min,v)); period_ = boost::posix_time::microseconds((long)(1E6/v)); mod_=true; }
+	inline void SetFreq_(double v) { SetLastModified_(); v = fmin(freq_max,fmax(freq_min,v)); period_ = std::chrono::microseconds((long)(1E6/v)); mod_=true; }
 
 	// Amplitude
 
@@ -154,7 +154,7 @@ protected:
 	bool mod_;
 	std::chrono::microseconds lastTime_;
 
-	boost::posix_time::time_duration period_;
+	std::chrono::microseconds period_;
 	double amplitude_;	// amplitude of the vibration between 0 and 1
 	bool enable_;		// enable or disables vibration
 
