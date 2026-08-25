@@ -29,7 +29,7 @@ double RadialGratingTexture::NormRender_(const ActuatorState &state)
 {
 	Point delta = state.pos - seed_;
 	float d = sqrt(delta.x*delta.x + delta.y*delta.y); // todo use Norm()
-	return grating_->Render_(d,state.GetTimeElapsed());
+	return grating_->Render_(d,boost::posix_time::microseconds(state.GetTimeElapsed().count()));
 }
 
 Cairo::RefPtr<Cairo::Pattern> RadialGratingTexture::GetGratingDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)

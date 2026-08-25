@@ -55,7 +55,7 @@ protected:
 
 	// internal state
 	bool stateOut_;
-	boost::posix_time::time_duration startTime_;
+	std::chrono::microseconds startTime_;
     double lastValue_;
     long toggleCount_;
 };

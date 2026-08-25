@@ -102,7 +102,7 @@ double DottedLine::DoRender_(const ActuatorState &state)
 		mod = 1 - (d - (roundingLength_-modDist-modSize))/modSize;
 	mod = fmax(0,fmin(1,mod));
 
-	double us = state.GetTimeElapsed().total_microseconds() % period_.total_microseconds();
+	double us = state.GetTimeElapsed().count() % period_.total_microseconds();
 	double offset = fmod(roundingLength_ + d - us*vel_/1E6,roundingLength_);
 	s.pos = pRoundingMin_ + u01_*offset;
 
@@ -145,7 +145,7 @@ double DottedCircle::DoRender_(const ActuatorState &state)
 {
 	if (vel_ == 0)	return Dots::DoRender_(state);
 	ActuatorState s = state;
-	double us = state.GetTimeElapsed().total_microseconds() % period_.total_microseconds();
+	double us = state.GetTimeElapsed().count() % period_.total_microseconds();
 	double offset = 2*M_PI * fmod(1 - (float)us/(float)period_.total_microseconds(), 1);
 	if (vel_<0) offset *= -1;
 	Vector v_cp = state.pos - center_;
@@ -251,7 +251,7 @@ double DottedPolygon::DoRender_(const ActuatorState &state)
 				mod = 1 - (d - (data.roundingLength_-modDist2-modSize))/modSize;
 			mod = fmax(0,fmin(1,mod));
 
-			double us = state.GetTimeElapsed().total_microseconds() % data.period_.total_microseconds();
+			double us = state.GetTimeElapsed().count() % data.period_.total_microseconds();
 			double offset = fmod(data.roundingLength_ + d - us*vel_/1E6,data.roundingLength_);
 			s.pos = data.pRoundingMin_ + data.u01_*offset;
 

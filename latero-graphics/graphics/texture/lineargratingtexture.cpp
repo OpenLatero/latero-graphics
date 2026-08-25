@@ -31,7 +31,7 @@ double LinearGratingTexture::NormRender_(const ActuatorState &state)
 	Point rel = state.pos - seed_;
 	float rad = angle_*M_PI/180;
 	float d = rel.x*cos(rad) + rel.y*sin(rad);
-	return grating_->Render_(d,state.GetTimeElapsed());
+	return grating_->Render_(d,boost::posix_time::microseconds(state.GetTimeElapsed().count()));
 }
 
 

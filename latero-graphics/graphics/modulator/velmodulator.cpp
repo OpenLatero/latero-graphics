@@ -9,7 +9,7 @@ VelModulator::VelModulator(const latero::Tactograph *dev) :
 	Modulator(dev),
 	delay_(delay_default),
     stateOut_(true),
-    startTime_(boost::posix_time::min_date_time),
+    startTime_(std::chrono::microseconds(0)),
     toggleCount_(0)
 {
 	SetLimit(limit_default);
@@ -62,7 +62,7 @@ double VelModulator::GetValue_(const ActuatorState &state)
 	if ((rv!=0) && !(state.mode.IgnoreState()))
 	{
 		// how long have we been inside?
-		double msElapsed = (state.GetTimeElapsed() - startTime_).total_microseconds()/1000.0;
+		double msElapsed = (state.GetTimeElapsed() - startTime_).count()/1000.0;
 
 		// ramp up over the last half of the delay (?)
 		double v = (msElapsed - delay_/2) / (delay_/2);

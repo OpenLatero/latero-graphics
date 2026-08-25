@@ -109,7 +109,7 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, boost::posix_time::t
 		else // if (mode == viz_shadow)
 			state.mode = RenderMode(true,false,false);
 		state.i = state.j = 0; 
-		state.SetTimeElapsed(t);
+		state.SetTimeElapsed(std::chrono::microseconds(t.total_microseconds()));
 		state.velMag = velMag;
 		state.velDir = velDir;
 

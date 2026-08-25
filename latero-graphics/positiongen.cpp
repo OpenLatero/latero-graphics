@@ -42,7 +42,7 @@ Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, boost::posix_tim
 	ActuatorState state;
 	state.mode = mode;
 	state.i = state.j = 0; 
-	state.SetTimeElapsed(timeElapsed);
+	state.SetTimeElapsed(std::chrono::microseconds(timeElapsed.total_microseconds()));
 	state.velMag = velMag;
 	state.velDir = velDir;
 

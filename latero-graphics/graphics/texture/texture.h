@@ -78,7 +78,7 @@ public:
 
 	inline void ApplyMotion(ActuatorState &state)
 	{
-		state.pos -= motionVector_ * (state.GetTimeElapsed().total_microseconds()/1E6);
+		state.pos -= motionVector_ * (state.GetTimeElapsed().count()/1E6);
 	}
 
 	inline void ApplyTDCentric(ActuatorState &state)

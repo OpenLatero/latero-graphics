@@ -47,7 +47,7 @@ double AxialGratingTexture::NormRender_(const ActuatorState &state)
 	float d = (180.0/M_PI)*atan2(p.y,p.x) - seedAngle_;
 	while (d<0) d+=360;
 
-	return ((1-mod)*1.0 + mod*grating_->Render_(d,state.GetTimeElapsed()));
+	return ((1-mod)*1.0 + mod*grating_->Render_(d,boost::posix_time::microseconds(state.GetTimeElapsed().count())));
 }
 
 Cairo::RefPtr<Cairo::Pattern> AxialGratingTexture::GetGratingDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)

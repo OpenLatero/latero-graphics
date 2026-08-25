@@ -51,7 +51,7 @@ public:
 			lastTime_=state.GetTimeElapsed();
 			mod_=false;
 
-			double t = state.GetTimeElapsed().total_microseconds() % period_.total_microseconds(); // take the modulus of the time to keep good resolution
+			double t = state.GetTimeElapsed().count() % period_.total_microseconds(); // take the modulus of the time to keep good resolution
 			values[0] = 0.5 + 0.5*sin(2.0*M_PI*t/period_.total_microseconds());
 			values[1] = 1-values[0];
 		}
@@ -152,7 +152,7 @@ protected:
 
 	double values[2];
 	bool mod_;
-	boost::posix_time::time_duration lastTime_;
+	std::chrono::microseconds lastTime_;
 
 	boost::posix_time::time_duration period_;
 	double amplitude_;	// amplitude of the vibration between 0 and 1
