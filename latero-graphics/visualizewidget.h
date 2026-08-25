@@ -38,8 +38,7 @@ public:
 	std::chrono::microseconds GetTime()
 	{
 		auto idx = unitsDropDown_->get_selected();
-		auto t = units::ConvertTime(adj_->get_value(), std::string(unitsList_->get_string(idx)));
-		return std::chrono::microseconds(t.total_microseconds());
+		return units::ConvertTime(adj_->get_value(), std::string(unitsList_->get_string(idx)));
 	}
 
 protected:

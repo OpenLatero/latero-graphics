@@ -2,7 +2,7 @@
 
 #include <string>
 #include <math.h>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <chrono>
 
 namespace latero::graphics {
 namespace units {
@@ -31,16 +31,16 @@ static const std::string nsec = "ns";
 inline static double RadToDegree(double rad) { return rad*180/M_PI; }
 inline static double DegreeToRad(double deg) { return deg*M_PI/180; }
 
-inline static boost::posix_time::time_duration ConvertTime(long t, std::string units)
+inline static std::chrono::microseconds ConvertTime(long t, std::string units)
 {
-	if (units==nsec) return boost::posix_time::microseconds(t/1000);
-	else if (units==usec) return boost::posix_time::microseconds(t);
-	else if (units==msec) return boost::posix_time::milliseconds(t);
-	else if (units==sec) return boost::posix_time::seconds(t);
-	else if (units==min) return boost::posix_time::minutes(t);
-	else if (units==hour) return boost::posix_time::hours(t);
-	else if (units==day) return boost::posix_time::hours(t*24);
-	else return boost::posix_time::seconds(0);
+	if (units==nsec) return std::chrono::microseconds(t/1000);
+	else if (units==usec) return std::chrono::microseconds(t);
+	else if (units==msec) return std::chrono::milliseconds(t);
+	else if (units==sec) return std::chrono::seconds(t);
+	else if (units==min) return std::chrono::minutes(t);
+	else if (units==hour) return std::chrono::hours(t);
+	else if (units==day) return std::chrono::hours(t*24);
+	else return std::chrono::microseconds(0);
 }
 
 // Shift an angle in radians such that it fits within the range [min, min+2PI[.
