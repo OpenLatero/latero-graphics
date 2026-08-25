@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <memory>
 #include "dots.h"
 #include "../vector.h"
@@ -70,7 +71,7 @@ protected:
 	Vector u01_, n01_;
 	double roundingLength_;
 	Point pRoundingMin_, pRoundingMax_;
-	boost::posix_time::time_duration period_;
+	std::chrono::microseconds period_;
 };
 
 
@@ -113,14 +114,14 @@ public:
 protected:
 	DottedCircle(const latero::Tactograph *dev, const Point &c, double r);
 
-	void SetPeriod(boost::posix_time::time_duration period) { LATERO_GRAPHICS_GUARD; period_=period; }
+	void SetPeriod(std::chrono::microseconds period) { LATERO_GRAPHICS_GUARD; period_=period; }
 
 
 	Point center_;
 	double radius_;
 
 	// precomputed stuff...
-	boost::posix_time::time_duration period_;
+	std::chrono::microseconds period_;
 };
 
 typedef std::shared_ptr<class DottedPolygon> DottedPolygonPtr;
@@ -156,7 +157,7 @@ protected:
 		double roundingLength_;
 		Point pRoundingMin_, pRoundingMax_;
 		double dBetweenPoints;
-		boost::posix_time::time_duration period_;
+		std::chrono::microseconds period_;
 	} PrecompData;
 
 	std::vector<PrecompData> data_;

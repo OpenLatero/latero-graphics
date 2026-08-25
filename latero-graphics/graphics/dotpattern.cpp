@@ -79,7 +79,7 @@ void DottedLine::UpdateDots()
 	roundingLength_ = v01.Norm() + dBetweenPoints_; //
 	pRoundingMin_ = p0_ - u01_*dBetweenPoints_/2; //
 	pRoundingMax_ = p1_ - u01_*dBetweenPoints_/2; //
-	period_ = boost::posix_time::microseconds((long)(fabs(roundingLength_ / vel_)*1E6)); //
+	period_ = std::chrono::microseconds((long long)(fabs(roundingLength_ / vel_)*1E6)); //
 }
 
 double DottedLine::DoRender_(const ActuatorState &state)
@@ -102,7 +102,7 @@ double DottedLine::DoRender_(const ActuatorState &state)
 		mod = 1 - (d - (roundingLength_-modDist-modSize))/modSize;
 	mod = fmax(0,fmin(1,mod));
 
-	double us = state.GetTimeElapsed().count() % period_.total_microseconds();
+	double us = state.GetTimeElapsed().count() % period_.count();
 	double offset = fmod(roundingLength_ + d - us*vel_/1E6,roundingLength_);
 	s.pos = pRoundingMin_ + u01_*offset;
 
@@ -136,7 +136,7 @@ void DottedCircle::UpdateDots()
 	}
 
 	// precompute some stuff
-	boost::posix_time::time_duration period = boost::posix_time::microseconds((long)(fabs(2*M_PI*GetRadius() / GetVel())*1E6));
+	std::chrono::microseconds period = std::chrono::microseconds((long long)(fabs(2*M_PI*GetRadius() / GetVel())*1E6));
 	//printf("DottedCircle::UpdateDots: period = %f ms; n = %d\n", period.total_microseconds()/1000.0, n);
 	SetPeriod(period);
 }
@@ -145,8 +145,8 @@ double DottedCircle::DoRender_(const ActuatorState &state)
 {
 	if (vel_ == 0)	return Dots::DoRender_(state);
 	ActuatorState s = state;
-	double us = state.GetTimeElapsed().count() % period_.total_microseconds();
-	double offset = 2*M_PI * fmod(1 - (float)us/(float)period_.total_microseconds(), 1);
+	double us = state.GetTimeElapsed().count() % period_.count();
+	double offset = 2*M_PI * fmod(1 - (float)us/(float)period_.count(), 1);
 	if (vel_<0) offset *= -1;
 	Vector v_cp = state.pos - center_;
 	s.pos = center_ + v_cp.Rotated(offset);
@@ -214,7 +214,7 @@ void DottedPolygon::UpdateDots()
 		datum.roundingLength_ = v12.Norm() - datum.dBetweenPoints; 
 		datum.pRoundingMin_ = p1 + datum.u01_*datum.dBetweenPoints/2;
 		datum.pRoundingMax_ = p2 - datum.u01_*datum.dBetweenPoints*3./2.;
-		datum.period_ = boost::posix_time::microseconds((long)((datum.roundingLength_ / vel)*1E6));
+		datum.period_ = std::chrono::microseconds((long long)((datum.roundingLength_ / vel)*1E6));
 		data.push_back(datum);
 	}
 
@@ -251,7 +251,7 @@ double DottedPolygon::DoRender_(const ActuatorState &state)
 				mod = 1 - (d - (data.roundingLength_-modDist2-modSize))/modSize;
 			mod = fmax(0,fmin(1,mod));
 
-			double us = state.GetTimeElapsed().count() % data.period_.total_microseconds();
+			double us = state.GetTimeElapsed().count() % data.period_.count();
 			double offset = fmod(data.roundingLength_ + d - us*vel_/1E6,data.roundingLength_);
 			s.pos = data.pRoundingMin_ + data.u01_*offset;
 
