@@ -44,7 +44,7 @@ Grating::Grating(std::string units) :
 	AddModifiableChild(mod_);
 }
 
-double Grating::Render_(double pos, boost::posix_time::time_duration timeElapsed)
+double Grating::Render_(double pos, std::chrono::microseconds timeElapsed)
 {
 	if (!enable_) return (invert_?1:0);
 	double cycleSize = GetCycleSize_();
@@ -59,7 +59,7 @@ double Grating::Render_(double pos, boost::posix_time::time_duration timeElapsed
 		double distVel = GetVelDist_();
 		if (fabs(distVel)>0)
 		{
-			float us = timeElapsed.total_microseconds() % (long)(GetRhythmSize_()*1E6/fabs(distVel)); // reduce to a manageable number
+			float us = timeElapsed.count() % (long)(GetRhythmSize_()*1E6/fabs(distVel)); // reduce to a manageable number
 			pos -= distVel*us/1E6; // the texture moves against the position
 		}
 	}

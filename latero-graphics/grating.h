@@ -4,6 +4,7 @@
 #include "modifiable.h"
 #include "xml.h"
 #include "units.h"
+#include <chrono>
 #include "gratingmodulator.h"
 
 namespace latero::graphics {
@@ -33,7 +34,7 @@ public:
 	virtual void AppendXML(XMLOutputNode &root) const;
 
 	// position in "units"
-	double Render_(double pos, boost::posix_time::time_duration timeElapsed);
+	double Render_(double pos, std::chrono::microseconds timeElapsed);
 
 	inline double GetCenter() const  { LATERO_GRAPHICS_GUARD; return center_; }
 	void SetCenter(double v);

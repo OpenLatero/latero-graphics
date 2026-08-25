@@ -29,7 +29,7 @@ double RadialGratingTexture::NormRender_(const ActuatorState &state)
 {
 	Point delta = state.pos - seed_;
 	float d = sqrt(delta.x*delta.x + delta.y*delta.y); // todo use Norm()
-	return grating_->Render_(d,boost::posix_time::microseconds(state.GetTimeElapsed().count()));
+	return grating_->Render_(d, state.GetTimeElapsed());
 }
 
 Cairo::RefPtr<Cairo::Pattern> RadialGratingTexture::GetGratingDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
@@ -51,7 +51,7 @@ Cairo::RefPtr<Cairo::Pattern> RadialGratingTexture::GetGratingDrawingPattern(Cai
 
 	Cairo::RefPtr<Cairo::RadialGradient> gradient = Cairo::RadialGradient::create(seed.x, seed.y, 0, seed.x, seed.y, r);
 	for (float d=0; d<=r; d+=delta)
-		gradient->add_color_stop_rgba(d/r,0,0,0,grating->Render_(d,boost::posix_time::microseconds(t.count())));
+		gradient->add_color_stop_rgba(d/r,0,0,0,grating->Render_(d, t));
 	mmContext->set_source(gradient);
 	mmContext->paint();
 

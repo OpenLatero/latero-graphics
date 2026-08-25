@@ -128,7 +128,7 @@ double Stroke::SuperposeMotion_(double background, const StrokeState &state, boo
 		if (motionProfile<=0)	return background;
 	}
 
-	double grating = motionCueAlpha*motionProfile * motionTexture_->Render_(state.dLength,boost::posix_time::microseconds(state.actuatorState.GetTimeElapsed().count()));
+	double grating = motionCueAlpha*motionProfile * motionTexture_->Render_(state.dLength, state.actuatorState.GetTimeElapsed());
 
 	if (motionCue_ == motion_cue_suppressed)
 	{
@@ -218,7 +218,7 @@ double Stroke::RenderTexture_(const StrokeState &state, double invert_vib)
 	// Apply texture
 	double txEffect = 1;
 	if (texture_->GetEnable_())
-		txEffect = texture_->Render_(state.dLength, boost::posix_time::microseconds(state.actuatorState.GetTimeElapsed().count()));
+		txEffect = texture_->Render_(state.dLength, state.actuatorState.GetTimeElapsed());
 	txEffect = 1 - txEffect*gutterEffect;
 
 	// Apply vibration

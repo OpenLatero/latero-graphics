@@ -25,7 +25,7 @@ GratingGraph::~GratingGraph()
 double GratingGraph::GetValue(double x)
 {
 	if (!peer_) return 0;
-	return peer_->Render_(x,boost::posix_time::seconds(0)); // todo: not safe!
+	return peer_->Render_(x, std::chrono::microseconds(0)); // todo: not safe!
 }
 
 bool GratingGraph::OnCheckPeer()

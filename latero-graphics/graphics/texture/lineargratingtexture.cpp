@@ -31,7 +31,7 @@ double LinearGratingTexture::NormRender_(const ActuatorState &state)
 	Point rel = state.pos - seed_;
 	float rad = angle_*M_PI/180;
 	float d = rel.x*cos(rad) + rel.y*sin(rad);
-	return grating_->Render_(d,boost::posix_time::microseconds(state.GetTimeElapsed().count()));
+	return grating_->Render_(d, state.GetTimeElapsed());
 }
 
 
@@ -54,7 +54,7 @@ Cairo::RefPtr<Cairo::Pattern> LinearGratingTexture::GetGratingDrawingPattern(Cai
 
 	Cairo::RefPtr<Cairo::LinearGradient> gradient = Cairo::LinearGradient::create(xmin,0,xmax,0);
 	for (float x=xmin; x<xmax; x+=delta)
-		gradient->add_color_stop_rgba((x-xmin)/w,0,0,0,grating->Render_(x,boost::posix_time::microseconds(t.count())));
+		gradient->add_color_stop_rgba((x-xmin)/w,0,0,0,grating->Render_(x, t));
 	
 	mmContext->set_source(gradient);
 	mmContext->paint();
