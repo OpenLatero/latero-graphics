@@ -105,13 +105,13 @@ public:
 	virtual double NormRender_(const ActuatorState &state) = 0;
 	virtual double NormRenderShadow_(const ActuatorState &state) { return NormRender_(state); };
 
-	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 
 	/**
 	 * Returns a texture pattern to be used as a source in drawing context.
 	 * @param mmContext drawing context in units of the virtual surface
 	 */
-	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t) = 0;
+	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t) = 0;
 
 	virtual std::string GetName() { return "Texture"; }
 

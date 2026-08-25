@@ -58,13 +58,13 @@ public:
 	 * Obtain an abstract Cairo::Pattern representing the tactile pattern. This is a vector graphics drawing
 	 * which approximates the rendering but is computed faster than a deflection map.
 	 */
-	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration timeElapsed) = 0;
+	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds timeElapsed) = 0;
 
 	/**
 	 * Obtain an illustration of the pattern according to the vizualization mode.
 	 * @todo Harmonize with similar method in Generator.
 	 */
-	Glib::RefPtr<Gdk::Pixbuf> GetVisualization(uint w, boost::posix_time::time_duration t, VizMode mode, double velMag = 0, double velDir = 0);
+	Glib::RefPtr<Gdk::Pixbuf> GetVisualization(uint w, std::chrono::microseconds t, VizMode mode, double velMag = 0, double velDir = 0);
 	
 	/** 
 	 * @return name of pattern (currently Type descriptor) 

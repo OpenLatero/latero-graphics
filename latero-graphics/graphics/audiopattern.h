@@ -55,7 +55,7 @@ public:
 	virtual void PlayAudio(AudioDevicePtr dev, Point pos);
 
 	virtual std::string GetName() { return "AudioPattern"; }
-	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, std::chrono::microseconds t);
 	virtual double DoRender_(const ActuatorState &state) { return 0; }
 	virtual double DoRenderShadow_(const ActuatorState &state) { return 0; }
 

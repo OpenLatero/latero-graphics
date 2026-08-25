@@ -126,14 +126,14 @@ latero::graphics::gtk::Animation Image::GetVibroIllustration(uint w, uint h)
 }
 
 
-Cairo::RefPtr<Cairo::Pattern> Image::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> Image::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	mmContext->push_group();
 	DrawIllustration(mmContext,t);
 	return mmContext->pop_group();
 }
 
-void Image::DrawIllustration(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+void Image::DrawIllustration(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	Point size = mask_->GetSize();
 	Point offset = mask_->GetOffset();

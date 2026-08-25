@@ -28,7 +28,7 @@ void GratingTexture::LoadXML(const XMLInputNode &root)
 	Texture::LoadXML(root);
 }
 
-Cairo::RefPtr<Cairo::Pattern> GratingTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> GratingTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	return GetGratingDrawingPattern(mmContext,t);
 }

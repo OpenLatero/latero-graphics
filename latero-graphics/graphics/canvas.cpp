@@ -42,7 +42,7 @@ Canvas::~Canvas()
 {
 }
 
-latero::graphics::gtk::Animation Canvas::GetIllustration(uint w, boost::posix_time::time_duration t) const
+latero::graphics::gtk::Animation Canvas::GetIllustration(uint w, std::chrono::microseconds t) const
 {
 	if (w == 0) 
 	{

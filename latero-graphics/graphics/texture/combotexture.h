@@ -32,12 +32,12 @@ public:
 	virtual double DoRenderShadow_(const ActuatorState &state) { return Texture::DoRenderShadow_(state); }
 	virtual std::string GetName() { return "Composite Texture"; } // TODO: make this name match the class name?
 
-	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 	{ return Texture::GetDrawingPattern(mmContext, t); }
 
 	virtual double NormRender_(const ActuatorState &state);
 	virtual double NormRenderShadow_(const ActuatorState &state);
-	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 	
 	virtual Gtk::Widget *CreateWidget(TexturePtr ptr);
 	virtual Gtk::Widget *CreateWidget(PatternPtr ptr)

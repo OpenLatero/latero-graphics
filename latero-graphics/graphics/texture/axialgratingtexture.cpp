@@ -50,7 +50,7 @@ double AxialGratingTexture::NormRender_(const ActuatorState &state)
 	return ((1-mod)*1.0 + mod*grating_->Render_(d,boost::posix_time::microseconds(state.GetTimeElapsed().count())));
 }
 
-Cairo::RefPtr<Cairo::Pattern> AxialGratingTexture::GetGratingDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> AxialGratingTexture::GetGratingDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	mmContext->push_group();
 	Point seed = GetSeed();
@@ -71,7 +71,7 @@ Cairo::RefPtr<Cairo::Pattern> AxialGratingTexture::GetGratingDrawingPattern(Cair
 	double delta = units::DegreeToRad(GetGrating()->GetMinRidgeSize())/50;
 	for (double theta=0; theta<2*M_PI; theta+=delta)
 	{
-		mmContext->set_source_rgba(0,0,0,grating_->Render_(units::RadToDegree(theta),t));
+		mmContext->set_source_rgba(0,0,0,grating_->Render_(units::RadToDegree(theta),boost::posix_time::microseconds(t.count())));
 		mmContext->move_to(0, 0);
 		mmContext->line_to(r*cos(theta), r*sin(theta));
 		mmContext->line_to(r*cos(theta+delta), r*sin(theta+delta));

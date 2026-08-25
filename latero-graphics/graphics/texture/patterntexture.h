@@ -25,7 +25,7 @@ public:
 	virtual double NormRender_(const ActuatorState &state);
 	virtual double NormRenderShadow_(const ActuatorState &state) { return 1; };
 
-	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 	virtual Gtk::Widget *CreateWidget(TexturePtr ptr);
 	virtual Gtk::Widget *CreateAdvancedWidget(TexturePtr ptr);
 

@@ -26,7 +26,7 @@ Toggle::Toggle(const latero::Tactograph *dev, PatternPtr p1, PatternPtr p2) :
 }
 
 
-Cairo::RefPtr<Cairo::Pattern> Toggle::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> Toggle::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	PatternPtr pattern = GetCurrentPattern();
 	if (pattern)

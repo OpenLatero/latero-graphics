@@ -103,7 +103,7 @@ void PatternPreview::OnSave()
 		try {
 			auto file = dialog->save_finish(result);
 			std::filesystem::path filename = file->get_path();
-			peer_->GetVisualization(1000,boost::posix_time::seconds(0),viz_mode)->save(filename.string(),"png");
+			peer_->GetVisualization(1000,std::chrono::microseconds(0),viz_mode)->save(filename.string(),"png");
 			chmod(filename.c_str(), 0666);
 		} catch (const Gtk::DialogError&) {}
 	});
@@ -127,7 +127,7 @@ bool PatternPreview::OnTimer()
 void PatternPreview::Refresh()
 {
 	int w = height*peer_->Dev()->GetSurfaceWidth()/peer_->Dev()->GetSurfaceHeight();
-	img_.set_paintable(Gdk::Texture::create_for_pixbuf(peer_->GetVisualization(w,boost::posix_time::seconds(0),viz_mode)));
+	img_.set_paintable(Gdk::Texture::create_for_pixbuf(peer_->GetVisualization(w,std::chrono::microseconds(0),viz_mode)));
 	refreshTime_ = boost::posix_time::microsec_clock::universal_time();
 }
 

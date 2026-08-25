@@ -36,7 +36,7 @@ public:
 	void AppendOperation(XMLOutputNode &root) const;
 	void AppendPatterns(XMLOutputNode &root) const;
 
-	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 
 	virtual bool UpdateVisible_(const State *state);
 	virtual void ClearVisible_();

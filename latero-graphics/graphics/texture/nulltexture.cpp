@@ -14,7 +14,7 @@ double NullTexture::NormRender_(const ActuatorState &state)
 	return 0.0;
 }
 
-Cairo::RefPtr<Cairo::Pattern> NullTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> NullTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	mmContext->push_group();
 	mmContext->set_source_rgba(0,0,0,0);

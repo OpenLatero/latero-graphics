@@ -18,7 +18,7 @@ PlainTexture::PlainTexture(const latero::Tactograph *dev, const XMLInputNode &no
 	LoadXML(node);
 }
 
-Cairo::RefPtr<Cairo::Pattern> PlainTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> PlainTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	mmContext->push_group();
 	mmContext->set_source_rgba(0,0,0,1);

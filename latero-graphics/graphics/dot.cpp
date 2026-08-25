@@ -88,7 +88,7 @@ void Dot::LoadDotRadius(const XMLInputNode &root)
 }
 
 
-Cairo::RefPtr<Cairo::Pattern> Dot::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> Dot::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, std::chrono::microseconds t)
 {
 	cr->push_group();
 	double radius = GetDotRadius();

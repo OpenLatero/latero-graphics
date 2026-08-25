@@ -28,7 +28,7 @@ public:
 	virtual ~Circle() {};
 	virtual double DoRender_(const ActuatorState &state);
 	virtual double DoRenderShadow_(const ActuatorState &state);
-	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, std::chrono::microseconds t);
 
 	double RenderFilling_(double dLength, double dWidth, const ActuatorState &state);
 

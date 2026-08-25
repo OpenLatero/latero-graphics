@@ -39,7 +39,7 @@ double PatternTexture::NormRender_(const ActuatorState &state)
 	return pattern_->Render_(s);
 };
 
-Cairo::RefPtr<Cairo::Pattern> PatternTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> PatternTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	if (pattern_)
 	{

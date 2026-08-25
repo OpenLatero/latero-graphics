@@ -70,7 +70,7 @@ PatternPtr Pattern::Create(const latero::Tactograph *dev, const std::filesystem:
 }
 
 
-Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, boost::posix_time::time_duration t, VizMode mode, double velMag, double velDir)
+Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, std::chrono::microseconds t, VizMode mode, double velMag, double velDir)
 {
 	if (mode == viz_abstract)
 	{
@@ -109,7 +109,7 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, boost::posix_time::t
 		else // if (mode == viz_shadow)
 			state.mode = RenderMode(true,false,false);
 		state.i = state.j = 0; 
-		state.SetTimeElapsed(std::chrono::microseconds(t.total_microseconds()));
+		state.SetTimeElapsed(t);
 		state.velMag = velMag;
 		state.velDir = velDir;
 

@@ -20,7 +20,7 @@ VibroTexture::VibroTexture(const latero::Tactograph *dev, const XMLInputNode &no
 	LoadXML(node);
 }
 
-Cairo::RefPtr<Cairo::Pattern> VibroTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> VibroTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	return vib_->GetPattern(mmContext);
 }

@@ -31,7 +31,7 @@ double ComboTexture::NormRenderShadow_(const ActuatorState &state)
 }
 
 
-Cairo::RefPtr<Cairo::Pattern> ComboTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> ComboTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	return Group::GetDrawingPattern(mmContext,t);
 }

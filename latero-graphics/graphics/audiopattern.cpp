@@ -150,7 +150,7 @@ void AudioPattern::PlayAudio(AudioDevicePtr dev, Point pos)
 	prevSound_ = -1; // no sound was played
 }
     
-Cairo::RefPtr<Cairo::Pattern> AudioPattern::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> AudioPattern::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, std::chrono::microseconds t)
 {
 	cr->push_group();
 	return cr->pop_group();

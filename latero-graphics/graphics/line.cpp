@@ -68,7 +68,7 @@ double Line::DoRenderShadow_(const ActuatorState &state)
 }
 
 
-Cairo::RefPtr<Cairo::Pattern> Line::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> Line::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, std::chrono::microseconds t)
 {
 	if (stroke_->GetDotEnable())
 		return dots_->GetDrawingPattern(cr,t);

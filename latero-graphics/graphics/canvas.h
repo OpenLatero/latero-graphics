@@ -43,7 +43,7 @@ public:
 	virtual void AppendXML(XMLOutputNode &root) const;
 
 	// see Generator
-	virtual latero::graphics::gtk::Animation GetIllustration(uint w, boost::posix_time::time_duration t) const;
+	virtual latero::graphics::gtk::Animation GetIllustration(uint w, std::chrono::microseconds t) const;
 
 	// see Generator
 	virtual Gtk::Widget *CreateWidget(GeneratorPtr ptr);

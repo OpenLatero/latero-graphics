@@ -28,7 +28,7 @@ public:
 	virtual void LoadXML(const XMLInputNode &root);
 	virtual void AppendXML(XMLOutputNode &root) const;
 
-	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 
 	virtual double DoRender_(const ActuatorState &state);
 	virtual double DoRenderShadow_(const ActuatorState &state);

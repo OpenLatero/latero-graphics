@@ -40,7 +40,7 @@ double BlendTexture::GetAlpha_(const ActuatorState &state)
 	return mod_->GetValue_(state);
 }
 
-Cairo::RefPtr<Cairo::Pattern> BlendTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> BlendTexture::GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	ill_mode mode = GetIllMode();
 	if (mode == ill_mode_first)

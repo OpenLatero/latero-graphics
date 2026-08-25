@@ -109,7 +109,7 @@ double Circle::DoRenderShadow_(const ActuatorState &state)
 }
 
 
-Cairo::RefPtr<Cairo::Pattern> Circle::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> Circle::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> cr, std::chrono::microseconds t)
 {
 	cr->push_group();
 

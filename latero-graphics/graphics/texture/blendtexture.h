@@ -28,7 +28,7 @@ public:
 
 	virtual double NormRender_(const ActuatorState &state);
 	virtual double GetAlpha_(const ActuatorState &state);
-	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 	virtual Gtk::Widget *CreateWidget(TexturePtr ptr);
 
 	TexturePtr GetFirstTexture() const { LATERO_GRAPHICS_GUARD; return tx_[0]; }

@@ -39,7 +39,7 @@ public:
 	virtual double DoRenderShadow_(const ActuatorState &state);
 	virtual std::string GetName() { return "Image"; }
 
-	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 
 	inline MaskPtr GetMask() { return mask_; }
 
@@ -57,7 +57,7 @@ public:
 
 protected:
 	latero::graphics::gtk::Animation GetVibroIllustration(uint w, uint h);
-	void DrawIllustration(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
+	void DrawIllustration(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 
 	TexturePtr texture_;
 	MaskPtr mask_;

@@ -22,8 +22,8 @@ public:
 	virtual void LoadXML(const XMLInputNode &node);
 	virtual void AppendXML(XMLOutputNode &root) const;
 
-	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
-	virtual Cairo::RefPtr<Cairo::Pattern> GetGratingDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t) = 0;
+	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetGratingDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t) = 0;
 protected:
 
 	Point seed_; 		// starting point of the grating

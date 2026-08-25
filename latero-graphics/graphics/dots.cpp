@@ -231,7 +231,7 @@ void Dots::SetOscillator(OscillatorPtr vib)
 
 
 // Group's implementation is not efficient enough!
-Cairo::RefPtr<Cairo::Pattern> Dots::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> Dots::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	std::vector<DotPtr> dots = GetDots();
 

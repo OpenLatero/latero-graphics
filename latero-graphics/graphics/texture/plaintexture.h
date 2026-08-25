@@ -23,7 +23,7 @@ public:
 	virtual ~PlainTexture() {}
 
 	virtual double NormRender_(const ActuatorState &state) { return 1.0; };
-	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetNormDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 	virtual Gtk::Widget *CreateWidget(TexturePtr ptr);
 
 	virtual void LoadXML(const XMLInputNode &node);

@@ -36,7 +36,7 @@ double LinearGratingTexture::NormRender_(const ActuatorState &state)
 
 
 
-Cairo::RefPtr<Cairo::Pattern> LinearGratingTexture::GetGratingDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> LinearGratingTexture::GetGratingDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	mmContext->push_group();
 
@@ -54,7 +54,7 @@ Cairo::RefPtr<Cairo::Pattern> LinearGratingTexture::GetGratingDrawingPattern(Cai
 
 	Cairo::RefPtr<Cairo::LinearGradient> gradient = Cairo::LinearGradient::create(xmin,0,xmax,0);
 	for (float x=xmin; x<xmax; x+=delta)
-		gradient->add_color_stop_rgba((x-xmin)/w,0,0,0,grating->Render_(x,t));
+		gradient->add_color_stop_rgba((x-xmin)/w,0,0,0,grating->Render_(x,boost::posix_time::microseconds(t.count())));
 	
 	mmContext->set_source(gradient);
 	mmContext->paint();

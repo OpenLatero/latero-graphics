@@ -221,7 +221,7 @@ void Texture::LoadMotion(const XMLInputNode &root)
 	}
 }
 
-Cairo::RefPtr<Cairo::Pattern> Texture::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> Texture::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	Cairo::RefPtr<Cairo::Pattern> pattern = GetNormDrawingPattern(mmContext,t);
 	

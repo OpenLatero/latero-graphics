@@ -33,7 +33,7 @@ public:
 	
 	virtual ~Dots() {};
 
-	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t);
+	virtual Cairo::RefPtr<Cairo::Pattern> GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 
 	virtual void AppendXML(XMLOutputNode &root) const;
 	void AppendHeight(XMLOutputNode &node) const;

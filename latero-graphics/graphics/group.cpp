@@ -41,7 +41,7 @@ Group::Group(const latero::Tactograph *dev) :
 	opSet_.Append(op_reactive);
 }
 
-Cairo::RefPtr<Cairo::Pattern> Group::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, boost::posix_time::time_duration t)
+Cairo::RefPtr<Cairo::Pattern> Group::GetDrawingPattern(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t)
 {
 	// TODO: shares a lot with ComboTexture!
 
