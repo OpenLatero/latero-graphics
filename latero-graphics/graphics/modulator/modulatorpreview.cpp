@@ -91,7 +91,7 @@ bool ModulatorPreview::OnTimer()
 void ModulatorPreview::Refresh()
 {
 	img_.set(peer_->GetIllustration(200,50));
-	refreshTime_ = boost::posix_time::microsec_clock::universal_time();
+	refreshTime_ = std::chrono::steady_clock::now();
 }
 
 } // namespace

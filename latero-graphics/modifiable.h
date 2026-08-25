@@ -1,11 +1,11 @@
 #pragma once
 
 #include <cassert>
+#include <chrono>
 #include <vector>
 #include <algorithm>
 #include <memory>
 #include "mutex.h"
-#include <boost/date_time/posix_time/posix_time_types.hpp>
 
 namespace latero::graphics {
 
@@ -22,7 +22,7 @@ class Modifiable
 public:
 	Modifiable()
 	{
-		lastModified_ = boost::posix_time::microsec_clock::universal_time();
+		lastModified_ = std::chrono::steady_clock::now();
 	}
 
 	virtual ~Modifiable()
@@ -32,21 +32,21 @@ public:
 	inline void SetLastModified() {	LATERO_GRAPHICS_GUARD; SetLastModified_(); }
 	inline void SetLastModified_()
 	{
-		lastModified_ = boost::posix_time::microsec_clock::universal_time();
+		lastModified_ = std::chrono::steady_clock::now();
 	}
 
-	inline boost::posix_time::ptime GetLastModified() { LATERO_GRAPHICS_GUARD;	return GetLastModified_(); }
-	inline boost::posix_time::ptime GetLastModified_()
+	inline std::chrono::steady_clock::time_point GetLastModified() { LATERO_GRAPHICS_GUARD;	return GetLastModified_(); }
+	inline std::chrono::steady_clock::time_point GetLastModified_()
 	{
-		boost::posix_time::ptime t = lastModified_;
+		std::chrono::steady_clock::time_point t = lastModified_;
 		for (unsigned int i=0; i<children_.size(); ++i)
 		{
-			boost::posix_time::ptime tgen = children_[i]->GetLastModified_();
+			std::chrono::steady_clock::time_point tgen = children_[i]->GetLastModified_();
 			if (t < tgen) t = tgen;
 		}
 		for (unsigned int i=0; i<schildren_.size(); ++i)
 		{
-			boost::posix_time::ptime tgen = schildren_[i]->GetLastModified_();
+			std::chrono::steady_clock::time_point tgen = schildren_[i]->GetLastModified_();
 			if (t < tgen) t = tgen;
 		}
 		return t;
@@ -76,7 +76,7 @@ public:
 
 	// Conveniance function: removes oldChild and adds newChild
 	inline void ReplaceModifiableChild(ModifiablePtr oldChild, ModifiablePtr newChild)
-	{ LATERO_GRAPHICS_GUARD; ReplaceModifiableChild_(oldChild,newChild); } 
+	{ LATERO_GRAPHICS_GUARD; ReplaceModifiableChild_(oldChild,newChild); }
 	inline void ReplaceModifiableChild_(ModifiablePtr oldChild, ModifiablePtr newChild)
 	{
 		RemoveModifiableChild_(oldChild);
@@ -95,8 +95,7 @@ public:
 private:
 	std::vector<ModifiablePtr> schildren_;
 	std::vector<Modifiable*> children_;
-	boost::posix_time::ptime lastModified_;
+	std::chrono::steady_clock::time_point lastModified_;
 };
 
 } // namespace
-

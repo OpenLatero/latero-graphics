@@ -5,7 +5,7 @@
 namespace latero::graphics {
 
 Graph::Graph(uint nbPoints, const char *fgColor, const char *bgColor) :
-	refreshTime_(boost::posix_time::min_date_time),
+	refreshTime_(std::chrono::steady_clock::time_point{}),
 	nbPoints_(nbPoints),
 	plot_(fgColor, bgColor)
 {	
@@ -21,7 +21,7 @@ Graph::~Graph()
 void Graph::Refresh()
 {
 	UpdateRange();
-	refreshTime_ = boost::posix_time::microsec_clock::universal_time();
+	refreshTime_ = std::chrono::steady_clock::now();
 
 	plot_.Clear();
 	float xMin = plot_.GetMinX();

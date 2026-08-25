@@ -20,7 +20,7 @@ protected:
 	bool OnTimer();
 	void Refresh();
 
-	boost::posix_time::ptime refreshTime_;
+	std::chrono::steady_clock::time_point refreshTime_;
 	Gtk::Picture img_;
 	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	PatternPtr peer_;

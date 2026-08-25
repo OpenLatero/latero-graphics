@@ -300,7 +300,7 @@ bool TactographView::OnCheckPeer()
 	if (peer_)
 	{
 		// if the background has never been updated or peer has been modified since
-		if (bgUpdateTime_.is_not_a_date_time() || (peer_->GetLastModified() > bgUpdateTime_))
+		if (bgUpdateTime_ == std::chrono::steady_clock::time_point{} || (peer_->GetLastModified() > bgUpdateTime_))
 			RefreshBackground();
 	}
 	return true;
@@ -309,7 +309,7 @@ bool TactographView::OnCheckPeer()
 
 void TactographView::RefreshBackground()
 {
-	bgUpdateTime_ = boost::posix_time::microsec_clock::universal_time();
+	bgUpdateTime_ = std::chrono::steady_clock::now();
 	if (peer_)
 	{
 		auto anim = peer_->GetIllustration(drawingArea_.get_width(), boost::posix_time::seconds(0));

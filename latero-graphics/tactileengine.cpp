@@ -23,8 +23,8 @@ void TactileEngine::EntryPoint()
 	//long nb_ticks = 0;
 	latero::RangeImg frame(dev_->GetFrameSizeX(), dev_->GetFrameSizeY());
 	latero::BiasedImg biasedFrame(dev_->GetFrameSizeX(), dev_->GetFrameSizeY());
-	boost::posix_time::ptime lastUpdate = boost::posix_time::microsec_clock::universal_time();
-	boost::posix_time::ptime start = lastUpdate;
+	auto lastUpdate = std::chrono::steady_clock::now();
+	auto start = lastUpdate;
 	State state(dev_);
 	VelocityEstimator velEstimator;
     ButtonEvent buttonEvent;
@@ -47,8 +47,8 @@ void TactileEngine::EntryPoint()
         }
         */
         
-		boost::posix_time::ptime time = boost::posix_time::microsec_clock::universal_time();
-		state.SetTimeElapsed(std::chrono::microseconds((time - start).total_microseconds()));
+		auto time = std::chrono::steady_clock::now();
+		state.SetTimeElapsed(std::chrono::duration_cast<std::chrono::microseconds>(time - start));
 		if (gen_ && GetEnabled()) // minimize work when there is no generator,,,
 		{
 			if (genMod_ || (gen_->GetLastModified() > lastUpdate))
@@ -92,10 +92,11 @@ void TactileEngine::EntryPoint()
 		auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - cycleStart);
 		std::this_thread::sleep_for(period_ - elapsed);
 	}
-	boost::posix_time::time_duration duration = boost::posix_time::microsec_clock::universal_time() - start;
+	auto duration = std::chrono::steady_clock::now() - start;
+	double durationSec = std::chrono::duration_cast<std::chrono::microseconds>(duration).count() / 1E6;
 	printf("effective rate: %f Hz (%ld ticks / %f minutes)\n",
-			(double)state.tick / (double)duration.total_seconds(),
-			state.tick, duration.total_seconds()/60.0);
+			(double)state.tick / durationSec,
+			state.tick, durationSec/60.0);
 }
 
 void TactileEngine::SetGenerator(GeneratorPtr gen)

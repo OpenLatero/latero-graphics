@@ -88,7 +88,7 @@ public:
 protected:
 	bool OnCheckPeer()
 	{
-		if (bgUpdateTime_.is_not_a_date_time() || (peer_->GetLastModified() > bgUpdateTime_))
+		if (bgUpdateTime_ == std::chrono::steady_clock::time_point{} || (peer_->GetLastModified() > bgUpdateTime_))
 			RefreshBackground();
 		return true;
 	}
@@ -99,14 +99,14 @@ protected:
 		int h = drawingArea_.get_height();
 		if (w <= 0 || h <= 0)
 			return;
-		bgUpdateTime_ = boost::posix_time::microsec_clock::universal_time();
+		bgUpdateTime_ = std::chrono::steady_clock::now();
 		bg_ = peer_->GetIllustration(w, h);
 		drawingArea_.queue_draw();
 	}
 
 private:
 	MaskPtr peer_;
-	boost::posix_time::ptime bgUpdateTime_;
+	std::chrono::steady_clock::time_point bgUpdateTime_;
 	Glib::RefPtr<Gdk::Pixbuf> bg_;
 	Gtk::DrawingArea drawingArea_;
 };

@@ -48,7 +48,7 @@ PatternThumbnailSaveDialog::PatternThumbnailSaveDialog() :
 
 PatternPreview::PatternPreview(PatternPtr peer) :
 	peer_(peer),
-	refreshTime_(boost::posix_time::min_date_time),
+	refreshTime_(std::chrono::steady_clock::time_point{}),
 	Gtk::Box(Gtk::Orientation::HORIZONTAL)
 {
 	append(img_);
@@ -128,7 +128,7 @@ void PatternPreview::Refresh()
 {
 	int w = height*peer_->Dev()->GetSurfaceWidth()/peer_->Dev()->GetSurfaceHeight();
 	img_.set_paintable(Gdk::Texture::create_for_pixbuf(peer_->GetVisualization(w,std::chrono::microseconds(0),viz_mode)));
-	refreshTime_ = boost::posix_time::microsec_clock::universal_time();
+	refreshTime_ = std::chrono::steady_clock::now();
 }
 
 } // namespace

@@ -64,7 +64,7 @@ protected:
 
 private:
 	GeneratorPtr peer_;
-	boost::posix_time::ptime bgUpdateTime_;
+	std::chrono::steady_clock::time_point bgUpdateTime_;
 
 	Point tdPos_;
 	double tdAngle_;

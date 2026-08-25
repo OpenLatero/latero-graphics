@@ -2,7 +2,7 @@
 
 #include "modulator.h"
 #include <gtkmm.h>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <chrono>
 
 namespace latero::graphics {
 
@@ -19,7 +19,7 @@ protected:
 	bool OnTimer();
 	void Refresh();
 
-	boost::posix_time::ptime refreshTime_;
+	std::chrono::steady_clock::time_point refreshTime_;
 	Gtk::Image img_;
 	std::unique_ptr<Gtk::PopoverMenu> popupMenu_;
 	ModulatorPtr peer_;

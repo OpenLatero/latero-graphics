@@ -2,7 +2,7 @@
 
 #include "gtk/plot.h"
 #include <gtkmm.h>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <chrono>
 
 namespace latero::graphics {
 
@@ -16,7 +16,7 @@ public:
 protected:
 	virtual double GetValue(double x) = 0;
 
-	boost::posix_time::ptime refreshTime_; // time of the last refresh
+	std::chrono::steady_clock::time_point refreshTime_;
 	uint nbPoints_;
 	latero::graphics::gtk::Plot plot_;
 };
