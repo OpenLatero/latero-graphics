@@ -67,20 +67,13 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetBlurredImage(const std::filesystem::path& fil
 		(fs::last_write_time(blurredFile) < fs::last_write_time(actualFile)))
 	{
 		printf("Updating blurred cache: %s...\n", blurredFile.c_str());
+		Magick::Image image;
+		image.read(actualFile.string());
 		if (srcTypeAlpha_)
-		{
-			// can't use Magick++ until version with blurChannel is available
-			std::stringstream cmd;
-			cmd << "convert " << actualFile.string() << " -channel A -blur 4x2 " << blurredFile.string();
-			system(cmd.str().c_str());
-		}
+			image.blurChannel(Magick::AlphaChannel, 4, 2);
 		else
-		{
-			Magick::Image image;
-			image.read(actualFile.string());
-			image.blur(4, 2); // gaussian blur, radius of 4, sigma of 2
-			image.write(blurredFile.string());
-		}
+			image.blur(4, 2);
+		image.write(blurredFile.string());
 		chmod(blurredFile.c_str(), 0666); // make accessible to others than root
 	}
 
