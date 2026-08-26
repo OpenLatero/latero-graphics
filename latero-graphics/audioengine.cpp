@@ -29,9 +29,11 @@ void AudioEngine::EntryPoint()
 	else
 		std::cout << "audiere could not be opened\n";
     
+	auto deadline = std::chrono::steady_clock::now();
 	while (!ShouldStop())
 	{
-		std::this_thread::sleep_for(period_);
+		deadline += period_;
+		std::this_thread::sleep_until(deadline);
         LATERO_GRAPHICS_LOCK;
 		GeneratorPtr gen = gen_;
 		LATERO_GRAPHICS_UNLOCK;
