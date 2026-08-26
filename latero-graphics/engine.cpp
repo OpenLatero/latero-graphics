@@ -45,13 +45,13 @@ void Engine::SetHighPriority()
 	}
 
 	policy = SCHED_FIFO;
-	param.sched_priority = 99;
+	param.sched_priority = sched_get_priority_max(SCHED_FIFO);
 	rv = pthread_setschedparam(threadID, policy, &param);
 	if (rv)
 	{
 		errno = rv;
-	 }
-	    perror("pthread_setschedparam");
+		perror("pthread_setschedparam: could not set real-time priority (try running as root)");
+	}
 }
 
 
