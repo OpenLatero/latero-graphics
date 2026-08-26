@@ -25,12 +25,14 @@ void TactileEngine::EntryPoint()
 	latero::BiasedImg biasedFrame(dev_->GetFrameSizeX(), dev_->GetFrameSizeY());
 	auto lastUpdate = std::chrono::steady_clock::now();
 	auto start = lastUpdate;
+	auto deadline = start;
 	State state(dev_);
 	VelocityEstimator velEstimator;
     ButtonEvent buttonEvent;
 
 	while (!ShouldStop())
 	{
+		deadline += period_;
 		auto cycleStart = std::chrono::steady_clock::now();
 
 		LATERO_GRAPHICS_LOCK;
@@ -89,8 +91,7 @@ void TactileEngine::EntryPoint()
 		}
 		LATERO_GRAPHICS_UNLOCK;
 
-		auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - cycleStart);
-		std::this_thread::sleep_for(period_ - elapsed);
+		std::this_thread::sleep_until(deadline);
 	}
 	auto duration = std::chrono::steady_clock::now() - start;
 	double durationSec = std::chrono::duration_cast<std::chrono::microseconds>(duration).count() / 1E6;
