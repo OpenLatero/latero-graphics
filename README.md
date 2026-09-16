@@ -20,6 +20,12 @@ The dependencies can be installed through [MacPorts](https://www.macports.org) w
 sudo port install gtkmm4 +quartz libxmlxx5 ImageMagick
 ```
 
+or through [Homebrew](https://brew.sh/) with the following command:
+
+```
+brew install gtkmm4 libxml++@5 ImageMagick pkg-config
+```
+
 #### Install the audiere library (optional)
 
 The audiere library adds audio support and is not required for most users. It is old and difficult to install — skip this step unless needed.
