@@ -17,7 +17,7 @@ Install the [latero](https://github.com/OpenLatero/latero) library.
 The dependencies can be installed through [MacPorts](https://www.macports.org) with the following command:
 
 ```
-sudo port install ImageMagick glibmm-2.4 +quartz gtkmm4 +quartz glib2 +quartz gsettings-desktop-schemas libxmlxx5 librsvg
+sudo port install gtkmm4 +quartz libxmlxx5 ImageMagick
 ```
 
 #### Install the audiere library (optional)
