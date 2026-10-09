@@ -72,7 +72,7 @@ public:
 	void SaveToFile(const std::filesystem::path& filename) const;
 
 	/** Serialize Generator by appending its information to an XML node. */
-	virtual void AppendXML(XMLOutputNode &root) const = 0;
+	virtual void AppendXML(XMLOutputNode &root) const {};
 
 	/** Convenience method that return a pointer to the Tactograph user with this generator. */
 	inline const latero::Tactograph *Dev() const { return dev_; }
