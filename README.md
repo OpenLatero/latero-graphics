@@ -6,7 +6,7 @@ Automatically-generated documentation for the latest version on GitHub can be fo
 
 ## Installation
 
-### MacOS
+### MacOS / Linux
 
 #### Install OpenLatero libraries
 
@@ -14,7 +14,7 @@ Install the [latero](https://github.com/OpenLatero/latero) library.
 
 #### Install dependencies
 
-The dependencies can be installed through [MacPorts](https://www.macports.org) with the following command:
+On MacOS, the dependencies can be installed through [MacPorts](https://www.macports.org) with the following command:
 
 ```
 sudo port install gtkmm4 +quartz libxmlxx5 ImageMagick
@@ -24,6 +24,12 @@ or through [Homebrew](https://brew.sh/) with the following command:
 
 ```
 brew install gtkmm4 libxml++@5 ImageMagick pkg-config
+```
+
+On Linux, the dependencies can be installed with:
+
+```
+sudo apt install libgtkmm-4.0-dev libxml++-5.0-dev libmagick++-dev pkg-config
 ```
 
 #### Install the audiere library (optional)
