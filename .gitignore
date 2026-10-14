@@ -1,4 +1,5 @@
 
 /latero-graphics/cmake_install.cmake
 /build
+/examples/*/build
 /docs/html
