@@ -17,9 +17,7 @@
 #include <sys/types.h>
 #include <iostream>
 #include <sys/stat.h>
-#ifdef _WIN32
 #include "stock.h"
-#endif
 
 namespace latero::graphics {
 
