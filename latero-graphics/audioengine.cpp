@@ -33,7 +33,7 @@ void AudioEngine::EntryPoint()
 	while (!ShouldStop())
 	{
 		deadline += period_;
-		std::this_thread::sleep_until(deadline);
+		SleepUntil(deadline);
         LATERO_GRAPHICS_LOCK;
 		GeneratorPtr gen = gen_;
 		LATERO_GRAPHICS_UNLOCK;

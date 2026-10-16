@@ -6,9 +6,6 @@
 #include "buttonevent.h"
 #include "tactileenginestats.h"
 #include <memory>
-#ifdef _WIN32
-#include "wintiming.h"
-#endif
 
 namespace latero::graphics {
 
@@ -34,13 +31,6 @@ void TactileEngine::EntryPoint()
 	State state(dev_);
 	VelocityEstimator velEstimator;
     ButtonEvent buttonEvent;
-#ifdef _WIN32
-	// Windows needs help to run this loop on time; see wintiming.h.
-	win::RealtimeThread realtimeThread;
-	win::PreciseSleeper sleeper;
-#endif
-	// The timing statistics are allocated here, recorded at a negligible cost in the loop, and only
-	// printed once it stops.
 	auto stats = std::make_unique<TactileEngineStats>(std::chrono::duration_cast<std::chrono::microseconds>(period_));
 	auto prevCycleStart = start;
 
@@ -107,11 +97,7 @@ void TactileEngine::EntryPoint()
 		}
 		LATERO_GRAPHICS_UNLOCK;
 
-#ifdef _WIN32
-		sleeper.SleepUntil(deadline);
-#else
-		std::this_thread::sleep_until(deadline);
-#endif
+		SleepUntil(deadline);
 	}
 	stats->Print();
 }

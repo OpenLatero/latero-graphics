@@ -1,6 +1,10 @@
 #include "engine.h"
 #include <assert.h>
 #include <stdio.h>
+#ifdef _WIN32
+#include <optional>
+#include "wintiming.h"
+#endif
 
 namespace latero::graphics {
 
@@ -17,29 +21,54 @@ int Engine::Start()
 {
 	assert(!thread_);
 	stop_ = false;
-	thread_ = std::make_shared<std::thread>(&Engine::EntryPoint, this);
+	thread_ = std::make_shared<std::thread>(&Engine::Run, this);
+	return 0;
+}
+
+void Engine::Run()
+{
 #ifdef _WIN32
-	// On Windows, the thread sets up its own real-time scheduling (see wintiming.h), which setting
-	// its priority from here could override.
+	// Windows needs help to run a high-priority loop on time; see wintiming.h.
+	std::optional<win::RealtimeThread> realtimeThread;
+	std::optional<win::PreciseSleeper> sleeper;
+	if (highPriority_)
+	{
+		realtimeThread.emplace();
+		sleeper.emplace();
+		sleeper_ = &*sleeper;
+	}
+	EntryPoint();
+	sleeper_ = nullptr;
 #else
 	if (highPriority_) SetHighPriority();
+	EntryPoint();
 #endif
-	return 0;
+}
+
+void Engine::SleepUntil(std::chrono::steady_clock::time_point deadline)
+{
+#ifdef _WIN32
+	if (sleeper_)
+	{
+		sleeper_->SleepUntil(deadline);
+		return;
+	}
+#endif
+	std::this_thread::sleep_until(deadline);
 }
 
 void Engine::SetHighPriority()
 {
 	// std::thread doesn't provide any support for priorities. We
-	// therefore have to use the native handle exposed by
-	// native_handle() and non-portable native functions.
+	// therefore have to use non-portable native functions on the
+	// calling thread.
 	//
 	// @todo These calls fail unless the program is running as
 	// root. This should be handled better.
 	//
 	// @note This code was taken from http://stackoverflow.com/questions/1479945
 
-	if (!thread_) return;
-	pthread_t threadID = thread_->native_handle();
+	pthread_t threadID = pthread_self();
 	int policy;
 	struct sched_param param;
 	int rv = pthread_getschedparam(threadID, &policy, &param);
