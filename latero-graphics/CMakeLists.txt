@@ -24,6 +24,7 @@ set(SRC_ROOT_CPP
 	ridge.cpp ridgewidget.cpp
 	ridgegraph.cpp
 	tactileengine.cpp
+	tactileenginestats.cpp
 	vector.cpp
 	velocityestimator.cpp
 	tactiledisplaypainter.cpp
@@ -64,6 +65,7 @@ set(SRC_ROOT_H
 	ridgewidget.h
 	state.h
 	tactileengine.h
+	tactileenginestats.h
 	timer.h
 	units.h
 	vector.h

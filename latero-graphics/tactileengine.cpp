@@ -4,8 +4,9 @@
 #include "generator.h"
 #include "units.h"
 #include "buttonevent.h"
-#ifdef _WIN32
+#include "tactileenginestats.h"
 #include <memory>
+#ifdef _WIN32
 #include "wintiming.h"
 #endif
 
@@ -34,22 +35,21 @@ void TactileEngine::EntryPoint()
 	VelocityEstimator velEstimator;
     ButtonEvent buttonEvent;
 #ifdef _WIN32
-	// Windows needs help to run this loop on time; see wintiming.h. The statistics are allocated
-	// here, recorded at a negligible cost in the loop, and only printed once it stops.
+	// Windows needs help to run this loop on time; see wintiming.h.
 	win::RealtimeThread realtimeThread;
 	win::PreciseSleeper sleeper;
-	auto loopStats = std::make_unique<win::LoopStats>(std::chrono::duration_cast<std::chrono::microseconds>(period_));
-	auto prevCycleStart = start;
 #endif
+	// The timing statistics are allocated here, recorded at a negligible cost in the loop, and only
+	// printed once it stops.
+	auto stats = std::make_unique<TactileEngineStats>(std::chrono::duration_cast<std::chrono::microseconds>(period_));
+	auto prevCycleStart = start;
 
 	while (!ShouldStop())
 	{
-		deadline += period_;
 		auto cycleStart = std::chrono::steady_clock::now();
-#ifdef _WIN32
-		loopStats->Record(cycleStart - (deadline - period_), cycleStart - prevCycleStart);
+		stats->Record(cycleStart - deadline, cycleStart - prevCycleStart);
 		prevCycleStart = cycleStart;
-#endif
+		deadline += period_;
 
 		LATERO_GRAPHICS_LOCK;
 		state.tick++;
@@ -113,14 +113,7 @@ void TactileEngine::EntryPoint()
 		std::this_thread::sleep_until(deadline);
 #endif
 	}
-	auto duration = std::chrono::steady_clock::now() - start;
-	double durationSec = std::chrono::duration_cast<std::chrono::microseconds>(duration).count() / 1E6;
-	printf("effective rate: %f Hz (%ld ticks / %f minutes)\n",
-			(double)state.tick / durationSec,
-			state.tick, durationSec/60.0);
-#ifdef _WIN32
-	loopStats->Print();
-#endif
+	stats->Print();
 }
 
 void TactileEngine::SetGenerator(GeneratorPtr gen)
