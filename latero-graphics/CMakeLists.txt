@@ -108,6 +108,10 @@ if (WIN32)
 	get_filename_component(MSYS2_PREFIX "${MSYS2_PREFIX}" DIRECTORY)
 	target_compile_definitions(laterographics PUBLIC
 		"LATERO_GRAPHICS_TX_PATH=\"${MSYS2_PREFIX}/share/laterographics/texture/\"")
+
+	# timing of the real-time update loop (private, not installed)
+	target_sources(laterographics PRIVATE wintiming.cpp wintiming.h)
+	target_link_libraries(laterographics PRIVATE avrt winmm)
 endif()
 
 #install library files to /usr/local/lib/

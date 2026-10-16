@@ -18,7 +18,12 @@ int Engine::Start()
 	assert(!thread_);
 	stop_ = false;
 	thread_ = std::make_shared<std::thread>(&Engine::EntryPoint, this);
+#ifdef _WIN32
+	// On Windows, the thread sets up its own real-time scheduling (see wintiming.h), which setting
+	// its priority from here could override.
+#else
 	if (highPriority_) SetHighPriority();
+#endif
 	return 0;
 }
 
