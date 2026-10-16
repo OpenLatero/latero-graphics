@@ -42,14 +42,14 @@ Canvas::~Canvas()
 {
 }
 
-latero::graphics::gtk::Animation Canvas::GetIllustration(uint w, std::chrono::microseconds t) const
+latero::graphics::gtk::Animation Canvas::GetIllustration(unsigned int w, std::chrono::microseconds t) const
 {
 	if (w == 0) 
 	{
 		std::cout << "Canvas::GetIllustration: Invalid width" << std::endl;
 		return latero::graphics::gtk::Animation();
 	}
-	uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
+	unsigned int h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
 	Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create(
 		(unsigned char*)img->get_pixels(), Cairo::Surface::Format::ARGB32,

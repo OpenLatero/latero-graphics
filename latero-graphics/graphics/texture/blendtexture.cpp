@@ -172,7 +172,7 @@ std::filesystem::path BlendTexture::GetDefaultIconFile() const
 	return tx_icon_blend;
 }
 
-void BlendTexture::SetTexture(uint i, TexturePtr tx)
+void BlendTexture::SetTexture(unsigned int i, TexturePtr tx)
 {
 	if (i>1) return;
 	LATERO_GRAPHICS_GUARD;

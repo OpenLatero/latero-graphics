@@ -12,7 +12,7 @@ RidgeGraph::RidgeGraph(RidgePtr peer, int minWidth, int minHeight) :
 	// TODO: turn auto-refresh into an optional feature of Graph
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &RidgeGraph::OnCheckPeer),
-		(uint)333, // ms
+		(unsigned int)333, // ms
 		Glib::PRIORITY_DEFAULT_IDLE);
 }
 

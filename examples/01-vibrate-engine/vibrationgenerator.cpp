@@ -21,9 +21,9 @@ void VibrationGenerator::DoRender_(const latero::graphics::State *state, latero:
 	double vib = sin(2*M_PI*t*GetFrequency_());
 
 	latero::RangeImg img(frame.SizeX(), frame.SizeY());
-	for (uint y=0; y<img.SizeY(); ++y)
+	for (unsigned int y=0; y<img.SizeY(); ++y)
 	{
-		for (uint x=0; x<img.SizeX(); ++x)
+		for (unsigned int x=0; x<img.SizeX(); ++x)
 		{
 			double value = (y%2==1) ? vib : -vib;
 			img.Set(x,y,value);

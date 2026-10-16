@@ -5,10 +5,9 @@
 #include <sstream>
 #include <iostream>
 #include <assert.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <gtkmm.h>
 #include "../external.h"
+#include "../fileutils.h"
 #include <glibmm/main.h>
 
 namespace latero::graphics::gtk {
@@ -43,7 +42,7 @@ Animation Animation::operator= (const Animation& p)
 Animation Animation::Clone() const
 {
 	Animation rv;
-	for (uint i=0; i<imgs_.size(); ++i)
+	for (unsigned int i=0; i<imgs_.size(); ++i)
 		rv.AppendFrame(imgs_[i]->copy());
 	return rv;
 }
@@ -66,7 +65,7 @@ void Animation::Clear()
 
 void Animation::Multiply(float r, float g, float b)
 {
-	for (uint i=0; i<GetNbFrames(); ++i)
+	for (unsigned int i=0; i<GetNbFrames(); ++i)
 		PixbufOps::Multiply(imgs_[i], r, g, b);
 }
 
@@ -87,7 +86,7 @@ void Animation::Deactivate()
 	}
 }
 
-void Animation::Activate(uint interval)
+void Animation::Activate(unsigned int interval)
 {
 	if (IsActive())
 		Deactivate();
@@ -158,19 +157,19 @@ void Animation::SaveToFile(const std::filesystem::path& file, bool trim)
 		{
 			std::filesystem::path filename = base + ".png";
 			imgs_[0]->save(filename.string(), "png");
-			chmod(filename.c_str(), 0666); // make accessible to others than root
+			MakeAccessibleToAll(filename);
 		}
 		else
 		{
 			// save individual frames
 			std::vector<std::string> frames;
-			for (uint i=0; i<GetNbFrames(); ++i)
+			for (unsigned int i=0; i<GetNbFrames(); ++i)
 			{
 				char pngfile[255];
 				snprintf(pngfile, sizeof(pngfile), "%s-%05d.png", base.c_str(), i);
 				frames.push_back(pngfile);
 				imgs_[i]->save(pngfile,"png");
-				chmod(pngfile, 0666); // make accessible to others than root
+				MakeAccessibleToAll(pngfile);
 			}
 
 			// save gif animation
@@ -180,7 +179,7 @@ void Animation::SaveToFile(const std::filesystem::path& file, bool trim)
 			convertCmd.Append(frames);
 			convertCmd.Append(output);
 			convertCmd.Run();
-			chmod(output.c_str(), 0666); // make accessible to others than root
+			MakeAccessibleToAll(output);
 
 			// save swf animation
 			output = base + ".swf";
@@ -190,7 +189,7 @@ void Animation::SaveToFile(const std::filesystem::path& file, bool trim)
 			png2swf.Append("-r 30");
 			png2swf.Append(frames);
 			png2swf.Run();
-			chmod(output.c_str(), 0666); // make accessible to others than root
+			MakeAccessibleToAll(output);
 
 
 			// zip the png sources together
@@ -200,7 +199,7 @@ void Animation::SaveToFile(const std::filesystem::path& file, bool trim)
 			tar.Append(output);
 			tar.Append(frames);
 			tar.Run();
-			chmod(output.c_str(), 0666); // make accessible to others than root
+			MakeAccessibleToAll(output);
 
 			// keep the first png
 			output = base+".png";
@@ -208,7 +207,7 @@ void Animation::SaveToFile(const std::filesystem::path& file, bool trim)
 			cp.Append(frames[0]);
 			cp.Append(output);
 			cp.Run();
-			chmod(output.c_str(), 0666); // make accessible to others than root
+			MakeAccessibleToAll(output);
 
 			// remove png sources
 			SysCommand rm("rm");
@@ -254,7 +253,7 @@ void Animation::CompositeMult(const std::vector<latero::graphics::gtk::Animation
 	if (anims.size())
 	{
 		*this = anims[0];
-		for (uint i=1; i<anims.size(); ++i)
+		for (unsigned int i=1; i<anims.size(); ++i)
 			CompositeMult(anims[i]);
 	}
 }

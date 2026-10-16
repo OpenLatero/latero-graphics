@@ -45,7 +45,7 @@ public:
 	}
 	virtual ~RidgeTxNbCyclesScale() {};
 private:
-	void OnChange() { peer_->SetTxNbCycles((uint)adj_->get_value()); };
+	void OnChange() { peer_->SetTxNbCycles((unsigned int)adj_->get_value()); };
 	RidgePtr peer_;
     Glib::RefPtr<Gtk::Adjustment> adj_;
 };

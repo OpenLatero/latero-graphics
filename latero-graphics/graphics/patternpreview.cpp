@@ -1,6 +1,6 @@
 #include <filesystem>
-#include <sys/stat.h>
 #include "patternpreview.h"
+#include "../fileutils.h"
 #include <iostream>
 
 namespace latero::graphics {
@@ -56,7 +56,7 @@ PatternPreview::PatternPreview(PatternPtr peer) :
 	Refresh();
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &PatternPreview::OnTimer),
-		(uint)333, // ms
+		(unsigned int)333, // ms
 		Glib::PRIORITY_DEFAULT_IDLE);
 	CreatePopupMenu();
 }
@@ -104,7 +104,7 @@ void PatternPreview::OnSave()
 			auto file = dialog->save_finish(result);
 			std::filesystem::path filename = file->get_path();
 			peer_->GetVisualization(1000,std::chrono::microseconds(0),viz_mode)->save(filename.string(),"png");
-			chmod(filename.c_str(), 0666);
+			MakeAccessibleToAll(filename);
 		} catch (const Gtk::DialogError&) {}
 	});
 }

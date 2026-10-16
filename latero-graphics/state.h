@@ -74,7 +74,7 @@ public:
 	RenderMode mode;     
 	Point pos; // position of the actuator in the workspace
 	Point relativePos; // position of the actuator relative to the center of the display
-	uint i,j;
+	unsigned int i,j;
 	double velMag; // magnitude of the velocity (mm/s)
 	double velDir; // direction of the velocity (rad) 
 

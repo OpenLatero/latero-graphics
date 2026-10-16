@@ -4,7 +4,7 @@
 
 namespace latero::graphics {
 
-Graph::Graph(uint nbPoints, const char *fgColor, const char *bgColor) :
+Graph::Graph(unsigned int nbPoints, const char *fgColor, const char *bgColor) :
 	refreshTime_(std::chrono::steady_clock::time_point{}),
 	nbPoints_(nbPoints),
 	plot_(fgColor, bgColor)

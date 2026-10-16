@@ -8,6 +8,7 @@ set(SRC_ROOT_CPP
 	audioengine.cpp
 	averagefilter.cpp
 	engine.cpp
+	fileutils.cpp
 	generator.cpp
 	graph.cpp
 	grating.cpp gratingwidget.cpp
@@ -41,6 +42,7 @@ set(SRC_ROOT_H
 	buttonevent.h
 	engine.h
 	external.h
+	fileutils.h
 	generator.h
 	graph.h
 	grating.h
@@ -101,13 +103,7 @@ target_link_libraries(laterographics PUBLIC
 target_compile_definitions(laterographics PUBLIC
 	"LATERO_GRAPHICS_TX_PATH=\"${CMAKE_INSTALL_PREFIX}/${LATERO_GRAPHICS_TX_DIR}/\"")
 
-# Windows compatibility definitions, force-included in the library and in the programs that use it
 if (WIN32)
-	target_compile_options(laterographics PUBLIC
-		"$<BUILD_INTERFACE:-include;${CMAKE_CURRENT_SOURCE_DIR}/wincompat.h>"
-		"$<INSTALL_INTERFACE:-include;laterographics/wincompat.h>")
-	INSTALL(FILES wincompat.h DESTINATION include/laterographics)
-
 	# timing of the real-time update loop (private, not installed)
 	target_sources(laterographics PRIVATE wintiming.cpp wintiming.h)
 	target_link_libraries(laterographics PRIVATE avrt winmm)

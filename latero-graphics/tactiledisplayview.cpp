@@ -16,7 +16,7 @@ TactileDisplayView::TactileDisplayView(const latero::TactileDisplay *dev, latero
 
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &TactileDisplayView::RefreshCursor),
-		(uint)33, // ms
+		(unsigned int)33, // ms
 		Glib::PRIORITY_DEFAULT_IDLE);
 
 	drawingArea_.set_draw_func(sigc::mem_fun(*this, &TactileDisplayView::OnDraw));

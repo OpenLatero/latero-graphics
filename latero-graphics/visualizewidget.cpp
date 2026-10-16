@@ -213,7 +213,7 @@ void VisualizeWidget::OnSave()
 	map_.SaveToFile("viz.png",true);
 }
 
-latero::graphics::gtk::Animation VisualizeWidget::GetDeflectionMap(uint w, uint n, double velMag, double velDir)
+latero::graphics::gtk::Animation VisualizeWidget::GetDeflectionMap(unsigned int w, unsigned int n, double velMag, double velDir)
 {
 	latero::graphics::gtk::Animation rv;
 	std::chrono::microseconds timeElapsed = startTimeCtrl_.GetTime();

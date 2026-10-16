@@ -64,7 +64,7 @@ public:
 	 * Obtain an illustration of the pattern according to the vizualization mode.
 	 * @todo Harmonize with similar method in Generator.
 	 */
-	Glib::RefPtr<Gdk::Pixbuf> GetVisualization(uint w, std::chrono::microseconds t, VizMode mode, double velMag = 0, double velDir = 0);
+	Glib::RefPtr<Gdk::Pixbuf> GetVisualization(unsigned int w, std::chrono::microseconds t, VizMode mode, double velMag = 0, double velDir = 0);
 	
 	/** 
 	 * @return name of pattern (currently Type descriptor) 

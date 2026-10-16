@@ -3,7 +3,7 @@
 
 namespace latero::graphics::gtk {
 
-NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, uint digits, std::string units, std::string name) :
+NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj, unsigned int digits, std::string units, std::string name) :
 	units_(units),
 	spin_(adj)
 {
@@ -59,7 +59,7 @@ NumWidget::NumWidget(Gtk::Orientation orient, Glib::RefPtr<Gtk::Adjustment> adj,
 	unitsDropDown_->property_selected().signal_changed().connect(sigc::mem_fun(*this, &NumWidget::OnUnitsChanged));
 };
 
-void NumWidget::AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, uint digits)
+void NumWidget::AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, unsigned int digits)
 {
 	unitsStringList_->append(units);
 	unitsToDigitsMap_[units] = digits;
@@ -68,7 +68,7 @@ void NumWidget::AddUnits(std::string units, Glib::RefPtr<Gtk::Adjustment> adj, u
 		unitsDropDownBox_->append(*unitsDropDown_);
 }
 
-void NumWidget::SetDigits(uint n)
+void NumWidget::SetDigits(unsigned int n)
 {
 	scale_->set_digits(n);
 	spin_.set_digits(n);

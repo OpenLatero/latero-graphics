@@ -20,7 +20,7 @@ public:
     constexpr static const double min_arc_length2 = 1.0;
     constexpr static const double min_arc_length1 = 0.5;
 
-	static AxialGratingTexturePtr Create(const latero::Tactograph *dev, Point seed = Point(0,0), uint axialNb=360/default_ridgeSize)
+	static AxialGratingTexturePtr Create(const latero::Tactograph *dev, Point seed = Point(0,0), unsigned int axialNb=360/default_ridgeSize)
 	{
 		return AxialGratingTexturePtr(new AxialGratingTexture(dev,seed,axialNb));
 	}
@@ -46,7 +46,7 @@ public:
 	double GetSeedAngle() const 	{ LATERO_GRAPHICS_GUARD; return seedAngle_; }
 
 protected:
-	AxialGratingTexture(const latero::Tactograph *dev, Point seed, uint axialNb);
+	AxialGratingTexture(const latero::Tactograph *dev, Point seed, unsigned int axialNb);
 	AxialGratingTexture(const latero::Tactograph *dev, const XMLInputNode &node);
 
 	// currently needed to allow modulation near 0 degree

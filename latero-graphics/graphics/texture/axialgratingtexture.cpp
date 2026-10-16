@@ -8,7 +8,7 @@
 
 namespace latero::graphics {
 
-AxialGratingTexture::AxialGratingTexture(const latero::Tactograph *dev, Point seed, uint axialNb) :
+AxialGratingTexture::AxialGratingTexture(const latero::Tactograph *dev, Point seed, unsigned int axialNb) :
 	Pattern(dev), GratingTexture(dev,seed,units::degree), seedAngle_(default_seedAngle)
 {
 	GetGrating()->SetRegularizable(true);

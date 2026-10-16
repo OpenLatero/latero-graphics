@@ -88,7 +88,7 @@ public:
 	 * @param w width in pixels
 	 * @param t time in ns
 	 */
-	virtual latero::graphics::gtk::Animation GetIllustration(uint w, std::chrono::microseconds t) const;
+	virtual latero::graphics::gtk::Animation GetIllustration(unsigned int w, std::chrono::microseconds t) const;
 
 	/** @return last known frame rendered by this generator */
 	latero::BiasedImg GetLatestFrame() const;

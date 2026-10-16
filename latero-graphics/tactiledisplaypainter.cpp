@@ -60,9 +60,9 @@ void TactileDisplayPainter::PaintDetailed(const Cairo::RefPtr<Cairo::Context> &m
 	int hPiezo = dev_->GetContactorSizeY();
 
 	mmContext->set_source_rgb(1.0, 0.0, 0.0);
-	for (uint j=0; j< dev_->GetFrameSizeY(); ++j)
+	for (unsigned int j=0; j< dev_->GetFrameSizeY(); ++j)
 	{
-		for (uint i=0; i< dev_->GetFrameSizeX(); ++i)
+		for (unsigned int i=0; i< dev_->GetFrameSizeX(); ++i)
 		{
 			Point p = dev_->GetActuatorOffset(i,j);
 			float x = p.x + (0.5-tdState.Get(i,j))*motionRange;

@@ -135,14 +135,14 @@ TactographView::TactographView(const latero::Tactograph *dev, GeneratorPtr gen, 
 
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &TactographView::RefreshCursor),
-		(uint)33, // ms
+		(unsigned int)33, // ms
 		Glib::PRIORITY_DEFAULT_IDLE);
 
 	if (refreshBackground)
 	{
 		Glib::signal_timeout().connect(
 			sigc::mem_fun(*this, &TactographView::OnCheckPeer),
-			(uint)333, // ms
+			(unsigned int)333, // ms
 			Glib::PRIORITY_DEFAULT_IDLE);
 	}
 

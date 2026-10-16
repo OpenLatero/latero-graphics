@@ -30,11 +30,11 @@ void PositionGen::DoRender_(const State *state, latero::BiasedImg &frame)
 	PostRender_(state);
 }
 
-Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, std::chrono::microseconds timeElapsed, double velMag, double velDir, RenderMode mode)
+Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(unsigned int w, std::chrono::microseconds timeElapsed, double velMag, double velDir, RenderMode mode)
 {
 	double ws_x = Dev()->GetSurfaceWidth();
 	double ws_y = Dev()->GetSurfaceHeight();
-	uint h = w * ws_y/ws_x;
+	unsigned int h = w * ws_y/ws_x;
 
 	Glib::RefPtr<Gdk::Pixbuf> buf =
 		Gdk::Pixbuf::create(Gdk::Colorspace::RGB, false, 8, w, h);
@@ -46,8 +46,8 @@ Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, std::chrono::mic
 	state.velMag = velMag;
 	state.velDir = velDir;
 
-	uint rowstride = buf->get_rowstride();
-	uint n_channels = buf->get_n_channels();
+	unsigned int rowstride = buf->get_rowstride();
+	unsigned int n_channels = buf->get_n_channels();
 	guint8* pixels = buf->get_pixels();
 	for (int pix_y=0; pix_y<(int)h; ++pix_y)	
 	{
@@ -63,7 +63,7 @@ Glib::RefPtr<Gdk::Pixbuf> PositionGen::GetDeflectionMap(uint w, std::chrono::mic
 			v = (-v+1)*255.0; // we want rest (0) to be white
 
 			guint8* basePixel = pixels + pix_y*rowstride + pix_x*n_channels;
-			for (uint n=0; n<3; ++n)
+			for (unsigned int n=0; n<3; ++n)
 				basePixel[n] = (unsigned char)v;
 		}
 		LATERO_GRAPHICS_UNLOCK;

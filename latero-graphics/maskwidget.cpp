@@ -65,7 +65,7 @@ public:
 
 		Glib::signal_timeout().connect(
 			sigc::mem_fun(*this, &MaskView::OnCheckPeer),
-			(uint)333, Glib::PRIORITY_DEFAULT_IDLE);
+			(unsigned int)333, Glib::PRIORITY_DEFAULT_IDLE);
 	}
 
 	virtual ~MaskView() {};

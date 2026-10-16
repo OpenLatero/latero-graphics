@@ -92,7 +92,7 @@ double Image::DoRenderShadow_(const ActuatorState &state)
 }
 
 
-latero::graphics::gtk::Animation Image::GetVibroIllustration(uint w, uint h)
+latero::graphics::gtk::Animation Image::GetVibroIllustration(unsigned int w, unsigned int h)
 {
 	VibroTexturePtr vibroTx = std::dynamic_pointer_cast<VibroTexture>(GetTexture());
 	double stroke = vibroTx->GetAmplitude();
@@ -103,8 +103,8 @@ latero::graphics::gtk::Animation Image::GetVibroIllustration(uint w, uint h)
 	{
 		Glib::RefPtr<Gdk::Pixbuf> frame = buf->copy(); // ~ 3 ms
 
-		uint rowstride = frame->get_rowstride();
-		uint n_channels = frame->get_n_channels();
+		unsigned int rowstride = frame->get_rowstride();
+		unsigned int n_channels = frame->get_n_channels();
 		guint8* pixels = frame->get_pixels();
 
 		for (unsigned int y=0; y<h; ++y)
@@ -113,7 +113,7 @@ latero::graphics::gtk::Animation Image::GetVibroIllustration(uint w, uint h)
 			{
 				guint8* pix = pixels + y*rowstride + x*n_channels;
 				float noise = (rand() % 256) / 255.0;
-				uint orig = pix[3];	
+				unsigned int orig = pix[3];	
 				pix[0] = pix[1] = pix[2] = (unsigned char)(255 - (stroke*noise*orig));
 				pix[3] = 255;
 			}

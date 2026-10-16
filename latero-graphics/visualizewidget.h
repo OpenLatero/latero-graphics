@@ -103,7 +103,7 @@ public:
 protected:
 	Gtk::Widget *GetAnimWidget();
 	Gtk::Widget *GetPlaybackWidget();
-	latero::graphics::gtk::Animation GetDeflectionMap(uint w, uint n, double velMag, double velDir);
+	latero::graphics::gtk::Animation GetDeflectionMap(unsigned int w, unsigned int n, double velMag, double velDir);
 	void RefreshImg();
 	void CreateMenu();
 	void OnSave();

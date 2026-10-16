@@ -1,6 +1,6 @@
 #include <iostream>
-#include <sys/stat.h>
 #include "generator.h"
+#include "fileutils.h"
 #include "graphics/canvas.h"
 
 
@@ -14,7 +14,7 @@ void Generator::SaveToFile(const std::filesystem::path& filename) const
 	root.SetPath(filename.parent_path().string());
 	AppendXML(root);
 	document.write_to_file_formatted(filename.string());
-	chmod(filename.c_str(), 0666); // make accessible to others than root
+	MakeAccessibleToAll(filename);
 }
 
 GeneratorPtr Generator::Create(const std::filesystem::path& xmlFile, const latero::Tactograph *dev)
@@ -64,14 +64,14 @@ Generator::Generator(const latero::Tactograph *dev) :
 	assert(dev_);
 };
 
-latero::graphics::gtk::Animation Generator::GetIllustration(uint w, std::chrono::microseconds t) const
+latero::graphics::gtk::Animation Generator::GetIllustration(unsigned int w, std::chrono::microseconds t) const
 {
 	if (w == 0) {
 		std::cout << "Generator::GetIllustration: Invalid width" << std::endl;
 		return latero::graphics::gtk::Animation();
 	}
 	// by default return a white image
-	uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
+	unsigned int h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
 	assert(h>0);
 	Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	buf->fill(0xffffffff);

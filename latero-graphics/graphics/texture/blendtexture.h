@@ -36,7 +36,7 @@ public:
 
 	void SetFirstTexture(TexturePtr tx) { SetTexture(0,tx); }
 	void SetSecondTexture(TexturePtr tx) { SetTexture(1,tx); };
-	void SetTexture(uint i, TexturePtr tx);
+	void SetTexture(unsigned int i, TexturePtr tx);
 
 	void SetModulator(ModulatorPtr mod);
 	ModulatorPtr GetModulator() const { LATERO_GRAPHICS_GUARD; return mod_; }

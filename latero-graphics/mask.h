@@ -84,7 +84,7 @@ public:
 	/** 
 	 * @return illustration corresponding to the mask over the entire virtual surface
 	 */
-	Glib::RefPtr<Gdk::Pixbuf> GetIllustration(uint w, uint h);
+	Glib::RefPtr<Gdk::Pixbuf> GetIllustration(unsigned int w, unsigned int h);
 
 	/** @return size of the window in mm */
 	inline Point GetSize() const { LATERO_GRAPHICS_GUARD; return size_; }
@@ -131,7 +131,7 @@ public:
 	void SetBlurred(bool v = true);
 
 	/** Identical to GetIllustration() but alpha channel is set to copy grayscale level. */
-	Glib::RefPtr<Gdk::Pixbuf> GetSurfaceAlpha(uint w, uint h);
+	Glib::RefPtr<Gdk::Pixbuf> GetSurfaceAlpha(unsigned int w, unsigned int h);
 
 	/** Set the position of the window such that its center is in the center of the virtual surface. */
 	void Center();

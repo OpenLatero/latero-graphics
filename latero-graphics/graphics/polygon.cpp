@@ -84,7 +84,7 @@ void Polygon::AppendXML(XMLOutputNode &root) const
 
 	XMLOutputNode node = polynode.AddChild("vertices");
 	std::vector<Point> list = GetPoints();
-	for (uint i=0; i<list.size(); ++i)
+	for (unsigned int i=0; i<list.size(); ++i)
 		node.AddChild("vertex", list[i], units::mm);
 
 	XMLOutputNode joinNode = polynode.AddChild("join");

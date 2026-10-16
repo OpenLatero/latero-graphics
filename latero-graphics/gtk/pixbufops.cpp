@@ -34,12 +34,12 @@ void PixbufOps::CompositeMult(Glib::RefPtr<Gdk::Pixbuf> &dest, const Glib::RefPt
 	assert(src->get_n_channels() >= 3);
 	assert(dest->get_n_channels() >= 3);
 
-	uint dest_rowstride = dest->get_rowstride();
-	uint dest_n = dest->get_n_channels();
+	unsigned int dest_rowstride = dest->get_rowstride();
+	unsigned int dest_n = dest->get_n_channels();
 	guint8* dest_pixels = dest->get_pixels();
 
-	uint src_rowstride = src->get_rowstride();
-	uint src_n = src->get_n_channels();
+	unsigned int src_rowstride = src->get_rowstride();
+	unsigned int src_n = src->get_n_channels();
 	guint8* src_pixels = src->get_pixels();
 
 	for (int y=0; y<dest->get_height(); ++y)	
@@ -63,12 +63,12 @@ void PixbufOps::Superpose(Glib::RefPtr<Gdk::Pixbuf> &dest, const Glib::RefPtr<Gd
 	assert(src->get_n_channels() >= 3);
 	assert(dest->get_n_channels() >= 3);
 
-	uint dest_rowstride = dest->get_rowstride();
-	uint dest_n = dest->get_n_channels();
+	unsigned int dest_rowstride = dest->get_rowstride();
+	unsigned int dest_n = dest->get_n_channels();
 	guint8* dest_pixels = dest->get_pixels();
 
-	uint src_rowstride = src->get_rowstride();
-	uint src_n = src->get_n_channels();
+	unsigned int src_rowstride = src->get_rowstride();
+	unsigned int src_n = src->get_n_channels();
 	guint8* src_pixels = src->get_pixels();
 
 	for (int y=0; y<dest->get_height(); ++y)	
@@ -92,8 +92,8 @@ void PixbufOps::Multiply(Glib::RefPtr<Gdk::Pixbuf> &dest, float r, float g, floa
 {
 	assert(dest->get_n_channels() >= 3);
 
-	uint dest_rowstride = dest->get_rowstride();
-	uint dest_n_channels = dest->get_n_channels();
+	unsigned int dest_rowstride = dest->get_rowstride();
+	unsigned int dest_n_channels = dest->get_n_channels();
 	guint8* dest_pixels = dest->get_pixels();
 	int h = dest->get_height();
 	int w = dest->get_width();
@@ -112,8 +112,8 @@ void PixbufOps::Multiply(Glib::RefPtr<Gdk::Pixbuf> &dest, float r, float g, floa
 void PixbufOps::Invert(Glib::RefPtr<Gdk::Pixbuf> &dest)
 {
 	assert(dest->get_n_channels() >= 3);
-	uint dest_rowstride = dest->get_rowstride();
-	uint dest_n_channels = dest->get_n_channels();
+	unsigned int dest_rowstride = dest->get_rowstride();
+	unsigned int dest_n_channels = dest->get_n_channels();
 	guint8* dest_pixels = dest->get_pixels();
 
 	for (int y=0; y<dest->get_height(); ++y)	
@@ -121,7 +121,7 @@ void PixbufOps::Invert(Glib::RefPtr<Gdk::Pixbuf> &dest)
 		for (int x=0; x<dest->get_width(); ++x)
 		{
 			guint8* basePixel = dest_pixels + y * dest_rowstride + x * dest_n_channels;
-			for (uint n=0; n<3; ++n)
+			for (unsigned int n=0; n<3; ++n)
 				basePixel[n] = 255 - basePixel[n];
 		}
 	}
@@ -130,8 +130,8 @@ void PixbufOps::Invert(Glib::RefPtr<Gdk::Pixbuf> &dest)
 void PixbufOps::ShiftRange(Glib::RefPtr<Gdk::Pixbuf> &img, int min, int max)
 {
 	assert(img->get_n_channels() >= 3);
-	uint rowstride = img->get_rowstride();
-	uint n_channels = img->get_n_channels();
+	unsigned int rowstride = img->get_rowstride();
+	unsigned int n_channels = img->get_n_channels();
 	guint8* pixels = img->get_pixels();
 
 	for (int y=0; y<img->get_height(); ++y)	
@@ -139,7 +139,7 @@ void PixbufOps::ShiftRange(Glib::RefPtr<Gdk::Pixbuf> &img, int min, int max)
 		for (int x=0; x<img->get_width(); ++x)
 		{
 			guint8* basePixel = pixels + y * rowstride + x * n_channels;
-			for (uint n=0; n<3; ++n)
+			for (unsigned int n=0; n<3; ++n)
 				basePixel[n] = basePixel[n]*(max-min)/255.0 + min;
 		}
 	}
@@ -150,8 +150,8 @@ void PixbufOps::SetPixel(Glib::RefPtr<Gdk::Pixbuf> &dest, int x, int y, float r,
 {
 	assert(dest->get_n_channels() >= 3);
 
-	uint dest_rowstride = dest->get_rowstride();
-	uint dest_n_channels = dest->get_n_channels();
+	unsigned int dest_rowstride = dest->get_rowstride();
+	unsigned int dest_n_channels = dest->get_n_channels();
 	guint8* dest_pixels = dest->get_pixels();
 	//int h = dest->get_height();
 	//int w = dest->get_width();
@@ -165,8 +165,8 @@ void PixbufOps::SetPixel(Glib::RefPtr<Gdk::Pixbuf> &dest, int x, int y, float r,
 
 void PixbufOps::CopyChannel(Glib::RefPtr<Gdk::Pixbuf> &img, int src, int dest)
 {
-	uint rowstride = img->get_rowstride();
-	uint n_channels = img->get_n_channels();
+	unsigned int rowstride = img->get_rowstride();
+	unsigned int n_channels = img->get_n_channels();
 	guint8* pixels = img->get_pixels();
 	assert(src < (int)n_channels);
 	assert(dest < (int)n_channels);

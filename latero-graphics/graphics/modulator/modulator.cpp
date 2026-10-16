@@ -23,12 +23,12 @@ Gtk::Widget *Modulator::CreateWidget(ModulatorPtr ptr)
 	return Gtk::make_managed<Gtk::Box>(Gtk::Orientation::VERTICAL);
 }
 
-Glib::RefPtr<Gdk::Pixbuf> Modulator::GetIllustration(uint size, double maxVel)
+Glib::RefPtr<Gdk::Pixbuf> Modulator::GetIllustration(unsigned int size, double maxVel)
 {
 	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, size, size);
 
-	uint rowstride = rv->get_rowstride();
-	uint n_channels = rv->get_n_channels();
+	unsigned int rowstride = rv->get_rowstride();
+	unsigned int n_channels = rv->get_n_channels();
 	guint8* pixels = rv->get_pixels();
 	int radius = size/2;
 

@@ -24,7 +24,7 @@ public:
 	virtual Gtk::Widget *CreateWidget(ModulatorPtr ptr);
 	const latero::Tactograph *Dev() { return dev_; }
 	virtual double GetValue_(const ActuatorState &state) = 0;
-	virtual Glib::RefPtr<Gdk::Pixbuf> GetIllustration(uint size, double maxVel=100);
+	virtual Glib::RefPtr<Gdk::Pixbuf> GetIllustration(unsigned int size, double maxVel=100);
 protected:
 	Modulator(const latero::Tactograph *dev) : dev_(dev) {}
 	const latero::Tactograph *dev_; 

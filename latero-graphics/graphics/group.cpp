@@ -475,7 +475,7 @@ void Group::AppendXML(XMLOutputNode &root) const
 void Group::AppendPatterns(XMLOutputNode &root) const
 {
 	std::vector<PatternPtr> list = GetPatterns();
-	for (uint i=0; i<list.size(); ++i)
+	for (unsigned int i=0; i<list.size(); ++i)
 		list[i]->AppendXML(root);
 
 }

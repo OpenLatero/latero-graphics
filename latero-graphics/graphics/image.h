@@ -56,7 +56,7 @@ public:
 	virtual bool UpdateVisible_(const State *state);
 
 protected:
-	latero::graphics::gtk::Animation GetVibroIllustration(uint w, uint h);
+	latero::graphics::gtk::Animation GetVibroIllustration(unsigned int w, unsigned int h);
 	void DrawIllustration(Cairo::RefPtr<Cairo::Context> mmContext, std::chrono::microseconds t);
 
 	TexturePtr texture_;

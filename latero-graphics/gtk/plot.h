@@ -44,7 +44,7 @@ public:
 	float GetMaxY() { return yMax_; }
 
 	void Draw(Cairo::RefPtr<Cairo::Context> cr, int w, int h);
-	void SaveToFile(const std::filesystem::path& filename, uint w, uint h);
+	void SaveToFile(const std::filesystem::path& filename, unsigned int w, unsigned int h);
 	void OnSaveAs();
 	void OnSave();
 

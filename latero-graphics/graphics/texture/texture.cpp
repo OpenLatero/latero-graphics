@@ -14,9 +14,8 @@
 #include "patternops.h"
 #include "../../xml.h"
 #include "../../units.h"
-#include <sys/types.h>
+#include "../../fileutils.h"
 #include <iostream>
-#include <sys/stat.h>
 #include "stock.h"
 
 namespace latero::graphics {
@@ -107,7 +106,7 @@ void Texture::Save(const std::filesystem::path& xmlFile)
 	root.SetAttribute("type","Texture");
 	AppendXML(root);
 	document.write_to_file_formatted(xmlFile.string());
-	chmod(xmlFile.c_str(), 0666); // make accessible to others than root
+	MakeAccessibleToAll(xmlFile);
 	SetXMLFile(xmlFile);
 }
 

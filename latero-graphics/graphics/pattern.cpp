@@ -1,5 +1,5 @@
-#include <sys/stat.h>
 #include "pattern.h"
+#include "../fileutils.h"
 #include "circle.h"
 #include "line.h"
 #include "polygon.h"
@@ -70,11 +70,11 @@ PatternPtr Pattern::Create(const latero::Tactograph *dev, const std::filesystem:
 }
 
 
-Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, std::chrono::microseconds t, VizMode mode, double velMag, double velDir)
+Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(unsigned int w, std::chrono::microseconds t, VizMode mode, double velMag, double velDir)
 {
 	if (mode == viz_abstract)
 	{
-		uint h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
+		unsigned int h = fmax(1,w * Dev()->GetSurfaceHeight()/Dev()->GetSurfaceWidth());
 		assert(h>0);
 
 		Glib::RefPtr<Gdk::Pixbuf> img = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
@@ -97,7 +97,7 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, std::chrono::microse
 	{
 		double ws_x = Dev()->GetSurfaceWidth();
 		double ws_y = Dev()->GetSurfaceHeight();
-		uint h = w * ws_y/ws_x;
+		unsigned int h = w * ws_y/ws_x;
 
 		Glib::RefPtr<Gdk::Pixbuf> buf = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, false, 8, w, h);
 
@@ -113,8 +113,8 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, std::chrono::microse
 		state.velMag = velMag;
 		state.velDir = velDir;
 
-		uint rowstride = buf->get_rowstride();
-		uint n_channels = buf->get_n_channels();
+		unsigned int rowstride = buf->get_rowstride();
+		unsigned int n_channels = buf->get_n_channels();
 		guint8* pixels = buf->get_pixels();
 
 		assert(n_channels == 3);
@@ -133,7 +133,7 @@ Glib::RefPtr<Gdk::Pixbuf> Pattern::GetVisualization(uint w, std::chrono::microse
 				v = (-v+1)*255.0; // we want rest (0) to be white
 
 				guint8* basePixel = pixels + pix_y*rowstride + pix_x*n_channels;
-				for (uint n=0; n<3; ++n)
+				for (unsigned int n=0; n<3; ++n)
 					basePixel[n] = (unsigned char)v;
 			}
 			LATERO_GRAPHICS_UNLOCK;
@@ -151,7 +151,7 @@ void Pattern::SaveToFile(const std::filesystem::path& xmlFile)
 	root.SetAttribute("type","Pattern");
 	AppendXML(root);
 	document.write_to_file_formatted(xmlFile.string());
-	chmod(xmlFile.c_str(), 0666); // make accessible to others than root
+	MakeAccessibleToAll(xmlFile);
 	SetXMLFile(xmlFile);
 }
 

@@ -1,5 +1,3 @@
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <iostream>
 #include <Magick++.h>
 #include <glibmm/miscutils.h>
@@ -8,6 +6,7 @@
 #include <cairomm/context.h>
 
 #include "mask.h"
+#include "fileutils.h"
 #include "gtk/pixbufops.h"
 
 
@@ -41,7 +40,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetBlurredImage(const std::filesystem::path& fil
 	if (!fs::exists(cachePath))
 	{
 		fs::create_directories(cachePath);
-		chmod(cachePath.c_str(), 0777); // make accessible to others than root
+		MakeAccessibleToAll(cachePath);
 	}
 	else if (!fs::is_directory(cachePath))
 		printf("can't create cachePath!\n");
@@ -57,7 +56,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetBlurredImage(const std::filesystem::path& fil
 		{
 			Glib::RefPtr<Gdk::Pixbuf> svgbuf = Gdk::Pixbuf::create_from_file(filename.string());
 			svgbuf->save(svgbitmap.string(), "png");
-			chmod(svgbitmap.c_str(), 0666); // make accessible to others than root
+			MakeAccessibleToAll(svgbitmap);
 		}
 		actualFile = svgbitmap;
 	}
@@ -74,7 +73,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetBlurredImage(const std::filesystem::path& fil
 		else
 			image.blur(4, 2);
 		image.write(blurredFile.string());
-		chmod(blurredFile.c_str(), 0666); // make accessible to others than root
+		MakeAccessibleToAll(blurredFile);
 	}
 
 	return Gdk::Pixbuf::create_from_file(blurredFile.string());
@@ -211,7 +210,7 @@ void Mask::AppendXML(XMLOutputNode &root) const
 }
 
 
-Glib::RefPtr<Gdk::Pixbuf> Mask::GetIllustration(uint w, uint h)
+Glib::RefPtr<Gdk::Pixbuf> Mask::GetIllustration(unsigned int w, unsigned int h)
 {
 	//
 	// Destination
@@ -427,7 +426,7 @@ Glib::RefPtr<Gdk::Pixbuf> Mask::GetAlphaImgCopy() const
 }
 
 
-Glib::RefPtr<Gdk::Pixbuf> Mask::GetSurfaceAlpha(uint w, uint h)
+Glib::RefPtr<Gdk::Pixbuf> Mask::GetSurfaceAlpha(unsigned int w, unsigned int h)
 {
 	Glib::RefPtr<Gdk::Pixbuf> rv = Gdk::Pixbuf::create(Gdk::Colorspace::RGB, true, 8, w, h);
 	rv->fill(defaultAlpha_*0x000000ff);
@@ -478,8 +477,8 @@ void Mask::UpdateShadow()
 	{
 		shadow_ = img_->copy();
 
-		uint rowstride = shadow_->get_rowstride();
-		uint n = shadow_->get_n_channels();
+		unsigned int rowstride = shadow_->get_rowstride();
+		unsigned int n = shadow_->get_n_channels();
 		guint8* pixels = shadow_->get_pixels();
 		int w = shadow_->get_width();
 		int h = shadow_->get_height();

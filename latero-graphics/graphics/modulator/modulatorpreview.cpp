@@ -12,7 +12,7 @@ ModulatorPreview::ModulatorPreview(ModulatorPtr peer) : peer_(peer)
 	Refresh();
 	Glib::signal_timeout().connect(
 		sigc::mem_fun(*this, &ModulatorPreview::OnTimer),
-		(uint)333, // ms
+		(unsigned int)333, // ms
 		Glib::PRIORITY_DEFAULT_IDLE);
 	CreatePopupMenu();
 }

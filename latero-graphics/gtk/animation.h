@@ -81,7 +81,7 @@ public:
 	inline int GetHeight() const { return GetNbFrames()?imgs_[0]->get_height():0; }
 
 	/** @return number of frames */
-	inline uint GetNbFrames() const { return static_cast<uint>(imgs_.size()); }
+	inline unsigned int GetNbFrames() const { return static_cast<unsigned int>(imgs_.size()); }
 
 	/** manually skip to the next frame */
 	void IncrementFrame();
@@ -100,7 +100,7 @@ public:
 	 * @param interval frame interval in ms
  	 * activate automatic frame incrementation 
 	 */
-	void Activate(uint interval);
+	void Activate(unsigned int interval);
 
 	/** deactivate automatic frame incrementation */
 	void Deactivate();
@@ -131,7 +131,7 @@ protected:
 
 	bool active_;
 	std::vector< Glib::RefPtr<Gdk::Pixbuf> > imgs_;
-	uint tick_;
+	unsigned int tick_;
 	sigc::connection timeout_;
 };
 
