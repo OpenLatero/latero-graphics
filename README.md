@@ -63,6 +63,10 @@ or in a single command:
 cmake --preset default && cmake --build build && sudo cmake --install build
 ```
 
+The library is installed under `/usr/local`. To install it elsewhere, set the prefix when configuring
+(`cmake --preset default -DCMAKE_INSTALL_PREFIX=<dir>`), not with `cmake --install --prefix`: the location of the
+stock textures is compiled into the library.
+
 #### Build the documentation
 
 Run this command to build and open the documentation:
@@ -100,14 +104,16 @@ The library can be compiled and installed into the MSYS2 environment (no `sudo` 
 ```
 cmake --preset default
 cmake --build build
-cmake --install build --prefix /ucrt64
+cmake --install build
 ```
 
 or in a single command:
 
 ```
-cmake --preset default && cmake --build build && cmake --install build --prefix /ucrt64
+cmake --preset default && cmake --build build && cmake --install build
 ```
+
+The install prefix defaults to the MSYS2 environment of the compiler (e.g. `C:/msys64/ucrt64`).
 
 #### Build the documentation
 

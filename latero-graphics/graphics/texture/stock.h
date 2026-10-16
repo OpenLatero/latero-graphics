@@ -9,11 +9,7 @@ namespace latero::graphics {
  * Predefined textures.
  */
 
-#ifdef _WIN32
-const std::filesystem::path tx_path			= LATERO_GRAPHICS_TX_PATH; // set by CMake
-#else
-const std::filesystem::path tx_path			= "/usr/local/share/laterographics/texture/";
-#endif
+const std::filesystem::path tx_path			= LATERO_GRAPHICS_TX_PATH; // install location, set by CMake
 
 const std::filesystem::path tx_plain			= tx_path / "plain.tx";
 const std::filesystem::path tx_null			= tx_path / "null.tx";

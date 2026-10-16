@@ -30,7 +30,7 @@
         <ridge_size units="mm">8</ridge_size>
         <gap_size units="mm">0</gap_size>
       </Grating>
-      <icon>/usr/local/share/laterographics/texture/grating-horizontal.png</icon>
+      <icon>grating-horizontal.png</icon>
       <amplitude>1</amplitude>
     </Pattern>
   </Pattern>

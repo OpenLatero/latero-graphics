@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <laterographics_xml type="Texture">
   <Pattern type="Texture" subtype="Blend">
-    <icon>/usr/local/share/laterographics/texture/unidir.png</icon>
+    <icon>unidir.png</icon>
     <amplitude>1</amplitude>
     <Modulator type="Directional">
       <direction units="degree">90</direction>

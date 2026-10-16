@@ -181,20 +181,7 @@ void Texture::LoadAmplitude(const XMLInputNode &root)
 void Texture::LoadIcon(const XMLInputNode &root)
 {
 	XMLInputNode node = root.GetChild("icon");
-#ifdef _WIN32
-	if (node)
-	{
-		// The stock textures refer to their icons by their Linux and macOS install location.
-		std::string icon = node.GetFilename();
-		const std::string unix_tx_path = "/usr/local/share/laterographics/texture/";
-		if (icon.compare(0, unix_tx_path.size(), unix_tx_path) == 0)
-			SetIconFile(tx_path / icon.substr(unix_tx_path.size()));
-		else
-			SetIconFile(icon);
-	}
-#else
 	if (node) SetIconFile(node.GetFilename());
-#endif
 }
 
 void Texture::LoadInvert(const XMLInputNode &root)

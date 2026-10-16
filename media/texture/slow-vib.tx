@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <laterographics_xml type="Texture">
   <Pattern type="Texture" subtype="Blend">
-    <icon>/usr/local/share/laterographics/texture/slow-vib.png</icon>
+    <icon>slow-vib.png</icon>
     <amplitude>1</amplitude>
     <Modulator type="Velocity">
       <limit units="mm/s">3</limit>
@@ -32,7 +32,7 @@
         <ridge_size units="mm">8</ridge_size>
         <gap_size units="mm">8</gap_size>
       </Grating>
-      <icon>/usr/local/share/laterographics/texture/grating-horizontal.png</icon>
+      <icon>grating-horizontal.png</icon>
       <amplitude>1</amplitude>
     </Pattern>
   </Pattern>

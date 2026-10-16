@@ -7,4 +7,4 @@ radial-ring.tx radial-ring.png
 radial-slope.tx radial-slope.png
 )
 
-INSTALL(FILES ${TX_FILES} DESTINATION share/laterographics/texture/pitch-mod)
+INSTALL(FILES ${TX_FILES} DESTINATION ${LATERO_GRAPHICS_TX_DIR}/pitch-mod)

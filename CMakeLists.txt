@@ -4,6 +4,18 @@ project (latero-graphics)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# on Windows, install into the MSYS2 environment of the compiler (e.g. C:/msys64/ucrt64) by default,
+# instead of C:/Program Files
+if (WIN32 AND CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+	get_filename_component(MSYS2_PREFIX "${CMAKE_CXX_COMPILER}" DIRECTORY)
+	get_filename_component(MSYS2_PREFIX "${MSYS2_PREFIX}" DIRECTORY)
+	set(CMAKE_INSTALL_PREFIX "${MSYS2_PREFIX}" CACHE PATH "Install path prefix" FORCE)
+endif()
+include(GNUInstallDirs)
+
+# install location of the stock textures (see latero-graphics/graphics/texture/stock.h)
+set(LATERO_GRAPHICS_TX_DIR "${CMAKE_INSTALL_DATADIR}/laterographics/texture")
+
 # check for dependencies using pkg-config
 include(FindPkgConfig)
 pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-4.0)

@@ -30,4 +30,4 @@ plain.tx
 pattern-grid.tx pattern-grid.png)
 
 
-INSTALL(FILES ${TX_FILES} DESTINATION share/laterographics/texture)
+INSTALL(FILES ${TX_FILES} DESTINATION ${LATERO_GRAPHICS_TX_DIR})

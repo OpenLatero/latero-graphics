@@ -95,19 +95,16 @@ target_link_libraries(laterographics PUBLIC
 	PkgConfig::GTKMM
 	PkgConfig::LIBXML)
 
+# location of the installed stock textures (see graphics/texture/stock.h)
+target_compile_definitions(laterographics PUBLIC
+	"LATERO_GRAPHICS_TX_PATH=\"${CMAKE_INSTALL_PREFIX}/${LATERO_GRAPHICS_TX_DIR}/\"")
+
 # Windows compatibility definitions, force-included in the library and in the programs that use it
 if (WIN32)
 	target_compile_options(laterographics PUBLIC
 		"$<BUILD_INTERFACE:-include;${CMAKE_CURRENT_SOURCE_DIR}/wincompat.h>"
 		"$<INSTALL_INTERFACE:-include;laterographics/wincompat.h>")
 	INSTALL(FILES wincompat.h DESTINATION include/laterographics)
-
-	# location of the stock textures (see graphics/texture/stock.h), installed in the MSYS2 environment
-	# of the compiler (e.g. C:/msys64/ucrt64) instead of /usr/local
-	get_filename_component(MSYS2_PREFIX "${CMAKE_CXX_COMPILER}" DIRECTORY)
-	get_filename_component(MSYS2_PREFIX "${MSYS2_PREFIX}" DIRECTORY)
-	target_compile_definitions(laterographics PUBLIC
-		"LATERO_GRAPHICS_TX_PATH=\"${MSYS2_PREFIX}/share/laterographics/texture/\"")
 
 	# timing of the real-time update loop (private, not installed)
 	target_sources(laterographics PRIVATE wintiming.cpp wintiming.h)
