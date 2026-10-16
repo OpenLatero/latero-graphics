@@ -72,23 +72,50 @@ cmake --build build --target doc && open docs/html/index.html
 ```
 
 
-### Cygwin
+### Windows
 
-**Step 1: Install the latero library**
+On Windows, the library is built natively with the GCC toolchain of [MSYS2](https://www.msys2.org).
 
-See the INSTALL file in the latero project.
+#### Install OpenLatero libraries
 
-**Step 2: Build and install latero-graphics**
+Install the [latero](https://github.com/OpenLatero/latero) library, following its Windows instructions. This also sets
+up MSYS2 and the build tools.
+
+#### Install dependencies
+
+Open the **MSYS2 UCRT64** shell and install the dependencies with the following command:
 
 ```
-cmake .
-make
-make install
+pacman -S --needed mingw-w64-ucrt-x86_64-gtkmm-4.0 mingw-w64-ucrt-x86_64-libxml++-5.0 mingw-w64-ucrt-x86_64-imagemagick mingw-w64-ucrt-x86_64-pkgconf
 ```
 
-If successful, `liblaterographics.a` will be in `/usr/local/lib/` and headers in `/usr/local/include/latero-graphics/`.
+Run all the commands below from the same UCRT64 shell.
 
-Run `latero-demo` to test the library.
+The optional audiere library is not supported on Windows.
+
+#### Build and install the library
+
+The library can be compiled and installed into the MSYS2 environment (no `sudo` needed) with the following commands:
+
+```
+cmake --preset default
+cmake --build build
+cmake --install build --prefix /ucrt64
+```
+
+or in a single command:
+
+```
+cmake --preset default && cmake --build build && cmake --install build --prefix /ucrt64
+```
+
+#### Build the documentation
+
+Run this command to build the documentation, then open `docs/html/index.html` in a browser:
+
+```
+cmake --build build --target doc
+```
 
 ## Examples
 
