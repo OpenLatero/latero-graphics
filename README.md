@@ -78,7 +78,8 @@ cmake --build build --target doc && open docs/html/index.html
 
 ### Windows
 
-On Windows, the library is built natively with the GCC toolchain of [MSYS2](https://www.msys2.org).
+On Windows, the library is built natively with the GCC toolchain of [MSYS2](https://www.msys2.org). Windows 11 is
+required: the real-time update loop relies on its high-resolution timers and power-throttling controls.
 
 #### Install OpenLatero libraries
 

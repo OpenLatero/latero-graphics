@@ -103,10 +103,9 @@ target_link_libraries(laterographics PUBLIC
 target_compile_definitions(laterographics PUBLIC
 	"LATERO_GRAPHICS_TX_PATH=\"${CMAKE_INSTALL_PREFIX}/${LATERO_GRAPHICS_TX_DIR}/\"")
 
+# MMCSS, for the real-time scheduling of high-priority engines on Windows (see engine.cpp)
 if (WIN32)
-	# timing of the real-time update loop (private, not installed)
-	target_sources(laterographics PRIVATE wintiming.cpp wintiming.h)
-	target_link_libraries(laterographics PRIVATE avrt winmm)
+	target_link_libraries(laterographics PRIVATE avrt)
 endif()
 
 #install library files to /usr/local/lib/
