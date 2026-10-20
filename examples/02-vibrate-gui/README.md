@@ -2,7 +2,7 @@
 
 This example extends 01-vibrate-engine by adding a GUI with a custom widget for the VibrationGenerator and a latero::graphics::TactileDisplayView that shows the movement of the Latero's pins.
 
-## MacOS / Linux
+## macOS / Linux / Windows
 
 #### Install OpenLatero libraries
 

@@ -6,7 +6,12 @@ Automatically-generated documentation for the latest version on GitHub can be fo
 
 ## Installation
 
-### MacOS / Linux
+Expand the instructions for your platform.
+
+<details>
+<summary><b>macOS</b></summary>
+
+_Last tested on macOS 27.0._
 
 #### Install OpenLatero libraries
 
@@ -14,22 +19,16 @@ Install the [latero](https://github.com/OpenLatero/latero) library.
 
 #### Install dependencies
 
-On MacOS, the dependencies can be installed through [MacPorts](https://www.macports.org) with the following command:
-
-```
-sudo port install gtkmm4 +quartz libxmlxx5 ImageMagick
-```
-
-or through [Homebrew](https://brew.sh/) with the following command:
+Install the dependencies through [Homebrew](https://brew.sh/):
 
 ```
 brew install gtkmm4 libxml++@5 ImageMagick pkg-config
 ```
 
-On Linux, the dependencies can be installed with:
+or through [MacPorts](https://www.macports.org):
 
 ```
-sudo apt install libgtkmm-4.0-dev libxml++-5.0-dev libmagick++-dev pkg-config
+sudo port install gtkmm4 +quartz libxmlxx5 ImageMagick
 ```
 
 #### Install the audiere library (optional)
@@ -75,8 +74,72 @@ Run this command to build and open the documentation:
 cmake --build build --target doc && open docs/html/index.html
 ```
 
+</details>
 
-### Windows
+<details>
+<summary><b>Linux</b></summary>
+
+_Last tested on Ubuntu 26.04._
+
+#### Install OpenLatero libraries
+
+Install the [latero](https://github.com/OpenLatero/latero) library.
+
+#### Install dependencies
+
+Install the dependencies with:
+
+```
+sudo apt install libgtkmm-4.0-dev libxml++-5.0-dev libmagick++-dev pkg-config
+```
+
+#### Install the audiere library (optional)
+
+The audiere library adds audio support and is not required for most users. It is old and difficult to install — skip this step unless needed.
+
+- Download audiere (Unix Source Release 1.9.4): http://audiere.sourceforge.net/download.php
+- Add `#include <stdlib.h>` to `audiere-1.9.4/src/utility.h`
+
+```
+./configure
+make
+sudo make install
+```
+
+#### Build and install the library
+
+The library can be compiled and installed with the following commands:
+
+```
+cmake --preset default
+cmake --build build
+sudo cmake --install build
+```
+
+or in a single command:
+
+```
+cmake --preset default && cmake --build build && sudo cmake --install build
+```
+
+The library is installed under `/usr/local`. To install it elsewhere, set the prefix when configuring
+(`cmake --preset default -DCMAKE_INSTALL_PREFIX=<dir>`), not with `cmake --install --prefix`: the location of the
+stock textures is compiled into the library.
+
+#### Build the documentation
+
+Run this command to build and open the documentation:
+
+```
+cmake --build build --target doc && xdg-open docs/html/index.html
+```
+
+</details>
+
+<details>
+<summary><b>Windows</b></summary>
+
+_Last tested on Windows 11._
 
 On Windows, the library is built natively with the GCC toolchain of [MSYS2](https://www.msys2.org). Windows 11 is
 required: the real-time update loop relies on its high-resolution timers and power-throttling controls.
@@ -123,6 +186,8 @@ Run this command to build the documentation, then open `docs/html/index.html` in
 ```
 cmake --build build --target doc
 ```
+
+</details>
 
 ## Examples
 
