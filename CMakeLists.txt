@@ -24,21 +24,8 @@ pkg_check_modules(LIBXML REQUIRED IMPORTED_TARGET libxml++-5.0)
 find_package(latero REQUIRED)
 find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
 
-FIND_PROGRAM(AUDIERE_CONFIG audiere-config)
-IF(AUDIERE_CONFIG)
-  add_definitions(-DENABLE_AUDIERE)
-  EXEC_PROGRAM(${AUDIERE_CONFIG}
-     ARGS --cxxflags
-     OUTPUT_VARIABLE AUDIERE_CFLAGS)
-  EXEC_PROGRAM(${AUDIERE_CONFIG}
-     ARGS --libs
-     OUTPUT_VARIABLE AUDIERE_LDFLAGS)
-ELSE(AUDIERE_CONFIG)
-  MESSAGE(STATUS "Cannot find audiere-config anywhere on the system.")
-ENDIF(AUDIERE_CONFIG)
-
-set(DEPS_LDFLAGS ${DEPS_LDFLAGS} ${AUDIERE_LDFLAGS})
-set(DEPS_CFLAGS ${DEPS_CFLAGS} ${AUDIERE_CFLAGS})
+# Sound is disabled: it relied on the obsolete audiere library. The sound code is kept, compiled out
+# unless ENABLE_AUDIERE is defined, until it is ported to a maintained audio library.
 
 link_directories(${DEPS_LIBRARY_DIRS})
 include_directories(${DEPS_INCLUDE_DIRS})

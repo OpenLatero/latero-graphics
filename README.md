@@ -31,21 +31,6 @@ or through [MacPorts](https://www.macports.org):
 sudo port install gtkmm4 +quartz libxmlxx5 ImageMagick
 ```
 
-#### Install the audiere library (optional)
-
-The audiere library adds audio support and is not required for most users. It is old and difficult to install — skip this step unless needed.
-
-There is no port for audiere.
-
-- Download audiere (Unix Source Release 1.9.4): http://audiere.sourceforge.net/download.php
-- Add `#include <stdlib.h>` to `audiere-1.9.4/src/utility.h`
-
-```
-./configure
-make
-sudo make install
-```
-
 #### Build and install the library
 
 The library can be compiled and installed with the following commands:
@@ -91,19 +76,6 @@ Install the dependencies with:
 
 ```
 sudo apt install libgtkmm-4.0-dev libxml++-5.0-dev libmagick++-dev pkg-config
-```
-
-#### Install the audiere library (optional)
-
-The audiere library adds audio support and is not required for most users. It is old and difficult to install — skip this step unless needed.
-
-- Download audiere (Unix Source Release 1.9.4): http://audiere.sourceforge.net/download.php
-- Add `#include <stdlib.h>` to `audiere-1.9.4/src/utility.h`
-
-```
-./configure
-make
-sudo make install
 ```
 
 #### Build and install the library
@@ -159,8 +131,6 @@ pacman -S --needed mingw-w64-ucrt-x86_64-gtkmm-4.0 mingw-w64-ucrt-x86_64-libxml+
 
 Run all the commands below from the same UCRT64 shell.
 
-The optional audiere library is not supported on Windows.
-
 #### Build and install the library
 
 The library can be compiled and installed into the MSYS2 environment (no `sudo` needed) with the following commands:
@@ -188,6 +158,12 @@ cmake --build build --target doc
 ```
 
 </details>
+
+## Sound
+
+Sound is currently disabled, so audio patterns are silent. It relied on the
+[audiere](http://audiere.sourceforge.net) library, which is no longer maintained and hard to install on current
+systems. The sound code is kept and will be re-enabled once it is ported to a maintained audio library.
 
 ## Examples
 

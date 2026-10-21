@@ -19,15 +19,21 @@ AudioEngine::~AudioEngine()
 
 void AudioEngine::EntryPoint()
 {
+#ifdef ENABLE_AUDIERE
 	std::cout << "Opening audiere device...\n";
+#endif
 	LATERO_GRAPHICS_LOCK;
 	audioDevPtr_->Open();
 
 	LATERO_GRAPHICS_UNLOCK;
+#ifdef ENABLE_AUDIERE
 	if (audioDevPtr_->IsOpen())
 		std::cout << "audiere opened successfully\n";
 	else
 		std::cout << "audiere could not be opened\n";
+#else
+	std::cout << "Sound is disabled in this build of latero-graphics: audio patterns are silent.\n";
+#endif
     
 	auto deadline = std::chrono::steady_clock::now();
 	while (!ShouldStop())
