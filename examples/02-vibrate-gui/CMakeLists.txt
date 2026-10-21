@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10...3.31)
 Project(latero-example-vibrate-gui)
 
-find_package(laterographics REQUIRED)
+find_package(laterographics 0.1 REQUIRED)
 
 set(SOURCES
     mainwindow.h
