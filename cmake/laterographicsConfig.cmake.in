@@ -3,7 +3,7 @@
 include(CMakeFindDependencyMacro)
 
 # Re-find dependencies for consumers
-find_dependency(latero 0.1 REQUIRED)
+find_dependency(latero 0.2 REQUIRED)
 find_dependency(ImageMagick REQUIRED COMPONENTS Magick++ )
 
 find_dependency(PkgConfig REQUIRED)
